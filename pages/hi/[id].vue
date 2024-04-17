@@ -15,8 +15,8 @@ definePageMeta({
 
 <template>
   <div class="flex flex-col items-center">
-      <div class="mb-3 animate-[wiggle_1s_ease-in-out_infinite] text-yellow-400">
-      <svg
+    <div class="mb-3 animate-[wiggle_1s_ease-in-out_infinite] text-yellow-400">
+        <svg
         xmlns="http://www.w3.org/2000/svg"
         width="48"
         height="48"
@@ -28,7 +28,7 @@ definePageMeta({
     </div>
 
     <h3 class="text-2xl">
-      <!-- Hi, -->
+      Hi,
     </h3>
 
     <div class="mb-3">

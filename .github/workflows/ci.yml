@@ -20,6 +20,9 @@ jobs:
 
       - name: Install
         run: pnpm install
-
+        
+      - name: Fix
+        run: pnpm run lint:fix
+        
       - name: Lint
         run: pnpm run lint
