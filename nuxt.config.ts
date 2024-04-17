@@ -7,7 +7,15 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@pinia/nuxt',
     '@vueuse/nuxt',
+    'nuxt-primevue',
   ],
+
+  primevue: {
+    cssLayerOrder: 'tailwind-base, primevue, tailwind-utilities',
+    components: {
+      exclude: ['Editor', 'Chart'],
+    },
+  },
 
   postcss: {
     plugins: {
@@ -16,7 +24,11 @@ export default defineNuxtConfig({
     },
   },
 
-  css: ['@/assets/css/main.css'],
+  css: [
+    '@/assets/css/main.css',
+    'primeicons/primeicons.css',
+    'primevue/resources/themes/aura-light-green/theme.css',
+  ],
 
   colorMode: {
     classSuffix: '',
