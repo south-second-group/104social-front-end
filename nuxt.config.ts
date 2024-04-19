@@ -4,18 +4,12 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   modules: [
+    'nuxt-icon',
     '@nuxtjs/color-mode',
     '@pinia/nuxt',
     '@vueuse/nuxt',
-    'nuxt-primevue',
+    '@nuxt/ui',
   ],
-
-  primevue: {
-    cssLayerOrder: 'tailwind-base, primevue, tailwind-utilities',
-    components: {
-      exclude: ['Editor', 'Chart'],
-    },
-  },
 
   postcss: {
     plugins: {
@@ -26,8 +20,6 @@ export default defineNuxtConfig({
 
   css: [
     '@/assets/css/main.css',
-    'primeicons/primeicons.css',
-    'primevue/resources/themes/aura-light-green/theme.css',
   ],
 
   colorMode: {

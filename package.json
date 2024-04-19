@@ -17,11 +17,8 @@
     "add page": "npx nuxi add page index",
     "add component": "npx nuxi add component demoFolder/BtnBlue",
     "add composable": "npx nuxi add composable demo",
-    "add api": "npx nuxi add api auth/demo.get"
-  },
-  "dependencies": {
-    "primeicons": "^7.0.0",
-    "primevue": "^3.51.0"
+    "add api": "npx nuxi add api auth/demo.get",
+    "lint:watch": "nodemon --exec 'npm run lint:fix' --watch . --ext .vue"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.8.3",
@@ -37,12 +34,16 @@
     "eslint": "^8.57.0",
     "eslint-plugin-tailwindcss": "^3.15.1",
     "nuxt": "^3.11.1",
-    "nuxt-primevue": "^0.3.1",
     "pinia": "^2.1.7",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.1",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
     "vue-tsc": "^2.0.7"
+  },
+  "dependencies": {
+    "@nuxt/ui": "^2.15.2",
+    "nodemon": "^3.1.0",
+    "nuxt-icon": "^0.6.10"
   }
 }
