@@ -37,11 +37,15 @@
     "pinia": "^2.1.7",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.1",
+    "unplugin-icons": "^0.18.5",
+    "unplugin-vue-components": "^0.26.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
     "vue-tsc": "^2.0.7"
   },
   "dependencies": {
+    "@iconify-json/heroicons": "^1.1.20",
+    "@iconify-json/svg-spinners": "^1.1.2",
     "@nuxt/ui": "^2.15.2",
     "nodemon": "^3.1.0",
     "nuxt-icon": "^0.6.10"
