@@ -1,8 +1,7 @@
-import { appDescription } from './constants/index'
 import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
 import Components from 'unplugin-vue-components/vite'
-
+import { appDescription } from './constants/index'
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -13,7 +12,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@vueuse/nuxt',
     '@nuxt/ui',
-    'unplugin-icons/nuxt'
+    'unplugin-icons/nuxt',
   ],
 
   postcss: {
@@ -51,13 +50,13 @@ export default defineNuxtConfig({
     plugins: [
       Components({
         resolvers: [IconsResolver({
-          prefix: 'icon'
-        })]
+          prefix: 'icon',
+        })],
       }),
-      Icons({})
-    ]
+      Icons({}),
+    ],
   },
-  
+
   typescript: {
     tsConfig: {
       compilerOptions: {
