@@ -1,0 +1,26 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# 獲取當前分支名稱
+branch_name=$(git symbolic-ref --short HEAD)
+
+# 檢查是否在 main 分支
+if [ "$branch_name" = "main" ]; then
+  echo "您正在 main 分支上工作，請建立一個新的分支進行更改。"
+  exit 1
+fi
+
+# 執行 ESLint 檢查並修復
+echo "正在執行 ESLint 檢查..."
+echo ""
+npx eslint . --fix
+
+if [ $? -ne 0 ]; then
+  echo "ESLint 檢查失敗，請修正錯誤後再提交！"
+  echo ""
+  exit 1
+fi
+
+echo "ESLint 檢查通過。"
+echo ""
+

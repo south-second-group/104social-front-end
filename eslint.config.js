@@ -71,6 +71,7 @@ export default antfu(
     rules: {
       'no-unused-vars': 'off',
       'node/prefer-global/process': 'off',
+      'no-alert': 'off',
     },
   },
   {

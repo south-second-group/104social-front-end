@@ -46,6 +46,15 @@ export default defineNuxtConfig({
     },
   },
 
+  // nitro: {
+  //   devProxy: {
+  //     '/api': {
+  //       target:'https://104social-front-end.vercel.app',
+  //       changeOrigin: true,
+  //     },
+  //   },
+  // },
+
   vite: {
     plugins: [
       Components({
@@ -55,6 +64,15 @@ export default defineNuxtConfig({
       }),
       Icons({}),
     ],
+    // server: {
+    //   proxy: {
+    //     '/api': {
+    //       target:'https://104social-front-end.vercel.app',
+    //       changeOrigin: true,
+    //       rewrite: path => path.replace(/^\/api/, ''),
+    //     },
+    //   },
+    // },
   },
 
   typescript: {
