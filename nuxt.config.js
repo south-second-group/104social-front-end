@@ -13,6 +13,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxt/ui',
     'unplugin-icons/nuxt',
+    '@nuxtjs/google-fonts',
   ],
 
   postcss: {
@@ -23,7 +24,10 @@ export default defineNuxtConfig({
   },
 
   css: [
-    '@/assets/css/main.css',
+    '@/assets/css/base.css',
+    '@/assets/css/utils.css',
+    '@/assets/css/btn.css',
+    '@/assets/css/font.css',
   ],
 
   colorMode: {
@@ -83,4 +87,13 @@ export default defineNuxtConfig({
       },
     },
   },
+
+  googleFonts: {
+    families: {
+      'Lilita One': true,
+      'Montserrat': true,
+      'Noto Sans Traditional Chinese': true,
+    },
+  },
+
 })

@@ -1,0 +1,18 @@
+@layer tailwind-base {
+  @tailwind base;
+}
+
+@layer tailwind-utilities {
+  @tailwind utilities;
+  @tailwind variants;
+}
+
+/* blur */
+.blur-back-40 {
+  @apply backdrop-blur-[15px] bg-opacity-40;
+}
+
+.blur-back-80 {
+  @apply backdrop-blur-[15px] bg-opacity-80;
+}
+

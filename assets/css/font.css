@@ -1,0 +1,42 @@
+@layer tailwind-base {
+  @tailwind base;
+}
+
+@layer tailwind-utilities {
+  @tailwind utilities;
+  @tailwind variants;
+}
+
+.text-H1 {
+  @apply text-[56px] leading-[1.2] font-bold tracking-[0.08]
+}
+
+.text-H2 {
+  @apply text-[40px] leading-[1.2] font-bold tracking-[0.08];
+}
+
+.text-H3 {
+  @apply text-[32px] leading-[1.2] font-bold tracking-[0.08];
+}
+
+.text-H4 {
+  @apply text-[24px] leading-[1.2] font-bold tracking-[0.08];
+}
+
+.text-B1 {
+  @apply text-[20px] leading-[1.5] font-[400] tracking-[0.05];
+}
+
+.text-B2 {
+  @apply text-[16px] leading-[1.5] font-[400] tracking-[0.05];
+}
+
+.text-B3 {
+  @apply text-[14px] leading-[1.5] font-[400] tracking-[0.05];
+}
+
+.text-B4 {
+  @apply text-[12px] leading-[1.5] font-[400]  tracking-[0.05];
+}
+
+

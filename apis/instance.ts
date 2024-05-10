@@ -6,7 +6,7 @@ export function useBaseFetch(url: string, options = {}) {
     timeout: 10000,
     credentials: 'include',
     onResponseError: (error) => {
-      alert(error.response._data.message)
+      console.error('$fetch error', error.response._data.message)
     },
   })
 }

@@ -14,7 +14,7 @@ const renderObj = reactive({
 
 async function verify() {
   try {
-    const { message } = await auth.verify() as VerifyResponse
+    const { message } = (await auth.verify()) as VerifyResponse
     renderObj.message = message
   }
   catch (error: unknown) {
@@ -46,5 +46,7 @@ onMounted(() => {
     >
       登入
     </RouterLink>
+
+    <FigmaDemo />
   </div>
 </template>

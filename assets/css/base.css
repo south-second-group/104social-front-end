@@ -1,0 +1,15 @@
+@layer tailwind-base {
+  @tailwind base;
+}
+
+@layer tailwind-utilities {
+  @tailwind utilities;
+  @tailwind variants;
+}
+
+body {
+  font-family: 'Noto Sans Traditional Chinese', sans-serif;
+}
+
+ 
+

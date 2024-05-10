@@ -49,6 +49,7 @@
     "@iconify-json/heroicons": "^1.1.20",
     "@iconify-json/svg-spinners": "^1.1.2",
     "@nuxt/ui": "^2.15.2",
+    "@nuxtjs/google-fonts": "^3.2.0",
     "nodemon": "^3.1.0",
     "nuxt-icon": "^0.6.10"
   }

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { Icon } from '#components'
-
 const router = useRouter()
 const name = ref<string>('')
 
@@ -9,8 +7,6 @@ function go() {
     return
   router.push(`/hi/${encodeURIComponent(name.value)}`)
 }
-
-const MyIcon = h(Icon, { name: 'uil:twitter', size: '32', color: 'cornflowerblue' })
 </script>
 
 <template>
@@ -52,6 +48,5 @@ const MyIcon = h(Icon, { name: 'uil:twitter', size: '32', color: 'cornflowerblue
     </div>
 
     <IconsExample />
-
   </main>
 </template>

@@ -1,0 +1,293 @@
+@layer tailwind-base {
+  @tailwind base;
+}
+
+@layer tailwind-utilities {
+  @tailwind utilities;
+  @tailwind variants;
+}
+
+/* input[type="text"]:focus {
+  @apply outline-none ring-0;
+} */
+
+.my-btn {
+  @apply block m-auto p-2 rounded bg-gray-600 [&:not(:disabled)]:bg-teal-600 dark:bg-gray-400 cursor-pointer [&:not(:disabled)]:hover:bg-teal-600 [&:not(:disabled)]:dark:hover:bg-teal-700 text-white disabled:bg-gray-600 disabled:opacity-50 disabled:cursor-default;
+}
+
+.my-link {
+  @apply rounded-lg hover:bg-gray-700/50 transition-all;
+}
+
+/* linear */
+.btn-linear {
+  &-lg {
+    @apply max-w-[514px] w-[514px] text-[20px] leading-[30px] py-[16px] px-[20px];
+    @apply bg-social-gradient-default  cursor-pointer hover:!bg-gradient-to-r hover:from-white hover:to-white active:!bg-gradient-to-r active:from-white active:to-white rounded-full font-bold text-white
+    hover:text-white active:text-white;
+
+    &:hover p,
+    &:active p {
+      @apply bg-social-gradient-default bg-clip-text text-[20px] text-transparent;
+    }
+
+    &:hover,
+    &:active {
+      background: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(to right, #fe839a, #4a72ff) border-box !important;
+      padding: 15px 20px !important;
+      border: 2px solid transparent !important;
+      border-radius: 999px !important;
+    }
+
+    &:disabled {
+      @apply disabled:!bg-gradient-to-r pointer-events-none  disabled:from-primary-light disabled:to-primary-light disabled:text-[#A1A1AA] disabled:cursor-not-allowed;
+    }
+
+    &:disabled p {
+      @apply text-[#A1A1AA];
+    }
+  }
+
+  &-md {
+    @apply max-w-[303px] w-[303px] text-[16px] leading-[24px] py-[12px] px-[20px];
+    @apply bg-social-gradient-default cursor-pointer hover:!bg-gradient-to-r hover:from-white hover:to-white  rounded-full font-bold   hover:text-white  text-white
+    active:!bg-gradient-to-r active:from-white active:to-white active:text-white;
+
+    &:hover p,
+    &:active p {
+      @apply bg-social-gradient-default bg-clip-text text-[16px] text-transparent;
+    }
+
+    &:hover,
+    &:active {
+      background: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(to right, #fe839a, #4a72ff) border-box !important;
+      padding: 11px 20px !important;
+      border: 2px solid transparent !important;
+      border-radius: 999px !important;
+    }
+
+    &:disabled {
+      @apply disabled:!bg-gradient-to-r pointer-events-none  disabled:from-primary-light disabled:to-primary-light disabled:text-[#A1A1AA] disabled:cursor-not-allowed;
+    }
+
+    &:disabled p {
+      @apply text-[#A1A1AA];
+    }
+  }
+
+  &-sm {
+    @apply max-w-[73px] w-[73px] text-[16px] leading-[24px] py-[8px] px-[20px];
+    @apply bg-social-gradient-default  cursor-pointer hover:!bg-gradient-to-r hover:from-white hover:to-white  rounded-full font-bold  hover:text-white active:!bg-gradient-to-r active:from-white active:to-white active:text-white text-white;
+
+    &:hover p,
+    &:active p {
+      @apply bg-social-gradient-default bg-clip-text text-[16px] text-transparent;
+    }
+
+    &:hover,
+    &:active {
+      background: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(to right, #fe839a, #4a72ff) border-box !important;
+      padding: 7px 10px !important;
+      border: 2px solid transparent !important;
+      border-radius: 999px !important;
+    }
+
+    &:disabled {
+      @apply disabled:!bg-gradient-to-r pointer-events-none  disabled:from-primary-light disabled:to-primary-light disabled:text-[#A1A1AA] disabled:cursor-not-allowed;
+    }
+
+    &:disabled p {
+      @apply text-[#A1A1AA];
+    }
+  }
+}
+
+/* with icon */
+.btn-withIcon {
+  &-fill {
+    @apply text-[16px] leading-[24px] py-[8px] px-[20px] flex justify-center items-center gap-2;
+    @apply bg-social-gradient-default  cursor-pointer hover:!bg-gradient-to-r hover:from-white hover:to-white  rounded-full font-bold  active:!bg-gradient-to-r active:from-white active:to-white active:text-white text-white;
+
+    &:hover p,
+    &:active p {
+      @apply bg-social-gradient-default bg-clip-text text-[16px] text-transparent;
+    }
+
+    &:hover svg {
+      @apply !text-[#FE839A];
+    }
+
+    &:hover,
+    &:active {
+      background: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(to right, #fe839a, #4a72ff) border-box !important;
+      padding: 7px 18px !important;
+      border: 2px solid transparent !important;
+      border-radius: 999px !important;
+    }
+
+    &:disabled {
+      @apply !bg-gradient-to-r pointer-events-none  from-white to-white text-[#A1A1AA] cursor-not-allowed border-[#A1A1AA] border-2;
+    }
+
+    &:disabled p {
+      @apply text-[#A1A1AA];
+    }
+  }
+
+  &-outline {
+    @apply text-[16px] leading-[24px] py-[8px] px-[20px] flex justify-center items-center gap-2;
+    @apply cursor-pointer bg-gradient-to-r from-white to-white  rounded-full font-bold;
+
+    & p {
+      @apply bg-social-gradient-default bg-clip-text text-[16px] text-transparent;
+    }
+
+    & svg {
+      @apply text-[#FE839A];
+    }
+
+    & {
+      background: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(to right, #fe839a, #4a72ff) border-box;
+      padding: 6px 18px;
+      border: 2px solid transparent;
+      border-radius: 999px;
+    }
+
+    @apply hover:bg-social-gradient-default active:bg-social-gradient-default;
+
+    &:hover p,
+    &:active p {
+      @apply text-white;
+    }
+
+    &:hover svg {
+      @apply text-white;
+    }
+
+    @apply disabled:bg-gradient-to-r disabled:from-primary-light disabled:to-primary-light disabled:text-[#A1A1AA] disabled:pointer-events-none;
+
+    &:disabled p {
+      @apply text-[#A1A1AA];
+    }
+  }
+}
+
+/* text + icon */
+.btn-textOrIcon {
+  &-lg {
+    @apply text-2xl font-bold flex justify-center items-center gap-[10px] leading-7 tracking-widest text-primary-dark;
+
+    & svg {
+      @apply rounded-full  bg-primary-dark text-white text-[1.4em] border-primary-dark p-[8px];
+    }
+
+    @apply hover:bg-social-gradient-default hover:bg-clip-text  hover:text-transparent;
+
+    &:hover svg {
+      @apply bg-social-gradient-default;
+    }
+
+    @apply disabled:text-[#A1A1AA] disabled:pointer-events-none;
+
+    &:disabled svg {
+      @apply !bg-[#A1A1AA];
+    }
+  }
+
+  &-sm {
+    @apply text-[16px] font-bold flex justify-center items-center gap-[10px] leading-7 tracking-widest text-primary-dark;
+
+    & svg {
+      @apply rounded-full  bg-primary-dark text-white text-[1.4em] border-primary-dark p-[8px];
+    }
+
+    @apply hover:bg-social-gradient-default hover:bg-clip-text  hover:text-transparent;
+
+    &:hover svg {
+      @apply bg-social-gradient-default;
+    }
+
+    @apply disabled:text-[#A1A1AA];
+
+    &:disabled svg {
+      @apply !bg-[#A1A1AA];
+    }
+  }
+}
+
+/* search */
+.search {
+  &-lg {
+    @apply shadow-[rgba(17,_17,_26,_0.1)_0px_2px_8px];
+    @apply focus-within:border border-primary-dark rounded-lg w-[514px] max-w-[514px];
+
+    & {
+      /* @apply ring-0 focus-within:right-0; */
+      .ring-1 {
+        --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0
+          var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+        --tw-ring-shadow: var(--tw-ring-inset) 0 0 0
+          calc(0px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+        box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow),
+          var(--tw-shadow, 0 0 #0000);
+      }
+    }
+
+    & input:disabled {
+      opacity: 0.3;
+    }
+  }
+
+  &-sm {
+    @apply shadow-[rgba(17,_17,_26,_0.1)_0px_2px_8px];
+    @apply focus-within:border border-primary-dark rounded-lg w-[303px] max-w-[303px];
+
+    & {
+      /* @apply ring-0; */
+      .ring-1 {
+        --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0
+          var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+        --tw-ring-shadow: var(--tw-ring-inset) 0 0 0
+          calc(0px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+        box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow),
+          var(--tw-shadow, 0 0 #0000);
+      }
+    }
+
+    & input:disabled {
+      opacity: 0.3;
+    }
+  }
+}
+
+/* dropdown */
+.dropdown {
+  &-lg {
+    @apply w-[514px] rounded-md  border-primary-dark;
+
+    & button {
+      @apply w-full;
+    }
+
+    & .i-heroicons-chevron-down-20-solid {
+      margin-left: auto;
+    }
+  }
+
+  &-sm {
+    @apply w-[303px] rounded-md  border-primary-dark;
+
+    & button {
+      @apply w-full;
+    }
+
+    & .i-heroicons-chevron-down-20-solid {
+      margin-left: auto;
+    }
+  }
+}
