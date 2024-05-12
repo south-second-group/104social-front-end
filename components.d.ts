@@ -18,6 +18,7 @@ declare module 'vue' {
     'IconHeroicons:HEART': typeof import('~icons/heroicons/h-e-a-r-t')['default']
     'IconHeroicons:lockClosed': typeof import('~icons/heroicons/lock-closed')['default']
     'IconHeroicons:lockOpen': typeof import('~icons/heroicons/lock-open')['default']
+    'IconHeroicons:star': typeof import('~icons/heroicons/star')['default']
     IconHeroiconsAcademicCap: typeof import('~icons/heroicons/academic-cap')['default']
     IconHeroiconsArrowDownCircle20Solid: typeof import('~icons/heroicons/arrow-down-circle20-solid')['default']
     'IconSvgSpinners:blocksWave': typeof import('~icons/svg-spinners/blocks-wave')['default']

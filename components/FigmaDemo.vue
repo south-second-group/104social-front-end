@@ -24,10 +24,14 @@ const items = [
 defineShortcuts({
   o: () => (open.value = !open.value),
 })
+
+const isChinese = char => /[\u4E00-\u9FA5]/.test(char)
+
+const isCheck = ref(false)
 </script>
 
 <template>
-  <div class="flex flex-col space-y-5">
+  <div class="flex flex-1 flex-col items-start space-y-5">
     <button class="btn-linear-sm block">
       <p>搜尋</p>
     </button>
@@ -155,5 +159,69 @@ defineShortcuts({
       />
     </UDropdown>
     {{ selectedItem || '請選擇性別' }}
+
+    <div>
+      <h2 class="text-H3">
+        我是中文字體，英文數字示範：
+      </h2>
+      <h2
+        class="text-H3 whitespace-pre-wrap"
+        :class="{
+          'font-montserrat': !isChinese(
+            'ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789',
+          ),
+        }"
+      >
+        ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789
+      </h2>
+    </div>
+
+    <div class="text-start">
+      <p class="text-H1">
+        text-H1
+      </p>
+      <p class="text-H2">
+        text-H2
+      </p>
+      <p class="text-H3">
+        text-H3
+      </p>
+      <p class="text-H4">
+        text-H4
+      </p>
+      <p class="text-B1">
+        text-B1
+      </p>
+      <p class="text-B2">
+        text-B2
+      </p>
+      <p class="text-B3">
+        text-B3
+      </p>
+      <p class="text-B4">
+        text-B4
+      </p>
+    </div>
+
+    <div>
+      <p>.card-hover</p>
+      <div
+        class="card-hover flex h-52 w-96 items-center justify-center gap-5 bg-[url(~/assets/img/figma/blur-background.png)] bg-cover"
+      >
+        <div class="blur-back-40 size-32 bg-white text-black">
+          .blur-back-40
+        </div>
+        <div class="blur-back-80 size-32 bg-white text-black">
+          .blur-back-80
+        </div>
+      </div>
+    </div>
+
+    <div class="flex gap-10">
+      <CollectionBtn v-model="isCheck" />
+      <p>defineModel() : {{ isCheck }}</p>
+      <!-- https://muki.tw/vmodel-definemodel-props-emit/?fbclid=IwAR3BMyVyKW6AwjtzYeP7rH6Nvnv6xRr615D9X1L2Y6yxVRg-S8xv5kfhO8g -->
+      <!-- https://github.com/vuejs/rfcs/discussions/503 -->
+    </div>
   </div>
 </template>
