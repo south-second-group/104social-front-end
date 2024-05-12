@@ -7,26 +7,10 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    IconFluentAirplaneTakeOff24Regular: typeof import('~icons/fluent/airplane-take-off24-regular')['default']
-    'IconHeroicons:academicCap': typeof import('~icons/heroicons/academic-cap')['default']
-    'IconHeroicons:arrowDownCircle20Solid': typeof import('~icons/heroicons/arrow-down-circle20-solid')['default']
     'IconHeroicons:arrowRight': typeof import('~icons/heroicons/arrow-right')['default']
-    'IconHeroicons:chat': typeof import('~icons/heroicons/chat')['default']
     'IconHeroicons:chatBubbleLeftEllipsis': typeof import('~icons/heroicons/chat-bubble-left-ellipsis')['default']
-    'IconHeroicons:chatRoom': typeof import('~icons/heroicons/chat-room')['default']
     'IconHeroicons:heart': typeof import('~icons/heroicons/heart')['default']
-    'IconHeroicons:HEART': typeof import('~icons/heroicons/h-e-a-r-t')['default']
-    'IconHeroicons:lockClosed': typeof import('~icons/heroicons/lock-closed')['default']
     'IconHeroicons:lockOpen': typeof import('~icons/heroicons/lock-open')['default']
-    IconHeroiconsAcademicCap: typeof import('~icons/heroicons/academic-cap')['default']
-    IconHeroiconsArrowDownCircle20Solid: typeof import('~icons/heroicons/arrow-down-circle20-solid')['default']
-    'IconSvgSpinners:blocksWave': typeof import('~icons/svg-spinners/blocks-wave')['default']
-    'IconSvgSpinners:clock': typeof import('~icons/svg-spinners/clock')['default']
-    IconSvgSpinnersBlocksWave: typeof import('~icons/svg-spinners/blocks-wave')['default']
-    IconSvgSpinnersClock: typeof import('~icons/svg-spinners/clock')['default']
-    IconSvgSpinnersCube: typeof import('~icons/svg-spinners/cube')['default']
-    IconSvgSpinnersGooeyBalls1: typeof import('~icons/svg-spinners/gooey-balls1')['default']
-    IconSvgSpinnersGooeyBalls2: typeof import('~icons/svg-spinners/gooey-balls2')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
