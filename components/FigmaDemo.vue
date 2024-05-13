@@ -2,32 +2,25 @@
 const open = ref(false)
 const temp = ref(false)
 const selectedItem = ref(null) // v-model 我測試無法用，只好用 click 事件 ，應該要可以，等勇者來解
-const searchValue = ref('')
-
 const items = [
   [
     {
       label: 'Profile',
-      click: () => {
-        selectedItem.value = 'Profile'
-      },
     },
     {
       label: 'Profile2',
-      click: () => {
-        selectedItem.value = 'Profile2'
-      },
+      click: () => (selectedItem.value = 'Profile2'),
     },
   ],
 ]
 
-defineShortcuts({
-  o: () => (open.value = !open.value),
-})
+const isCheck = ref(false)
+const searchValue = ref('')
+
+const selectedOption = ref('請選擇性別')
+const options = ['男', '女', '不透露']
 
 const isChinese = char => /[\u4E00-\u9FA5]/.test(char)
-
-const isCheck = ref(false)
 </script>
 
 <template>
@@ -112,53 +105,76 @@ const isCheck = ref(false)
       class="search-sm"
     />
 
-    <UDropdown
-      v-model:open="temp"
-      :items="items"
-      :popper="{ placement: 'bottom-start' }"
-      :ui="{
-        width: 'w-[303px]',
-        ring: 'ring-1 ring-gray-100',
-        shadow: 'shadow-md',
-      }"
-      class="dropdown-sm pointer-events-none opacity-60"
-      :class="{
-        border: temp,
-      }"
-      disabled
-    >
-      <UButton
-        color="white"
-        label="請選擇性別"
-        trailing-icon="i-heroicons-chevron-down-20-solid"
-        class="text-[#A1A1AA]"
-      />
-    </UDropdown>
+    <!-- 棄用無法取值 -->
+    <section v-show="false">
+      <UDropdown
+        v-model:open="temp"
+        :items="items"
+        :popper="{ placement: 'bottom-start' }"
+        :ui="{
+          width: 'w-[303px]',
+          ring: 'ring-1 ring-gray-100',
+          shadow: 'shadow-md',
+        }"
+        class="dropdown-sm pointer-events-none opacity-60"
+        :class="{
+          border: temp,
+        }"
+        disabled
+      >
+        <UButton
+          color="white"
+          label="請選擇性別"
+          trailing-icon="i-heroicons-chevron-down-20-solid"
+          class="text-[#A1A1AA]"
+        />
+      </UDropdown>
+      <UDropdown
+        v-model:open="open"
+        :items="items"
+        :popper="{ placement: 'bottom-start' }"
+        :ui="{
+          width: 'w-[514px]',
+          ring: 'ring-1 ring-gray-100',
+          shadow: 'shadow-md',
+        }"
+        class="dropdown-lg"
+        :class="{
+          border: open,
+        }"
+      >
+        <UButton
+          color="white"
+          :label="selectedItem || '請選擇性別'"
+          trailing-icon="i-heroicons-chevron-down-20-solid"
+          class="text-[#A1A1AA]"
+        />
+        <template #item="{ item }">
+          <li
+            :key="item"
+            class="dropdown-item list-none"
+            @click="selectedItem = item.label"
+          >
+            <p>{{ item.label }}</p>
+          </li>
+        </template>
+      </UDropdown>
+      {{ selectedItem || '請選擇性別' }}
+    </section>
 
-    <UDropdown
-      v-model="selectedItem"
-      v-model:open="open"
-      :items="items"
-      :popper="{ placement: 'bottom-start' }"
-      :ui="{
-        width: 'w-[514px]',
-        ring: 'ring-1 ring-gray-100',
-        shadow: 'shadow-md',
-      }"
-      class="dropdown-lg"
-      :class="{
-        border: open,
-      }"
-      @change="console.log('change')"
-    >
-      <UButton
-        color="white"
-        :label="selectedItem || '請選擇性別'"
-        trailing-icon="i-heroicons-chevron-down-20-solid"
-        class="text-[#A1A1AA]"
-      />
-    </UDropdown>
-    {{ selectedItem || '請選擇性別' }}
+    <DropdownComp
+      v-model="temp"
+      :options="options"
+      size="sm"
+      :disabled="true"
+    />
+    <DropdownComp
+      v-model="selectedOption"
+      :options="options"
+      size="lg"
+      :disabled="false"
+    />
+    {{ selectedOption || '請選擇性別' }}
 
     <div>
       <h2 class="text-H3">
@@ -219,7 +235,7 @@ const isCheck = ref(false)
 
     <div class="flex gap-10">
       <CollectionBtn v-model="isCheck" />
-      <p>defineModel() : {{ isCheck }}</p>
+      <p>defineModel() isCheck : {{ isCheck }}</p>
       <!-- https://muki.tw/vmodel-definemodel-props-emit/?fbclid=IwAR3BMyVyKW6AwjtzYeP7rH6Nvnv6xRr615D9X1L2Y6yxVRg-S8xv5kfhO8g -->
       <!-- https://github.com/vuejs/rfcs/discussions/503 -->
     </div>
