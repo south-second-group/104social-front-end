@@ -223,7 +223,7 @@
 .search {
   &-lg {
     @apply shadow-[rgba(17,_17,_26,_0.1)_0px_2px_8px];
-    @apply focus-within:border border-primary-dark rounded-lg w-[514px] max-w-[514px];
+    @apply focus-within:border border-primary-dark rounded-lg w-[514px] max-w-[514px] h-[42.5px] box-border;
 
     & {
       /* @apply ring-0 focus-within:right-0; */
@@ -244,7 +244,7 @@
 
   &-sm {
     @apply shadow-[rgba(17,_17,_26,_0.1)_0px_2px_8px];
-    @apply focus-within:border border-primary-dark rounded-lg w-[303px] max-w-[303px];
+    @apply focus-within:border border-primary-dark rounded-lg w-[303px] max-w-[303px] h-[42.5px] box-border;
 
     & {
       /* @apply ring-0; */
