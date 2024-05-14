@@ -16,3 +16,12 @@
   @apply backdrop-blur-[15px] bg-opacity-80;
 }
 
+.card-hover {
+  @apply hover:rounded-xl hover:shadow-primary active:rounded-xl active:shadow-primary;
+  &:hover,
+  &:active {
+    background: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(to right, #fe839a, #4a72ff) border-box !important;
+    border: 2px solid transparent !important;
+  }
+}
