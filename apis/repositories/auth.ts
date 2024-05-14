@@ -4,10 +4,20 @@ import type { ForgetPasswordObj } from '~/pages/forget-password.vue'
 import type { SignUpObj } from '~/pages/sign-up.vue'
 import type { LoginObj } from '~/pages/login.vue'
 
+// 更改帳號狀態
+async function changeAccountStatus(token) {
+    const url = `/api/v1/change-account-status/${token}`;
+    return useBaseFetch(url, {
+        method: 'PATCH',  // 使用PATCH方法，因为这通常用于资源的部分更新
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+}
+
 // 重設密碼
 async function resetPassword(data: ResetPasswordObj) {
-  const url = '/api/v1/reset-password'
-  return useBaseFetch(url, {
+  return useBaseFetch('/api/v1/reset-password', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
