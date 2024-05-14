@@ -35,15 +35,11 @@ async function clickSignUp() {
 
   try {
     const response = await auth.signUp(signUpObj)
-    if (response.status === true) {
-      toast('註冊成功！正在跳轉...', 'success')
-      setTimeout(() => {
-        router.push('/login')
-      }, 1500)
-    }
-    else {
+    if (response.status === true)
+      toast('會員驗證信件已寄出!已發送驗證信件到您申請指定的信箱', 'success')
+
+    else
       toast(response.message || '註冊未成功，請檢查數據', 'error')
-    }
   }
   catch (error) {
     const errorMessage = error.response._data.message
