@@ -1,5 +1,4 @@
 import { useBaseFetch } from '../instance'
-changeAccountStatus
 import type { ResetPasswordObj } from '~/pages/reset-password.vue'
 import type { ForgetPasswordObj } from '~/pages/forget-password.vue'
 import type { SignUpObj } from '~/pages/sign-up.vue'
