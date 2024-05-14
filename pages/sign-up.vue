@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
 import { auth } from '../apis/repositories/auth'
 
 export interface SignUpObj {
@@ -21,7 +20,6 @@ const emailError = ref('')
 const passwordError = ref('')
 const confirmPasswordError = ref('')
 const usernameError = ref('')
-const router = useRouter()
 
 const showPassword = ref(false)
 const showConfirmPassword = ref(false)
