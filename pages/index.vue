@@ -10,6 +10,7 @@ onMounted(() => {
   name.value = storedName || '請先登入'
 })
 
+
 function logout() {
   localStorage.removeItem('name')
   localStorage.removeItem('token')
