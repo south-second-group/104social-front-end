@@ -58,13 +58,12 @@ function toast(message, type) {
 <template>
   <div class="flex h-screen">
     <div
-      class="flex w-2/3 flex-col items-center"
-      style="height: 100vh;"
+      class="flex h-screen w-2/3 flex-col items-center"
     >
       <img
-        src="`/login/login.png`"
-        alt="圖片"
-        style="height:100%;width:100%"
+        src="~assets/img/login/login.png"
+        alt="login.png"
+        class=" size-full"
       >
     </div>
 

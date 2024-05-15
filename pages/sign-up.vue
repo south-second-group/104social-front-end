@@ -264,13 +264,12 @@ function toggleShowConfirmPassword() {
       </div>
     </div>
     <div
-      class="flex w-2/3 flex-col items-center"
-      style="height: 100vh;"
+      class="flex h-screen w-2/3 flex-col items-center"
     >
       <img
-        src="`/login/signUp.png`"
-        alt="圖片"
-        style="height:100%;width:100%"
+        src="~assets/img/login/signUp.png"
+        alt="signUp.png"
+        class="size-full"
       >
     </div>
     <!-- Alert 通知 -->
