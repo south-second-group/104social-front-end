@@ -16,6 +16,9 @@ export default {
   ],
   theme: {
     extend: {
+      maxWidth: {
+        'custom-container': '1296px', // 自定義的容器寬度為 1296px
+      },
       fontFamily: {
         montserrat: ['Montserrat'],
         notoSansTraditionalChinese: ['Noto Sans Traditional Chinese'],
