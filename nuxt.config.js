@@ -44,9 +44,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      meta: [
-        { name: 'description', content: appDescription },
-      ],
+      meta: [{ name: 'description', content: appDescription }],
     },
   },
 
@@ -62,9 +60,11 @@ export default defineNuxtConfig({
   vite: {
     plugins: [
       Components({
-        resolvers: [IconsResolver({
-          prefix: 'icon',
-        })],
+        resolvers: [
+          IconsResolver({
+            prefix: 'icon',
+          }),
+        ],
       }),
       Icons({}),
     ],
@@ -100,5 +100,4 @@ export default defineNuxtConfig({
       'Noto Sans Traditional Chinese': true,
     },
   },
-
 })
