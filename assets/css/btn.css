@@ -102,6 +102,33 @@
       @apply text-[#A1A1AA];
     }
   }
+  
+  &-nav {
+    @apply text-[16px] leading-[24px] py-[8px] px-[20px];
+    @apply bg-social-gradient-default  cursor-pointer hover:!bg-gradient-to-r hover:from-white hover:to-white  rounded-full font-bold  hover:text-white active:!bg-gradient-to-r active:from-white active:to-white active:text-white text-white;
+
+    &:hover p,
+    &:active p {
+      @apply bg-social-gradient-default bg-clip-text text-[16px] text-transparent;
+    }
+
+    &:hover,
+    &:active {
+      background: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(to right, #fe839a, #4a72ff) border-box !important;
+      padding: 8px 20px !important;
+      border: 2px solid transparent !important;
+      border-radius: 999px !important;
+    }
+
+    &:disabled {
+      @apply disabled:!bg-gradient-to-r pointer-events-none  disabled:from-primary-light disabled:to-primary-light disabled:text-[#A1A1AA] disabled:cursor-not-allowed;
+    }
+
+    &:disabled p {
+      @apply text-[#A1A1AA];
+    }
+  }
 }
 
 /* with icon */

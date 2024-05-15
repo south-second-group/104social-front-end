@@ -25,3 +25,23 @@
     border: 2px solid transparent !important;
   }
 }
+
+.linear-border {
+  background: linear-gradient(#fff 0 0) padding-box,
+  linear-gradient(to right, #fe839a, #4a72ff) border-box !important;
+  border: 2px solid transparent !important;
+}
+
+.card-border:hover {
+  background: linear-gradient(#fff 0 0) padding-box,
+  linear-gradient(to right, #fe839a, #4a72ff) border-box !important;
+  border: 2px solid transparent !important;
+}
+
+.submit_story-inner-shadow-primary {
+  box-shadow: -3px -4px 18px 0px #FF91A433 inset;
+}
+
+.submit_story-inner-shadow-white {
+  box-shadow: 13px 4px 20px 0px #FFFFFF99 inset;
+}
