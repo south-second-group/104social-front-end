@@ -1,23 +1,55 @@
+<script setup>
+import img01 from '@/assets/img/article/cover/img01.png'
+import img02 from '@/assets/img/article/cover/img02.png'
+import img03 from '@/assets/img/article/cover/img03.png'
+
+const coverImages = [
+  img01,
+  img02,
+  img03,
+]
+const currentCover = ref(coverImages[0])
+
+function handleMouseEnter(index) {
+  currentCover.value = coverImages[index]
+}
+</script>
+
 <template>
-  <div class="relative bg-white h-screen w-full">
-    <div class="absolute top-0 left-1/3">
-      <img src="../../assets/img/article/blur/article - bg1 - lg.png" alt="">
+  <div class="relative h-screen w-full bg-white">
+    <div class="absolute left-1/3 top-0">
+      <img
+        src="../../assets/img/article/blur/article - bg1 - lg.png"
+        alt=""
+      >
     </div>
     <div class="absolute bottom-0 right-0">
-      <img src="../../assets/img/article/blur/article - bg2 - lg.png" alt="">
+      <img
+        src="../../assets/img/article/blur/article - bg2 - lg.png"
+        alt=""
+      >
     </div>
     <div class="absolute">
       <div class="my-[100px]  flex gap-6">
         <div class="shrink-0">
-          <img :src='currentCover' alt="">
+          <img
+            :src="currentCover"
+            alt=""
+          >
         </div>
         <div class="me-[312px]">
           <div class="flex-col rounded-[24px] bg-white/60 p-10">
             <ul class="">
-              <li class="flex border-b border-primary-dark px-9 py-5" @mouseenter="handleMouseEnter(0)">
+              <li
+                class="flex border-b border-primary-dark px-9 py-5"
+                @mouseenter="handleMouseEnter(0)"
+              >
                 <div class="relative">
                   <div class="absolute -left-8 top-2 ">
-                    <img src="../../assets/img/article/title_dot.png" alt="">
+                    <img
+                      src="../../assets/img/article/title_dot.png"
+                      alt=""
+                    >
                   </div>
                   <h3 class="mb-4 text-start text-2xl font-bold tracking-wider text-zinc-950">
                     大齡焦慮! 年過 40 錯了嗎?
@@ -28,10 +60,16 @@
                   </p>
                 </div>
               </li>
-              <li class="flex border-b border-primary-dark px-9 py-5" @mouseenter="handleMouseEnter(1)">
+              <li
+                class="flex border-b border-primary-dark px-9 py-5"
+                @mouseenter="handleMouseEnter(1)"
+              >
                 <div class="relative">
                   <div class="absolute -left-8 top-2 ">
-                    <img src="../../assets/img/article/title_dot.png" alt="">
+                    <img
+                      src="../../assets/img/article/title_dot.png"
+                      alt=""
+                    >
                   </div>
                   <h3 class="mb-4 text-start text-2xl font-bold tracking-wider text-zinc-950">
                     整天抱怨岳母難相處,父母雙亡在哪裡?
@@ -41,10 +79,16 @@
                   </p>
                 </div>
               </li>
-              <li class="flex border-b border-primary-dark px-9 py-5" @mouseenter="handleMouseEnter(2)">
+              <li
+                class="flex border-b border-primary-dark px-9 py-5"
+                @mouseenter="handleMouseEnter(2)"
+              >
                 <div class="relative">
                   <div class="absolute -left-8 top-2 ">
-                    <img src="../../assets/img/article/title_dot.png" alt="">
+                    <img
+                      src="../../assets/img/article/title_dot.png"
+                      alt=""
+                    >
                   </div>
                   <h3 class="mb-4 text-start text-2xl font-bold tracking-wider text-zinc-950">
                     無經驗可, Sugar daddy / mommy 在找你
@@ -55,7 +99,7 @@
                 </div>
               </li>
             </ul>
-            <button class="btn-textOrIcon-lg mt-6 ms-auto me-[47px]">
+            <button class="btn-textOrIcon-lg me-[47px] ms-auto mt-6">
               <p>查看更多</p>
               <icon-heroicons:arrow-right />
             </button>
@@ -65,19 +109,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import img01 from '@/assets/img/article/cover/img01.png';
-import img02 from '@/assets/img/article/cover/img02.png';
-import img03 from '@/assets/img/article/cover/img03.png';
-const coverImages = [
-  img01,
-  img02,
-  img03
-];
-const currentCover = ref(coverImages[0]);
-
-function handleMouseEnter(index) {
-  currentCover.value = coverImages[index];
-}
-</script>
