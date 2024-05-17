@@ -42,7 +42,7 @@
 
   // Other settings
   "files.associations": {
-    "*.css": "postcss"
+    "*.css": "css"
   },
   "typescript.tsdk": "node_modules/typescript/lib"
 }
