@@ -94,7 +94,7 @@ function toggleShowConfirmNewPassword() {
       style="height: 100vh;"
     >
       <img
-        src="`/login/login.png`"
+        src="~assets/img/login/login.png"
         alt="圖片"
         style="height:100%;width:100%"
       >
