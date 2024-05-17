@@ -5,8 +5,8 @@ import type { SignUpObj } from '~/pages/sign-up.vue'
 import type { LoginObj } from '~/pages/login.vue'
 
 // 更改帳號狀態
-async function changeAccountStatus(token) {
-  const url = `/api/v1/change-account-status/${token}`
+async function changeAccountStatus(token: string) {
+  const url = `/api/v1/activate-account/${token}`
   return useBaseFetch(url, {
     method: 'PATCH', // 使用PATCH方法，因为这通常用于资源的部分更新
     headers: {
@@ -16,9 +16,9 @@ async function changeAccountStatus(token) {
 }
 
 // 重設密碼
-async function resetPassword(data: ResetPasswordObj) {
-  return useBaseFetch('/api/v1/reset-password', {
-    method: 'POST',
+async function resetPassword(data: ResetPasswordObj, token: string) {
+  return useBaseFetch(`/api/v1/reset-password/${token}`, {
+    method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
     },

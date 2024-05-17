@@ -67,12 +67,20 @@ onUnmounted(() => {
           </div>
         </ul>
         <div class="ml-4">
-          <button
+          <!-- <button
             type="button"
             class="btn-linear-nav block"
           >
             <p>登入 / 註冊</p>
-          </button>
+          </button> -->
+
+          <router-link
+            to="/login"
+            type="button"
+            class="btn-linear-nav block"
+          >
+            <p>登入 / 註冊</p>
+          </router-link>
         </div>
       </div>
     </div>
