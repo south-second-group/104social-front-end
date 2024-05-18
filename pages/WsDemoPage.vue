@@ -1,9 +1,9 @@
 <script setup>
 const { copy } = useClipboard()
 
-const host = 'ws://localhost:3000/ws'
-// const host = 'wss://node-ironman-sample-2023.onrender.com/ws';
+// const host = 'ws://localhost:3000/ws'
 // const host = 'wss://one04social-back-end-ws.onrender.com/ws'
+const host = 'wss://one04social-back-end.onrender.com/ws'
 let ws
 
 const open = ref(true)
