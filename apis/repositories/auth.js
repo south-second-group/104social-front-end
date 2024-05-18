@@ -1,7 +1,7 @@
 import { useBaseFetch } from '../instance'
 
 // 更改帳號狀態
-async function changeAccountStatus(token: string) {
+async function changeAccountStatus(token) {
   const url = `/api/v1/activate-account/${token}`
   return useBaseFetch(url, {
     method: 'PATCH', // 使用PATCH方法，因为这通常用于资源的部分更新
@@ -12,7 +12,7 @@ async function changeAccountStatus(token: string) {
 }
 
 // 重設密碼
-async function resetPassword(data: ResetPasswordObj, token: string) {
+async function resetPassword(data, token) {
   return useBaseFetch(`/api/v1/reset-password/${token}`, {
     method: 'PATCH',
     headers: {
@@ -78,6 +78,17 @@ async function verify() {
   })
 }
 
+// Google 重定向
+async function redirect(token) {
+  const url = `/api/v1/google/redirect/${token}`
+  return useBaseFetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+}
+
 export const auth = {
   changeAccountStatus,
   resetPassword,
@@ -85,4 +96,5 @@ export const auth = {
   signUp,
   login,
   verify,
+  redirect,
 }
