@@ -7,8 +7,8 @@
   @tailwind variants;
 }
 
-body {
-  font-family: 'Noto Sans Traditional Chinese', sans-serif;
+html {
+  font-family: 'Noto Sans Traditional Chinese';
 }
 
  
