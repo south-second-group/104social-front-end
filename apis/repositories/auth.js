@@ -1,8 +1,4 @@
 import { useBaseFetch } from '../instance'
-import type { ResetPasswordObj } from '~/pages/reset-password.vue'
-import type { ForgetPasswordObj } from '~/pages/forget-password.vue'
-import type { SignUpObj } from '~/pages/sign-up.vue'
-import type { LoginObj } from '~/pages/login.vue'
 
 // 更改帳號狀態
 async function changeAccountStatus(token) {
@@ -16,7 +12,7 @@ async function changeAccountStatus(token) {
 }
 
 // 重設密碼
-async function resetPassword(data: ResetPasswordObj) {
+async function resetPassword(data) {
   return useBaseFetch('/api/v1/reset-password', {
     method: 'POST',
     headers: {
@@ -30,7 +26,7 @@ async function resetPassword(data: ResetPasswordObj) {
 }
 
 // 忘記密碼
-async function forgetPassword(data: ForgetPasswordObj) {
+async function forgetPassword(data) {
   return useBaseFetch('/api/v1/forget-password', {
     method: 'POST',
     headers: {
@@ -43,7 +39,7 @@ async function forgetPassword(data: ForgetPasswordObj) {
 }
 
 // 註冊
-async function signUp(data: SignUpObj) {
+async function signUp(data) {
   return useBaseFetch('/api/v1/sign-up', {
     method: 'POST',
     headers: {
@@ -59,7 +55,7 @@ async function signUp(data: SignUpObj) {
 }
 
 // 登入
-async function login(data: LoginObj) {
+async function login(data) {
   return useBaseFetch('/api/v1/login', {
     method: 'POST',
     headers: {

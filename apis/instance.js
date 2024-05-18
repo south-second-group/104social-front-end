@@ -1,4 +1,4 @@
-export function useBaseFetch(url: string, options = {}) {
+export function useBaseFetch(url, options = {}) {
   const baseUrl = import.meta.env.VITE_API_BASE_URL
 
   return $fetch(baseUrl + url, {
