@@ -9,31 +9,29 @@ import SearchCard from './SearchCard.vue'
     </div>
     <div class="absolute top-0 z-30 w-full overflow-hidden">
       <div class="flex h-screen items-center justify-between">
-        <div class="-ms-[108px]">
-          <img
-            src="../../assets/img/banner/banner-1.png"
-            alt=""
-          >
+        <div class="-ms-[108px] flex">
+          <NuxtImg
+            src="/banner/banner-1.png"
+            alt="banner_image"
+            class="w-[300px]"
+          />
         </div>
         <div class="-me-[208px] flex gap-20">
-          <div class="">
-            <img
-              src="../../assets/img/banner/banner-2.png"
-              alt=""
-            >
-          </div>
-          <div class="">
-            <img
-              src="../../assets/img/banner/banner-3.png"
-              alt=""
-            >
-          </div>
-          <div class="">
-            <img
-              src="../../assets/img/banner/banner-4.png"
-              alt=""
-            >
-          </div>
+          <NuxtImg
+            src="/banner/banner-2.png"
+            alt="banner_image"
+            class="w-[300px]"
+          />
+          <NuxtImg
+            src="/banner/banner-3.png"
+            alt="banner_image"
+            class="w-[300px]"
+          />
+          <NuxtImg
+            src="/banner/banner-4.png"
+            alt="banner_image"
+            class="w-[300px]"
+          />
         </div>
       </div>
     </div>

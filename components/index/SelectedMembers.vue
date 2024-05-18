@@ -1,3 +1,8 @@
+<script setup>
+const isCheck01 = ref(false)
+const isCheck02 = ref(false)
+</script>
+
 <template>
   <div
     class="relative w-full overflow-hidden rounded-t-[80px] bg-[#fff5f5] py-[100px]"
@@ -24,34 +29,38 @@
             >
           </div>
           <div class="flex w-full flex-col justify-between p-5">
-            <div class="mb-3 flex items-center justify-between">
-              <p class="text-start text-2xl font-bold leading-7 text-zinc-950">
-                Lisa
-              </p>
-              <span class="text-xl text-primary-dark">
-                <icon-heroicons-star />
-              </span>
-            </div>
-            <div class="">
-              <div class="mb-1 flex gap-3 text-zinc-600">
-                <p>28 歲</p>
-                <p>167 cm</p>
-              </div>
-              <div class="flex gap-3 text-zinc-600">
-                <p>房仲業</p>
-              </div>
-              <div class="my-3 flex items-center">
-                <span class="text-xl text-amber-400">
-                  <icon-heroicons-star-solid />
-                </span>
-                <p class="ms-2 text-sm text-zinc-400">
-                  評分 4.6 (12)
+            <div class="mb-3">
+              <div class="mb-2 flex justify-between">
+                <p
+                  class="text-start text-2xl font-bold leading-7 text-zinc-950"
+                >
+                  Lisa
                 </p>
+                <span class="text-xl text-primary-dark">
+                  <CollectionBtn v-model="isCheck01" />
+                </span>
               </div>
-              <ul class="flex gap-3 text-primary-dark">
-                <li># 婚後自住</li>
-                <li># 不生小孩</li>
-              </ul>
+              <div class="">
+                <div class="mb-1 flex gap-3 text-zinc-600">
+                  <p>28 歲</p>
+                  <p>167 cm</p>
+                </div>
+                <div class="flex gap-3 text-zinc-600">
+                  <p>房仲業</p>
+                </div>
+                <div class="my-3 flex items-center">
+                  <span class="text-xl text-amber-400">
+                    <icon-heroicons-star-solid />
+                  </span>
+                  <p class="ms-2 text-sm text-zinc-400">
+                    評分 4.6 (12)
+                  </p>
+                </div>
+                <ul class="flex gap-3 text-primary-dark">
+                  <li># 婚後自住</li>
+                  <li># 不生小孩</li>
+                </ul>
+              </div>
             </div>
             <div class="flex justify-end gap-3">
               <button class="btn-withIcon-outline">
@@ -76,33 +85,38 @@
             >
           </div>
           <div class="flex w-full flex-col justify-between p-5">
-            <div class="mb-3 flex items-center justify-between">
-              <p class="text-start text-2xl font-bold leading-7 text-zinc-950">
-                Mike
-              </p>
-              <span class="text-xl text-primary-dark">
-                <icon-heroicons-star />
-              </span>
-            </div>
-            <div class="">
-              <div class="mb-1 flex gap-3 text-zinc-600">
-                <p>31 歲</p>
-              </div>
-              <div class="flex gap-3 text-zinc-600">
-                <p>台南</p>
-                <p>工程師</p>
-              </div>
-              <div class="my-3 flex items-center">
-                <span class="text-xl text-amber-400">
-                  <icon-heroicons-star-solid />
-                </span>
-                <p class="ms-2 text-sm text-zinc-400">
-                  評分 4.6 (12)
+            <div class="mb-3">
+              <div class="mb-2 flex justify-between">
+                <p
+                  class="text-start text-2xl font-bold leading-7 text-zinc-950"
+                >
+                  Mike
                 </p>
+                <span class="text-xl text-primary-dark">
+                  <CollectionBtn v-model="isCheck02" />
+                </span>
               </div>
-              <ul class="flex gap-3 text-primary-dark">
-                <li># 年薪百萬</li>
-              </ul>
+              <div class="">
+                <div class="mb-1 flex gap-3 text-zinc-600">
+                  <p>21 歲</p>
+                  <p>167 cm</p>
+                </div>
+                <div class="flex gap-3 text-zinc-600">
+                  <p>台南</p>
+                  <p>工程師</p>
+                </div>
+                <div class="my-3 flex items-center">
+                  <span class="text-xl text-amber-400">
+                    <icon-heroicons-star-solid />
+                  </span>
+                  <p class="ms-2 text-sm text-zinc-400">
+                    評分 4.6 (12)
+                  </p>
+                </div>
+                <ul class="flex gap-3 text-primary-dark">
+                  <li># 年薪百萬</li>
+                </ul>
+              </div>
             </div>
             <div class="flex justify-end gap-3">
               <button class="btn-withIcon-outline">

@@ -1,6 +1,4 @@
 <script setup>
-import Notification from '@/components/Notification.vue'
-
 const showNotification = ref(false)
 const notificationRef = ref(null)
 
@@ -10,7 +8,11 @@ function toggleNotification(event) {
 }
 
 function handleClickOutside(event) {
-  if (notificationRef.value && !notificationRef.value.contains(event.target) && showNotification.value)
+  if (
+    notificationRef.value
+    && !notificationRef.value.contains(event.target)
+    && showNotification.value
+  )
     showNotification.value = false
 }
 
@@ -24,63 +26,82 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div
-    class="bg-nav-light-gray sticky top-5 z-[1000] w-full max-w-custom-container rounded-full bg-zinc-50/80"
-  >
-    <div class="flex w-full px-10 py-4">
-      <h1 class="shrink-0">
-        <img
-          src="../assets/img/logo.png"
-          alt="104 緣來如此"
-        >
-      </h1>
+  <div class="sticky z-[1000] h-[120px] w-full max-w-[1296px]">
+    <div
+      class="container mx-auto mt-5 rounded-full bg-zinc-50/80"
+    >
+      <div class="flex w-full px-10 py-4">
+        <RouterLink to="/">
+          <h1 class="shrink-0">
+            <NuxtImg
+              src="/logo.png"
+              alt="104 緣來如此"
+              class="w-[192px]"
+            />
+          </h1>
+        </RouterLink>
 
-      <div class="flex w-full grow items-center justify-between">
-        <ul class="relative ml-auto flex gap-6">
-          <li class="p-2 text-zinc-950">
-            精選文章
-          </li>
-          <li class="p-2 text-zinc-950">
-            尋找對象
-          </li>
-          <li class="p-2 text-zinc-950">
-            找案例
-          </li>
-          <li class="p-2 text-zinc-950">
-            關於我們
-          </li>
-          <li class="p-2 text-zinc-950">
-            會員資料
-          </li>
-          <li
-            class="p-2 text-zinc-950"
-            @click="toggleNotification($event)"
-          >
-            站內通知
-          </li>
-          <div
-            v-if="showNotification"
-            ref="notificationRef"
-            class="absolute right-0 top-[48px]"
-          >
-            <Notification />
+        <div class="flex w-full grow items-center justify-between">
+          <ul class="relative ml-auto flex gap-6">
+            <li class="nav-items p-2">
+              <RouterLink to="/articles">
+                <div class="relative">
+                  <icon-heroicons:sparkles-solid />
+                  <p>精選文章</p>
+                </div>
+              </RouterLink>
+            </li>
+            <li class="nav-items p-2">
+              <RouterLink to="/searching_for_dating">
+                <div class="relative">
+                  <icon-heroicons:sparkles-solid />
+                  <p>尋找對象</p>
+                </div>
+              </RouterLink>
+            </li>
+            <li class="nav-items p-2">
+              <RouterLink to="/stroy">
+                <div class="relative">
+                  <icon-heroicons:sparkles-solid />
+                  <p>找案例</p>
+                </div>
+              </RouterLink>
+            </li>
+            <li class="nav-items p-2">
+              <RouterLink to="/about">
+                <div class="relative">
+                  <icon-heroicons:sparkles-solid />
+                  <p>關於我們</p>
+                </div>
+              </RouterLink>
+            </li>
+            <li class="nav-items p-2">
+              <RouterLink to="/account">
+                <div class="relative">
+                  <icon-heroicons:sparkles-solid />
+                  <p>會員資料</p>
+                </div>
+              </RouterLink>
+            </li>
+            <li
+              class="nav-items p-2"
+              @click="toggleNotification($event)"
+            >
+              站內通知
+            </li>
+            <div
+              v-if="showNotification"
+              ref="notificationRef"
+              class="absolute right-0 top-[48px]"
+            >
+              <Notification />
+            </div>
+          </ul>
+          <div class="ml-4">
+            <button class="btn-linear-nav block">
+              <p>登入 / 註冊</p>
+            </button>
           </div>
-        </ul>
-        <div class="ml-4">
-          <!-- <button
-            type="button"
-            class="btn-linear-nav block"
-          >
-            <p>登入 / 註冊</p>
-          </button> -->
-
-          <router-link
-            to="/login"
-            type="button"
-            class="btn-linear-nav block"
-          >
-            <p>登入 / 註冊</p>
-          </router-link>
         </div>
       </div>
     </div>

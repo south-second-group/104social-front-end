@@ -11,6 +11,7 @@ declare module 'vue' {
     'IconHeroicons:chatBubbleLeftEllipsis': typeof import('~icons/heroicons/chat-bubble-left-ellipsis')['default']
     'IconHeroicons:heart': typeof import('~icons/heroicons/heart')['default']
     'IconHeroicons:lockOpen': typeof import('~icons/heroicons/lock-open')['default']
+    'IconHeroicons:sparklesSolid': typeof import('~icons/heroicons/sparkles-solid')['default']
     IconHeroiconsChevronDown: typeof import('~icons/heroicons/chevron-down')['default']
     IconHeroiconsStar: typeof import('~icons/heroicons/star')['default']
     IconHeroiconsStarSolid: typeof import('~icons/heroicons/star-solid')['default']

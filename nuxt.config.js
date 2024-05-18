@@ -14,6 +14,7 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     'unplugin-icons/nuxt',
     '@nuxtjs/google-fonts',
+    '@nuxt/image',
   ],
 
   postcss: {

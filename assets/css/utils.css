@@ -45,3 +45,17 @@
 .submit_story-inner-shadow-white {
   box-shadow: 13px 4px 20px 0px #FFFFFF99 inset;
 }
+
+/* nav-items */
+.nav-items {
+  svg {
+    @apply absolute -left-6 hidden
+  }
+  @apply text-zinc-950 font-bold;
+  &:hover {
+    @apply text-primary-dark;
+  }
+  &:active svg {
+    @apply inline-block
+  }
+}
