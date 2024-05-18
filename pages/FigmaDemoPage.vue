@@ -188,7 +188,13 @@ const isChinese = char => /[\u4E00-\u9FA5]/.test(char)
           ),
         }"
       >
-        ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789
+        ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 (montserrat)
+      </h2>
+      <h2 class="text-H3 font-notoSansTraditionalChinese">
+        ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 (notoSansTraditionalChinese)
+      </h2>
+      <h2 class="text-H3 font-sans">
+        ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 (NUXT UI預設 ui-sans-serif)
       </h2>
     </div>
 

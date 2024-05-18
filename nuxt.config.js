@@ -85,6 +85,7 @@ export default defineNuxtConfig({
   },
 
   typescript: {
+    typeCheck: false,
     tsConfig: {
       compilerOptions: {
         strict: true,
@@ -99,5 +100,9 @@ export default defineNuxtConfig({
       'Montserrat': true,
       'Noto Sans Traditional Chinese': true,
     },
+  },
+
+  devServer: {
+    port: 3000,
   },
 })
