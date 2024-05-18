@@ -44,9 +44,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      meta: [
-        { name: 'description', content: appDescription },
-      ],
+      meta: [{ name: 'description', content: appDescription }],
     },
   },
 
@@ -62,9 +60,11 @@ export default defineNuxtConfig({
   vite: {
     plugins: [
       Components({
-        resolvers: [IconsResolver({
-          prefix: 'icon',
-        })],
+        resolvers: [
+          IconsResolver({
+            prefix: 'icon',
+          }),
+        ],
       }),
       Icons({}),
     ],
@@ -85,6 +85,7 @@ export default defineNuxtConfig({
   },
 
   typescript: {
+    typeCheck: false,
     tsConfig: {
       compilerOptions: {
         strict: true,
@@ -101,4 +102,7 @@ export default defineNuxtConfig({
     },
   },
 
+  devServer: {
+    port: 3000,
+  },
 })
