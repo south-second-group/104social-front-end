@@ -3,11 +3,12 @@ const { copy } = useClipboard()
 
 // const host = 'ws://localhost:3000/ws'
 // const host = 'wss://one04social-back-end-ws.onrender.com/ws'
-const host = 'wss://one04social-back-end.onrender.com/ws'
+const host = 'wss://one04social-back-end.onrender.com/ws';
 let ws
 
 const open = ref(true)
 const uuid = ref('')
+const name = ref('')
 
 const message = ref('123')
 const messageList = ref([])
@@ -27,8 +28,10 @@ onMounted(() => {
     const data = JSON.parse(res.data)
     // console.warn('各種訊息攔截：',data);
 
-    if (data.context === 'user')
+    if (data.context === 'user') {
       uuid.value = data.uuid
+      name.value = data.name
+    }
 
     if (data.context === 'message')
       messageList.value.push(data)
@@ -101,7 +104,7 @@ function invite() {
         <div class="space-y-10 text-start">
           <div>
             <h1 class="text-H3 text-center">
-              WS
+              WS ({{ name }})
             </h1>
             <h2 class="text-H4 mb-5">
               訊息
