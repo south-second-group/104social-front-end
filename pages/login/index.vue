@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { auth } from '../apis/repositories/auth'
+import { auth } from '../../apis/repositories/auth'
 
 export interface LoginObj {
   account: string
