@@ -7,7 +7,11 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    'IconHeroicons:alignRight': typeof import('~icons/heroicons/align-right')['default']
     'IconHeroicons:arrowRight': typeof import('~icons/heroicons/arrow-right')['default']
+    'IconHeroicons:bars3BottomRigh': typeof import('~icons/heroicons/bars3-bottom-righ')['default']
+    'IconHeroicons:bars3BottomRight': typeof import('~icons/heroicons/bars3-bottom-right')['default']
+    'IconHeroicons:bellAlert': typeof import('~icons/heroicons/bell-alert')['default']
     'IconHeroicons:chatBubbleLeftEllipsis': typeof import('~icons/heroicons/chat-bubble-left-ellipsis')['default']
     'IconHeroicons:heart': typeof import('~icons/heroicons/heart')['default']
     'IconHeroicons:lockOpen': typeof import('~icons/heroicons/lock-open')['default']

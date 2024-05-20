@@ -9,7 +9,7 @@ const keyWord = ref(null)
 </script>
 
 <template>
-  <div class="mx-auto flex h-full max-w-custom-container items-center">
+  <div class="mx-auto flex h-full container items-center">
     <div class="linear-border w-[634px] rounded-3xl p-[60px]">
       <div class="mb-[60px] flex-col space-y-[60px]">
         <div class="">

@@ -48,14 +48,22 @@
 
 /* nav-items */
 .nav-items {
-  svg {
-    @apply absolute -left-6 hidden
-  }
   @apply text-zinc-950 font-bold;
+  svg {
+    @apply absolute -left-6 
+  }
   &:hover {
     @apply text-primary-dark;
   }
-  &:active svg {
-    @apply inline-block
+}
+
+.inactive-class svg {
+  display: none;
+}
+
+.active-class {
+  @apply text-primary-dark;
+  svg {
+    display: inline-block;
   }
 }

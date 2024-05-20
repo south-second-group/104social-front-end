@@ -15,7 +15,32 @@ export default {
     './assets/**/*.scss',
   ],
   theme: {
+    screens: {
+      sm: '576px',
+      // => @media (min-width: 576px) { ... }
+
+      md: '768px',
+      // => @media (min-width: 768px) { ... }
+
+      lg: '1024px',
+      // => @media (min-width: 1024px) { ... }
+
+      xl: '1280px',
+      // => @media (min-width: 1280px) { ... }
+
+      xxl: '1320px',
+      // => @media (min-width: 1320px) { ... }
+    },
     extend: {
+      container: {
+        center: true,
+        padding: {
+          DEFAULT: '12px',
+        },
+      },
+      gridTemplateColumns: {
+        12: 'repeat(12, minmax(0, 86px))',
+      },
       maxWidth: {
         'custom-container': '1296px', // 自定義的容器寬度為 1296px
       },

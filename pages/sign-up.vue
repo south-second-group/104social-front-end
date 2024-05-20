@@ -56,7 +56,7 @@ function validateSignUp() {
     emailError.value = '信箱欄位不能為空'
     isValid = false
   }
-  else if (!/\S+@\S+\.\S+/.test(signUpObj.email)) {
+  else if (!/\S[^\s@]*@\S+\.\S+/.test(signUpObj.email)) {
     emailError.value = '信箱格式錯誤'
     isValid = false
   }
