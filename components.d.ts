@@ -9,6 +9,8 @@ declare module 'vue' {
   export interface GlobalComponents {
     'IconHeroicons:arrowRight': typeof import('~icons/heroicons/arrow-right')['default']
     'IconHeroicons:chatBubbleLeftEllipsis': typeof import('~icons/heroicons/chat-bubble-left-ellipsis')['default']
+    'IconHeroicons:eye': typeof import('~icons/heroicons/eye')['default']
+    'IconHeroicons:eyeSlash': typeof import('~icons/heroicons/eye-slash')['default']
     'IconHeroicons:heart': typeof import('~icons/heroicons/heart')['default']
     'IconHeroicons:lockOpen': typeof import('~icons/heroicons/lock-open')['default']
     IconHeroiconsChevronDown: typeof import('~icons/heroicons/chevron-down')['default']

@@ -4,7 +4,7 @@ import { useBaseFetch } from '../instance'
 async function changeAccountStatus(token) {
   const url = `/api/v1/activate-account/${token}`
   return useBaseFetch(url, {
-    method: 'PATCH', // 使用PATCH方法，因为这通常用于资源的部分更新
+    method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -33,7 +33,7 @@ async function forgetPassword(data) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      account: data.account,
+      email: data.email,
     }),
   })
 }

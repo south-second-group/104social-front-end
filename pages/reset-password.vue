@@ -1,31 +1,47 @@
 <script lang="ts" setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { auth } from '../apis/repositories/auth'
 
-export interface ResetPasswordObj {
-  newPassword: string
-  confirmNewPassword: string
-}
+definePageMeta({
+  layout: 'LoginLayout',
+})
 
-const resetPasswordObj = reactive<ResetPasswordObj>({
+const state = reactive({
   newPassword: '',
   confirmNewPassword: '',
 })
 
-const newPasswordError = ref('')
-const confirmNewPasswordError = ref('')
+const router = useRouter()
+const route = useRoute()
 const toastMessage = ref('')
-const toastType = ref('') // 'success' or 'error'
-
+const toastType = ref('')
 const showNewPassword = ref(false)
 const showConfirmNewPassword = ref(false)
 
-async function ResetPassword() {
-  if (!validateResetPassword())
-    return
+// 獲取 token
+const token = (route.params.token) as string
 
+// 處理valid
+function validate(state): FormError[] {
+  const errors = []
+  if (!state.newPassword)
+    errors.push({ path: 'newPassword', message: '密碼不能為空' })
+  else if (state.newPassword.length < 6)
+    errors.push({ path: 'newPassword', message: '密碼需要6碼以上' })
+
+  if (!state.confirmNewPassword)
+    errors.push({ path: 'confirmNewPassword', message: '確認新密碼不能為空' })
+  else if (state.confirmNewPassword !== state.newPassword)
+    errors.push({ path: 'confirmPassword', message: '兩次密碼不一致' })
+
+  return errors
+}
+
+// 點擊送出按鈕
+async function resetPassword() {
   try {
-    const response = await auth.resetPassword(resetPasswordObj)
+    const response = await auth.resetPassword(state, token)
     if (response.status === true) {
       toast('密碼重設成功！正在跳轉...', 'success')
       setTimeout(() => {
@@ -42,37 +58,13 @@ async function ResetPassword() {
   }
 }
 
-function validateResetPassword() {
-  let isValid = true
-  newPasswordError.value = ''
-  confirmNewPasswordError.value = ''
-
-  if (!resetPasswordObj.newPassword) {
-    newPasswordError.value = '新密碼不能為空'
-    isValid = false
-  }
-  else if (resetPasswordObj.newPassword.length < 6) {
-    newPasswordError.value = '密碼需要6碼以上'
-    isValid = false
-  }
-
-  if (!resetPasswordObj.confirmNewPassword) {
-    confirmNewPasswordError.value = '確認新密碼不能為空'
-    isValid = false
-  }
-  else if (resetPasswordObj.newPassword !== resetPasswordObj.confirmNewPassword) {
-    confirmNewPasswordError.value = '兩次密碼不一致'
-    isValid = false
-  }
-
-  return isValid
-}
+// toast
 function toast(message, type) {
   toastMessage.value = message
-  toastType.value = type // 'success' 或 'error'
+  toastType.value = type
   setTimeout(() => {
     toastMessage.value = ''
-  }, 3000) // 隐藏 toast 信息
+  }, 3000)
 }
 
 function toggleShowNewPassword() {
@@ -85,16 +77,8 @@ function toggleShowConfirmNewPassword() {
 </script>
 
 <template>
-  <div class="flex h-screen">
-    <div
-      class="flex h-screen w-2/3 flex-col items-center"
-    >
-      <img
-        src="~assets/img/login/login.png"
-        alt="login.png"
-        class=" size-full"
-      >
-    </div>
+  <div class="flex h-screen flex-col lg:flex-row">
+    <LoginImage />
 
     <div class="flex min-h-full w-1/3 flex-1 flex-col justify-center px-6 py-1 lg:px-8">
       <div class="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -104,100 +88,71 @@ function toggleShowConfirmNewPassword() {
       </div>
 
       <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form
-          class="space-y-6"
-          @submit.prevent="ResetPassword"
+        <UForm
+          :validate="validate"
+          :state="state"
+          class="space-y-4"
+          @submit="resetPassword"
         >
-          <div>
-            <label
-              for="password"
-              class="block text-start text-sm font-medium leading-6"
-            >
-              請設定您的新密碼
-            </label>
-
-            <div class="relative mt-2">
-              <input
-                id="newPassword"
-                v-model="resetPasswordObj.newPassword"
+          <UFormGroup
+            label="請設定您的新密碼"
+            name="newPassword"
+          >
+            <div class="relative">
+              <UInput
+                v-model="state.newPassword"
                 :type="showNewPassword ? 'text' : 'password'"
-                name="newPassword"
-                autocomplete="newPassword"
-                :class="{ 'border-red-500': newPasswordError }"
                 placeholder="請設定您的新密碼"
-                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              >
+              />
               <button
                 type="button"
-                class="absolute inset-y-0 right-0 flex items-center pr-3"
+                class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600"
                 @click="toggleShowNewPassword"
               >
-                <span v-if="showNewPassword">隱藏</span>
-                <span v-else>顯示</span>
+                <span v-if="showNewPassword"><icon-heroicons:eye-slash /></span>
+                <span v-else><icon-heroicons:eye /></span>
               </button>
-              <p
-                v-if="newPasswordError"
-                class="mt-1 text-xs text-red-500"
-              >
-                {{ newPasswordError }}
-              </p>
             </div>
-          </div>
+          </UFormGroup>
 
-          <div>
-            <label
-              for="confirmPassword"
-              class="block text-start text-sm font-medium leading-6"
-            >
-              確認新密碼
-            </label>
-
-            <div class="relative mt-2">
-              <input
-                id="confirmNewPassword"
-                v-model="resetPasswordObj.confirmNewPassword"
+          <UFormGroup
+            label="確認新密碼"
+            name="confirmNewPassword"
+          >
+            <div class="relative">
+              <UInput
+                v-model="state.confirmNewPassword"
                 :type="showConfirmNewPassword ? 'text' : 'password'"
-                name="confirmNewPassword"
-                autocomplete="confirmNewPassword"
-                :class="{ 'border-red-500': confirmNewPasswordError }"
-                placeholder="請設定您的新密碼"
-                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              >
+                placeholder="請再次輸入密碼"
+              />
               <button
                 type="button"
-                class="absolute inset-y-0 right-0 flex items-center pr-3"
+                class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600"
                 @click="toggleShowConfirmNewPassword"
               >
-                <span v-if="showConfirmNewPassword">隱藏</span>
-                <span v-else>顯示</span>
+                <span v-if="showConfirmNewPassword"><icon-heroicons:eye-slash /></span>
+                <span v-else><icon-heroicons:eye /></span>
               </button>
-              <p
-                v-if="confirmNewPasswordError"
-                class="mt-1 text-xs text-red-500"
-              >
-                {{ confirmNewPasswordError }}
-              </p>
             </div>
-          </div>
+          </UFormGroup>
 
-          <div>
-            <button
-              type="submit"
-              class="btn-linear-md block w-full"
-              style="width:100%;max-width: 100vw;"
-            >
-              <p>送出</p>
-            </button>
-          </div>
-        </form>
-        <p class="mt-3 text-center text-sm text-gray-500">
-          已有帳號? <router-link
-            to="login"
-            class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+          <button
+            type="submit"
+            class="btn-linear-md"
+            style="width:100%;max-width: 100vw;"
           >
-            立即登入
-          </router-link>
-        </p>
+            <p>發送</p>
+          </button>
+
+          <p class="text-B3 text-center text-gray-500">
+            已有帳號? <NuxtLink
+              to="login"
+              class="font-semibold text-primary-dark"
+            >
+              立即登入
+            </NuxtLink>
+          </p>
+        </UForm>
       </div>
     </div>
     <!-- Alert 通知 -->
@@ -214,49 +169,33 @@ function toggleShowConfirmNewPassword() {
 </template>
 
 <style scoped>
-    .input {
-        width: 100%;
-        padding: 0.75rem;
-        border: 1px solid #ccc;
-        border-radius: 0.375rem;
-        transition: border-color 0.3s;
-    }
-
-    .input:focus {
-        border-color: #4a56e2; /* Indigo focus ring */
-    }
-
-    .border-red-500 {
-        border-color: #f87171; /* Red border for errors */
-    }
-
-    .toast.show {
-        display: block;
-    }
-
-    .toast {
-        position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        color: white;
-        padding: 10px 20px;
-        border-radius: 5px;
-        z-index: 1000;
-        display: block; /* 或者根据需要通过JavaScript控制显示 */
-    }
-
-    .toast.success {
-        background-color: #4CAF50; /* 绿色背景 */
-    }
-
-    .toast.error {
-        background-color: #F44336; /* 红色背景 */
-    }
-    .input-class {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
+.toast.show {
+    display: block;
+}
+.toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 1000;
+    display: block;
+}
+.toast.success {
+    background-color: #4CAF50;
+}
+.toast.error {
+    background-color: #F44336;
+}
+.btn-withIcon-gray-outline {
+    padding: 6px 18px;
+    border: 2px solid #e4e4e7;
+    border-radius: 999px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
 </style>
