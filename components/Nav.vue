@@ -1,29 +1,22 @@
 <script setup>
-const route = useRoute();
-const isOpen = ref(false);
-const isOpenModal = ref(false);
+const route = useRoute()
+const isOpen = ref(false)
+const isOpenModal = ref(false)
 
-const isActive = (path) => {
-  return computed(() => route.path === path);
-};
+function isActive(path) {
+  return computed(() => route.path === path)
+}
 
-const buttonClass = (path) => {
-  return isActive(path).value ? "active-class" : "inactive-class";
-};
+function buttonClass(path) {
+  return isActive(path).value ? 'active-class' : 'inactive-class'
+}
 </script>
 
-<style>
-.no-border-no-shadow {
-  border: none;
-  box-shadow: none;
-}
-</style>
-
 <template>
-  <div class="sticky lg:z-[1000] h-[60px] lg:h-[120px] w-full">
-    <div class="container mx-auto mt-0 lg:mt-5 rounded-full lg:bg-zinc-50/80">
+  <div class="sticky h-[60px] w-full lg:z-[1000] lg:h-[120px]">
+    <div class="container mx-auto mt-0 rounded-full lg:mt-5 lg:bg-zinc-50/80">
       <div
-        class="flex w-full px-3 py-3 lg:px-10 lg:py-4 justify-between items-center"
+        class="flex w-full items-center justify-between p-3 lg:px-10 lg:py-4"
       >
         <NuxtLink to="/">
           <h1 class="shrink-0">
@@ -38,13 +31,18 @@ const buttonClass = (path) => {
         <!-- 手機板 -->
         <div class="flex items-center lg:hidden">
           <div class="p-3">
-            
-
             <div>
-              <UButton @click="isOpenModal = true" color="white" class="no-border-no-shadow">
+              <UButton
+                color="white"
+                class="no-border-no-shadow"
+                @click="isOpenModal = true"
+              >
                 <icon-heroicons:bell-alert class="size-6" />
-            </UButton>
-              <UModal v-model="isOpenModal" prevent-close>
+              </UButton>
+              <UModal
+                v-model="isOpenModal"
+                prevent-close
+              >
                 <UCard
                   :ui="{
                     ring: '',
@@ -52,44 +50,47 @@ const buttonClass = (path) => {
                   }"
                   class="linear-border rounded-md"
                 >
-                <Notification />
-                <div class="flex py-4 px-2 justify-between font-bold text-primary-dark">
-                  <div class="">
-                    <NuxtLink to="/notifications">
-                          <p class="text-base">通知列表</p>
-                        </NuxtLink>
+                  <Notification />
+                  <div class="flex justify-between px-2 py-4 font-bold text-primary-dark">
+                    <div class="">
+                      <NuxtLink to="/notifications">
+                        <p class="text-base">
+                          通知列表
+                        </p>
+                      </NuxtLink>
+                    </div>
+                    <div class="flex gap-[22px]">
+                      <p>全部已讀</p>
+                      <UButton
+                        color="gray"
+                        variant="ghost"
+                        class="p-0"
+                        @click="isOpenModal = false"
+                      >
+                        <p class="text-base font-bold text-primary-dark">
+                          關閉
+                        </p>
+                      </UButton>
+                    </div>
                   </div>
-                  <div class="flex gap-[22px]">
-                    <p>全部已讀</p>
-                    <UButton
-                      color="gray"
-                      variant="ghost"
-                      class="p-0"
-                      @click="isOpenModal = false"
-                    >
-                    <p class="text-primary-dark text-base font-bold">
-                      關閉
-                    </p>
-                    </UButton>
-                  </div>
-
-                </div>
-                  
                 </UCard>
               </UModal>
             </div>
           </div>
           <div class="">
             <UButton
-              @click="isOpen = true"
               color="white"
               class="no-border-no-shadow"
+              @click="isOpen = true"
             >
               <icon-heroicons:bars-3-bottom-right class="size-6 text-black" />
             </UButton>
-            <USlideover v-model="isOpen" class="h-screen">
+            <USlideover
+              v-model="isOpen"
+              class="h-screen"
+            >
               <div
-                class="p-4 w-full flex-1 bg-[url('~/public/nav/phone-bg.png')] bg-cover"
+                class="w-full flex-1 bg-[url('~/public/nav/phone-bg.png')] bg-cover p-4"
               >
                 <div class="flex justify-end">
                   <UButton
@@ -100,11 +101,15 @@ const buttonClass = (path) => {
                     @click="isOpen = false"
                   />
                 </div>
-                <div class="flex flex-col justify-between h-[95%] items-center">
-                  <div class="mt-6 mb-4">
-                    <NuxtImg src="/nav/couple .png" alt="" class="w-[150px]" />
+                <div class="flex h-[95%] flex-col items-center justify-between">
+                  <div class="mb-4 mt-6">
+                    <NuxtImg
+                      src="/nav/couple .png"
+                      alt=""
+                      class="w-[150px]"
+                    />
                     <ul class="flex-col gap-4">
-                      <li class="py-4 text-center text-B2">
+                      <li class="text-B2 py-4 text-center">
                         <NuxtLink
                           to="/articles"
                           class="nav-items"
@@ -113,7 +118,7 @@ const buttonClass = (path) => {
                           <p>精選文章</p>
                         </NuxtLink>
                       </li>
-                      <li class="py-4 text-center text-B2">
+                      <li class="text-B2 py-4 text-center">
                         <NuxtLink
                           to="/searching_for_dating"
                           class="nav-items"
@@ -122,7 +127,7 @@ const buttonClass = (path) => {
                           <p>尋找對象</p>
                         </NuxtLink>
                       </li>
-                      <li class="py-4 text-center text-B2">
+                      <li class="text-B2 py-4 text-center">
                         <NuxtLink
                           to="/stroy"
                           class="nav-items"
@@ -131,7 +136,7 @@ const buttonClass = (path) => {
                           <p>找案例</p>
                         </NuxtLink>
                       </li>
-                      <li class="py-4 text-center text-B2">
+                      <li class="text-B2 py-4 text-center">
                         <NuxtLink
                           to="/about"
                           class="nav-items"
@@ -140,7 +145,7 @@ const buttonClass = (path) => {
                           <p>關於我們</p>
                         </NuxtLink>
                       </li>
-                      <li class="py-4 text-center text-B2">
+                      <li class="text-B2 py-4 text-center">
                         <NuxtLink
                           to="/account"
                           class="nav-items"
@@ -151,7 +156,7 @@ const buttonClass = (path) => {
                       </li>
                     </ul>
                   </div>
-                  <div class="px-9 w-full">
+                  <div class="w-full px-9">
                     <button
                       class="btn-linear-nav block w-full"
                       @click="isOpen = false"
@@ -166,8 +171,8 @@ const buttonClass = (path) => {
         </div>
 
         <!-- 電腦版 -->
-        <div class="hidden lg:flex w-full grow items-center justify-between">
-          <ul class="ml-auto flex gap-6 items-center">
+        <div class="hidden w-full grow items-center justify-between lg:flex">
+          <ul class="ml-auto flex items-center gap-6">
             <li class="p-2">
               <NuxtLink
                 to="/articles"
@@ -241,30 +246,41 @@ const buttonClass = (path) => {
             </li> -->
             <li class="nav-items p-2">
               <UPopover :popper="{ placement: 'bottom-end' }">
-                <UButton color="white" class="no-border-no-shadow text-B2 p-0">
-                  <p class="font-bold">站內通知</p>
+                <UButton
+                  color="white"
+                  class="no-border-no-shadow text-B2 p-0"
+                >
+                  <p class="font-bold">
+                    站內通知
+                  </p>
                 </UButton>
 
                 <template #panel="{ close }">
-                  <div class="p-4 linear-border rounded-md">
+                  <div class="linear-border rounded-md p-4">
                     <Notification />
-                    <div class="flex justify-between mt-2">
+                    <div class="mt-2 flex justify-between">
                       <div class="p-2">
                         <NuxtLink to="/notifications">
-                          <p class="text-base">通知列表</p>
+                          <p class="text-base">
+                            通知列表
+                          </p>
                         </NuxtLink>
                       </div>
                       <div class="flex gap-2">
                         <div class="p-2">
-                          <p class="text-base">全部已讀</p>
+                          <p class="text-base">
+                            全部已讀
+                          </p>
                         </div>
                         <div class="p-2">
                           <UButton
                             label="Close"
+                            class="no-border-no-shadow text-B2 bg-inherit p-0"
                             @click="close"
-                            class="no-border-no-shadow text-B2 p-0 bg-inherit"
                           >
-                            <p class="font-bold">關閉</p>
+                            <p class="font-bold">
+                              關閉
+                            </p>
                           </UButton>
                         </div>
                       </div>
@@ -284,3 +300,10 @@ const buttonClass = (path) => {
     </div>
   </div>
 </template>
+
+<style>
+.no-border-no-shadow {
+  border: none;
+  box-shadow: none;
+}
+</style>

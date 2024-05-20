@@ -1,26 +1,37 @@
 <script setup>
 const isCheck01 = ref(false)
-const isCheck02 = ref(false)
 </script>
 
 <template>
   <div class="relative w-full overflow-hidden rounded-t-[80px] bg-[#fff5f5] py-[100px]">
     <div class="absolute -left-20 -top-20 opacity-80">
-      <NuxtImg src="/member/blur/lg.png" alt="banner_image" class="w-[242px]" />
+      <NuxtImg
+        src="/member/blur/lg.png"
+        alt="banner_image"
+        class="w-[242px]"
+      />
     </div>
-    <div class="m-auto container relative z-50">
+    <div class="container relative z-50 m-auto">
       <h2 class="text-[40px] font-bold text-primary-dark">
         精選會員
       </h2>
       <indexSelectedMembersPhone />
-      
+
       <div class="my-[60px] grid grid-cols-2 gap-6">
         <div
-          class="shadow-primary-light-800/10 border-real-transparent card-border lg:flex rounded-lg border-2 bg-white shadow transition duration-150 ease-in-out w-[300px] lg:w-full">
+          class="shadow-primary-light-800/10 border-real-transparent card-border w-[300px] rounded-lg border-2 bg-white shadow transition duration-150 ease-in-out lg:flex lg:w-full"
+        >
           <div class="shrink-0">
-            <NuxtImg src="/member/member-lg-01.png" alt="banner_image"
-              class="w-[200px] rounded-l-lg   hidden lg:block" />
-            <NuxtImg src="/member/member-sm-01.png" alt="banner_image" class="w-[300px] rounded-t-lg lg:hidden" />
+            <NuxtImg
+              src="/member/member-lg-01.png"
+              alt="banner_image"
+              class="hidden w-[200px]   rounded-l-lg lg:block"
+            />
+            <NuxtImg
+              src="/member/member-sm-01.png"
+              alt="banner_image"
+              class="w-[300px] rounded-t-lg lg:hidden"
+            />
           </div>
           <div class="flex w-full flex-col justify-between p-5">
             <div class="mb-3">
@@ -54,7 +65,7 @@ const isCheck02 = ref(false)
                 </ul>
               </div>
             </div>
-            <div class="flex justify-center lg:justify-end gap-3">
+            <div class="flex justify-center gap-3 lg:justify-end">
               <button class="btn-withIcon-outline">
                 <icon-heroicons:lock-open />
                 <p>解鎖評價</p>
@@ -67,11 +78,19 @@ const isCheck02 = ref(false)
           </div>
         </div>
         <div
-          class="shadow-primary-light-800/10 border-real-transparent card-border lg:flex rounded-lg border-2 bg-white shadow transition duration-150 ease-in-out w-[300px] lg:w-full">
+          class="shadow-primary-light-800/10 border-real-transparent card-border w-[300px] rounded-lg border-2 bg-white shadow transition duration-150 ease-in-out lg:flex lg:w-full"
+        >
           <div class="shrink-0">
-            <NuxtImg src="/member/member-lg-01.png" alt="banner_image"
-              class="w-[200px] rounded-l-lg   hidden lg:block" />
-            <NuxtImg src="/member/member-sm-01.png" alt="banner_image" class="w-[300px] rounded-t-lg lg:hidden" />
+            <NuxtImg
+              src="/member/member-lg-01.png"
+              alt="banner_image"
+              class="hidden w-[200px]   rounded-l-lg lg:block"
+            />
+            <NuxtImg
+              src="/member/member-sm-01.png"
+              alt="banner_image"
+              class="w-[300px] rounded-t-lg lg:hidden"
+            />
           </div>
           <div class="flex w-full flex-col justify-between p-5">
             <div class="mb-3">
@@ -105,7 +124,7 @@ const isCheck02 = ref(false)
                 </ul>
               </div>
             </div>
-            <div class="flex justify-center lg:justify-end gap-3">
+            <div class="flex justify-center gap-3 lg:justify-end">
               <button class="btn-withIcon-outline">
                 <icon-heroicons:lock-open />
                 <p>解鎖評價</p>

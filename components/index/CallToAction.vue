@@ -11,8 +11,12 @@
             最誠實的線上相親服務
           </p>
           <div class="mt-6 flex justify-center">
-            <p class="text-H2 me-10">先做自己</p>
-            <p class="text-H2">再找對象</p>
+            <p class="text-H2 me-10">
+              先做自己
+            </p>
+            <p class="text-H2">
+              再找對象
+            </p>
           </div>
         </div>
         <button class="btn-linear-lg mx-auto mt-20 block">
@@ -20,7 +24,10 @@
         </button>
       </div>
       <div class="">
-        <img src="../../assets/img/callToAction/Couple.png" alt="" />
+        <img
+          src="../../assets/img/callToAction/Couple.png"
+          alt=""
+        >
       </div>
     </div>
   </div>
