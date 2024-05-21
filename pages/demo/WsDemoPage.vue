@@ -1,9 +1,8 @@
 <script setup>
 const { copy } = useClipboard()
 
-// const host = 'ws://localhost:3000/ws'
-// const host = 'wss://one04social-back-end-ws.onrender.com/ws'
-const host = 'wss://one04social-back-end.onrender.com/ws'
+const token = ref('')
+const host = ref('')
 let ws
 
 const open = ref(true)
@@ -18,10 +17,14 @@ const toID = ref('') // 要傳送訊息的對象，也等於單獨的聊天室
 const inviteList = ref([])
 
 // 開始監聽後端WS
-onMounted(() => {
-  ws = new WebSocket(host)
+onMounted(async () => {
+  token.value = await prompt('請輸入用戶 token')
+  // host.value = `ws://localhost:3000/ws?token=${token.value}`
+  host.value = `wss://one04social-back-end.onrender.com/ws?token=${token.value}`
+
+  ws = new WebSocket(host.value)
   ws.onopen = (_res) => {
-    // console.warn('WS 連線成功：', res);
+    console.warn('前端 WS 連線成功：', _res)
   }
 
   ws.onmessage = (res) => {
@@ -35,7 +38,6 @@ onMounted(() => {
 
     if (data.context === 'message')
       messageList.value.push(data)
-    // console.log(messageList.value);
 
     if (data.context === 'invite') {
       const index = inviteList.value.findIndex(
@@ -52,6 +54,7 @@ onMounted(() => {
 // 觸發後端WS
 function sendMessage() {
   toID.value = prompt('請輸入要傳送訊息的用戶 ID')
+
   ws.send(
     JSON.stringify({
       context: 'message',
