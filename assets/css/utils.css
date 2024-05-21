@@ -67,3 +67,10 @@
     display: inline-block;
   }
 }
+
+.linear-border-bottom {
+  border-bottom: 1px solid transparent;
+    border-image: linear-gradient(to right, #fe839a, #4a72ff);
+    border-image-slice: 1;
+    width:100%;
+}

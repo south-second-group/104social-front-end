@@ -1,8 +1,8 @@
 <template>
   <indexBanner />
-  <!-- <indexSelectedMembers /> -->
-  <!-- <indexArticleList />
+  <indexSelectedMembers />
+  <indexArticles />
   <indexStory />
-  <indexSubmitStory /> -->
-  <!-- <indexCallToAction /> -->
+  <indexSubmitStory />
+  <indexCallToAction />
 </template>

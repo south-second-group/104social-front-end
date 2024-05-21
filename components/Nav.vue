@@ -41,6 +41,7 @@ function buttonClass(path) {
               </UButton>
               <UModal
                 v-model="isOpenModal"
+                :ui="{ container: 'items-start' }"
                 prevent-close
               >
                 <UCard
