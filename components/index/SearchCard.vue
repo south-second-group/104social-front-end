@@ -79,7 +79,7 @@
       </div>
       <button
         type="button"
-        class="btn-linear-lg block"
+        class="btn-linear-rwd"
       >
         <p>搜尋</p>
       </button>

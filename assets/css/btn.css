@@ -104,7 +104,7 @@
   }
   
   &-nav {
-    @apply text-[16px] leading-[24px] py-[8px] px-[20px];
+    @apply text-[16px] leading-[24px] py-[8px] px-[20px] w-[127px] box-border hover:w-[127px];
     @apply bg-social-gradient-default  cursor-pointer hover:!bg-gradient-to-r hover:from-white hover:to-white  rounded-full font-bold  hover:text-white active:!bg-gradient-to-r active:from-white active:to-white active:text-white text-white;
 
     &:hover p,
@@ -128,6 +128,32 @@
     &:disabled p {
       @apply text-[#A1A1AA];
     }
+  }
+}
+
+.btn-linear-rwd {
+    @apply lg:max-w-[514px] lg:w-[514px] lg:text-[20px] lg:leading-[30px] lg:py-[16px] lg:px-[20px] lg:h-[62px] md:max-w-[303px] md:w-[303px] md:text-[16px]  md:leading-[24px] md:py-[12.12px] md:px-[20px] md:h-[48px] max-w-[73px] w-[73px] text-[14px] leading-[24px] py-[8.12px] px-[20px] h-[40px];
+    @apply bg-social-gradient-default  cursor-pointer hover:!bg-gradient-to-r hover:from-white hover:to-white active:!bg-gradient-to-r active:from-white active:to-white rounded-full font-bold text-white
+    hover:text-white active:text-white;
+    &:hover p,
+    &:active p {
+      @apply bg-social-gradient-default bg-clip-text lg:text-[20px] md:text-[16px] text-[14px]  text-transparent;
+    }
+
+    &:hover,
+    &:active {
+      background: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(to right, #fe839a, #4a72ff) border-box !important;
+      border: 2px solid transparent !important;
+      border-radius: 999px !important;
+    }
+
+    &:disabled {
+      @apply disabled:!bg-gradient-to-r pointer-events-none  disabled:from-primary-light disabled:to-primary-light disabled:text-[#A1A1AA] disabled:cursor-not-allowed;
+    }
+
+    &:disabled p {
+      @apply text-[#A1A1AA];
   }
 }
 

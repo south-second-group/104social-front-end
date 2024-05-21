@@ -14,7 +14,7 @@
     "lint:fix": "eslint . --fix",
     "lint:view": "pnpm dlx eslint-flat-config-viewer",
     "add layout": "npx nuxi add layout default",
-    "add page": "npx nuxi add page index",
+    "add page": "npx nuxi add page member/InvitePage",
     "add component": "npx nuxi add component demoFolder/BtnBlue",
     "add composable": "npx nuxi add composable demo",
     "add api": "npx nuxi add api auth/demo.get",
