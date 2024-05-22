@@ -45,3 +45,44 @@
 .submit_story-inner-shadow-white {
   box-shadow: 13px 4px 20px 0px #FFFFFF99 inset;
 }
+
+/* nav-items */
+.nav-items {
+  @apply text-zinc-950 font-bold;
+  svg {
+    @apply absolute -left-6 
+  }
+  &:hover {
+    @apply text-primary-dark;
+  }
+}
+
+.inactive-class svg {
+  display: none;
+}
+
+.active-class {
+  @apply text-primary-dark;
+  svg {
+    display: inline-block;
+  }
+}
+
+.linear-border-bottom {
+  border-bottom: 1px solid transparent;
+    border-image: linear-gradient(to right, #fe839a, #4a72ff);
+    border-image-slice: 1;
+    width:100%;
+}
+
+.custom-modal-top {
+  top: 64px;
+  bottom: auto; /* 取消底部定位 */
+}
+
+@media (min-width: 768px) {
+  .custom-modal-top {
+    top: 64px;
+    bottom: auto;
+  }
+}

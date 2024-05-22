@@ -1,29 +1,39 @@
 <template>
-  <div class="w-full bg-[url('@/assets/img/callToAction/bg.png')] bg-cover p-[100px]">
-    <div class="flex justify-center">
-      <div class="py-20">
-        <div class="">
-          <p class="text-H1 bg-gradient-to-r from-[#FE839A] to-[#4A72FF] bg-clip-text text-transparent">
+  <div
+    class="w-full bg-[url('@/public/callToAction/bg-sm.png')] bg-cover py-12 md:bg-[url('@/public/callToAction/bg-lg.png')] md:py-[100px]"
+  >
+    <div class="container flex flex-col lg:grid lg:grid-cols-2">
+      <div class="col-span-1 py-20">
+        <div class="w-full">
+          <p
+            class="bg-gradient-to-r from-[#FE839A] to-[#4A72FF] bg-clip-text text-2xl font-bold leading-[28.8px] text-transparent md:text-[56px] md:leading-[67.2px]"
+          >
             最誠實的線上相親服務
           </p>
-          <div class="mt-6 flex justify-center">
-            <p class="text-H2 me-10">
+          <div class="mt-3 flex justify-center md:mt-6">
+            <p class="me-10 text-xl font-bold md:text-[40px]">
               先做自己
             </p>
-            <p class="text-H2">
+            <p class="text-xl font-bold md:text-[40px]">
               再找對象
             </p>
           </div>
         </div>
-        <button class="btn-linear-lg mx-auto mt-20 block">
+        <button class="btn-linear-lg mx-auto mt-6 hidden md:mt-20 md:block">
+          <p>立即註冊</p>
+        </button>
+        <button
+          class="btn-linear-nav mx-auto mt-6 block min-w-[303px] md:mt-20 md:hidden"
+        >
           <p>立即註冊</p>
         </button>
       </div>
-      <div class="">
-        <img
-          src="../../assets/img/callToAction/Couple.png"
+      <div class="col-span-1 flex items-center justify-center">
+        <NuxtImg
+          src="/callToAction/img-lg.png"
           alt=""
-        >
+          class="w-[300px] md:w-[450px]"
+        />
       </div>
     </div>
   </div>

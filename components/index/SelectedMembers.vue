@@ -1,126 +1,112 @@
+<script setup lang="ts">
+const items = [{
+  name: 'Lisa',
+  describe_1: ['28 歲', '167 cm'],
+  describe_2: ['房仲業'],
+  rating: 4.6,
+  ratingCount: 12,
+  collect: false,
+  hashtag: ['婚後自住', '不生小孩'],
+  avatar: { src: 'https://ipx.nuxt.com/f_auto,s_192x192/gh_avatar/atinux' },
+}, {
+  name: 'Mike',
+  describe_1: ['31 歲'],
+  describe_2: ['台南', '工程師'],
+  rating: 4.3,
+  ratingCount: 12,
+  collect: false,
+  hashtag: ['年薪百萬'],
+  avatar: { src: 'https://ipx.nuxt.com/f_auto,s_192x192/gh_avatar/atinux' },
+}, {
+  name: 'Joshua',
+  describe_1: ['30 歲', '185 cm'],
+  describe_2: ['桃園機場地勤'],
+  rating: 4.1,
+  ratingCount: 15,
+  collect: false,
+  hashtag: ['開放關係', '水瓶座'],
+  avatar: { src: 'https://ipx.nuxt.com/f_auto,s_192x192/gh_avatar/atinux' },
+}, {
+  name: 'Liam',
+  describe_1: ['45 歲', '173 cm'],
+  describe_2: ['台中'],
+  rating: 4.6,
+  ratingCount: 30,
+  collect: false,
+  hashtag: ['BDSM', '主'],
+  avatar: { src: 'https://ipx.nuxt.com/f_auto,s_192x192/gh_avatar/atinux' },
+}, {
+  name: 'Linda',
+  describe_1: ['38 歲', '160 cm'],
+  describe_2: ['業務員'],
+  rating: 4.6,
+  ratingCount: 12,
+  collect: false,
+  hashtag: ['無孝親壓力', '台北有房'],
+  avatar: { src: 'https://ipx.nuxt.com/f_auto,s_192x192/gh_avatar/atinux' },
+}, {
+  name: 'Emily',
+  describe_1: ['19 歲', '155 cm'],
+  describe_2: ['新竹'],
+  rating: 4.6,
+  ratingCount: 12,
+  collect: false,
+  hashtag: ['Sugar baby', '射手座'],
+  avatar: { src: 'https://ipx.nuxt.com/f_auto,s_192x192/gh_avatar/atinux' },
+}]
+</script>
+
 <template>
   <div
-    class="relative w-full overflow-hidden rounded-t-[80px] bg-[#fff5f5] py-[100px]"
+    class="relative w-full overflow-hidden rounded-t-[40px] bg-[#fff5f5] py-12 lg:rounded-t-[80px] lg:py-[100px]"
   >
     <div class="absolute -left-20 -top-20 opacity-80">
-      <img
-        src="../../assets/img/member/blur/lg.png"
-        alt=""
-      >
+      <NuxtImg
+        src="/member/blur/lg.png"
+        alt="banner_image"
+        class="w-[242px]"
+      />
     </div>
-    <div class="m-auto max-w-custom-container">
-      <h2 class="text-[40px] font-bold text-primary-dark">
+    <div class="container relative z-50 m-auto">
+      <p class="text-H4 mb-6 font-bold text-primary-dark md:hidden lg:mb-0">
         精選會員
-      </h2>
-      <div class="my-[60px] grid grid-cols-2 gap-6">
-        <div
-          class="shadow-primary-light-800/10 border-real-transparent card-border flex rounded-lg border-2 bg-white shadow transition duration-150 ease-in-out"
-        >
-          <div class="shrink-0">
-            <img
-              class="rounded-l-lg"
-              src="../../assets/img/member/Image01.png"
-              alt=""
-            >
-          </div>
-          <div class="flex w-full flex-col justify-between p-5">
-            <div class="mb-3 flex items-center justify-between">
-              <p class="text-start text-2xl font-bold leading-7 text-zinc-950">
-                Lisa
-              </p>
-              <span class="text-xl text-primary-dark">
-                <icon-heroicons-star />
-              </span>
-            </div>
-            <div class="">
-              <div class="mb-1 flex gap-3 text-zinc-600">
-                <p>28 歲</p>
-                <p>167 cm</p>
-              </div>
-              <div class="flex gap-3 text-zinc-600">
-                <p>房仲業</p>
-              </div>
-              <div class="my-3 flex items-center">
-                <span class="text-xl text-amber-400">
-                  <icon-heroicons-star-solid />
-                </span>
-                <p class="ms-2 text-sm text-zinc-400">
-                  評分 4.6 (12)
-                </p>
-              </div>
-              <ul class="flex gap-3 text-primary-dark">
-                <li># 婚後自住</li>
-                <li># 不生小孩</li>
-              </ul>
-            </div>
-            <div class="flex justify-end gap-3">
-              <button class="btn-withIcon-outline">
-                <icon-heroicons:lock-open />
-                <p>解鎖評價</p>
-              </button>
-              <button class="btn-withIcon-fill">
-                <icon-heroicons:heart />
-                <p>邀約</p>
-              </button>
-            </div>
-          </div>
+      </p>
+      <p
+        class="text-H2 mb-6 hidden font-bold text-primary-dark md:block lg:mb-0"
+      >
+        精選會員
+      </p>
+
+      <UCarousel
+        v-slot="{ item }"
+        :items="items"
+        class="block md:hidden"
+      >
+        <div class="mx-auto text-center">
+          <indexMemberCard :member="item" />
         </div>
+      </UCarousel>
+
+      <div class="my-[60px] hidden grid-cols-2 gap-6 md:grid">
         <div
-          class="shadow-primary-light-800/10 border-real-transparent card-border flex rounded-lg border-2 bg-white shadow transition duration-150 ease-in-out"
+          v-for="(item, index) in items"
+          :key="index"
         >
-          <div class="shrink-0">
-            <img
-              class="rounded-l-lg"
-              src="../../assets/img/member/Image02.png"
-              alt=""
-            >
-          </div>
-          <div class="flex w-full flex-col justify-between p-5">
-            <div class="mb-3 flex items-center justify-between">
-              <p class="text-start text-2xl font-bold leading-7 text-zinc-950">
-                Mike
-              </p>
-              <span class="text-xl text-primary-dark">
-                <icon-heroicons-star />
-              </span>
-            </div>
-            <div class="">
-              <div class="mb-1 flex gap-3 text-zinc-600">
-                <p>31 歲</p>
-              </div>
-              <div class="flex gap-3 text-zinc-600">
-                <p>台南</p>
-                <p>工程師</p>
-              </div>
-              <div class="my-3 flex items-center">
-                <span class="text-xl text-amber-400">
-                  <icon-heroicons-star-solid />
-                </span>
-                <p class="ms-2 text-sm text-zinc-400">
-                  評分 4.6 (12)
-                </p>
-              </div>
-              <ul class="flex gap-3 text-primary-dark">
-                <li># 年薪百萬</li>
-              </ul>
-            </div>
-            <div class="flex justify-end gap-3">
-              <button class="btn-withIcon-outline">
-                <icon-heroicons:lock-open />
-                <p>解鎖評價</p>
-              </button>
-              <button class="btn-withIcon-fill">
-                <icon-heroicons:heart />
-                <p>邀約</p>
-              </button>
-            </div>
-          </div>
+          <indexMemberCard :member="item" />
         </div>
       </div>
     </div>
-    <button class="btn-textOrIcon-lg mx-auto">
-      <p>查看更多</p>
-      <icon-heroicons:arrow-right />
-    </button>
+    <div class="lg:hidden">
+      <button class="btn-textOrIcon-sm mx-auto mt-6">
+        <p>查看更多</p>
+        <icon-heroicons:arrow-right />
+      </button>
+    </div>
+    <div class="hidden lg:block">
+      <button class="btn-textOrIcon-lg mx-auto mt-6">
+        <p>查看更多</p>
+        <icon-heroicons:arrow-right />
+      </button>
+    </div>
   </div>
 </template>

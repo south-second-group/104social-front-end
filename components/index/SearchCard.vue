@@ -1,79 +1,67 @@
+<script setup>
+const gender = ['男性', '女性', '其他']
+const genderSelected = ref(null)
+
+const searchType = ['男性', '女性', '其他']
+const searchTypeSelected = ref(null)
+
+const keyWord = ref(null)
+</script>
+
 <template>
-  <div class="mx-auto flex h-full max-w-custom-container items-center">
-    <div class="linear-border w-[634px] rounded-3xl p-[60px] ">
-      <div class="flex-col gap-60 ">
-        <div class="relative mb-[60px]">
-          <p class="mb-2 text-start text-2xl font-bold text-zinc-950">
+  <div class="container mx-auto flex h-full items-center">
+    <div class="linear-border w-[634px] rounded-3xl p-[60px]">
+      <div class="mb-[60px] flex-col space-y-[60px]">
+        <div class="">
+          <p class="text-left text-xl font-bold">
             我是
           </p>
-          <div class="flex flex-col">
-            <select
-              id=""
-              name=""
-              class="rounded-lg border-zinc-200 p-3 text-zinc-950 focus:border-red-400"
-            >
-              <option
-                value=""
-                disabled
-                selected
-                hidden
-              >
-                請選擇性別
-              </option>
-              <option value="">
-                男生
-              </option>
-              <option value="">
-                女生
-              </option>
-            </select>
-            <div class="absolute bottom-4 right-3 text-primary-dark">
-              <icon-heroicons-chevron-down />
-            </div>
+
+          <!-- 搜尋欄位 -->
+          <div class="mt-2 h-12 w-full rounded-lg border bg-white">
+            <USelectMenu
+              v-model="genderSelected"
+              :options="gender"
+              placeholder="請選擇性別"
+              class="text-gray-400"
+              size="xl"
+              variant="none"
+            />
           </div>
         </div>
-        <div class="relative  mb-[60px]">
-          <p class="mb-2 text-start text-2xl font-bold text-zinc-950">
+
+        <div class="">
+          <p class="text-left text-xl font-bold">
             我想尋找
           </p>
-          <div class="flex flex-col">
-            <select
-              id=""
-              name=""
-              class="rounded-lg border-zinc-200 p-3 text-zinc-950 focus:border-red-400"
-            >
-              <option
-                value=""
-                disabled
-                selected
-                hidden
-              >
-                請選擇性別
-              </option>
-              <option value="">
-                男生
-              </option>
-              <option value="">
-                女生
-              </option>
-            </select>
-            <div class="absolute bottom-4 right-3 text-primary-dark">
-              <icon-heroicons-chevron-down />
-            </div>
+
+          <!-- 搜尋欄位 -->
+          <div class="mt-2 h-12 w-full rounded-lg border bg-white">
+            <USelectMenu
+              v-model="searchTypeSelected"
+              :options="searchType"
+              placeholder="請選擇性別"
+              class="text-gray-400"
+              size="xl"
+              variant="none"
+            />
           </div>
         </div>
-        <div class="mb-[60px]">
-          <p class="mb-2 text-start text-2xl font-bold text-zinc-950">
+
+        <div class="">
+          <p class="text-left text-xl font-bold">
             尋找對象的關鍵字
           </p>
-          <div class="flex flex-col">
-            <input
-              id=""
-              type="text"
-              name=""
+
+          <!-- 搜尋欄位 -->
+          <div class="mt-2 h-12 w-full rounded-lg border bg-white">
+            <UInput
+              v-model="keyWord"
+              color="primary"
+              variant="none"
+              size="xl"
               placeholder="職業、興趣、星座..."
-              class="rounded-lg border-zinc-200 p-3 text-zinc-950 focus:border-red-400"
-            >
+            />
           </div>
         </div>
       </div>

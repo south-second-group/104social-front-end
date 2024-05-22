@@ -52,7 +52,7 @@ function validateLogin() {
     accountError.value = '信箱欄位不能為空'
     isValid = false
   }
-  else if (!/\S+@\S+\.\S+/.test(loginObj.account)) {
+  else if (!/\S[^\s@]*@\S+\.\S+/.test(loginObj.account)) {
     accountError.value = '信箱格式錯誤'
     isValid = false
   }

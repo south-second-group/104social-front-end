@@ -116,7 +116,7 @@
     &:active {
       background: linear-gradient(#fff 0 0) padding-box,
         linear-gradient(to right, #fe839a, #4a72ff) border-box !important;
-      padding: 8px 20px !important;
+      padding: 7px 18px !important;
       border: 2px solid transparent !important;
       border-radius: 999px !important;
     }

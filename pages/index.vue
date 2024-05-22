@@ -1,7 +1,7 @@
 <template>
   <indexBanner />
   <indexSelectedMembers />
-  <indexArticleList />
+  <indexArticles />
   <indexStory />
   <indexSubmitStory />
   <indexCallToAction />
