@@ -1,5 +1,7 @@
-<script setup lang="ts">
-const isCheck01 = ref(false)
+<script setup>
+const props = defineProps(['member'])
+const { member } = props
+const isCheck = ref(false)
 </script>
 
 <template>
@@ -23,31 +25,44 @@ const isCheck01 = ref(false)
         <div class="mb-3">
           <div class="mb-2 flex justify-between">
             <p class="text-start text-xl font-bold  leading-7 text-zinc-950 md:text-2xl">
-              Lisa
+              {{ member.name }}
             </p>
-            <span class="text-xl text-primary-dark">
-              <CollectionBtn v-model="isCheck01" />
+            <span class="text-xl">
+              <CollectionBtn v-model="isCheck" />
             </span>
           </div>
           <div class="">
             <div class="mb-1 flex gap-3 text-zinc-600">
-              <p>28 歲</p>
-              <p>167 cm</p>
+              <p
+                v-for="(desc, index) in member.describe_1"
+                :key="index"
+              >
+                {{ desc }}
+              </p>
             </div>
             <div class="flex gap-3 text-zinc-600">
-              <p>房仲業</p>
+              <p
+                v-for="(desc, index) in member.describe_2"
+                :key="index"
+              >
+                {{ desc }}
+              </p>
             </div>
             <div class="my-3 flex items-center">
               <span class="text-xl text-amber-400">
                 <icon-heroicons-star-solid />
               </span>
               <p class="ms-2 text-sm text-zinc-400">
-                評分 4.6 (12)
+                評分 {{ member.rating }} ({{ member.ratingCount }})
               </p>
             </div>
             <ul class="flex gap-3 text-primary-dark">
-              <li># 婚後自住</li>
-              <li># 不生小孩</li>
+              <li
+                v-for="(desc, index) in member.hashtag"
+                :key="index"
+              >
+                #{{ desc }}
+              </li>
             </ul>
           </div>
         </div>

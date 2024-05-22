@@ -74,3 +74,15 @@
     border-image-slice: 1;
     width:100%;
 }
+
+.custom-modal-top {
+  top: 64px;
+  bottom: auto; /* 取消底部定位 */
+}
+
+@media (min-width: 768px) {
+  .custom-modal-top {
+    top: 64px;
+    bottom: auto;
+  }
+}

@@ -41,7 +41,7 @@ function buttonClass(path) {
               </UButton>
               <UModal
                 v-model="isOpenModal"
-                :ui="{ container: 'items-start' }"
+                :ui="{ inner: 'fixed inset-0 overflow-y-visible w-full custom-modal-top' }"
                 prevent-close
               >
                 <UCard
