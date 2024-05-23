@@ -292,9 +292,12 @@ function buttonClass(path) {
             </li>
           </ul>
           <div class="ml-4">
-            <button class="btn-linear-nav block">
+            <router-link
+              to="/login"
+              class="btn-linear-nav block"
+            >
               <p>登入 / 註冊</p>
-            </button>
+            </router-link>
           </div>
         </div>
       </div>
