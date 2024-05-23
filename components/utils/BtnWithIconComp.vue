@@ -7,7 +7,7 @@ const props = defineProps<{
 const text = computed(() => {
   switch (props.status) {
     case 'status1':
-      return '解鎖評價'
+      return '已解鎖評價'
     case 'status2':
       return '收回邀約'
     default:
@@ -17,11 +17,8 @@ const text = computed(() => {
 </script>
 
 <template>
-  <div>
-    <button
-      class="btn-withIcon-outline"
-      @click="props.click"
-    >
+  <div class="">
+    <button class="btn-withIcon-outline md:scale-100 scale-90 " @click="props.click">
       <icon-heroicons:lock-open v-if="status === 'status1'" />
       <icon-heroicons:heart v-if="status === 'status2'" />
 

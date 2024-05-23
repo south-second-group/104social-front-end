@@ -7,20 +7,12 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    'IconHeroicons:{btn.icon}': typeof import('~icons/heroicons/{btn.icon}')['default']
-    'IconHeroicons:`${btn.icon}': typeof import('~icons/heroicons/`${btn.icon}')['default']
-    'IconHeroicons:`${btn.icon}`': typeof import('~icons/heroicons/`${btn.icon}`')['default']
-    'IconHeroicons:`${btn.icon}``': typeof import('~icons/heroicons/`${btn.icon}``')['default']
-    'IconHeroicons:${btn.icon}': typeof import('~icons/heroicons/${btn.icon}')['default']
     'IconHeroicons:arrowRight': typeof import('~icons/heroicons/arrow-right')['default']
-    'IconHeroicons:btn.icon': typeof import('~icons/heroicons/btn.icon')['default']
-    'IconHeroicons:btn.icon}': typeof import('~icons/heroicons/btn.icon}')['default']
     'IconHeroicons:chatBubbleLeftEllipsis': typeof import('~icons/heroicons/chat-bubble-left-ellipsis')['default']
     'IconHeroicons:eye': typeof import('~icons/heroicons/eye')['default']
     'IconHeroicons:eyeSlash': typeof import('~icons/heroicons/eye-slash')['default']
     'IconHeroicons:heart': typeof import('~icons/heroicons/heart')['default']
     'IconHeroicons:lockOpen': typeof import('~icons/heroicons/lock-open')['default']
-    'IconHeroicons:s': typeof import('~icons/heroicons/s')['default']
     'IconHeroicons:starSolid': typeof import('~icons/heroicons/star-solid')['default']
     IconHeroiconsChevronDown: typeof import('~icons/heroicons/chevron-down')['default']
     IconHeroiconsStar: typeof import('~icons/heroicons/star')['default']
