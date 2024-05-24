@@ -50,7 +50,7 @@ async function userDataPatch() {
       isShow: state.isShow,
     })
     if (response.status === true)
-        toast('儲存成功！', 'success')
+      toast('儲存成功！', 'success')
   }
   catch (error) {
     const errorMessage = error.response._data.message
@@ -69,17 +69,12 @@ async function handleInputChange(event) {
       isShow: state.isShow,
     })
     if (response.status === true)
-        toast('資料已更新', 'success')
+      toast('資料已更新', 'success')
   }
   catch (error) {
     const errorMessage = error.response._data.message
     toast(errorMessage, 'error')
   }
-}
-
-// 開關切換處理函數
-function handleToggleShow() {
-  state.isShow = !state.isShow
 }
 
 // toast
