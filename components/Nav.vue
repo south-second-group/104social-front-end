@@ -2,6 +2,15 @@
 const route = useRoute()
 const isOpen = ref(false)
 const isOpenModal = ref(false)
+const isLoggedIn = ref(false) // 判斷是否登入
+
+function checkLoginStatus() {
+  isLoggedIn.value = !!localStorage.getItem('name')
+}
+
+onMounted(() => {
+  checkLoginStatus()
+})
 
 function isActive(path) {
   return computed(() => route.path === path)
@@ -162,7 +171,12 @@ function buttonClass(path) {
                       class="btn-linear-nav block w-full"
                       @click="isOpen = false"
                     >
-                      <p>登入 / 註冊</p>
+                      <p v-if="isLoggedIn">
+                        登出
+                      </p>
+                      <p v-else>
+                        登入 / 註冊
+                      </p>
                     </button>
                   </div>
                 </div>
@@ -296,7 +310,12 @@ function buttonClass(path) {
               to="/login"
               class="btn-linear-nav block"
             >
-              <p>登入 / 註冊</p>
+              <p v-if="isLoggedIn">
+                登出
+              </p>
+              <p v-else>
+                登入 / 註冊
+              </p>
             </router-link>
           </div>
         </div>
