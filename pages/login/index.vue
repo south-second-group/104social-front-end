@@ -93,6 +93,15 @@ function toggleShowPassword() {
   <div class="flex h-screen flex-col lg:flex-row">
     <LoginImage />
     <div class="flex min-h-full w-full flex-col justify-center px-6 py-1 lg:w-1/3 lg:px-8">
+      <div class="mb-3 flex justify-center">
+        <NuxtLink to="/">
+          <NuxtImg
+            src="/logo.png"
+            alt="104 緣來如此"
+            class="w-[100px] lg:w-[150px]"
+          />
+        </NuxtLink>
+      </div>
       <div class="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 class="text-center text-2xl font-bold leading-9 tracking-tight">
           登入
