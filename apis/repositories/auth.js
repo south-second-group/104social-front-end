@@ -111,6 +111,17 @@ async function login(data) {
   })
 }
 
+// 登出
+async function logout() {
+  const url = `/api/v1/logout`
+  return useBaseFetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+}
+
 // 驗證登入狀態
 async function verify() {
   return useBaseFetch('/api/v1/verify-token', {
@@ -141,6 +152,7 @@ export const auth = {
   forgetPassword,
   signUp,
   login,
+  logout,
   verify,
   redirect,
 }
