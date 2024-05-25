@@ -1,8 +1,15 @@
 <script setup>
+import { ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { auth } from '../apis/repositories/auth'
+
 const route = useRoute()
 const isOpen = ref(false)
 const isOpenModal = ref(false)
 const isLoggedIn = ref(false) // 判斷是否登入
+
+const toastMessage = ref('')
+const toastType = ref('')
 
 function checkLoginStatus() {
   isLoggedIn.value = !!localStorage.getItem('name')
@@ -18,6 +25,29 @@ function isActive(path) {
 
 function buttonClass(path) {
   return isActive(path).value ? 'active-class' : 'inactive-class'
+}
+
+// 登出
+async function logout() {
+  try {
+    const response = await auth.logout()
+    if (response.status === true)
+      localStorage.removeItem('name')
+    isLoggedIn.value = false
+    toast('登出成功！', 'success')
+  }
+  catch (error) {
+    const errorMessage = error.response
+    toast(errorMessage, 'error')
+  }
+}
+// toast
+function toast(message, type) {
+  toastMessage.value = message
+  toastType.value = type
+  setTimeout(() => {
+    toastMessage.value = ''
+  }, 3000)
 }
 </script>
 
@@ -171,7 +201,10 @@ function buttonClass(path) {
                       class="btn-linear-nav block w-full"
                       @click="isOpen = false"
                     >
-                      <p v-if="isLoggedIn">
+                      <p
+                        v-if="isLoggedIn"
+                        @click="logout"
+                      >
                         登出
                       </p>
                       <p v-else>
@@ -305,19 +338,17 @@ function buttonClass(path) {
               </UPopover>
             </li>
           </ul>
-          <div class="ml-4">
-            <router-link
-              to="/login"
-              class="btn-linear-nav block"
-            >
-              <p v-if="isLoggedIn">
-                登出
-              </p>
-              <p v-else>
-                登入 / 註冊
-              </p>
-            </router-link>
-          </div>
+          <button
+            class="btn-linear-nav block"
+            @click="isLoggedIn ? logout() : $router.push('/login')"
+          >
+            <p v-if="isLoggedIn">
+              登出
+            </p>
+            <p v-else>
+              登入 / 註冊
+            </p>
+          </button>
         </div>
       </div>
     </div>
@@ -329,4 +360,24 @@ function buttonClass(path) {
   border: none;
   box-shadow: none;
 }
+.toast.show {
+    display: block;
+  }
+  .toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 1000;
+    display: block;
+  }
+  .toast.success {
+    background-color: #4caf50;
+  }
+  .toast.error {
+    background-color: #f44336;
+  }
 </style>
