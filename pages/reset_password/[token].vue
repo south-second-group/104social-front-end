@@ -82,6 +82,15 @@ function toggleShowConfirmNewPassword() {
     <LoginImage />
 
     <div class="flex min-h-full w-1/3 flex-1 flex-col justify-center px-6 py-1 lg:px-8">
+      <div class="mb-3 flex justify-center">
+        <NuxtLink to="/">
+          <NuxtImg
+            src="/logo.png"
+            alt="104 緣來如此"
+            class="w-[100px] lg:w-[150px]"
+          />
+        </NuxtLink>
+      </div>
       <div class="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 class="text-center text-2xl font-bold leading-9 tracking-tight">
           重設密碼
