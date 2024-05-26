@@ -56,8 +56,8 @@ async function login() {
 
 // Google登入
 function handleGoogleLogin() {
-  // window.location.href = 'https://104-dev.zeabur.app/api/v1/google'
-  window.location.href = 'http://localhost:3001/api/v1/google'
+  window.location.href = 'https://104-dev.zeabur.app/api/v1/google'
+  // window.location.href = 'http://localhost:3001/api/v1/google'
 }
 
 // toast
