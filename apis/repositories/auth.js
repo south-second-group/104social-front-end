@@ -143,6 +143,17 @@ async function redirect(token) {
   })
 }
 
+// Google 寫入 Cookie
+async function googleWriteCookie(token) {
+  const url = `/api/v1/google/check-auth/${token}`
+  return useBaseFetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+}
+
 export const auth = {
   userDataPatch,
   addUserData,
@@ -155,4 +166,5 @@ export const auth = {
   logout,
   verify,
   redirect,
+  googleWriteCookie
 }

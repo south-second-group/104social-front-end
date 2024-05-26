@@ -87,9 +87,13 @@ const token = ref<null | string>(null)
 
 token.value = route.params.token as string
 
+const res = await auth.googleWriteCookie(token.value)
+
 // 監聽 token 有沒有值，有的話就跳轉回首頁
 onMounted(() => {
-  if (token.value) {
+  if (res.status) {
+    localStorage.setItem('name', res.data.name)
+    localStorage.setItem('avatar', res.data.avatar)
     toast('登入成功！正在跳轉...', 'success')
     setTimeout(() => {
       router.push('/')
@@ -247,7 +251,7 @@ onMounted(() => {
 
     <!-- Google token -->
     <img
-      :src="`https://104-dev.zeabur.app/api/v1/google/check-auth/${token}`"
+      :src="`http://localhost:3001/api/v1/google/check-auth/${token}`"
       alt="google-check-auth"
       class="hidden"
     >
