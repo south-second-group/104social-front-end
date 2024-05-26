@@ -166,5 +166,5 @@ export const auth = {
   logout,
   verify,
   redirect,
-  googleWriteCookie
+  googleWriteCookie,
 }
