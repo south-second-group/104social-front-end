@@ -107,7 +107,7 @@ function toast(message, type) {
                         class="p-0"
                         @click="isOpenModal = false"
                       >
-                        <p class="text-base font-bold text-primary-dark">
+                        <p class="text-base font-bold text-primary-dark ">
                           關閉
                         </p>
                       </UButton>
@@ -220,7 +220,7 @@ function toast(message, type) {
 
         <!-- 電腦版 -->
         <div class="hidden w-full grow items-center justify-between lg:flex">
-          <ul class="ml-auto flex items-center gap-6">
+          <ul class="ml-auto flex items-center gap-6 ">
             <li class="p-2">
               <NuxtLink
                 to="/articles"
@@ -323,7 +323,7 @@ function toast(message, type) {
                         <div class="p-2">
                           <UButton
                             label="Close"
-                            class="no-border-no-shadow text-B2 bg-inherit p-0"
+                            class="no-border-no-shadow text-B2 bg-white hover:bg-white p-0"
                             @click="close"
                           >
                             <p class="font-bold">

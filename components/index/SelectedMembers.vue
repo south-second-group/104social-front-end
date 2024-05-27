@@ -7,7 +7,7 @@ const items = [{
   ratingCount: 12,
   collect: false,
   hashtag: ['婚後自住', '不生小孩'],
-  avatar: { src: 'https://ipx.nuxt.com/f_auto,s_192x192/gh_avatar/atinux' },
+  avatar: { src: '/member/member-lg-01.png' },
 }, {
   name: 'Mike',
   describe_1: ['31 歲'],
@@ -16,7 +16,7 @@ const items = [{
   ratingCount: 12,
   collect: false,
   hashtag: ['年薪百萬'],
-  avatar: { src: 'https://ipx.nuxt.com/f_auto,s_192x192/gh_avatar/atinux' },
+  avatar: { src: '/member/member-lg-02.png' },
 }, {
   name: 'Joshua',
   describe_1: ['30 歲', '185 cm'],
@@ -25,7 +25,7 @@ const items = [{
   ratingCount: 15,
   collect: false,
   hashtag: ['開放關係', '水瓶座'],
-  avatar: { src: 'https://ipx.nuxt.com/f_auto,s_192x192/gh_avatar/atinux' },
+  avatar: { src: '/member/member-lg-03.png' },
 }, {
   name: 'Liam',
   describe_1: ['45 歲', '173 cm'],
@@ -34,7 +34,7 @@ const items = [{
   ratingCount: 30,
   collect: false,
   hashtag: ['BDSM', '主'],
-  avatar: { src: 'https://ipx.nuxt.com/f_auto,s_192x192/gh_avatar/atinux' },
+  avatar: { src: '/member/member-lg-04.png' },
 }, {
   name: 'Linda',
   describe_1: ['38 歲', '160 cm'],
@@ -43,7 +43,7 @@ const items = [{
   ratingCount: 12,
   collect: false,
   hashtag: ['無孝親壓力', '台北有房'],
-  avatar: { src: 'https://ipx.nuxt.com/f_auto,s_192x192/gh_avatar/atinux' },
+  avatar: { src: '/member/member-lg-05.png' },
 }, {
   name: 'Emily',
   describe_1: ['19 歲', '155 cm'],
@@ -52,7 +52,7 @@ const items = [{
   ratingCount: 12,
   collect: false,
   hashtag: ['Sugar baby', '射手座'],
-  avatar: { src: 'https://ipx.nuxt.com/f_auto,s_192x192/gh_avatar/atinux' },
+  avatar: { src: '/member/member-lg-06.png' },
 }]
 </script>
 
@@ -76,7 +76,7 @@ const items = [{
       >
         精選會員
       </p>
-
+      <!-- 手機版 -->
       <UCarousel
         v-slot="{ item }"
         :items="items"
@@ -87,6 +87,7 @@ const items = [{
         </div>
       </UCarousel>
 
+      <!-- 電腦版 -->
       <div class="my-[60px] hidden grid-cols-2 gap-6 md:grid">
         <div
           v-for="(item, index) in items"

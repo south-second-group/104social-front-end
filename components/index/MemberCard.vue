@@ -11,14 +11,9 @@ const isCheck = ref(false)
     >
       <div class="shrink-0">
         <NuxtImg
-          src="/member/member-lg-01.png"
-          alt="banner_image"
-          class="hidden w-[200px]   rounded-l-lg lg:block"
-        />
-        <NuxtImg
-          src="/member/member-sm-01.png"
-          alt="banner_image"
-          class="w-[300px] rounded-t-lg lg:hidden"
+          :src="member.avatar.src"
+          alt="member_image"
+          class="w-[300px] h-[200px] lg:h-[265px] lg:w-[200px] object-cover object-top rounded-t-lg lg:rounded-l-lg lg:rounded-tr-none"
         />
       </div>
       <div class="flex w-full flex-col justify-between p-5">
