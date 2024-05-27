@@ -1,10 +1,5 @@
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
 import { auth } from '../apis/repositories/auth'
-import LoginImage from '@/components/login/LoginImage.vue'
-import UForm from '@/components/UForm.vue' // 確保正確導入組件
-import UFormGroup from '@/components/UFormGroup.vue' // 確保正確導入組件
-import UInput from '@/components/UInput.vue'
 
 definePageMeta({
   layout: 'LoginLayout',
@@ -55,7 +50,7 @@ function toast(message, type) {
 
 <template>
   <div class="flex h-screen flex-col lg:flex-row">
-    <LoginImage />
+    <loginLoginImage />
     <div class="flex min-h-full w-1/3 flex-1 flex-col justify-center px-6 py-1 lg:px-8">
       <div class="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 class="text-center text-2xl font-bold leading-9 tracking-tight">
