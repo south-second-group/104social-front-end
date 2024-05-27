@@ -1,10 +1,8 @@
-<script lang="ts" setup>
-import { onMounted, reactive, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { auth } from '../../apis/repositories/auth'
+<script setup>
+import { auth } from '@/apis/repositories/auth'
 
 definePageMeta({
-  layout: 'LoginLayout',
+  layout: 'login',
 })
 
 const state = reactive({
@@ -14,12 +12,11 @@ const state = reactive({
 
 const showPassword = ref(false)
 const router = useRouter()
-const route = useRoute()
 const toastMessage = ref('')
 const toastType = ref('')
 
 // 處理valid
-function validate(state): FormError[] {
+function validate(state) {
   const errors = []
   if (!state.account)
     errors.push({ path: 'account', message: '帳號不能為空' })
@@ -56,8 +53,7 @@ async function login() {
 
 // Google登入
 function handleGoogleLogin() {
-  window.location.href = 'https://104-dev.zeabur.app/api/v1/google'
-  // window.location.href = 'http://localhost:3001/api/v1/google'
+  window.location.href = process.env.GOOGLE_LOGIN_LOCATION
 }
 
 // toast
@@ -68,19 +64,6 @@ function toast(message, type) {
     toastMessage.value = ''
   }, 3000)
 }
-
-const token = ref<null | string>(null)
-token.value = route.params.token as string
-
-// 監聽 token 有沒有值，有的話就跳轉回首頁
-onMounted(() => {
-  if (token.value) {
-    toast('登入成功！正在跳轉...', 'success')
-    setTimeout(() => {
-      router.push('/')
-    }, 1500)
-  }
-})
 
 // 切換密碼可見/不可見
 const passwordInputType = ref('password')
@@ -181,6 +164,7 @@ function toggleShowPassword() {
               </div>
               <div class="flex justify-between">
                 <button
+                type="button"
                   class="btn-withIcon-gray-outline me-3 flex w-1/2 items-center"
                   @click="handleGoogleLogin"
                 >
@@ -217,33 +201,33 @@ function toggleShowPassword() {
 </template>
 
 <style scoped>
-    .toast.show {
-        display: block;
-    }
-    .toast {
-        position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        color: white;
-        padding: 10px 20px;
-        border-radius: 5px;
-        z-index: 1000;
-        display: block;
-    }
-    .toast.success {
-        background-color: #4caf50;
-    }
-    .toast.error {
-        background-color: #f44336;
-    }
-    .btn-withIcon-gray-outline {
-        padding: 6px 18px;
-        border: 2px solid #e4e4e7;
-        border-radius: 999px;
-        justify-content: center;
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-    }
+.toast.show {
+  display: block;
+}
+.toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  z-index: 1000;
+  display: block;
+}
+.toast.success {
+  background-color: #4caf50;
+}
+.toast.error {
+  background-color: #f44336;
+}
+.btn-withIcon-gray-outline {
+  padding: 6px 18px;
+  border: 2px solid #e4e4e7;
+  border-radius: 999px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
 </style>
