@@ -309,7 +309,10 @@ function toast(message, type) {
                     <div class="mt-2 flex justify-between">
                       <div class="p-2">
                         <NuxtLink to="/notifications">
-                          <p class="text-base">
+                          <p
+                            class="text-base"
+                            @click="close"
+                          >
                             通知列表
                           </p>
                         </NuxtLink>
@@ -323,7 +326,7 @@ function toast(message, type) {
                         <div class="p-2">
                           <UButton
                             label="Close"
-                            class="no-border-no-shadow text-B2 bg-white hover:bg-white p-0"
+                            class="no-border-no-shadow text-B2 bg-white p-0 hover:bg-white"
                             @click="close"
                           >
                             <p class="font-bold">

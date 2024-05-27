@@ -11,8 +11,12 @@
             最誠實的線上相親服務
           </p>
           <div class="mt-3 flex justify-center md:mt-6">
-            <p class="me-10 text-xl font-bold md:text-[40px]">先做自己</p>
-            <p class="text-xl font-bold md:text-[40px]">再找對象</p>
+            <p class="me-10 text-xl font-bold md:text-[40px]">
+              先做自己
+            </p>
+            <p class="text-xl font-bold md:text-[40px]">
+              再找對象
+            </p>
           </div>
         </div>
         <button class="btn-linear-lg mx-auto mt-6 hidden md:mt-20 md:block">
@@ -38,24 +42,24 @@
     class="w-full bg-[url('@/public/callToAction/bg-sm.png')] bg-cover py-12 md:bg-[url('@/public/callToAction/bg-lg.png')] md:py-[100px]"
   >
     <div class="container flex flex-col">
-        <p
-          class="bg-gradient-to-r from-[#FE839A] to-[#4A72FF] bg-clip-text text-2xl font-bold leading-[28.8px] text-transparent md:text-[56px] md:leading-[67.2px]"
-        >
-          儲值方案
-        </p>
-        <NuxtImg
-          src="/callToAction/img-lg02.png"
-          alt=""
-          class="w-[300px] md:w-[300px] mx-auto"
-        />
-        <button class="btn-linear-lg mx-auto mt-6 hidden md:mt-20 md:block">
-          <p>查看儲值方案</p>
-        </button>
-        <button
-          class="btn-linear-nav mx-auto mt-6 block min-w-[303px] md:mt-20 md:hidden"
-        >
-          <p>查看儲值方案</p>
-        </button>
+      <p
+        class="bg-gradient-to-r from-[#FE839A] to-[#4A72FF] bg-clip-text text-2xl font-bold leading-[28.8px] text-transparent md:text-[56px] md:leading-[67.2px]"
+      >
+        儲值方案
+      </p>
+      <NuxtImg
+        src="/callToAction/img-lg02.png"
+        alt=""
+        class="mx-auto w-[300px] md:w-[300px]"
+      />
+      <button class="btn-linear-lg mx-auto mt-6 hidden md:mt-20 md:block">
+        <p>查看儲值方案</p>
+      </button>
+      <button
+        class="btn-linear-nav mx-auto mt-6 block min-w-[303px] md:mt-20 md:hidden"
+      >
+        <p>查看儲值方案</p>
+      </button>
     </div>
   </div>
 </template>

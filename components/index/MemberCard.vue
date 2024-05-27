@@ -13,7 +13,7 @@ const isCheck = ref(false)
         <NuxtImg
           :src="member.avatar.src"
           alt="member_image"
-          class="w-[300px] h-[200px] lg:h-[265px] lg:w-[200px] object-cover object-top rounded-t-lg lg:rounded-l-lg lg:rounded-tr-none"
+          class="h-[200px] w-[300px] rounded-t-lg object-cover object-top lg:h-[265px] lg:w-[200px] lg:rounded-l-lg lg:rounded-tr-none"
         />
       </div>
       <div class="flex w-full flex-col justify-between p-5">

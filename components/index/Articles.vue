@@ -28,7 +28,7 @@ function handleMouseEnter(index) {
       />
     </div>
     <div
-      class="relative z-50 flex w-full items-center justify-center py-[100px]"
+      class="relative z-50 flex w-full items-center justify-center py-12 lg:py-[100px]"
     >
       <div class="me-6 hidden xxl:block xxl:shrink-0">
         <img

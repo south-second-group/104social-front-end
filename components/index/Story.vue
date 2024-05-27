@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto my-12 w-full lg:my-[100px]">
-    <p class="text-H4 mb-[60px] text-primary-dark md:hidden">
+    <p class="text-H4 mb-6 text-primary-dark md:hidden">
       幸福案例
     </p>
     <p class="text-H2 mb-[60px] hidden text-primary-dark md:block">
