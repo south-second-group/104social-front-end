@@ -227,6 +227,43 @@
   }
 }
 
+.btn-withIcon-outline-rwd {
+    @apply text-[16px] inline-flex leading-[24px] py-[8px] px-[20px] justify-center items-center gap-2 cursor-pointer bg-gradient-to-r from-white to-white  rounded-full font-bold;
+
+    & p {
+      @apply bg-social-gradient-default bg-clip-text text-[16px] text-transparent;
+    }
+
+    & svg {
+      @apply text-[#FE839A];
+    }
+
+    & {
+      background: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(to right, #fe839a, #4a72ff) border-box;
+      padding: 6px 18px;
+      border: 2px solid transparent;
+      border-radius: 999px;
+    }
+
+    @apply hover:bg-social-gradient-default active:bg-social-gradient-default;
+
+    &:hover p,
+    &:active p {
+      @apply text-white;
+    }
+
+    &:hover svg {
+      @apply text-white;
+    }
+
+    @apply disabled:bg-gradient-to-r disabled:from-primary-light disabled:to-primary-light disabled:text-[#A1A1AA] disabled:pointer-events-none;
+
+    &:disabled p {
+      @apply text-[#A1A1AA];
+    }
+  }
+
 /* text + icon */
 .btn-textOrIcon {
   &-lg {
