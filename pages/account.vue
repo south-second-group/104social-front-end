@@ -316,7 +316,7 @@ const personalDetails = reactive([
         <h2 class="text-start text-xl font-bold">
           我的標籤
         </h2>
-        <p class="text-start text-neutral-400 text-sm">
+        <p class="text-start text-sm text-neutral-400">
           在 # 後面輸入您的性格特徵或您感興趣的話題
         </p>
       </div>

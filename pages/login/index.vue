@@ -164,7 +164,7 @@ function toggleShowPassword() {
               </div>
               <div class="flex justify-between">
                 <button
-                type="button"
+                  type="button"
                   class="btn-withIcon-gray-outline me-3 flex w-1/2 items-center"
                   @click="handleGoogleLogin"
                 >
