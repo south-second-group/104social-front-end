@@ -18,22 +18,23 @@ const buttonClass = computed(() => {
 // 彈窗
 const isOpenModal = ref(false)
 const modalStatus = ref('')
-function handleClick(status) {
+
+function handleConfirmModal(status) {
   console.warn(status)
   isOpenModal.value = true
   modalStatus.value = status
 }
 const buttonList = ref([
-  { status: 'status1', click: () => handleClick('status1') },
-  { status: 'status2', click: () => handleClick('status2') },
-  { status: 'status3', click: () => handleClick('status3') },
-  { status: 'status4', click: () => handleClick('status4') },
-  { status: 'status5', click: () => handleClick('status5') },
-  { status: 'status6', click: () => handleClick('status6') },
-  { status: 'status7', click: () => handleClick('status7') },
-  { status: 'status8', click: () => handleClick('status8') },
-  { status: 'status9', click: () => handleClick('status9') },
-  { status: 'status10', click: () => handleClick('status10') },
+  { status: 'status1', click: () => handleConfirmModal('status1') },
+  { status: 'status2', click: () => handleConfirmModal('status2') },
+  { status: 'status3', click: () => handleConfirmModal('status3') },
+  { status: 'status4', click: () => handleConfirmModal('status4') },
+  { status: 'status5', click: () => handleConfirmModal('status5') },
+  { status: 'status6', click: () => handleConfirmModal('status6') },
+  { status: 'status7', click: () => handleConfirmModal('status7') },
+  { status: 'status8', click: () => handleConfirmModal('status8') },
+  { status: 'status9', click: () => handleConfirmModal('status9') },
+  { status: 'status10', click: () => handleConfirmModal('status10') },
 ])
 const isChinese = char => /[\u4E00-\u9FA5]/.test(char)
 
@@ -162,7 +163,6 @@ const items = ref(Array(75))
             <UTooltip text="Previous page">
               <UButton
                 icon="i-heroicons-chevron-left"
-                color=""
                 :ui="{ rounded: 'rounded-full' }"
                 :disabled="page === 1"
                 class="me-2 bg-primary-light text-primary-dark hover:bg-primary-light disabled:text-neutral-400 rtl:[&_span:first-child]:rotate-180"

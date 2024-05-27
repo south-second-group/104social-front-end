@@ -153,7 +153,6 @@ const modalStatus = ref('')
             <UTooltip text="Previous page">
               <UButton
                 icon="i-heroicons-chevron-left"
-                color=""
                 :ui="{ rounded: 'rounded-full' }"
                 :disabled="page === 1"
                 class="me-2 bg-primary-light text-primary-dark hover:bg-primary-light disabled:text-neutral-400 rtl:[&_span:first-child]:rotate-180"
