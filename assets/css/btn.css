@@ -160,8 +160,7 @@
 /* with icon */
 .btn-withIcon {
   &-fill {
-    @apply text-[16px] leading-[24px] py-[8.12px] px-[20px] flex justify-center items-center gap-2  h-[40px];
-    @apply bg-social-gradient-default  cursor-pointer hover:!bg-gradient-to-r hover:from-white hover:to-white  rounded-full font-bold  active:!bg-gradient-to-r active:from-white active:to-white active:text-white text-white;
+    @apply text-[16px] leading-[24px] py-[8.12px] px-[20px] flex justify-center items-center gap-2  h-[40px] bg-social-gradient-default  cursor-pointer hover:!bg-gradient-to-r hover:from-white hover:to-white  rounded-full font-bold  active:!bg-gradient-to-r active:from-white active:to-white active:text-white text-white;
 
     &:hover p,
     &:active p {
@@ -191,8 +190,7 @@
   }
 
   &-outline {
-    @apply text-[16px] leading-[24px] py-[8px] px-[20px] flex justify-center items-center gap-2;
-    @apply cursor-pointer bg-gradient-to-r from-white to-white  rounded-full font-bold;
+    @apply text-[16px] leading-[24px] py-[8px] px-[20px] flex justify-center items-center gap-2 cursor-pointer bg-gradient-to-r from-white to-white  rounded-full font-bold;
 
     & p {
       @apply bg-social-gradient-default bg-clip-text text-[16px] text-transparent;
