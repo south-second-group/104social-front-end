@@ -15,6 +15,8 @@ declare module 'vue' {
     'IconHeroicons:eye': typeof import('~icons/heroicons/eye')['default']
     'IconHeroicons:eyeSlash': typeof import('~icons/heroicons/eye-slash')['default']
     'IconHeroicons:heart': typeof import('~icons/heroicons/heart')['default']
+    'IconHeroicons:heartSo': typeof import('~icons/heroicons/heart-so')['default']
+    'IconHeroicons:heartSolid': typeof import('~icons/heroicons/heart-solid')['default']
     'IconHeroicons:lock': typeof import('~icons/heroicons/lock')['default']
     'IconHeroicons:lock0clo': typeof import('~icons/heroicons/lock0clo')['default']
     'IconHeroicons:lock0close': typeof import('~icons/heroicons/lock0close')['default']

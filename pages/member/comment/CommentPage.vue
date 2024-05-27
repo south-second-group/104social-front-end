@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+const router = useRouter()
+
 function buttonClass(status) {
   switch (status) {
     case 1:
@@ -22,6 +24,7 @@ function handleClick(status) {
   isOpenModal.value = true
   modalStatus.value = status
 }
+
 const buttonList = ref([
   { status: 'status1', click: () => handleClick('status1') },
   { status: 'status2', click: () => handleClick('status2') },
@@ -30,12 +33,12 @@ const buttonList = ref([
   { status: 'status5', click: () => handleClick('status5') },
   { status: 'status6', click: () => handleClick('status6') },
   { status: 'status7', click: () => handleClick('status7') },
-  { status: 'status8', click: () => handleClick('status8') },
-  { status: 'status9', click: () => handleClick('status9') },
+  { status: 'status8', click: () => router.push('/member/Comment/false') },
+  { status: 'status9', click: () => router.push('/member/Comment/true') },
   { status: 'status10', click: () => handleClick('status10') },
 ])
 
-const isChinese = char => /[\u4E00-\u9FA5]/.test(char)
+const isChinese = computed(() => char => /[\u4E00-\u9FA5]/.test(char))
 
 const page = ref(1)
 const items = ref(Array(75))
@@ -166,7 +169,6 @@ const items = ref(Array(75))
             <UTooltip text="Previous page">
               <UButton
                 icon="i-heroicons-chevron-left"
-                color=""
                 :ui="{ rounded: 'rounded-full' }"
                 :disabled="page === 1"
                 class="me-2 bg-primary-light text-primary-dark hover:bg-primary-light disabled:text-neutral-400 rtl:[&_span:first-child]:rotate-180"
