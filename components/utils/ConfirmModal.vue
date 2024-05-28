@@ -172,19 +172,19 @@ async function fetchAnswer() {
               class="absolute left-2 top-2 space-y-3"
             >
               <USkeleton
-                class="h-4 w-[550px] max-w-[550px] bg-social-gradient-default"
+                class="h-4 w-[250px] bg-social-gradient-default md:w-[550px]"
               />
               <USkeleton
-                class="h-4 w-[450px] max-w-[450px] bg-social-gradient-default"
+                class="h-4 w-[240px] bg-social-gradient-default md:w-[450px]"
               />
               <USkeleton
-                class="h-4 w-[200px] max-w-[200px] bg-social-gradient-default"
+                class="h-4 w-[220px] bg-social-gradient-default md:w-[200px]"
               />
               <USkeleton
-                class="h-4 w-[450px] max-w-[450px] bg-social-gradient-default"
+                class="h-4 w-[240px] bg-social-gradient-default md:w-[450px]"
               />
               <USkeleton
-                class="h-4 w-[200px] max-w-[200px] bg-social-gradient-default"
+                class="h-4 w-[220px] bg-social-gradient-default md:w-[200px]"
               />
             </div>
 

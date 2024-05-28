@@ -168,10 +168,12 @@ function toast(message, type) {
           <b>配對設定</b>
         </button>
         <button
-          class="rounded bg-gray-200 px-12 py-2 text-gray-700"
+          class="rounded bg-gray-200 px-12 py-2  text-gray-700"
           style="border-radius: 100px;background-color: #F5F5F5;"
         >
-          <b>我的約會</b>
+          <NuxtLink to="/member/invite/InvitePage">
+            <b>我的約會</b>
+          </NuxtLink>
         </button>
         <button
           class="rounded bg-gray-200 px-12 py-2 text-gray-700"
@@ -183,19 +185,25 @@ function toast(message, type) {
           class="rounded bg-gray-200 px-12 py-2 text-gray-700"
           style="border-radius: 100px;background-color: #F5F5F5;"
         >
-          <b>我留下的評價</b>
+          <NuxtLink to="/member/comment/CommentPage">
+            <b>我留下的評價</b>
+          </NuxtLink>
         </button>
         <button
           class="rounded bg-gray-200 px-12 py-2 text-gray-700"
           style="border-radius: 100px;background-color: #F5F5F5;"
         >
-          <b>我的收藏</b>
+          <NuxtLink to="/member/CollectionPage">
+            <b>我的收藏</b>
+          </NuxtLink>
         </button>
         <button
           class="rounded bg-gray-200 px-12 py-2 text-gray-700"
           style="border-radius: 100px;background-color: #F5F5F5;"
         >
-          <b>拒絕來信</b>
+          <NuxtLink to="/member/BanListPage">
+            <b>拒絕來信</b>
+          </NuxtLink>
         </button>
       </div>
     </div>

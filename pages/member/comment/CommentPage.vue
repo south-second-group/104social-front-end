@@ -22,7 +22,7 @@ const items = ref(Array(55))
 </script>
 
 <template>
-  <main class=" h-screen max-w-custom-container">
+  <main class=" max-w-custom-container">
     <div class="m-auto max-w-[856px] px-3 md:px-0">
       <h1 class=" text-H4 md:text-H3 mb-6 mt-[80px] text-start md:mb-[40px]">
         我留下的評價
@@ -31,13 +31,12 @@ const items = ref(Array(55))
       <!-- 卡片 -->
       <section class=" space-y-3 ">
         <section
-          v-for=" i in 6"
+          v-for=" i in 2"
           :key="i"
           class="w-full space-y-4 rounded-[10px] border-2 border-neutral-300 p-4 md:p-6"
         >
           <div class="flex items-center justify-between">
             <utilsInviteStatusBtn :status="i" />
-
             <div class="flex gap-3">
               <!-- vif 判斷顯示聊天或移除 -->
               <div class="rounded-full bg-neutral-100 p-[10px]">
@@ -46,13 +45,11 @@ const items = ref(Array(55))
               <div class="rounded-full bg-neutral-100 p-[10px]">
                 <utilsTrashBtn />
               </div>
-
               <div class="rounded-full bg-neutral-100 p-[10px]">
                 <utilsCollectionBtn />
               </div>
             </div>
           </div>
-
           <div class="flex flex-col gap-6 rounded-xl bg-neutral-100  p-6 md:flex-row ">
             <div class="shrink-0">
               <img
@@ -101,7 +98,6 @@ const items = ref(Array(55))
               </div>
             </div>
           </div>
-
           <div class=" flex flex-wrap justify-end md:gap-3">
             <utilsComplexBtn
               v-for="(btn, index) in buttonList"

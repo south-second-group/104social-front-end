@@ -6,17 +6,29 @@ const items = ref([
   'https://picsum.photos/600/800?random=4',
   'https://picsum.photos/600/800?random=5',
 ])
+
+const isLoading = ref(true)
+
+setTimeout(() => {
+  isLoading.value = false
+}, 1000)
 </script>
 
 <template>
-  <ClientOnly>
+  <div>
+    <USkeleton
+      v-if="isLoading"
+      class=" mx-auto mt-4 h-[300px] w-[250px] "
+    />
+
     <UCarousel
+      v-else
       size="xl"
       :arrows="true"
       :items="items"
       :ui="{
         item: 'basis-full',
-        container: 'rounded-lg mt-12',
+        container: 'rounded-lg mt-0',
         indicators: {
           wrapper: 'relative -bottom-5 ',
         },
@@ -48,5 +60,5 @@ const items = ref([
         </UButton>
       </template>
     </UCarousel>
-  </ClientOnly>
+  </div>
 </template>

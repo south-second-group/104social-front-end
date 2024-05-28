@@ -15,7 +15,7 @@ watch(() => route.params, (newParams, oldParams) => {
 </script>
 
 <template>
-  <div class=" container border p-3 text-start md:p-12">
+  <div class=" container p-3 text-start md:px-12">
     <div class="mx-auto max-w-[700px]">
       <utilsPhotoCaroucel />
       <h1 class="text-H4 mt-24">
@@ -30,7 +30,7 @@ watch(() => route.params, (newParams, oldParams) => {
                 class=""
                 :class="{
                   'font-montserrat': !useIsChineseFunc(
-                    'aaa',
+                    '蔡佩芬',
                   ),
                 }"
               >蔡佩芬</span>

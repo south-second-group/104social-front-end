@@ -21,7 +21,7 @@ const items = ref(Array(75))
 </script>
 
 <template>
-  <main class=" h-screen max-w-custom-container">
+  <main class=" useIsChineseFunc max-w-custom-container">
     <div class="m-auto max-w-[856px] px-3 md:px-0">
       <h1 class=" text-H4 md:text-H3 mb-6 mt-[80px] text-start md:mb-[40px]">
         我的收藏
