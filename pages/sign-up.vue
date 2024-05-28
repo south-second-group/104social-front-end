@@ -1,5 +1,4 @@
-<script lang="ts" setup>
-import { reactive, ref } from 'vue'
+<script setup>
 import { auth } from '../apis/repositories/auth'
 
 definePageMeta({
@@ -19,7 +18,7 @@ const toastMessage = ref('')
 const toastType = ref('')
 
 // 處理valid
-function validate(state): FormError[] {
+function validate(state) {
   const errors = []
   if (!state.email)
     errors.push({ path: 'email', message: '信箱不能為空' })
@@ -190,32 +189,36 @@ function toggleShowConfirmPassword() {
 
 <style scoped>
 .toast.show {
-    display: block;
+  display: block;
 }
+
 .toast {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    z-index: 1000;
-    display: block;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  z-index: 1000;
+  display: block;
 }
+
 .toast.success {
-    background-color: #4CAF50;
+  background-color: #4CAF50;
 }
+
 .toast.error {
-    background-color: #F44336;
+  background-color: #F44336;
 }
+
 .btn-withIcon-gray-outline {
-    padding: 6px 18px;
-    border: 2px solid #e4e4e7;
-    border-radius: 999px;
-    justify-content: center;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
+  padding: 6px 18px;
+  border: 2px solid #e4e4e7;
+  border-radius: 999px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 </style>

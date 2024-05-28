@@ -1,6 +1,4 @@
-<script lang="ts" setup>
-import { onMounted, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+<script setup>
 import { auth } from '../../apis/repositories/auth'
 
 const message = ref('身分驗證中...')
@@ -8,7 +6,7 @@ const router = useRouter()
 const route = useRoute()
 
 async function ChangeAccountStatus() {
-  const token = route.params.token as string
+  const token = route.params.token
   try {
     const response = await auth.changeAccountStatus(token)
     if (response.status === true) {

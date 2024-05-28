@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup>
 const status = ref('status2') // 這裡可以是 'status1', 'status2', 'status3', 或 'status4'
 const buttonClass = computed(() => {
   switch (status.value) {

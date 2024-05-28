@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup>
 const tabItems = [{
   label: '我邀約誰',
 }, {

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 const counterStore = useCounterStore()
 
 const { count } = storeToRefs(counterStore)
@@ -17,10 +17,12 @@ const { increment, decrement } = counterStore
         width="28"
         height="28"
         viewBox="0 0 16 16"
-      ><path
-        fill="currentColor"
-        d="M3 8a.75.75 0 0 1 .75-.75h8.5a.75.75 0 0 1 0 1.5h-8.5A.75.75 0 0 1 3 8Z"
-      /></svg>
+      >
+        <path
+          fill="currentColor"
+          d="M3 8a.75.75 0 0 1 .75-.75h8.5a.75.75 0 0 1 0 1.5h-8.5A.75.75 0 0 1 3 8Z"
+        />
+      </svg>
     </button>
     <div class="font-mono">
       {{ count }}
@@ -35,10 +37,12 @@ const { increment, decrement } = counterStore
         width="28"
         height="28"
         viewBox="0 0 24 24"
-      ><path
-        fill="currentColor"
-        d="M18 13h-5v5c0 .55-.45 1-1 1s-1-.45-1-1v-5H6c-.55 0-1-.45-1-1s.45-1 1-1h5V6c0-.55.45-1 1-1s1 .45 1 1v5h5c.55 0 1 .45 1 1s-.45 1-1 1z"
-      /></svg>
+      >
+        <path
+          fill="currentColor"
+          d="M18 13h-5v5c0 .55-.45 1-1 1s-1-.45-1-1v-5H6c-.55 0-1-.45-1-1s.45-1 1-1h5V6c0-.55.45-1 1-1s1 .45 1 1v5h5c.55 0 1 .45 1 1s-.45 1-1 1z"
+        />
+      </svg>
     </button>
   </div>
 </template>

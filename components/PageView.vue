@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { useDemo } from '~/composables/demoFolder/demo'
 
 const { data } = await useFetch('/api/pageview')

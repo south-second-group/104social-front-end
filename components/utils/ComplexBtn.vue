@@ -1,8 +1,8 @@
-<script lang="ts" setup>
-const props = defineProps<{
-  status: string
-  click?: () => void
-}>()
+<script setup>
+const props = defineProps({
+  status: String,
+  click: Function,
+})
 
 const btnText = computed(() => {
   switch (props.status) {
