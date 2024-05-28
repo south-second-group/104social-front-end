@@ -1,11 +1,5 @@
-<script lang="ts" setup>
+<script setup>
 import { auth } from '../apis/repositories/auth'
-
-interface VerifyResponse {
-  status: string
-  message: string
-  data: Record<string, unknown>
-}
 
 const renderObj = reactive({
   message: '',
@@ -14,11 +8,11 @@ const renderObj = reactive({
 
 async function verify() {
   try {
-    const { message } = (await auth.verify()) as VerifyResponse
+    const { message } = await auth.verify()
     renderObj.message = message
   }
-  catch (error: unknown) {
-    if (error instanceof Error)
+  catch (error) {
+    if (error)
       renderObj.errorMessage = '驗證失敗'
   }
 }

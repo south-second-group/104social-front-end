@@ -1,6 +1,4 @@
-<script lang="ts" setup>
-import { reactive, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+<script setup>
 import { auth } from '../apis/repositories/auth'
 
 definePageMeta({
@@ -20,10 +18,10 @@ const showNewPassword = ref(false)
 const showConfirmNewPassword = ref(false)
 
 // 獲取 token
-const token = (route.params.token) as string
+const token = route.params.token
 
 // 處理valid
-function validate(state): FormError[] {
+function validate(state) {
   const errors = []
   if (!state.newPassword)
     errors.push({ path: 'newPassword', message: '密碼不能為空' })
@@ -179,32 +177,36 @@ function toggleShowConfirmNewPassword() {
 
 <style scoped>
 .toast.show {
-    display: block;
+  display: block;
 }
+
 .toast {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    z-index: 1000;
-    display: block;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  z-index: 1000;
+  display: block;
 }
+
 .toast.success {
-    background-color: #4CAF50;
+  background-color: #4CAF50;
 }
+
 .toast.error {
-    background-color: #F44336;
+  background-color: #F44336;
 }
+
 .btn-withIcon-gray-outline {
-    padding: 6px 18px;
-    border: 2px solid #e4e4e7;
-    border-radius: 999px;
-    justify-content: center;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
+  padding: 6px 18px;
+  border: 2px solid #e4e4e7;
+  border-radius: 999px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 </style>

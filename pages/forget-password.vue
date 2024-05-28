@@ -1,5 +1,4 @@
-<script lang="ts" setup>
-import { reactive, ref } from 'vue'
+<script setup>
 import { auth } from '../apis/repositories/auth'
 
 definePageMeta({
@@ -14,7 +13,7 @@ const toastMessage = ref('')
 const toastType = ref('')
 
 // 處理valid
-function validate(state): FormError[] {
+function validate(state) {
   const errors = []
   if (!state.email)
     errors.push({ path: 'email', message: '信箱不能為空' })
@@ -123,24 +122,27 @@ function toast(message, type) {
 </template>
 
 <style scoped>
-    .toast.show {
-        display: block;
-    }
-    .toast {
-        position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        color: white;
-        padding: 10px 20px;
-        border-radius: 5px;
-        z-index: 1000;
-        display: block;
-    }
-    .toast.success {
-        background-color: #4caf50;
-    }
-    .toast.error {
-        background-color: #f44336;
-    }
+.toast.show {
+  display: block;
+}
+
+.toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  z-index: 1000;
+  display: block;
+}
+
+.toast.success {
+  background-color: #4caf50;
+}
+
+.toast.error {
+  background-color: #f44336;
+}
 </style>

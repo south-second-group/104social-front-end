@@ -26,6 +26,15 @@
   }
 }
 
+.card-active {
+  @apply rounded-xl shadow-primary;
+  & {
+    background: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(to right, #fe839a, #4a72ff) border-box !important;
+    border: 2px solid transparent !important;
+  }
+}
+
 .linear-border {
   background: linear-gradient(#fff 0 0) padding-box,
   linear-gradient(to right, #fe839a, #4a72ff) border-box !important;
