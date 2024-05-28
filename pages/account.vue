@@ -158,6 +158,21 @@ const personalDetails = reactive([
     isShow: false,
   },
 ])
+
+// 熱門標籤
+const hotTags = [
+  '不生小孩',
+  '露營',
+  '要不要來我家看貓',
+]
+
+// 我的標籤
+const myTags = [
+  '日語',
+  '肉食系',
+  'Cosplay',
+  '愛吃好料',
+]
 </script>
 
 <template>
@@ -312,17 +327,95 @@ const personalDetails = reactive([
       </ul>
 
       <!-- 我的標籤 -->
-      <div class="h-[291px] w-full rounded-[10px] bg-neutral-100 p-4 lg:h-[214px]">
+      <div class="w-full rounded-[10px] bg-neutral-100 p-4 lg:p-6">
         <h2 class="text-start text-xl font-bold">
           我的標籤
         </h2>
         <p class="text-start text-sm text-neutral-400">
           在 # 後面輸入您的性格特徵或您感興趣的話題
         </p>
+
+        <ul class="mt-2 flex h-[64px] w-full space-x-2 overflow-x-scroll rounded-lg border border-neutral-300 bg-white p-3">
+          <li
+            v-for="(tag, index) in myTags"
+            :key="index"
+            class="flex shrink-0 items-center space-x-1 rounded-full bg-primary-light px-3 py-2"
+          >
+            <span>{{ tag }}</span>
+            <button class="i-heroicons-x-mark-16-solid size-4 ring-1"></button>
+          </li>
+        </ul>
+
+        <h3 class="mt-4 text-start text-neutral-400">
+          熱門標籤
+        </h3>
+
+        <ul class="mt-2 flex h-10 w-full space-x-2 overflow-x-scroll">
+          <li
+            v-for="(tag, index) in hotTags"
+            :key="index"
+            class="shrink-0"
+          >
+            <button class="rounded-full bg-neutral-300 px-3 py-2">
+              {{ tag }}
+            </button>
+          </li>
+
+          <li class=" hidden items-center lg:flex">
+            <button class="p-2 font-bold text-primary-dark">
+              更多標籤...
+            </button>
+          </li>
+        </ul>
+
+        <div class="flex justify-end lg:hidden">
+          <button class="mt-2 p-2 font-bold text-primary-dark">
+            更多標籤...
+          </button>
+        </div>
       </div>
 
       <!-- 個人狀態 -->
-      <div class="h-[182px] w-full rounded-[10px] bg-slate-400 lg:h-[222px]"></div>
+      <div class="h-[182px] w-full rounded-[10px] bg-neutral-100 p-4 lg:h-[222px] lg:p-6">
+        <h2 class="text-start text-xl font-bold">
+          個人狀態
+        </h2>
+
+        <ul class="mt-4 space-y-4">
+          <li class="flex space-x-2">
+            <h4 class="text-B2 text-neutral-400">
+              會員評價｜
+            </h4>
+            <b class="text-neutral-600">4.3</b>
+          </li>
+
+          <li class="flex space-x-2">
+            <h4 class="text-B2 text-neutral-400">
+              是否刊登｜
+            </h4>
+            <div class="flex items-center space-x-1">
+              <UToggle
+                v-model="selected"
+                color="primary"
+              />
+              <span>是</span>
+            </div>
+          </li>
+
+          <li class="flex space-x-2">
+            <h4 class="text-B2 text-neutral-400">
+              是否持續配對｜
+            </h4>
+            <div class="flex items-center space-x-1">
+              <UToggle
+                v-model="selected"
+                color="primary"
+              />
+              <span>揭露</span>
+            </div>
+          </li>
+        </ul>
+      </div>
 
       <!-- 儲存按鈕 -->
       <div class="flex justify-end space-x-3">
@@ -334,171 +427,6 @@ const personalDetails = reactive([
         </button>
       </div>
     </section>
-  </div>
-
-  <div class="hidden w-full">
-    <!-- 會員資料 -->
-    <div
-      class="mx-auto flex max-w-custom-container justify-between"
-    >
-      <!-- 個人資料 -->
-      <div
-        class="relative flex w-96 flex-col rounded-xl bg-clip-border text-gray-700"
-        style="background-color: #FFF5F5;border: 0px;"
-      >
-        <div class="p-6">
-          <div
-            class="divide-y"
-          >
-            <div class="flex items-center justify-between py-3 last:pb-0">
-              <div class="flex  gap-x-3">
-                <img
-                  src="~assets/img/member/memberCentre/UserSticker.png"
-                  alt="UserSticker Image"
-                  class="size-full"
-                >
-                <div class="text-left">
-                  <h6
-                    class="text-H4"
-                  >
-                    {{ state.nickName }}
-                  </h6>
-                  <p
-                    class="block font-sans text-sm font-light leading-normal text-gray-700 antialiased"
-                  >
-                    {{ state.userId }}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 會員狀態 -->
-      <div
-        class="relative flex w-96 flex-col rounded-xl bg-clip-border text-gray-700"
-        style="background-color:#FAFAFA;border: 0px;"
-      >
-        <div class="p-6">
-          <div class="flex items-end justify-between text-left last:pb-0">
-            <div>
-              <h4
-                class="text-B2"
-                style="margin-bottom: 16px"
-              >
-                會員評價｜<b>4.3</b>
-              </h4>
-              <h4
-                class="text-B2"
-                style="margin-bottom: 16px"
-              >
-                配對狀態｜<b>配對中</b>
-              </h4>
-              <h4
-                class="text-B2 mb-0"
-                style="margin-bottom: 16px"
-              >
-                剩餘點數｜<b>120 點</b>
-              </h4>
-            </div>
-            <button class="btn-linear-nav block">
-              <p>儲值</p>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- 功能按鈕 -->
-      <div class="grid grid-flow-col grid-rows-3 gap-3">
-        <button
-          class="gray-btn px-12 py-2"
-          style="border-radius: 100px;background-color: #F5F5F5;"
-        >
-          <b>配對設定</b>
-        </button>
-        <button
-          class="rounded bg-gray-200 px-12 py-2 text-gray-700"
-          style="border-radius: 100px;background-color: #F5F5F5;"
-        >
-          <b>我的約會</b>
-        </button>
-        <button
-          class="rounded bg-gray-200 px-12 py-2 text-gray-700"
-          style="border-radius: 100px;background-color: #F5F5F5;"
-        >
-          <b>配對結果</b>
-        </button>
-        <button
-          class="rounded bg-gray-200 px-12 py-2 text-gray-700"
-          style="border-radius: 100px;background-color: #F5F5F5;"
-        >
-          <b>我留下的評價</b>
-        </button>
-        <button
-          class="rounded bg-gray-200 px-12 py-2 text-gray-700"
-          style="border-radius: 100px;background-color: #F5F5F5;"
-        >
-          <b>我的收藏</b>
-        </button>
-        <button
-          class="rounded bg-gray-200 px-12 py-2 text-gray-700"
-          style="border-radius: 100px;background-color: #F5F5F5;"
-        >
-          <b>拒絕來信</b>
-        </button>
-      </div>
-    </div>
-
-    <!-- 填寫個人資料 -->
-    <div
-      class="mx-auto max-w-custom-container"
-      style="margin-top: 76px;margin-bottom: 76px;"
-    >
-      <h2 class="text-H4 mb-[24px] text-start text-primary-dark">
-        個人資料
-      </h2>
-      <div
-        class="rounded-3xl p-[24px]"
-        style="background-color: #FAFAFA;"
-      >
-        <UForm
-          :validate="validate"
-          :state="state"
-          @submit="userDataPatch"
-        >
-          <div class="px-3 md:w-1/2">
-            <UFormGroup
-              label="姓名"
-              name="nickName"
-            >
-              <UInput
-                v-model="state.nickName"
-                placeholder="請輸入姓名"
-                @input="handleInputChange"
-              />
-            </UFormGroup>
-            <UFormGroup
-              name="isShow"
-              class="mt-2 flex"
-            >
-              <UToggle v-model="state.isShow" /> 揭露
-            </UFormGroup>
-          </div>
-        </UForm>
-      </div>
-      <!-- 儲存按鈕 -->
-      <div class="mt-2 w-full text-center">
-        <button
-          type="submit"
-          class="btn-linear-md float-end"
-          style="margin-top: 24px;"
-          @click="userDataPatch"
-        >
-          <p>完成編輯</p>
-        </button>
-      </div>
-    </div>
   </div>
 
   <!-- Alert 通知 -->
