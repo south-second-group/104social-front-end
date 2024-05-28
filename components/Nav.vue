@@ -90,7 +90,7 @@ function toast(message, type) {
                   }"
                   class="linear-border rounded-md"
                 >
-                  <Notification />
+                  <NotificationCard />
                   <div class="flex justify-between px-2 py-4 font-bold text-primary-dark">
                     <div class="">
                       <NuxtLink to="/notifications">
@@ -305,7 +305,7 @@ function toast(message, type) {
 
                 <template #panel="{ close }">
                   <div class="linear-border rounded-md p-4">
-                    <Notification />
+                    <NotificationCard />
                     <div class="mt-2 flex justify-between">
                       <div class="p-2">
                         <NuxtLink to="/notifications">
