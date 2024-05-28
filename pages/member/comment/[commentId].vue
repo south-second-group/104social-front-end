@@ -51,7 +51,7 @@ watch(() => route.params, (newParams, oldParams) => {
 
           <div class="col-span-2  font-montserrat">
             <label for="">蔡佩芬的標籤：</label>
-            <div class="block  space-x-2 space-y-2 rounded-md px-3 py-1">
+            <div class=" mt-3  flex flex-wrap items-center justify-center gap-2 rounded-md">
               <UBadge
                 v-for="i in 10"
                 :key="i"

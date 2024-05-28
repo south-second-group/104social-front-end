@@ -160,13 +160,13 @@ const options = ['男', '女', '不透露']
       {{ selectedItem || '請選擇性別' }}
     </section>
 
-    <DropdownComp
+    <utilsDropdownComp
       v-model="temp"
       :options="options"
       size="sm"
       :disabled="true"
     />
-    <DropdownComp
+    <utilsDropdownComp
       v-model="selectedOption"
       :options="options"
       size="lg"
