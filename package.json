@@ -14,8 +14,8 @@
     "lint:fix": "eslint . --fix",
     "lint:view": "pnpm dlx eslint-flat-config-viewer",
     "add layout": "npx nuxi add layout default",
-    "add page": "npx nuxi add page member/InvitePage",
-    "add component": "npx nuxi add component demoFolder/BtnBlue",
+    "add page": "npx nuxi add page member/CommentItem",
+    "add component": "npx nuxi add component utils/PaginationComp",
     "add composable": "npx nuxi add composable demo",
     "add api": "npx nuxi add api auth/demo.get",
     "lint:watch": "nodemon --exec 'npm run lint:fix' --watch . --ext .vue",
@@ -47,6 +47,7 @@
     "vue-tsc": "^2.0.7"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.11.4",
     "@iconify-json/heroicons": "^1.1.20",
     "@iconify-json/svg-spinners": "^1.1.2",
     "@nuxt/ui": "^2.15.2",

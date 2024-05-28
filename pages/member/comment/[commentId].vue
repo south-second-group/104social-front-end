@@ -9,7 +9,7 @@ const apiData = reactive({
 })
 
 watch(() => route.params, (newParams, oldParams) => {
-  console.warn('route.params changed from:', oldParams, 'to:', newParams)
+  // console.warn('route.params changed from:', oldParams, 'to:', newParams)
   apiData.isComment = newParams.commentId
 }, { flush: 'post', immediate: true })
 </script>

@@ -9,43 +9,44 @@ const items = ref([
 </script>
 
 <template>
-  <UCarousel
-    size="xl"
-    :arrows="true"
-    :items="items"
-    :ui="{
-      item: 'basis-full',
-      container: 'rounded-lg mt-12',
-      indicators: {
-        wrapper: 'relative -bottom-5 ',
-      },
-    }"
-    indicators
-    class="mx-auto w-64"
-  >
-    <template #default="{ item }">
-      <img
-        :src="item"
-        class="w-full object-contain"
-        draggable="false"
-      >
-    </template>
-
-    <template #indicator="{ onClick, page, active }">
-      <UButton
-        :label="String(page)"
-        :variant="active ? 'solid' : 'outline'"
-        size="2xs"
-        class="  card-hover size-14 justify-center overflow-hidden !rounded-lg border-2 border-white bg-white p-0 !shadow-none"
-        :class="{ 'card-active ': active }"
-        @click="onClick(page)"
-      >
+  <ClientOnly>
+    <UCarousel
+      size="xl"
+      :arrows="true"
+      :items="items"
+      :ui="{
+        item: 'basis-full',
+        container: 'rounded-lg mt-12',
+        indicators: {
+          wrapper: 'relative -bottom-5 ',
+        },
+      }"
+      indicators
+      class="mx-auto w-64"
+    >
+      <template #default="{ item }">
         <img
-          :src="items[page - 1]"
-          class="size-full object-cover"
+          :src="item"
+          class="w-full object-contain"
           draggable="false"
         >
-      </UButton>
-    </template>
-  </UCarousel>
+      </template>
+      <template #indicator="{ onClick, page, active }">
+        <UButton
+          :label="String(page)"
+          :variant="active ? 'solid' : 'outline'"
+          size="2xs"
+          class="  card-hover size-14 justify-center overflow-hidden !rounded-lg border-2 border-white bg-white p-0 !shadow-none"
+          :class="{ 'card-active ': active }"
+          @click="onClick(page)"
+        >
+          <img
+            :src="items[page - 1]"
+            class="size-full object-cover"
+            draggable="false"
+          >
+        </UButton>
+      </template>
+    </UCarousel>
+  </ClientOnly>
 </template>
