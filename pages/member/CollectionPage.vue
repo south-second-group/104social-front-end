@@ -3,42 +3,17 @@ useHead({
   title: '我的收藏',
 })
 
-const status = ref('status2') // 這裡可以是 'status1', 'status2', 'status3', 或 'status4'
-const buttonClass = computed(() => {
-  switch (status.value) {
-    case 'status1':
-      return 'bg-special-dark'
-    case 'status2':
-      return 'bg-special-info'
-    case 'status3':
-      return 'bg-special-warning'
-    case 'status4':
-      return 'bg-special-success'
-    default:
-      return 'bg-special-danger'
-  }
-})
-
-// 彈窗
-const isOpenModal = ref(false)
-const modalStatus = ref('')
-
-function handleConfirmModal(status) {
-  console.warn(status)
-  isOpenModal.value = true
-  modalStatus.value = status
-}
 const buttonList = ref([
-  { status: 'status1', click: () => handleConfirmModal('status1') },
-  { status: 'status2', click: () => handleConfirmModal('status2') },
-  { status: 'status3', click: () => handleConfirmModal('status3') },
-  { status: 'status4', click: () => handleConfirmModal('status4') },
-  { status: 'status5', click: () => handleConfirmModal('status5') },
-  { status: 'status6', click: () => handleConfirmModal('status6') },
-  { status: 'status7', click: () => handleConfirmModal('status7') },
-  { status: 'status8', click: () => handleConfirmModal('status8') },
-  { status: 'status9', click: () => handleConfirmModal('status9') },
-  { status: 'status10', click: () => handleConfirmModal('status10') },
+  { status: 'status1' },
+  { status: 'status2' },
+  { status: 'status3' },
+  { status: 'status4' },
+  { status: 'status5' },
+  { status: 'status6' },
+  { status: 'status7' },
+  { status: 'status8' },
+  { status: 'status9' },
+  { status: 'status10' },
 ])
 
 const page = ref(1)
@@ -60,12 +35,7 @@ const items = ref(Array(75))
           class="w-full space-y-4 rounded-[10px] border-2 border-neutral-300 p-4 md:p-6"
         >
           <div class="flex items-center justify-between">
-            <button
-              :class="buttonClass"
-              class="text-B3 rounded-full bg-primary-dark px-3 py-1 text-white"
-            >
-              邀約狀態
-            </button>
+            <utilsInviteStatusBtn :status="i" />
 
             <div class="flex gap-3">
               <!-- vif 判斷顯示聊天或移除 -->
@@ -91,7 +61,7 @@ const items = ref(Array(75))
                 <h2
                   class=" text-H4 text-neutral-600"
                   :class="{
-                    'font-montserrat': !isChinese(
+                    'font-montserrat': !useIsChineseFunc(
                       '張詠晴',
                     ),
                   }"
@@ -128,15 +98,11 @@ const items = ref(Array(75))
           </div>
 
           <div class=" flex flex-wrap justify-end md:gap-3">
-            <div
+            <utilsComplexBtn
               v-for="(btn, index) in buttonList"
               :key="index"
-            >
-              <utilsComplexBtn
-                :status="btn.status"
-                @click="btn.click"
-              />
-            </div>
+              :status="btn.status"
+            />
           </div>
         </section>
       </section>
@@ -148,12 +114,6 @@ const items = ref(Array(75))
           :items="items"
         />
       </section>
-
-      <!-- modal -->
-      <utilsConfirmModal
-        v-model="isOpenModal"
-        :status="modalStatus"
-      />
     </div>
   </main>
 </template>

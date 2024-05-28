@@ -29,7 +29,7 @@ watch(() => route.params, (newParams, oldParams) => {
               <span
                 class=""
                 :class="{
-                  'font-montserrat': !isChinese(
+                  'font-montserrat': !useIsChineseFunc(
                     'aaa',
                   ),
                 }"
@@ -60,7 +60,7 @@ watch(() => route.params, (newParams, oldParams) => {
                 <p
                   class="!text-[10px]"
                   :class="{
-                    'font-montserrat': !isChinese(
+                    'font-montserrat': !useIsChineseFunc(
                       'Badge',
                     ),
                   }"
@@ -76,7 +76,7 @@ watch(() => route.params, (newParams, oldParams) => {
                 <p
                   class="!text-[10px]"
                   :class="{
-                    'font-montserrat': !isChinese(
+                    'font-montserrat': !useIsChineseFunc(
                       '中文字',
                     ),
                   }"

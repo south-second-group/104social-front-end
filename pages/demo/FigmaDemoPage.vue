@@ -181,7 +181,7 @@ const options = ['男', '女', '不透露']
       <h2
         class="text-H3 whitespace-pre-wrap"
         :class="{
-          'font-montserrat': !isChinese(
+          'font-montserrat': !useIsChineseFunc(
             'ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789',
           ),
         }"

@@ -17,7 +17,7 @@
               <span
                 class=""
                 :class="{
-                  'font-montserrat': !isChinese(
+                  'font-montserrat': !useIsChineseFunc(
                     'aaa',
                   ),
                 }"
@@ -48,7 +48,7 @@
                 <p
                   class="!text-[10px]"
                   :class="{
-                    'font-montserrat': !isChinese(
+                    'font-montserrat': !useIsChineseFunc(
                       'Badge',
                     ),
                   }"
@@ -64,7 +64,7 @@
                 <p
                   class="!text-[10px]"
                   :class="{
-                    'font-montserrat': !isChinese(
+                    'font-montserrat': !useIsChineseFunc(
                       '中文字',
                     ),
                   }"

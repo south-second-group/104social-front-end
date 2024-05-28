@@ -3,44 +3,18 @@ useHead({
   title: '我留下的評價',
 })
 
-const router = useRouter()
-
-function buttonClass(status) {
-  switch (status) {
-    case 1:
-      return 'bg-special-dark'
-    case 2:
-      return 'bg-special-info'
-    case 3:
-      return 'bg-special-warning'
-    case 4:
-      return 'bg-special-success'
-    default:
-      return 'bg-special-danger'
-  }
-}
-
-// 彈窗
-const isOpenModal = ref(false)
-const modalStatus = ref('')
-
-function handleClick(status) {
-  console.warn(status)
-  isOpenModal.value = true
-  modalStatus.value = status
-}
-
+// comment api status
 const buttonList = ref([
-  { status: 'status1', click: () => handleClick('status1') },
-  { status: 'status2', click: () => handleClick('status2') },
-  { status: 'status3', click: () => handleClick('status3') },
-  { status: 'status4', click: () => handleClick('status4') },
-  { status: 'status5', click: () => handleClick('status5') },
-  { status: 'status6', click: () => handleClick('status6') },
-  { status: 'status7', click: () => handleClick('status7') },
-  { status: 'status8', click: () => router.push('/member/Comment/false') },
-  { status: 'status9', click: () => router.push('/member/Comment/true') },
-  { status: 'status10', click: () => handleClick('status10') },
+  { status: 'status1' },
+  { status: 'status2' },
+  { status: 'status3' },
+  { status: 'status4' },
+  { status: 'status5' },
+  { status: 'status6' },
+  { status: 'status7' },
+  { status: 'status8' },
+  { status: 'status9' },
+  { status: 'status10' },
 ])
 
 const page = ref(1)
@@ -62,12 +36,7 @@ const items = ref(Array(55))
           class="w-full space-y-4 rounded-[10px] border-2 border-neutral-300 p-4 md:p-6"
         >
           <div class="flex items-center justify-between">
-            <button
-              :class="buttonClass(i)"
-              class="text-B3 rounded-full bg-primary-dark px-3 py-1 text-white"
-            >
-              邀約狀態
-            </button>
+            <utilsInviteStatusBtn :status="i" />
 
             <div class="flex gap-3">
               <!-- vif 判斷顯示聊天或移除 -->
@@ -97,7 +66,7 @@ const items = ref(Array(55))
                 <h2
                   class=" text-H4 text-neutral-600"
                   :class="{
-                    'font-montserrat': !isChinese(
+                    'font-montserrat': !useIsChineseFunc(
                       '張詠晴',
                     ),
                   }"
@@ -134,15 +103,11 @@ const items = ref(Array(55))
           </div>
 
           <div class=" flex flex-wrap justify-end md:gap-3">
-            <div
+            <utilsComplexBtn
               v-for="(btn, index) in buttonList"
               :key="index"
-            >
-              <utilsComplexBtn
-                :status="btn.status"
-                @click="btn.click"
-              />
-            </div>
+              :status="btn.status"
+            />
           </div>
         </section>
       </section>
@@ -154,12 +119,6 @@ const items = ref(Array(55))
           :items="items"
         />
       </section>
-
-      <!-- modal -->
-      <utilsConfirmModal
-        v-model="isOpenModal"
-        :status="modalStatus"
-      />
     </div>
   </main>
 </template>

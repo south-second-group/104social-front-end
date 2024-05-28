@@ -1,8 +1,9 @@
 <script setup>
 const props = defineProps({
   status: String,
-  click: Function,
 })
+
+const router = useRouter()
 
 const btnText = computed(() => {
   switch (props.status) {
@@ -30,108 +31,147 @@ const btnText = computed(() => {
       return ''
   }
 })
+
+// 彈窗邏輯
+const isOpenModal = ref(false)
+const modalStatus = ref('')
+const modalStatuses = [
+  'status2',
+  'status3',
+  'status4',
+  'status5',
+  'status6',
+  'status7',
+  'status10',
+]
+
+function handleClick(status) {
+  if (modalStatuses.includes(status)) {
+    isOpenModal.value = true
+    modalStatus.value = status
+  }
+  else {
+    switch (status) {
+      case 'status1':
+        router.push('/member/Comment/true')
+        break
+      case 'status8':
+        router.push('/member/Comment/false')
+        break
+      case 'status9':
+        router.push('/member/Comment/true')
+        break
+      default:
+        console.warn('Unknown status')
+    }
+  }
+}
 </script>
 
 <template>
   <div>
     <button
-      v-if="status === 'status1'"
+      v-if="props.status === 'status1'"
       class="flex scale-90 gap-3 rounded-full border-2 border-neutral-400 px-[20px] py-[6px] text-[16px] leading-[24px] text-neutral-400 md:scale-100"
-      disabled
-      @click="props.click"
+      @click="handleClick(props.status)"
     >
-      <icon-heroicons:lock-open v-if="status === 'status1'" />
+      <icon-heroicons:lock-open />
 
       <p>{{ btnText }}</p>
     </button>
 
     <button
-      v-if="status === 'status2'"
-      class=" btn-withIcon-outline scale-90 md:scale-100 "
-      @click="props.click"
+      v-if="props.status === 'status2'"
+      class="btn-withIcon-outline scale-90 md:scale-100"
+      @click="handleClick(props.status)"
     >
-      <icon-heroicons:lock-closed v-if="status === 'status2'" />
+      <icon-heroicons:lock-closed />
 
       <p>{{ btnText }}</p>
     </button>
 
     <button
-      v-if="status === 'status3'"
-      class=" scale-90 rounded-full bg-primary-dark px-[20px] py-[8px] text-[16px] leading-[24px] text-white md:scale-100 "
-      @click="props.click"
+      v-if="props.status === 'status3'"
+      class="scale-90 rounded-full bg-primary-dark px-[20px] py-[8px] text-[16px] leading-[24px] text-white md:scale-100"
+      @click="handleClick(props.status)"
     >
       <p>{{ btnText }}</p>
     </button>
 
     <button
-      v-if="status === 'status4'"
-      class=" btn-withIcon-fill scale-90 md:scale-100 "
-      @click="props.click"
+      v-if="props.status === 'status4'"
+      class="btn-withIcon-fill scale-90 md:scale-100"
+      @click="handleClick(props.status)"
     >
-      <icon-heroicons:heart v-if="status === 'status4'" />
+      <icon-heroicons:heart />
 
       <p>{{ btnText }}</p>
     </button>
 
     <button
-      v-if="status === 'status5'"
-      class=" btn-withIcon-outline scale-90 md:scale-100 "
-      @click="props.click"
+      v-if="props.status === 'status5'"
+      class="btn-withIcon-outline scale-90 md:scale-100"
+      @click="handleClick(props.status)"
     >
-      <icon-heroicons:heart v-if="status === 'status5'" />
+      <icon-heroicons:heart />
 
       <p>{{ btnText }}</p>
     </button>
 
     <button
-      v-if="status === 'status6'"
-      class=" btn-withIcon-outline scale-90 md:scale-100 "
-      @click="props.click"
+      v-if="props.status === 'status6'"
+      class="btn-withIcon-outline scale-90 md:scale-100"
+      @click="handleClick(props.status)"
     >
-      <icon-heroicons:x-mark v-if="status === 'status6'" />
+      <icon-heroicons:x-mark />
 
       <p>{{ btnText }}</p>
     </button>
 
     <button
-      v-if="status === 'status7'"
-      class=" btn-withIcon-fill scale-90 md:scale-100 "
-      @click="props.click"
+      v-if="props.status === 'status7'"
+      class="btn-withIcon-fill scale-90 md:scale-100"
+      @click="handleClick(props.status)"
     >
-      <icon-heroicons:check v-if="status === 'status7'" />
+      <icon-heroicons:check />
 
       <p>{{ btnText }}</p>
     </button>
 
     <button
-      v-if="status === 'status8'"
-      class=" btn-withIcon-fill scale-90 md:scale-100 "
-      @click="props.click"
+      v-if="props.status === 'status8'"
+      class="btn-withIcon-fill scale-90 md:scale-100"
+      @click="handleClick(props.status)"
     >
-      <icon-heroicons:pencil v-if="status === 'status8'" />
+      <icon-heroicons:pencil />
 
       <p>{{ btnText }}</p>
     </button>
 
     <button
-      v-if="status === 'status9'"
+      v-if="props.status === 'status9'"
       class="flex scale-90 gap-3 rounded-full border-2 border-neutral-400 px-[20px] py-[6px] text-[16px] leading-[24px] text-neutral-400 md:scale-100"
-      @click="props.click"
+      @click="handleClick(props.status)"
     >
-      <icon-heroicons:pencil v-if="status === 'status9'" />
+      <icon-heroicons:pencil />
 
       <p>{{ btnText }}</p>
     </button>
 
     <button
-      v-if="status === 'status10'"
-      class=" btn-withIcon-outline scale-90 md:scale-100 "
-      @click="props.click"
+      v-if="props.status === 'status10'"
+      class="btn-withIcon-outline scale-90 md:scale-100"
+      @click="handleClick(props.status)"
     >
-      <icon-heroicons:trash v-if="status === 'status10'" />
+      <icon-heroicons:trash v />
 
       <p>{{ btnText }}</p>
     </button>
+
+    <utilsConfirmModal
+      v-model="isOpenModal"
+      :status="modalStatus"
+    />
   </div>
 </template>
 
