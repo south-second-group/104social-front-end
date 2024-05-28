@@ -1,6 +1,4 @@
-<script lang="ts" setup>
-import { onMounted, reactive, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+<script setup>
 import { auth } from '../../apis/repositories/auth'
 
 definePageMeta({
@@ -19,7 +17,7 @@ const toastMessage = ref('')
 const toastType = ref('')
 
 // 處理valid
-function validate(state): FormError[] {
+function validate(state) {
   const errors = []
   if (!state.account)
     errors.push({ path: 'account', message: '帳號不能為空' })
@@ -69,8 +67,8 @@ function toast(message, type) {
   }, 3000)
 }
 
-const token = ref<null | string>(null)
-token.value = route.params.token as string
+const token = ref(null)
+token.value = route.params.token
 
 // 監聽 token 有沒有值，有的話就跳轉回首頁
 onMounted(() => {
@@ -217,33 +215,37 @@ function toggleShowPassword() {
 </template>
 
 <style scoped>
-    .toast.show {
-        display: block;
-    }
-    .toast {
-        position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        color: white;
-        padding: 10px 20px;
-        border-radius: 5px;
-        z-index: 1000;
-        display: block;
-    }
-    .toast.success {
-        background-color: #4caf50;
-    }
-    .toast.error {
-        background-color: #f44336;
-    }
-    .btn-withIcon-gray-outline {
-        padding: 6px 18px;
-        border: 2px solid #e4e4e7;
-        border-radius: 999px;
-        justify-content: center;
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-    }
+.toast.show {
+  display: block;
+}
+
+.toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  z-index: 1000;
+  display: block;
+}
+
+.toast.success {
+  background-color: #4caf50;
+}
+
+.toast.error {
+  background-color: #f44336;
+}
+
+.btn-withIcon-gray-outline {
+  padding: 6px 18px;
+  border: 2px solid #e4e4e7;
+  border-radius: 999px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
 </style>

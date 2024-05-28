@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<script setup>
 const router = useRouter()
-const name = ref<string>('')
+const name = ref('')
 
 function go() {
   if (!name.value)

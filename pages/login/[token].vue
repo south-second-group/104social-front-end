@@ -1,14 +1,7 @@
-<script lang="ts" setup>
-import { onMounted, reactive, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+<script setup>
 import { auth } from '../../apis/repositories/auth'
 
-export interface LoginObj {
-  account: string
-  password: string
-}
-
-const loginObj = reactive<LoginObj>({
+const loginObj = reactive({
   account: '',
   password: '',
 })
@@ -83,9 +76,9 @@ function toast(message, type) {
 }
 
 const route = useRoute()
-const token = ref<null | string>(null)
+const token = ref(null)
 
-token.value = route.params.token as string
+token.value = route.params.token
 
 const res = await auth.googleWriteCookie(token.value)
 
@@ -104,9 +97,7 @@ onMounted(() => {
 
 <template>
   <div class="flex h-screen">
-    <div
-      class="flex h-screen w-2/3 flex-col items-center"
-    >
+    <div class="flex h-screen w-2/3 flex-col items-center">
       <img
         src="~assets/img/login/login.png"
         alt="Login Image"
@@ -259,49 +250,55 @@ onMounted(() => {
 </template>
 
 <style scoped>
-    .input {
-        width: 100%;
-        padding: 0.75rem;
-        border: 1px solid #ccc;
-        border-radius: 0.375rem;
-        transition: border-color 0.3s;
-    }
+.input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 0.375rem;
+  transition: border-color 0.3s;
+}
 
-    .input:focus {
-        border-color: #4a56e2; /* Indigo focus ring */
-    }
+.input:focus {
+  border-color: #4a56e2;
+  /* Indigo focus ring */
+}
 
-    .border-red-500 {
-        border-color: #f87171; /* Red border for errors */
-    }
+.border-red-500 {
+  border-color: #f87171;
+  /* Red border for errors */
+}
 
-    .toast.show {
-        display: block;
-    }
+.toast.show {
+  display: block;
+}
 
-    .toast {
-        position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        color: white;
-        padding: 10px 20px;
-        border-radius: 5px;
-        z-index: 1000;
-        display: block; /* 或者根据需要通过JavaScript控制显示 */
-    }
+.toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  z-index: 1000;
+  display: block;
+  /* 或者根据需要通过JavaScript控制显示 */
+}
 
-    .toast.success {
-        background-color: #4CAF50; /* 绿色背景 */
-    }
+.toast.success {
+  background-color: #4CAF50;
+  /* 绿色背景 */
+}
 
-    .toast.error {
-        background-color: #F44336; /* 红色背景 */
-    }
-    .input-class {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
+.toast.error {
+  background-color: #F44336;
+  /* 红色背景 */
+}
+
+.input-class {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
 </style>

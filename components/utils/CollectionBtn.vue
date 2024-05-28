@@ -1,5 +1,6 @@
 <script setup>
 const isCheck = defineModel()
+const isHover = ref(false)
 </script>
 
 <template>
@@ -9,6 +10,8 @@ const isCheck = defineModel()
     width="1.2em"
     height="1.2em"
     @click="() => (isCheck = !isCheck)"
+    @mouseover="() => (isHover = true)"
+    @mouseleave="() => (isHover = false)"
   >
     <defs>
       <linearGradient
@@ -29,7 +32,7 @@ const isCheck = defineModel()
       </linearGradient>
     </defs>
     <path
-      :fill="isCheck ? 'url(#gradient) #fe839a' : 'none'"
+      :fill="(isCheck || isHover) ? 'url(#gradient) #fe839a' : 'none'"
       stroke="url(#gradient)"
       stroke-linecap="round"
       stroke-linejoin="round"

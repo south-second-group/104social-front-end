@@ -51,7 +51,7 @@ const isOptionsExpanded = ref(false)
     >
       <ul
         v-show="isOptionsExpanded"
-        class="absolute inset-x-0 mb-4 overflow-hidden rounded-lg bg-white shadow-lg"
+        class="absolute inset-x-0 z-10 mb-4 overflow-hidden rounded-lg bg-white shadow-lg"
       >
         <li
           v-for="(option, index) in props.options"

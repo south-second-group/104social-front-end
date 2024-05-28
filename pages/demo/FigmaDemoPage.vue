@@ -19,12 +19,10 @@ const searchValue = ref('')
 
 const selectedOption = ref('請選擇性別')
 const options = ['男', '女', '不透露']
-
-const isChinese = char => /[\u4E00-\u9FA5]/.test(char)
 </script>
 
 <template>
-  <div class="flex flex-1 flex-col items-start space-y-5">
+  <div class="container flex flex-1 flex-col items-start space-y-5">
     <button class="btn-linear-sm block">
       <p>搜尋</p>
     </button>
@@ -162,13 +160,13 @@ const isChinese = char => /[\u4E00-\u9FA5]/.test(char)
       {{ selectedItem || '請選擇性別' }}
     </section>
 
-    <DropdownComp
+    <utilsDropdownComp
       v-model="temp"
       :options="options"
       size="sm"
       :disabled="true"
     />
-    <DropdownComp
+    <utilsDropdownComp
       v-model="selectedOption"
       :options="options"
       size="lg"
@@ -183,7 +181,7 @@ const isChinese = char => /[\u4E00-\u9FA5]/.test(char)
       <h2
         class="text-H3 whitespace-pre-wrap"
         :class="{
-          'font-montserrat': !isChinese(
+          'font-montserrat': !useIsChineseFunc(
             'ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789',
           ),
         }"
@@ -240,7 +238,7 @@ const isChinese = char => /[\u4E00-\u9FA5]/.test(char)
     </div>
 
     <div class="flex gap-10">
-      <CollectionBtn v-model="isCheck" />
+      <utilsCollectionBtn v-model="isCheck" />
       <p>defineModel() isCheck : {{ isCheck }}</p>
       <!-- https://muki.tw/vmodel-definemodel-props-emit/?fbclid=IwAR3BMyVyKW6AwjtzYeP7rH6Nvnv6xRr615D9X1L2Y6yxVRg-S8xv5kfhO8g -->
       <!-- https://github.com/vuejs/rfcs/discussions/503 -->
