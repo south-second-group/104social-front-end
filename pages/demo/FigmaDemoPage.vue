@@ -19,8 +19,6 @@ const searchValue = ref('')
 
 const selectedOption = ref('請選擇性別')
 const options = ['男', '女', '不透露']
-
-const isChinese = char => /[\u4E00-\u9FA5]/.test(char)
 </script>
 
 <template>
