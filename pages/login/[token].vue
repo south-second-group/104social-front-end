@@ -172,10 +172,10 @@ useAsyncData(async () => {
             <p>登入</p>
           </button>
 
-          <p class="text-B3 text-center text-gray-500">
+          <p class=" text-center text-sm text-gray-500">
             還沒有帳號? <NuxtLink
-              to="sign-up"
-              class="font-semibold text-primary-dark"
+              to="login"
+              class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
             >
               立即註冊
             </NuxtLink>

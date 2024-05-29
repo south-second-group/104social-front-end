@@ -33,7 +33,7 @@ const isHover = ref(false)
     </defs>
     <path
       :fill="(isCheck || isHover) ? 'url(#gradient) #fe839a' : 'none'"
-      stroke="url(#gradient)"
+      stroke="url(#gradient) #fe839a"
       stroke-linecap="round"
       stroke-linejoin="round"
       stroke-width="1.5"
