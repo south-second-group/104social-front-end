@@ -1,7 +1,21 @@
 <script setup>
-import { onMounted, reactive, ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { auth } from '../apis/repositories/auth'
+
+const router = useRouter()
+
+definePageMeta({
+  middleware: async () => {
+    try {
+      await auth.userData()
+    }
+    catch (error) {
+      console.log(error)
+      router.push('/login')
+    }
+  },
+})
 
 // 儲存會員資料
 const state = reactive({
@@ -9,29 +23,18 @@ const state = reactive({
   isShow: false,
   userId: '',
 })
-
-const router = useRouter()
 const toastMessage = ref('')
 const toastType = ref('')
 
 // 頁面加載時調用 API 獲取會員資料
-onMounted(async () => {
-  try {
-    const response = await auth.userData()
-    if (response.status === true) {
-      const userData = response.data
-      state.nickName = userData.nickNameDetails.nickName
-      state.isShow = userData.nickNameDetails.isShow
-      state.userId = response.data.userId
-    }
-  }
-  catch (error) {
-    toast('請先登入，頁面跳轉中..', 'error')
-    // setTimeout(() => {
-    //   router.push('/login')
-    // }, 1500)
-  }
-})
+
+const response = await auth.userData()
+if (response.status === true) {
+  const userData = response.data
+  state.nickName = userData.nickNameDetails.nickName
+  state.isShow = userData.nickNameDetails.isShow
+  state.userId = response.data.userId
+}
 
 // 處理表單驗證
 function validate(state) {
