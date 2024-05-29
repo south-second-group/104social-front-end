@@ -7,7 +7,7 @@ import { auth } from '../apis/repositories/auth'
 const state = reactive({
   nickName: '',
   isShow: false,
-  userId: '',
+  //userId: '',
 })
 
 const router = useRouter()
@@ -22,7 +22,7 @@ onMounted(async () => {
       const userData = response.data
       state.nickName = userData.nickNameDetails.nickName
       state.isShow = userData.nickNameDetails.isShow
-      state.userId = response.data.userId
+      //state.userId = response.data.userId
     }
   }
   catch (error) {
@@ -118,7 +118,8 @@ function toast(message, type) {
                   <p
                     class="block font-sans text-sm font-light leading-normal text-gray-700 antialiased"
                   >
-                    {{ state.userId }}
+                    0909000000
+                    <!-- {{ state.userId }} -->
                   </p>
                 </div>
               </div>
@@ -165,7 +166,9 @@ function toast(message, type) {
           class="gray-btn px-12 py-2"
           style="border-radius: 100px;background-color: #F5F5F5;"
         >
-          <b>配對設定</b>
+          <NuxtLink to="/member/match">
+            <b>配對設定</b>
+          </NuxtLink>
         </button>
         <button
           class="rounded bg-gray-200 px-12 py-2  text-gray-700"
