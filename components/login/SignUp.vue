@@ -1,9 +1,7 @@
 <script setup>
 import { auth } from '../apis/repositories/auth'
 
-definePageMeta({
-  layout: 'LoginLayout',
-})
+const isSignUpPage = defineModel()
 
 const state = reactive({
   email: '',
@@ -22,7 +20,7 @@ function validate(state) {
   const errors = []
   if (!state.email)
     errors.push({ path: 'email', message: '信箱不能為空' })
-  else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(state.email))
+  else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(state.email))
     errors.push({ path: 'email', message: '信箱格式錯誤' })
 
   if (!state.password)
@@ -171,18 +169,27 @@ function toggleShowConfirmPassword() {
             <p>立即註冊</p>
           </button>
 
-          <p class="text-B3 text-center text-gray-500">
+          <!-- <p class="text-B3 text-center text-gray-500">
             已有帳號? <NuxtLink
               to="login"
               class="font-semibold text-primary-dark"
             >
               立即登入
             </NuxtLink>
+          </p> -->
+
+          <p class="text-B3 text-center text-gray-500">
+            已有帳號? <button
+              type="button"
+              class="font-semibold text-primary-dark"
+              @click="isSignUpPage = !isSignUpPage"
+            >
+              立即登入
+            </button>
           </p>
         </UForm>
       </div>
     </div>
-    <loginSignUpImage />
     <!-- Alert 通知 -->
     <div class="flex h-screen">
       <div

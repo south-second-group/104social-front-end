@@ -41,21 +41,19 @@ const remainingCharacters = computed(
 )
 
 const isLoading = ref(false)
-const theme = ref([
-  '張詠晴',
-  '音樂會',
-  '餐廳',
-  '運動',
-  '旅行',
-  '生理女',
-  '身高 165cm',
-  '體重 50kg',
-  '健身',
-  '未婚',
-  '營養師',
-  '台南白河國小',
-  '團膳業',
-])
+// const theme = ref([
+//   '張詠晴',
+//   '音樂會',
+//   '運動',
+//   '旅行',
+//   '生理女',
+//   '身高 165cm',
+//   '體重 50kg',
+//   '未婚',
+//   '營養師',
+//   '台南白河國小',
+//   '團膳業',
+// ])
 
 async function fetchAnswer() {
   isLoading.value = true
@@ -64,8 +62,7 @@ async function fetchAnswer() {
     // message.value = await useGetGenerativeModelGP(theme.value);
 
     await new Promise(resolve => setTimeout(resolve, 3000))
-    message.value = `
-詠晴，您好！
+    message.value = `詠晴，您好！
 
 不知道您最近是否有空？我最近想找家餐廳好好吃一頓，剛好聽說 [餐廳名] 的 [菜色類型] 很不錯，想邀請您一起去品嚐。
 
@@ -154,17 +151,19 @@ async function fetchAnswer() {
             v-model="selectedOption"
             :options="options"
             size="sm"
+            :disabled="isLoading"
           />
           <div class="relative">
             <UTextarea
               v-model="message"
-              :ui="{ base: ' focus:!ring-primary-dark' }"
+              :ui="{ base: ' focus:!ring-primary-dark focus:!ring-1' }"
               :rows="10"
               :placeholder="
                 isLoading
                   ? ''
                   : '請填寫邀約訊息，推薦主題：電影、音樂會、餐廳、運動、旅行等...'
               "
+              :disabled="isLoading || message.length === 1000"
             />
 
             <div
@@ -191,9 +190,10 @@ async function fetchAnswer() {
             <button
               type="button"
               class="btn-linear-sm absolute bottom-2 right-2 !p-0"
+              :disabled="isLoading"
               @click.prevent="fetchAnswer"
             >
-              <p class="">
+              <p>
                 AI 提示
               </p>
             </button>
@@ -214,12 +214,14 @@ async function fetchAnswer() {
         <section class="mt-4 flex justify-center">
           <button
             class="px-[20px] py-[8px] text-[16px] leading-[24px] text-primary-dark"
+            :disabled="isLoading"
             @click="isOpenModal = false"
           >
             <p>取消</p>
           </button>
           <button
             class="rounded-full bg-primary-dark px-[20px] py-[8px] text-[16px] leading-[24px] text-white"
+            :disabled="isLoading"
           >
             <p>發送邀約</p>
           </button>

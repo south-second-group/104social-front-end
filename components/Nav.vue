@@ -90,7 +90,7 @@ function toast(message, type) {
                   }"
                   class="linear-border rounded-md"
                 >
-                  <Notification />
+                  <NotificationCard />
                   <div class="flex justify-between px-2 py-4 font-bold text-primary-dark">
                     <div class="">
                       <NuxtLink to="/notifications">
@@ -107,7 +107,7 @@ function toast(message, type) {
                         class="p-0"
                         @click="isOpenModal = false"
                       >
-                        <p class="text-base font-bold text-primary-dark">
+                        <p class="text-base font-bold text-primary-dark ">
                           關閉
                         </p>
                       </UButton>
@@ -160,7 +160,7 @@ function toast(message, type) {
                       </li>
                       <li class="text-B2 py-4 text-center">
                         <NuxtLink
-                          to="/searching_for_dating"
+                          to="/search-date"
                           class="nav-items"
                           @click="isOpen = false"
                         >
@@ -220,7 +220,7 @@ function toast(message, type) {
 
         <!-- 電腦版 -->
         <div class="hidden w-full grow items-center justify-between lg:flex">
-          <ul class="ml-auto flex items-center gap-6">
+          <ul class="ml-auto flex items-center gap-6 ">
             <li class="p-2">
               <NuxtLink
                 to="/articles"
@@ -238,11 +238,11 @@ function toast(message, type) {
             </li>
             <li class="p-2">
               <NuxtLink
-                to="/searching_for_dating"
+                to="/search-date"
                 class="nav-items"
                 :class="[
-                  buttonClass('/searching_for_dating'),
-                  { active: isActive('/searching_for_dating') },
+                  buttonClass('/search-date'),
+                  { active: isActive('/search-date') },
                 ]"
               >
                 <div class="relative">
@@ -305,11 +305,14 @@ function toast(message, type) {
 
                 <template #panel="{ close }">
                   <div class="linear-border rounded-md p-4">
-                    <Notification />
+                    <NotificationCard />
                     <div class="mt-2 flex justify-between">
                       <div class="p-2">
                         <NuxtLink to="/notifications">
-                          <p class="text-base">
+                          <p
+                            class="text-base"
+                            @click="close"
+                          >
                             通知列表
                           </p>
                         </NuxtLink>
@@ -323,7 +326,7 @@ function toast(message, type) {
                         <div class="p-2">
                           <UButton
                             label="Close"
-                            class="no-border-no-shadow text-B2 bg-inherit p-0"
+                            class="no-border-no-shadow text-B2 bg-white p-0 hover:bg-white"
                             @click="close"
                           >
                             <p class="font-bold">

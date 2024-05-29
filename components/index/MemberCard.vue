@@ -11,14 +11,9 @@ const isCheck = ref(false)
     >
       <div class="shrink-0">
         <NuxtImg
-          src="/member/member-lg-01.png"
-          alt="banner_image"
-          class="hidden w-[200px]   rounded-l-lg lg:block"
-        />
-        <NuxtImg
-          src="/member/member-sm-01.png"
-          alt="banner_image"
-          class="w-[300px] rounded-t-lg lg:hidden"
+          :src="member.avatar.src"
+          alt="member_image"
+          class="h-[200px] w-[300px] rounded-t-lg object-cover object-top lg:h-[265px] lg:w-[200px] lg:rounded-l-lg lg:rounded-tr-none"
         />
       </div>
       <div class="flex w-full flex-col justify-between p-5">
@@ -27,9 +22,11 @@ const isCheck = ref(false)
             <p class="text-start text-xl font-bold  leading-7 text-zinc-950 md:text-2xl">
               {{ member.name }}
             </p>
-            <span class="text-xl">
-              <CollectionBtn v-model="isCheck" />
-            </span>
+            <div class="">
+              <span class="text-xl">
+                <utilsCollectionBtn v-model="isCheck" />
+              </span>
+            </div>
           </div>
           <div class="">
             <div class="mb-1 flex gap-3 text-zinc-600">

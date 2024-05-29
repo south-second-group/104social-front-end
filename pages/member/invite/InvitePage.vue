@@ -8,7 +8,7 @@ const tabItems = [{
 }, {
   label: '誰邀約我',
 }]
-const selectedItem = ref(null)
+const selectedItem = ref('我邀約誰')
 
 function onChange(index) {
   selectedItem.value = tabItems[index].label

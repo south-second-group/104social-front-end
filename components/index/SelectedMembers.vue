@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 const items = [{
   name: 'Lisa',
   describe_1: ['28 歲', '167 cm'],
@@ -7,7 +7,7 @@ const items = [{
   ratingCount: 12,
   collect: false,
   hashtag: ['婚後自住', '不生小孩'],
-  avatar: { src: 'https://ipx.nuxt.com/f_auto,s_192x192/gh_avatar/atinux' },
+  avatar: { src: '/member/member-lg-01.png' },
 }, {
   name: 'Mike',
   describe_1: ['31 歲'],
@@ -16,7 +16,7 @@ const items = [{
   ratingCount: 12,
   collect: false,
   hashtag: ['年薪百萬'],
-  avatar: { src: 'https://ipx.nuxt.com/f_auto,s_192x192/gh_avatar/atinux' },
+  avatar: { src: '/member/member-lg-02.png' },
 }, {
   name: 'Joshua',
   describe_1: ['30 歲', '185 cm'],
@@ -25,7 +25,7 @@ const items = [{
   ratingCount: 15,
   collect: false,
   hashtag: ['開放關係', '水瓶座'],
-  avatar: { src: 'https://ipx.nuxt.com/f_auto,s_192x192/gh_avatar/atinux' },
+  avatar: { src: '/member/member-lg-03.png' },
 }, {
   name: 'Liam',
   describe_1: ['45 歲', '173 cm'],
@@ -34,7 +34,7 @@ const items = [{
   ratingCount: 30,
   collect: false,
   hashtag: ['BDSM', '主'],
-  avatar: { src: 'https://ipx.nuxt.com/f_auto,s_192x192/gh_avatar/atinux' },
+  avatar: { src: '/member/member-lg-04.png' },
 }, {
   name: 'Linda',
   describe_1: ['38 歲', '160 cm'],
@@ -43,7 +43,7 @@ const items = [{
   ratingCount: 12,
   collect: false,
   hashtag: ['無孝親壓力', '台北有房'],
-  avatar: { src: 'https://ipx.nuxt.com/f_auto,s_192x192/gh_avatar/atinux' },
+  avatar: { src: '/member/member-lg-05.png' },
 }, {
   name: 'Emily',
   describe_1: ['19 歲', '155 cm'],
@@ -52,14 +52,27 @@ const items = [{
   ratingCount: 12,
   collect: false,
   hashtag: ['Sugar baby', '射手座'],
-  avatar: { src: 'https://ipx.nuxt.com/f_auto,s_192x192/gh_avatar/atinux' },
+  avatar: { src: '/member/member-lg-06.png' },
 }]
+
+const isDesktop = ref(false)
+
+function checkScreenSize() {
+  isDesktop.value = window.innerWidth >= 768
+}
+
+onMounted(() => {
+  checkScreenSize()
+  window.addEventListener('resize', checkScreenSize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', checkScreenSize)
+})
 </script>
 
 <template>
-  <div
-    class="relative w-full overflow-hidden rounded-t-[40px] bg-[#fff5f5] py-12 lg:rounded-t-[80px] lg:py-[100px]"
-  >
+  <div class="relative w-full overflow-hidden rounded-t-[40px] bg-[#fff5f5] py-12 lg:rounded-t-[80px] lg:py-[100px]">
     <div class="absolute -left-20 -top-20 opacity-80">
       <NuxtImg
         src="/member/blur/lg.png"
@@ -71,23 +84,15 @@ const items = [{
       <p class="text-H4 mb-6 font-bold text-primary-dark md:hidden lg:mb-0">
         精選會員
       </p>
-      <p
-        class="text-H2 mb-6 hidden font-bold text-primary-dark md:block lg:mb-0"
-      >
+      <p class="text-H2 mb-6 hidden font-bold text-primary-dark md:block lg:mb-0">
         精選會員
       </p>
 
-      <UCarousel
-        v-slot="{ item }"
-        :items="items"
-        class="block md:hidden"
+      <!-- 電腦版 -->
+      <div
+        v-if="isDesktop"
+        class="my-[60px] grid grid-cols-2 gap-6 "
       >
-        <div class="mx-auto text-center">
-          <indexMemberCard :member="item" />
-        </div>
-      </UCarousel>
-
-      <div class="my-[60px] hidden grid-cols-2 gap-6 md:grid">
         <div
           v-for="(item, index) in items"
           :key="index"
@@ -95,6 +100,16 @@ const items = [{
           <indexMemberCard :member="item" />
         </div>
       </div>
+      <!-- 手機版 -->
+      <UCarousel
+        v-else
+        v-slot="{ item }"
+        :items="items"
+      >
+        <div class="mx-auto text-center">
+          <indexMemberCard :member="item" />
+        </div>
+      </UCarousel>
     </div>
     <div class="lg:hidden">
       <button class="btn-textOrIcon-sm mx-auto mt-6">

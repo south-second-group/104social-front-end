@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup>
 import { onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { auth } from '../apis/repositories/auth'
@@ -59,23 +59,23 @@ async function userDataPatch() {
 }
 
 // 當用戶修改資料時調用 AddUserData 的 post API
-async function handleInputChange(event) {
-  try {
-    const newValue = event.target.value
-    // 呼叫 AddUserData 的 post API
-    const response = await auth.addUserData({
-      userId: state.userId,
-      nickName: newValue,
-      isShow: state.isShow,
-    })
-    if (response.status === true)
-      toast('資料已更新', 'success')
-  }
-  catch (error) {
-    const errorMessage = error.response._data.message
-    toast(errorMessage, 'error')
-  }
-}
+// async function handleInputChange(event) {
+//   try {
+//     const newValue = event.target.value
+//     // 呼叫 AddUserData 的 post API
+//     const response = await auth.addUserData({
+//       userId: state.userId,
+//       nickName: newValue,
+//       isShow: state.isShow,
+//     })
+//     if (response.status === true)
+//       toast('資料已更新', 'success')
+//   }
+//   catch (error) {
+//     const errorMessage = error.response._data.message
+//     toast(errorMessage, 'error')
+//   }
+// }
 
 // toast
 function toast(message, type) {
@@ -232,7 +232,6 @@ function toast(message, type) {
               <UInput
                 v-model="state.nickName"
                 placeholder="請輸入姓名"
-                @input="handleInputChange"
               />
             </UFormGroup>
             <UFormGroup
