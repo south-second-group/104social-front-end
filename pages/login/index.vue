@@ -100,6 +100,7 @@ useHead(() => ({
 }))
 </script>
 
+
 <template>
   <div class="flex h-screen flex-col lg:flex-row  ">
     <LoginImage
@@ -179,16 +180,9 @@ useHead(() => ({
             <p>登入</p>
           </button>
 
-          <!-- <p class="text-B3 text-center text-gray-500">
-            還沒有帳號? <NuxtLink
-              class="font-semibold text-primary-dark"
-              to="sign-up"
-            >
-              立即註冊
-            </NuxtLink>
-          </p> -->
+        </UForm>
 
-          <p class="text-B3 text-center text-gray-500">
+          <p class="my-5 text-B3 text-center text-gray-500">
             還沒有帳號?
             <button
               type="button"
@@ -198,8 +192,8 @@ useHead(() => ({
               立即註冊
             </button>
           </p>
-
-          <div class="flex flex-col items-center justify-center">
+        
+        <div class="flex flex-col items-center justify-center">
             <div class="w-full">
               <div class="mb-4 flex items-center">
                 <div class="flex-1 border-t-2 border-gray-200"></div>
@@ -210,7 +204,7 @@ useHead(() => ({
                 <button
                   type="button"
                   class="btn-withIcon-gray-outline me-3 flex w-1/2 items-center"
-                  @click="handleGoogleLogin"
+                  @click.prevent="handleGoogleLogin"
                 >
                   <img
                     src="~assets/img/login/googleIcon.png"
@@ -228,7 +222,6 @@ useHead(() => ({
               </div>
             </div>
           </div>
-        </UForm>
       </div>
     </div>
 
@@ -256,6 +249,7 @@ useHead(() => ({
     </div>
   </div>
 </template>
+
 
 <style lang="scss" scoped>
 .toast.show {
