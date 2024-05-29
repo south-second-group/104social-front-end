@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { auth } from '../apis/repositories/auth'
 
+const router = useRouter()
 const route = useRoute()
 const isOpen = ref(false)
 const isOpenModal = ref(false)
@@ -35,6 +36,9 @@ async function logout() {
       localStorage.removeItem('name')
     isLoggedIn.value = false
     toast('登出成功！', 'success')
+    setTimeout(() => {
+        router.push('/')
+      }, 1500)
   }
   catch (error) {
     const errorMessage = error.response
@@ -199,6 +203,19 @@ function toast(message, type) {
                   <div class="w-full px-9">
                     <button
                       class="btn-linear-nav block w-full"
+                      @click="isLoggedIn ? logout() : $router.push('/login')"
+                    >
+                      <p v-if="isLoggedIn">
+                        登出
+                      </p>
+                      <p v-else>
+                        登入 / 註冊
+                      </p>
+                    </button>
+                  </div>
+                  <!-- <div class="w-full px-9">
+                    <button
+                      class="btn-linear-nav block w-full"
                       @click="isOpen = false"
                     >
                       <p
@@ -211,7 +228,7 @@ function toast(message, type) {
                         登入 / 註冊
                       </p>
                     </button>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </USlideover>
@@ -353,6 +370,16 @@ function toast(message, type) {
             </p>
           </button>
         </div>
+      </div>
+    </div>
+    <!-- Alert 通知 -->
+  <div class="flex h-screen">
+      <div
+        v-if="toastMessage"
+        class="toast"
+        :class="[toastType === 'success' ? 'success' : 'error']"
+      >
+        {{ toastMessage }}
       </div>
     </div>
   </div>
