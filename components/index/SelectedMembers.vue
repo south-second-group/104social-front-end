@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 const items = [{
   name: 'Lisa',
   describe_1: ['28 歲', '167 cm'],
@@ -54,12 +54,25 @@ const items = [{
   hashtag: ['Sugar baby', '射手座'],
   avatar: { src: '/member/member-lg-06.png' },
 }]
+
+const isDesktop = ref(false)
+
+function checkScreenSize() {
+  isDesktop.value = window.innerWidth >= 768
+}
+
+onMounted(() => {
+  checkScreenSize()
+  window.addEventListener('resize', checkScreenSize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', checkScreenSize)
+})
 </script>
 
 <template>
-  <div
-    class="relative w-full overflow-hidden rounded-t-[40px] bg-[#fff5f5] py-12 lg:rounded-t-[80px] lg:py-[100px]"
-  >
+  <div class="relative w-full overflow-hidden rounded-t-[40px] bg-[#fff5f5] py-12 lg:rounded-t-[80px] lg:py-[100px]">
     <div class="absolute -left-20 -top-20 opacity-80">
       <NuxtImg
         src="/member/blur/lg.png"
@@ -71,24 +84,15 @@ const items = [{
       <p class="text-H4 mb-6 font-bold text-primary-dark md:hidden lg:mb-0">
         精選會員
       </p>
-      <p
-        class="text-H2 mb-6 hidden font-bold text-primary-dark md:block lg:mb-0"
-      >
+      <p class="text-H2 mb-6 hidden font-bold text-primary-dark md:block lg:mb-0">
         精選會員
       </p>
-      <!-- 手機版 -->
-      <UCarousel
-        v-slot="{ item }"
-        :items="items"
-        class="block md:hidden"
-      >
-        <div class="mx-auto text-center">
-          <indexMemberCard :member="item" />
-        </div>
-      </UCarousel>
 
       <!-- 電腦版 -->
-      <div class="my-[60px] hidden grid-cols-2 gap-6 md:grid">
+      <div
+        v-if="isDesktop"
+        class="my-[60px] grid grid-cols-2 gap-6 "
+      >
         <div
           v-for="(item, index) in items"
           :key="index"
@@ -96,6 +100,16 @@ const items = [{
           <indexMemberCard :member="item" />
         </div>
       </div>
+      <!-- 手機版 -->
+      <UCarousel
+        v-else
+        v-slot="{ item }"
+        :items="items"
+      >
+        <div class="mx-auto text-center">
+          <indexMemberCard :member="item" />
+        </div>
+      </UCarousel>
     </div>
     <div class="lg:hidden">
       <button class="btn-textOrIcon-sm mx-auto mt-6">
