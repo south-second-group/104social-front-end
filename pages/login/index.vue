@@ -12,6 +12,7 @@ const state = reactive({
 
 const showPassword = ref(false)
 const router = useRouter()
+const route = useRoute()
 const toastMessage = ref('')
 const toastType = ref('')
 
