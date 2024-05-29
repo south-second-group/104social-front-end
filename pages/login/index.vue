@@ -180,6 +180,7 @@ useHead(() => ({
             <p>登入</p>
           </button>
 
+<<<<<<< HEAD
         </UForm>
 
           <p class="my-5 text-B3 text-center text-gray-500">
@@ -190,6 +191,25 @@ useHead(() => ({
               @click="togglePage()"
             >
               立即註冊
+=======
+          <!-- <p class="text-B3 text-center text-gray-500">
+            還沒有帳號? <NuxtLink
+              class="font-semibold text-primary-dark"
+              to="sign-up"
+            >
+              立即註冊
+            </NuxtLink>
+          </p> -->
+
+          <p class="text-B3 text-center text-gray-500">
+            還沒有帳號?
+            <button
+              type="button"
+              class="font-semibold text-primary-dark"
+              @click="togglePage()"
+            >
+              立即註冊
+>>>>>>> 5b7d51ab7068d296250d041a840c6db4ba57cec1
             </button>
           </p>
         
@@ -249,7 +269,6 @@ useHead(() => ({
     </div>
   </div>
 </template>
-
 
 <style lang="scss" scoped>
 .toast.show {
