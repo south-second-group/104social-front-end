@@ -37,7 +37,6 @@ const toastType = ref('')
 
 const { data, error } = await useAsyncData('userData', () => auth.userData())
 
-
 // 處理表單驗證
 function validate(state) {
   const errors = []
