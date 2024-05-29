@@ -11,7 +11,7 @@ definePageMeta({
       await auth.userData()
     }
     catch (error) {
-      console.log(error)
+      console.error(error)
       router.push('/login')
     }
   },
