@@ -160,7 +160,7 @@ function toast(message, type) {
                       </li>
                       <li class="text-B2 py-4 text-center">
                         <NuxtLink
-                          to="/searching_for_dating"
+                          to="/search-date"
                           class="nav-items"
                           @click="isOpen = false"
                         >
@@ -238,11 +238,11 @@ function toast(message, type) {
             </li>
             <li class="p-2">
               <NuxtLink
-                to="/searching_for_dating"
+                to="/search-date"
                 class="nav-items"
                 :class="[
-                  buttonClass('/searching_for_dating'),
-                  { active: isActive('/searching_for_dating') },
+                  buttonClass('/search-date'),
+                  { active: isActive('/search-date') },
                 ]"
               >
                 <div class="relative">

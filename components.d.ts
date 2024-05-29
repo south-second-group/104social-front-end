@@ -16,6 +16,7 @@ declare module 'vue' {
     'IconHeroicons:heart': typeof import('~icons/heroicons/heart')['default']
     'IconHeroicons:lockOpen': typeof import('~icons/heroicons/lock-open')['default']
     'IconHeroicons:sparklesSolid': typeof import('~icons/heroicons/sparkles-solid')['default']
+    IconHeroiconsAdjustmentsHorizontal: typeof import('~icons/heroicons/adjustments-horizontal')['default']
     IconHeroiconsOutlineTrash: typeof import('~icons/heroicons-outline/trash')['default']
     IconHeroiconsStarSolid: typeof import('~icons/heroicons/star-solid')['default']
     IconHeroiconsTrash: typeof import('~icons/heroicons/trash')['default']
