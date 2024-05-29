@@ -22,7 +22,7 @@ setTimeout(() => {
     />
 
     <UCarousel
-      v-else
+      v-show="!isLoading"
       size="xl"
       :arrows="true"
       :items="items"
