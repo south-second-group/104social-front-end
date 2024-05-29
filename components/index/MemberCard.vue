@@ -27,9 +27,9 @@ const isCheck = ref(false)
             <p class="text-start text-xl font-bold  leading-7 text-zinc-950 md:text-2xl">
               {{ member.name }}
             </p>
-            <span class="text-xl">
-              <CollectionBtn v-model="isCheck" />
-            </span>
+            <utilsCollectionBtn
+              v-model="isCheck"
+            />
           </div>
           <div class="">
             <div class="mb-1 flex gap-3 text-zinc-600">
