@@ -24,7 +24,7 @@ const isCheck = ref(false)
             </p>
             <div class="">
               <span class="text-xl">
-                <CollectionBtn v-model="isCheck" />
+                <utilsCollectionBtn v-model="isCheck" />
               </span>
             </div>
           </div>

@@ -257,10 +257,6 @@ useHead(() => ({
 </template>
 
 <style lang="scss" scoped>
-:deep(body){
-  overflow: hidden !important;
-}
-
 .toast.show {
   display: block;
 }
@@ -307,10 +303,11 @@ useHead(() => ({
       }
   }
 }
+
 .login-image{
     @media (max-width:886px) {
-  display: none;
-  }
+      display: none;
+    }
 }
 
 .sign-up-image{
