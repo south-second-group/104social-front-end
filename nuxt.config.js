@@ -31,6 +31,21 @@ export default defineNuxtConfig({
     '@/assets/css/font.css',
   ],
 
+  tailwindcss: {
+    config: {
+      theme: {
+        extend: {
+          colors: {
+            customPrimary: {
+              100: '#FFF5F5',
+              500: '#F47277',
+            },
+          },
+        },
+      },
+    },
+  },
+
   colorMode: {
     preference: 'light',
   },
@@ -59,6 +74,9 @@ export default defineNuxtConfig({
   // },
 
   vite: {
+    define: {
+      'process.env': process.env,
+    },
     plugins: [
       Components({
         resolvers: [

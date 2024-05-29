@@ -1,8 +1,8 @@
 <script setup>
-import { auth } from '../../apis/repositories/auth'
+import { auth } from '@/apis/repositories/auth'
 
 definePageMeta({
-  layout: 'LoginLayout',
+  layout: 'login',
 })
 
 const state = reactive({
@@ -12,7 +12,6 @@ const state = reactive({
 
 const showPassword = ref(false)
 const router = useRouter()
-const route = useRoute()
 const toastMessage = ref('')
 const toastType = ref('')
 
@@ -54,8 +53,7 @@ async function login() {
 
 // Google登入
 function handleGoogleLogin() {
-  window.location.href = 'https://104-dev.zeabur.app/api/v1/google'
-  // window.location.href = 'http://localhost:3001/api/v1/google'
+  window.location.href = process.env.GOOGLE_LOGIN_LOCATION
 }
 
 // toast
@@ -179,6 +177,7 @@ function toggleShowPassword() {
               </div>
               <div class="flex justify-between">
                 <button
+                  type="button"
                   class="btn-withIcon-gray-outline me-3 flex w-1/2 items-center"
                   @click="handleGoogleLogin"
                 >
@@ -218,7 +217,6 @@ function toggleShowPassword() {
 .toast.show {
   display: block;
 }
-
 .toast {
   position: fixed;
   top: 20px;
@@ -230,15 +228,12 @@ function toggleShowPassword() {
   z-index: 1000;
   display: block;
 }
-
 .toast.success {
   background-color: #4caf50;
 }
-
 .toast.error {
   background-color: #f44336;
 }
-
 .btn-withIcon-gray-outline {
   padding: 6px 18px;
   border: 2px solid #e4e4e7;
