@@ -23,7 +23,10 @@ declare module 'vue' {
     'IconHeroicons:starSolid': typeof import('~icons/heroicons/star-solid')['default']
     'IconHeroicons:trash': typeof import('~icons/heroicons/trash')['default']
     'IconHeroicons:xMark': typeof import('~icons/heroicons/x-mark')['default']
+    IconHeroiconsAdjustmentsHorizontal: typeof import('~icons/heroicons/adjustments-horizontal')['default']
+    IconHeroiconsOutlineTrash: typeof import('~icons/heroicons-outline/trash')['default']
     IconHeroiconsStarSolid: typeof import('~icons/heroicons/star-solid')['default']
+    IconHeroiconsTrash: typeof import('~icons/heroicons/trash')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

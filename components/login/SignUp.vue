@@ -20,7 +20,7 @@ function validate(state) {
   const errors = []
   if (!state.email)
     errors.push({ path: 'email', message: '信箱不能為空' })
-  else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(state.email))
+  else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(state.email))
     errors.push({ path: 'email', message: '信箱格式錯誤' })
 
   if (!state.password)

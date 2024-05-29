@@ -20,7 +20,7 @@ function validate(state) {
   const errors = []
   if (!state.account)
     errors.push({ path: 'account', message: '帳號不能為空' })
-  else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(state.account))
+  else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(state.account))
     errors.push({ path: 'account', message: '信箱格式錯誤' })
 
   if (!state.password)
