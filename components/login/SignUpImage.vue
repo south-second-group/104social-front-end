@@ -3,7 +3,7 @@
     <img
       src="~assets/img/login/signUp.png"
       alt="signUp.png"
-      class="size-full object-cover"
+      class="size-full object-cover object-left"
     >
   </div>
 </template>

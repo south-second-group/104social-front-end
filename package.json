@@ -53,6 +53,7 @@
     "@nuxt/image": "^1.7.0",
     "@nuxt/ui": "^2.15.2",
     "@nuxtjs/google-fonts": "^3.2.0",
+    "@vueuse/core": "^10.10.0",
     "clsx": "^2.1.1",
     "nodemon": "^3.1.0",
     "nuxt-icon": "^0.6.10"

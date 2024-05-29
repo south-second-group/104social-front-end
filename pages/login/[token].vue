@@ -199,7 +199,7 @@ onMounted(() => {
 
           <p class=" text-center text-sm text-gray-500">
             還沒有帳號? <router-link
-              to="sign-up"
+              to="login"
               class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
             >
               立即註冊
