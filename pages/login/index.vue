@@ -1,8 +1,8 @@
 <script setup>
-import { auth } from '../../apis/repositories/auth'
+import { auth } from '@/apis/repositories/auth'
 
 definePageMeta({
-  layout: 'LoginLayout',
+  layout: 'login',
 })
 
 const state = reactive({
@@ -12,7 +12,6 @@ const state = reactive({
 
 const showPassword = ref(false)
 const router = useRouter()
-const route = useRoute()
 const toastMessage = ref('')
 const toastType = ref('')
 
@@ -21,7 +20,7 @@ function validate(state) {
   const errors = []
   if (!state.account)
     errors.push({ path: 'account', message: '帳號不能為空' })
-  else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(state.account))
+  else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(state.account))
     errors.push({ path: 'account', message: '信箱格式錯誤' })
 
   if (!state.password)
@@ -54,8 +53,7 @@ async function login() {
 
 // Google登入
 function handleGoogleLogin() {
-  window.location.href = 'https://104-dev.zeabur.app/api/v1/google'
-  // window.location.href = 'http://localhost:3001/api/v1/google'
+  window.location.href = process.env.GOOGLE_LOGIN_LOCATION
 }
 
 // toast
@@ -86,12 +84,31 @@ function toggleShowPassword() {
   showPassword.value = !showPassword.value
   passwordInputType.value = showPassword.value ? 'text' : 'password'
 }
+
+// 切換頁面
+const [isSignUpPage, togglePage] = useToggle()
+
+useHead(() => ({
+  title: isSignUpPage.value ? '會員註冊' : '會員登入',
+  meta: [
+    {
+      name: 'description',
+      content: isSignUpPage.value ? '104緣來如此註冊頁面' : '104緣來如此登入頁面',
+    },
+  ],
+}))
 </script>
 
 <template>
-  <div class="flex h-screen flex-col lg:flex-row">
-    <LoginImage />
-    <div class="flex min-h-full w-full flex-col justify-center px-6 py-1 lg:w-1/3 lg:px-8">
+  <div class="flex h-screen flex-col lg:flex-row  ">
+    <LoginImage
+      class="login-image"
+      :class="{ 'to-right': isSignUpPage }"
+    />
+    <div
+      class="login-page flex min-h-full w-full flex-col justify-center px-6 py-1 lg:w-1/3 lg:px-8"
+      :class="{ 'to-left': isSignUpPage }"
+    >
       <div class="mb-3 flex justify-center">
         <NuxtLink to="/">
           <NuxtImg
@@ -161,13 +178,24 @@ function toggleShowPassword() {
             <p>登入</p>
           </button>
 
-          <p class="text-B3 text-center text-gray-500">
+          <!-- <p class="text-B3 text-center text-gray-500">
             還沒有帳號? <NuxtLink
-              to="sign-up"
               class="font-semibold text-primary-dark"
+              to="sign-up"
             >
               立即註冊
             </NuxtLink>
+          </p> -->
+
+          <p class="text-B3 text-center text-gray-500">
+            還沒有帳號?
+            <button
+              type="button"
+              class="font-semibold text-primary-dark"
+              @click="togglePage()"
+            >
+              立即註冊
+            </button>
           </p>
 
           <div class="flex flex-col items-center justify-center">
@@ -179,6 +207,7 @@ function toggleShowPassword() {
               </div>
               <div class="flex justify-between">
                 <button
+                  type="button"
                   class="btn-withIcon-gray-outline me-3 flex w-1/2 items-center"
                   @click="handleGoogleLogin"
                 >
@@ -201,6 +230,19 @@ function toggleShowPassword() {
         </UForm>
       </div>
     </div>
+
+    <!-- 註冊 -->
+    <loginSignUpImage
+      class="sign-up-image"
+      :class="{ 'to-right': isSignUpPage }"
+      @click="togglePage()"
+    />
+    <loginSignUp
+      v-model="isSignUpPage"
+      class="sign-up-page"
+      :class="{ 'to-left': isSignUpPage }"
+    />
+
     <!-- Alert 通知 -->
     <div class="flex h-screen">
       <div
@@ -214,11 +256,10 @@ function toggleShowPassword() {
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .toast.show {
   display: block;
 }
-
 .toast {
   position: fixed;
   top: 20px;
@@ -230,15 +271,12 @@ function toggleShowPassword() {
   z-index: 1000;
   display: block;
 }
-
 .toast.success {
   background-color: #4caf50;
 }
-
 .toast.error {
   background-color: #f44336;
 }
-
 .btn-withIcon-gray-outline {
   padding: 6px 18px;
   border: 2px solid #e4e4e7;
@@ -248,4 +286,64 @@ function toggleShowPassword() {
   align-items: center;
   cursor: pointer;
 }
+
+/* 動畫邏輯 */
+.login-page,.login-image{
+  transition: all 1s;
+  &.to-right{
+    transform: translateX(50%);
+    z-index: 1;
+    opacity: 0;
+  }
+  &.to-left{
+    transform: translateX(-50%);
+    z-index: 0;
+    @media (max-width:886px) {
+        transform: translateX(-100%);
+      }
+  }
+}
+
+.login-image{
+    @media (max-width:886px) {
+      display: none;
+    }
+}
+
+.sign-up-image{
+  transition: all 1s;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 66%;
+  height: 100%;
+  opacity: 0;
+  z-index: 2;
+  &.to-right{
+    opacity: 1;
+    left: 100%;
+    transform: translateX(-100%);
+   }
+
+  @media (max-width:886px) {
+    display: none;
+  }
+}
+
+ .sign-up-page{
+   transition: all 1s;
+   position: absolute;
+   top: 0;
+   width: 50%;
+   height: 100%;
+   opacity: 0;
+   left: 30%;
+   z-index: -1;
+   &.to-left{
+     opacity: 1;
+     left: 0%;
+     width: 100%;
+     z-index: 1;
+    }
+ }
 </style>

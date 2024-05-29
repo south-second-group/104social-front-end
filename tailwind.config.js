@@ -56,7 +56,7 @@ export default {
         screen: ['100vh', '100dvh'],
       },
       colors: {
-        'primary-light': '#E4E4E7',
+        'primary-light': '#FFF5F5',
         'primary-dark': '#F47277',
         'neutral': {
           white: '#FFFFFF',

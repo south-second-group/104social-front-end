@@ -18,7 +18,7 @@ async function ChangeAccountStatus() {
     else {
       message.value = '帳戶啟用失敗，請重新註冊，即將回到註冊頁...'
       setTimeout(() => {
-        router.push('/sign-up')
+        router.push('/login')
       }, 3000)
     }
   }
