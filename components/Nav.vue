@@ -373,14 +373,12 @@ function toast(message, type) {
       </div>
     </div>
     <!-- Alert 通知 -->
-    <div class="flex h-screen">
-      <div
-        v-if="toastMessage"
-        class="toast"
-        :class="[toastType === 'success' ? 'success' : 'error']"
-      >
-        {{ toastMessage }}
-      </div>
+    <div
+      v-if="toastMessage"
+      class="toast"
+      :class="[toastType === 'success' ? 'success' : 'error']"
+    >
+      {{ toastMessage }}
     </div>
   </div>
 </template>
