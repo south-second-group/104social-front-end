@@ -237,7 +237,6 @@ useHead(() => ({
     <loginSignUpImage
       class="sign-up-image"
       :class="{ 'to-right': isSignUpPage }"
-      @click="togglePage()"
     />
     <loginSignUp
       v-model="isSignUpPage"
@@ -246,14 +245,12 @@ useHead(() => ({
     />
 
     <!-- Alert 通知 -->
-    <div class="flex h-screen">
-      <div
-        v-if="toastMessage"
-        class="toast"
-        :class="[toastType === 'success' ? 'success' : 'error']"
-      >
-        {{ toastMessage }}
-      </div>
+    <div
+      v-if="toastMessage"
+      class="toast"
+      :class="[toastType === 'success' ? 'success' : 'error']"
+    >
+      {{ toastMessage }}
     </div>
   </div>
 </template>

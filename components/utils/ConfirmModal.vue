@@ -57,6 +57,7 @@ const isLoading = ref(false)
 
 async function fetchAnswer() {
   isLoading.value = true
+  message.value = ''
 
   try {
     // message.value = await useGetGenerativeModelGP(theme.value);
