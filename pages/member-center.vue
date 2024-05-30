@@ -94,27 +94,27 @@ function toast(message, type) {
 const functionButtonsList = [
   {
     title: '配對設定',
-    path: '/account/match-setting',
+    path: '/member/match/',
   },
   {
     title: '我的約會',
-    path: '/account/my-date',
+    path: '/member/invite/InvitePage'
   },
   {
     title: '配對結果',
-    path: '/account/match-result',
+    path: '/member/match-result',
   },
   {
     title: '我留下的評價',
-    path: '/account/my-comment',
+    path: '/member/comment/CommentPage',
   },
   {
     title: '我的收藏',
-    path: '/account/my-favorite',
+    path: '/member/CollectionPage',
   },
   {
     title: '拒絕來信',
-    path: '/account/reject-letter',
+    path: '/member/BanListPage',
   },
 ]
 
@@ -242,9 +242,10 @@ const myTags = [
         <button
           v-for="(button) in functionButtonsList"
           :key="button.title"
-          class="w1/2 rounded-full bg-gray-200 py-3 font-bold"
+          class="w1/2 rounded-full bg-gray-200 py-3 font-bold relative"
         >
           {{ button.title }}
+          <NuxtLink class=" absolute inset-0" :to="button.path"></NuxtLink>
         </button>
       </div>
     </section>
