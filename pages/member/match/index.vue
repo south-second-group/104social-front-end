@@ -184,9 +184,9 @@ export default {
           </div>
 
           <!-- 編輯按鈕 -->
-          <div class="mt-4 w-full flex justify-end">
+          <div class="mt-4 flex w-full justify-end">
             <template v-if="editMode">
-                <button
+              <button
                 type="button"
                 class="btn-linear-md mr-2"
                 @click="toggleEditMode"
@@ -200,7 +200,6 @@ export default {
               >
                 <p>儲存</p>
               </button>
-              
             </template>
             <template v-else>
               <button

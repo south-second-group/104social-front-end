@@ -100,17 +100,18 @@ useHead(() => ({
 }))
 </script>
 
-
 <template>
   <div class="flex h-screen flex-col lg:flex-row  ">
     <LoginImage
       class="login-image"
       :class="{ 'to-right': isSignUpPage }"
     />
+
     <div
       class="login-page flex min-h-full w-full flex-col justify-center px-6 py-1 lg:w-1/3 lg:px-8"
       :class="{ 'to-left': isSignUpPage }"
     >
+      <!-- logo / title -->
       <div class="mb-3 flex justify-center">
         <NuxtLink to="/">
           <NuxtImg
@@ -125,6 +126,8 @@ useHead(() => ({
           登入
         </h2>
       </div>
+
+      <!-- 輸入欄 -->
       <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <UForm
           :validate="validate"
@@ -180,27 +183,6 @@ useHead(() => ({
             <p>登入</p>
           </button>
 
-<<<<<<< HEAD
-        </UForm>
-
-          <p class="my-5 text-B3 text-center text-gray-500">
-            還沒有帳號?
-            <button
-              type="button"
-              class="font-semibold text-primary-dark"
-              @click="togglePage()"
-            >
-              立即註冊
-=======
-          <!-- <p class="text-B3 text-center text-gray-500">
-            還沒有帳號? <NuxtLink
-              class="font-semibold text-primary-dark"
-              to="sign-up"
-            >
-              立即註冊
-            </NuxtLink>
-          </p> -->
-
           <p class="text-B3 text-center text-gray-500">
             還沒有帳號?
             <button
@@ -209,11 +191,10 @@ useHead(() => ({
               @click="togglePage()"
             >
               立即註冊
->>>>>>> 5b7d51ab7068d296250d041a840c6db4ba57cec1
             </button>
           </p>
-        
-        <div class="flex flex-col items-center justify-center">
+
+          <div class="flex flex-col items-center justify-center">
             <div class="w-full">
               <div class="mb-4 flex items-center">
                 <div class="flex-1 border-t-2 border-gray-200"></div>
@@ -242,6 +223,7 @@ useHead(() => ({
               </div>
             </div>
           </div>
+        </UForm>
       </div>
     </div>
 

@@ -7,7 +7,7 @@ import { auth } from '../apis/repositories/auth'
 const state = reactive({
   nickName: '',
   isShow: false,
-  //userId: '',
+  // userId: '',
 })
 
 const router = useRouter()
@@ -22,7 +22,7 @@ onMounted(async () => {
       const userData = response.data
       state.nickName = userData.nickNameDetails.nickName
       state.isShow = userData.nickNameDetails.isShow
-      //state.userId = response.data.userId
+      // state.userId = response.data.userId
     }
   }
   catch (error) {

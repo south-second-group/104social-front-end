@@ -169,15 +169,6 @@ function toggleShowConfirmPassword() {
             <p>立即註冊</p>
           </button>
 
-          <!-- <p class="text-B3 text-center text-gray-500">
-            已有帳號? <NuxtLink
-              to="login"
-              class="font-semibold text-primary-dark"
-            >
-              立即登入
-            </NuxtLink>
-          </p> -->
-
           <p class="text-B3 text-center text-gray-500">
             已有帳號? <button
               type="button"

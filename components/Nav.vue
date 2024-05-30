@@ -37,8 +37,8 @@ async function logout() {
     isLoggedIn.value = false
     toast('登出成功！', 'success')
     setTimeout(() => {
-        router.push('/')
-      }, 1500)
+      router.push('/')
+    }, 1500)
   }
   catch (error) {
     const errorMessage = error.response
@@ -373,7 +373,7 @@ function toast(message, type) {
       </div>
     </div>
     <!-- Alert 通知 -->
-  <div class="flex h-screen">
+    <div class="flex h-screen">
       <div
         v-if="toastMessage"
         class="toast"
