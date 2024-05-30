@@ -94,14 +94,16 @@ useHead(() => ({
   meta: [
     {
       name: 'description',
-      content: isSignUpPage.value ? '104緣來如此註冊頁面' : '104緣來如此登入頁面',
+      content: isSignUpPage.value
+        ? '104緣來如此註冊頁面'
+        : '104緣來如此登入頁面',
     },
   ],
 }))
 </script>
 
 <template>
-  <div class="flex h-screen flex-col lg:flex-row  ">
+  <div class="flex h-screen flex-col lg:flex-row">
     <LoginImage
       class="login-image"
       :class="{ 'to-right': isSignUpPage }"
@@ -160,8 +162,12 @@ useHead(() => ({
                 class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600"
                 @click="toggleShowPassword"
               >
-                <span v-if="showPassword"><icon-heroicons:eye-slash /></span>
-                <span v-else><icon-heroicons:eye /></span>
+                <span v-if="showPassword">
+                  <icon-heroicons:eye-slash />
+                </span>
+                <span v-else>
+                  <icon-heroicons:eye />
+                </span>
               </button>
             </div>
           </UFormGroup>
@@ -256,6 +262,7 @@ useHead(() => ({
 .toast.show {
   display: block;
 }
+
 .toast {
   position: fixed;
   top: 20px;
@@ -267,12 +274,15 @@ useHead(() => ({
   z-index: 1000;
   display: block;
 }
+
 .toast.success {
   background-color: #4caf50;
 }
+
 .toast.error {
   background-color: #f44336;
 }
+
 .btn-withIcon-gray-outline {
   padding: 6px 18px;
   border: 2px solid #e4e4e7;
@@ -284,29 +294,33 @@ useHead(() => ({
 }
 
 /* 動畫邏輯 */
-.login-page,.login-image{
+.login-page,
+.login-image {
   transition: all 1s;
-  &.to-right{
+
+  &.to-right {
     transform: translateX(50%);
     z-index: 1;
     opacity: 0;
   }
-  &.to-left{
+
+  &.to-left {
     transform: translateX(-50%);
     z-index: 0;
-    @media (max-width:886px) {
-        transform: translateX(-100%);
-      }
+
+    @media (max-width: 886px) {
+      transform: translateX(-100%);
+    }
   }
 }
 
-.login-image{
-    @media (max-width:886px) {
-      display: none;
-    }
+.login-image {
+  @media (max-width: 886px) {
+    display: none;
+  }
 }
 
-.sign-up-image{
+.sign-up-image {
   transition: all 1s;
   position: absolute;
   top: 0;
@@ -315,31 +329,33 @@ useHead(() => ({
   height: 100%;
   opacity: 0;
   z-index: 2;
-  &.to-right{
+
+  &.to-right {
     opacity: 1;
     left: 100%;
     transform: translateX(-100%);
-   }
+  }
 
-  @media (max-width:886px) {
+  @media (max-width: 886px) {
     display: none;
   }
 }
 
- .sign-up-page{
-   transition: all 1s;
-   position: absolute;
-   top: 0;
-   width: 50%;
-   height: 100%;
-   opacity: 0;
-   left: 30%;
-   z-index: -1;
-   &.to-left{
-     opacity: 1;
-     left: 0%;
-     width: 100%;
-     z-index: 1;
-    }
- }
+.sign-up-page {
+  transition: all 1s;
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  opacity: 0;
+  left: 30%;
+  z-index: -1;
+
+  &.to-left {
+    opacity: 1;
+    left: 0%;
+    width: 100%;
+    z-index: 1;
+  }
+}
 </style>

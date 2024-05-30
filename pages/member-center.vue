@@ -98,7 +98,7 @@ const functionButtonsList = [
   },
   {
     title: '我的約會',
-    path: '/member/invite/InvitePage'
+    path: '/member/invite/InvitePage',
   },
   {
     title: '配對結果',
@@ -242,10 +242,13 @@ const myTags = [
         <button
           v-for="(button) in functionButtonsList"
           :key="button.title"
-          class="w1/2 rounded-full bg-gray-200 py-3 font-bold relative"
+          class="w1/2 relative rounded-full bg-gray-200 py-3 font-bold"
         >
           {{ button.title }}
-          <NuxtLink class=" absolute inset-0" :to="button.path"></NuxtLink>
+          <NuxtLink
+            class=" absolute inset-0"
+            :to="button.path"
+          />
         </button>
       </div>
     </section>
