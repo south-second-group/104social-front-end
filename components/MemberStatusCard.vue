@@ -22,7 +22,7 @@ const isCheck = ref(false)
             </span>
           </div>
           <div class="inline-block rounded-full bg-[#F5F5F5] p-2">
-            <CollectionBtn
+            <utilsCollectionBtn
               v-model="isCheck"
               class="size-6"
             />
