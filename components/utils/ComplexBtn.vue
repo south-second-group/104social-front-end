@@ -100,7 +100,7 @@ function handleClick(status) {
 
     <button
       v-if="props.status === 'status4'"
-      class="btn-withIcon-fill scale-90 md:scale-100"
+      class="btn-withIcon-fill scale-90 md:scale-100 w-[100px]"
       @click="handleClick(props.status)"
     >
       <icon-heroicons:heart />
@@ -120,7 +120,7 @@ function handleClick(status) {
 
     <button
       v-if="props.status === 'status6'"
-      class="btn-withIcon-outline scale-90 md:scale-100"
+      class="btn-withIcon-outline scale-90 md:scale-100 w-[132px]"
       @click="handleClick(props.status)"
     >
       <icon-heroicons:x-mark />
@@ -130,7 +130,7 @@ function handleClick(status) {
 
     <button
       v-if="props.status === 'status7'"
-      class="btn-withIcon-fill scale-90 md:scale-100"
+      class="btn-withIcon-fill scale-90 md:scale-100 w-[132px]"
       @click="handleClick(props.status)"
     >
       <icon-heroicons:check />
@@ -140,7 +140,7 @@ function handleClick(status) {
 
     <button
       v-if="props.status === 'status8'"
-      class="btn-withIcon-fill scale-90 md:scale-100"
+      class="btn-withIcon-fill scale-90 md:scale-100 w-[132px]"
       @click="handleClick(props.status)"
     >
       <icon-heroicons:pencil />
