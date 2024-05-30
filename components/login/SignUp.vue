@@ -1,5 +1,5 @@
 <script setup>
-import { auth } from '../apis/repositories/auth'
+import { auth } from '../apis/repositories/auth';
 
 const isSignUpPage = defineModel()
 
@@ -202,7 +202,7 @@ function toggleShowConfirmPassword() {
 .toast {
   position: fixed;
   top: 20px;
-  left: 50%;
+  left: 30%;
   transform: translateX(-50%);
   color: white;
   padding: 10px 20px;
