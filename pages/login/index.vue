@@ -1,5 +1,5 @@
 <script setup>
-import { auth } from '@/apis/repositories/auth'
+import { auth } from '@/apis/repositories/auth';
 
 definePageMeta({
   layout: 'login',
@@ -168,7 +168,7 @@ useHead(() => ({
 
           <p class="text-right text-sm text-gray-500">
             <NuxtLink
-              to="forget-password"
+              to="/forget-password"
               class="font-semibold text-primary-dark"
             >
               忘記密碼?
@@ -182,48 +182,48 @@ useHead(() => ({
           >
             <p>登入</p>
           </button>
+        </UForm>
 
-          <p class="text-B3 text-center text-gray-500">
-            還沒有帳號?
-            <button
-              type="button"
-              class="font-semibold text-primary-dark"
-              @click="togglePage()"
-            >
-              立即註冊
-            </button>
-          </p>
+        <p class="text-B3 my-4 text-center text-gray-500">
+          還沒有帳號?
+          <button
+            type="button"
+            class="font-semibold text-primary-dark"
+            @click="togglePage()"
+          >
+            立即註冊
+          </button>
+        </p>
 
-          <div class="flex flex-col items-center justify-center">
-            <div class="w-full">
-              <div class="mb-4 flex items-center">
-                <div class="flex-1 border-t-2 border-gray-200"></div>
-                <span class="px-4 text-sm text-gray-600">快速登入</span>
-                <div class="flex-1 border-t-2 border-gray-200"></div>
-              </div>
-              <div class="flex justify-between">
-                <button
-                  type="button"
-                  class="btn-withIcon-gray-outline me-3 flex w-1/2 items-center"
-                  @click.prevent="handleGoogleLogin"
-                >
-                  <img
-                    src="~assets/img/login/googleIcon.png"
-                    alt="Google Image"
-                    class="pe-2"
-                  > Google 登入
-                </button>
-                <button class="btn-withIcon-gray-outline flex w-1/2 items-center">
-                  <img
-                    src="~assets/img/login/lineIcon.png"
-                    alt="Line Image"
-                    class="pe-2"
-                  > Line 登入
-                </button>
-              </div>
+        <div class="flex flex-col items-center justify-center">
+          <div class="w-full">
+            <div class="mb-4 flex items-center">
+              <div class="flex-1 border-t-2 border-gray-200"></div>
+              <span class="px-4 text-sm text-gray-600">快速登入</span>
+              <div class="flex-1 border-t-2 border-gray-200"></div>
+            </div>
+            <div class="flex justify-between">
+              <button
+                type="button"
+                class="btn-withIcon-gray-outline me-3 flex w-1/2 items-center"
+                @click.prevent="handleGoogleLogin"
+              >
+                <img
+                  src="~assets/img/login/googleIcon.png"
+                  alt="Google Image"
+                  class="pe-2"
+                > Google 登入
+              </button>
+              <button class="btn-withIcon-gray-outline flex w-1/2 items-center">
+                <img
+                  src="~assets/img/login/lineIcon.png"
+                  alt="Line Image"
+                  class="pe-2"
+                > Line 登入
+              </button>
             </div>
           </div>
-        </UForm>
+        </div>
       </div>
     </div>
 
