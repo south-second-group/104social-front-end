@@ -1,7 +1,7 @@
 <script setup>
-import { ref } from 'vue'
-import { useRoute } from 'vue-router'
-import { auth } from '../apis/repositories/auth'
+import { ref } from 'vue';
+import { useRoute } from 'vue-router';
+import { auth } from '../apis/repositories/auth';
 
 const router = useRouter()
 const route = useRoute()
@@ -12,8 +12,28 @@ const isLoggedIn = ref(false) // 判斷是否登入
 const toastMessage = ref('')
 const toastType = ref('')
 
-function checkLoginStatus() {
-  isLoggedIn.value = !!localStorage.getItem('name')
+// 使用 verify 函數檢查登入狀態
+async function verify() {
+  try {
+    const response = await auth.verifys()
+    if (response.status === true) {
+      isLoggedIn.value = true
+      console.log('response:', 'success')
+    }
+    else {
+      isLoggedIn.value = false
+    }
+  }
+  catch (error) {
+    const errorMessage = error.response
+    isLoggedIn.value = false
+    console.log(errorMessage, 'error')
+  }
+}
+
+// 檢查登入狀態
+async function checkLoginStatus() {
+  await verify()
 }
 
 onMounted(() => {
@@ -32,13 +52,13 @@ function buttonClass(path) {
 async function logout() {
   try {
     const response = await auth.logout()
-    if (response.status === true)
-      localStorage.removeItem('name')
-    isLoggedIn.value = false
-    toast('登出成功！', 'success')
-    setTimeout(() => {
-      router.push('/')
-    }, 1500)
+    if (response.status === true) {
+      isLoggedIn.value = false
+      toast('登出成功！', 'success')
+      setTimeout(() => {
+        router.push('/')
+      }, 1500)
+    }
   }
   catch (error) {
     const errorMessage = error.response
@@ -213,22 +233,6 @@ function toast(message, type) {
                       </p>
                     </button>
                   </div>
-                  <!-- <div class="w-full px-9">
-                    <button
-                      class="btn-linear-nav block w-full"
-                      @click="isOpen = false"
-                    >
-                      <p
-                        v-if="isLoggedIn"
-                        @click="logout"
-                      >
-                        登出
-                      </p>
-                      <p v-else>
-                        登入 / 註冊
-                      </p>
-                    </button>
-                  </div> -->
                 </div>
               </div>
             </USlideover>
