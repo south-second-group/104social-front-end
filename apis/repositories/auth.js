@@ -132,6 +132,16 @@ async function verify() {
   })
 }
 
+// 驗證登入狀態
+async function verifys() {
+  return useBaseFetch('/api/v1/verify', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+}
+
 // Google 重定向
 async function redirect(token) {
   const url = `/api/v1/google/redirect/${token}`
@@ -167,4 +177,5 @@ export const auth = {
   verify,
   redirect,
   googleWriteCookie,
+  verifys,
 }
