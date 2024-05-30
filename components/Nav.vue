@@ -18,7 +18,6 @@ async function verify() {
     const response = await auth.verifys()
     if (response.status === true) {
       isLoggedIn.value = true
-      console.log('response:', 'success')
     }
     else {
       isLoggedIn.value = false
@@ -27,7 +26,6 @@ async function verify() {
   catch (error) {
     const errorMessage = error.response
     isLoggedIn.value = false
-    console.log(errorMessage, 'error')
   }
 }
 
