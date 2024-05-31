@@ -1,5 +1,5 @@
 <script setup>
-import { auth } from '../../apis/repositories/auth'
+import { auth } from '../../apis/repositories/auth';
 
 const message = ref('')
 const router = useRouter()
@@ -11,8 +11,6 @@ async function ChangeAccountStatus() {
     const res = await auth.redirect(token)
     if (res.status === true)
       message.value = 'Google 登入成功，即將回到登入頁...'
-    else
-      message.value = 'Google 登入失敗，請稍後再試'
     setTimeout(() => {
       router.push('/')
     }, 3000)
