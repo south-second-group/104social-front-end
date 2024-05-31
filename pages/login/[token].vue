@@ -76,7 +76,7 @@ useAsyncData(async () => {
   if (token.value) {
     try {
       const res = await auth.googleWriteCookie(token.value)
-      if (res.status) {
+      if (res.status || res.status === 302) {
         localStorage.setItem('avatar', res.data.avatar)
         toast('登入成功！正在跳轉...', 'success')
         setTimeout(() => {
