@@ -36,14 +36,10 @@ async function login() {
   try {
     const response = await auth.login(state)
     if (response.status === true) {
-      localStorage.setItem('name', response.data.name)
       toast('登入成功！正在跳轉...', 'success')
       setTimeout(() => {
         router.push('/')
       }, 1500)
-    }
-    else {
-      toast(response.message || '登入失敗，請檢查數據', 'error')
     }
   }
   catch (error) {
