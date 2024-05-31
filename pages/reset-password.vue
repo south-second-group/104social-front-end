@@ -1,5 +1,5 @@
 <script setup>
-import { auth } from '../apis/repositories/auth'
+import { auth } from '../apis/repositories/auth';
 
 definePageMeta({
   layout: 'LoginLayout',
@@ -25,13 +25,17 @@ function validate(state) {
   const errors = []
   if (!state.newPassword)
     errors.push({ path: 'newPassword', message: '密碼不能為空' })
-  else if (state.newPassword.length < 6)
-    errors.push({ path: 'newPassword', message: '密碼需要6碼以上' })
+  else if (state.newPassword.length < 8)
+    errors.push({ path: 'newPassword', message: '密碼需要8碼以上' })
+  else if (!/(?=.*[A-Za-z])(?=.*\d{7,})/.test(state.newPassword))
+    errors.push({ path: 'newPassword', message: '密碼格式為至少 1 碼英文及 7 碼數字' })
 
   if (!state.confirmNewPassword)
     errors.push({ path: 'confirmNewPassword', message: '確認新密碼不能為空' })
   else if (state.confirmNewPassword !== state.newPassword)
-    errors.push({ path: 'confirmPassword', message: '兩次密碼不一致' })
+    errors.push({ path: 'confirmNewPassword', message: '兩次密碼不一致' })
+  else if (!/(?=.*[A-Za-z])(?=.*\d{7,})/.test(state.confirmNewPassword))
+    errors.push({ path: 'confirmNewPassword', message: '密碼格式為至少 1 碼英文及 7 碼數字' })
 
   return errors
 }
