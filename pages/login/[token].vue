@@ -1,5 +1,5 @@
 <script setup>
-import { auth } from '@/apis/repositories/auth'
+import { auth } from '@/apis/repositories/auth';
 
 definePageMeta({
   layout: 'login',
@@ -23,8 +23,8 @@ function validate(state) {
 
   if (!state.password)
     errors.push({ path: 'password', message: '密碼不能為空' })
-  else if (state.password.length < 6)
-    errors.push({ path: 'password', message: '密碼需要6碼以上' })
+  else if (state.password.length < 8)
+    errors.push({ path: 'password', message: '密碼需要8碼以上' })
   return errors
 }
 
@@ -33,14 +33,10 @@ async function login() {
   try {
     const response = await auth.login(state)
     if (response.status === true) {
-      localStorage.setItem('name', response.data.name)
       toast('登入成功！正在跳轉...', 'success')
       setTimeout(() => {
         router.push('/')
       }, 1500)
-    }
-    else {
-      toast(response.message || '登入失敗，請檢查數據', 'error')
     }
   }
   catch (error) {
@@ -81,15 +77,11 @@ useAsyncData(async () => {
     try {
       const res = await auth.googleWriteCookie(token.value)
       if (res.status) {
-        localStorage.setItem('name', res.data.name)
         localStorage.setItem('avatar', res.data.avatar)
         toast('登入成功！正在跳轉...', 'success')
         setTimeout(() => {
           router.push('/')
         }, 1500)
-      }
-      else {
-        toast('Google 登入失敗，請重試', 'error')
       }
     }
     catch (error) {
@@ -157,7 +149,7 @@ useAsyncData(async () => {
 
           <p class="text-right text-sm text-gray-500">
             <NuxtLink
-              to="forget-password"
+              to="/forget-password"
               class="font-semibold text-primary-dark"
             >
               忘記密碼?
@@ -171,45 +163,46 @@ useAsyncData(async () => {
           >
             <p>登入</p>
           </button>
+        </UForm>
 
-          <p class=" text-center text-sm text-gray-500">
-            還沒有帳號? <NuxtLink
-              to="login"
-              class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
-            >
-              立即註冊
-            </NuxtLink>
-          </p>
+        <p class="text-B3 my-4 text-center text-gray-500">
+          還沒有帳號? <NuxtLink
+            to="login"
+            class="font-semibold text-primary-dark"
+          >
+            立即註冊
+          </NuxtLink>
+        </p>
 
-          <div class="flex flex-col items-center justify-center">
-            <div class="w-full">
-              <div class="mb-4 flex items-center">
-                <div class="flex-1 border-t-2 border-gray-200"></div>
-                <span class="px-4 text-sm text-gray-600">快速登入</span>
-                <div class="flex-1 border-t-2 border-gray-200"></div>
-              </div>
-              <div class="flex justify-between">
-                <button
-                  class="btn-withIcon-gray-outline me-3 flex w-1/2 items-center"
-                  @click="handleGoogleLogin"
-                >
-                  <img
-                    src="~assets/img/login/googleIcon.png"
-                    alt="Google Image"
-                    class="pe-2"
-                  > Google 登入
-                </button>
-                <button class="btn-withIcon-gray-outline flex w-1/2 items-center">
-                  <img
-                    src="~assets/img/login/lineIcon.png"
-                    alt="Line Image"
-                    class="pe-2"
-                  > Line 登入
-                </button>
-              </div>
+        <div class="flex flex-col items-center justify-center">
+          <div class="w-full">
+            <div class="mb-4 flex items-center">
+              <div class="flex-1 border-t-2 border-gray-200"></div>
+              <span class="px-4 text-sm text-gray-600">快速登入</span>
+              <div class="flex-1 border-t-2 border-gray-200"></div>
+            </div>
+            <div class="flex justify-between">
+              <button
+                type="button"
+                class="btn-withIcon-gray-outline me-3 flex w-1/2 items-center"
+                @click.prevent="handleGoogleLogin"
+              >
+                <img
+                  src="~assets/img/login/googleIcon.png"
+                  alt="Google Image"
+                  class="pe-2"
+                > Google 登入
+              </button>
+              <button class="btn-withIcon-gray-outline flex w-1/2 items-center">
+                <img
+                  src="~assets/img/login/lineIcon.png"
+                  alt="Line Image"
+                  class="pe-2"
+                > Line 登入
+              </button>
             </div>
           </div>
-        </UForm>
+        </div>
       </div>
     </div>
     <!-- Alert 通知 -->
@@ -225,25 +218,7 @@ useAsyncData(async () => {
   </div>
 </template>
 
-<style scoped>
-.input {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 0.375rem;
-  transition: border-color 0.3s;
-}
-
-.input:focus {
-  border-color: #4a56e2;
-  /* Indigo focus ring */
-}
-
-.border-red-500 {
-  border-color: #f87171;
-  /* Red border for errors */
-}
-
+<style lang="scss" scoped>
 .toast.show {
   display: block;
 }
