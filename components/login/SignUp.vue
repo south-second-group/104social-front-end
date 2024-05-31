@@ -25,13 +25,17 @@ function validate(state) {
 
   if (!state.password)
     errors.push({ path: 'password', message: '密碼不能為空' })
-  else if (state.password.length < 6)
-    errors.push({ path: 'password', message: '密碼需要6碼以上' })
+  else if (state.password.length < 8)
+    errors.push({ path: 'password', message: '密碼需要8碼以上' })
+  else if (!/(?=.*[A-Za-z])(?=.*\d{7,})/.test(state.password))
+    errors.push({ path: 'password', message: '密碼格式為至少 1 碼英文及 7 碼數字' })
 
   if (!state.confirmPassword)
     errors.push({ path: 'confirmPassword', message: '確認密碼不能為空' })
   else if (state.confirmPassword !== state.password)
     errors.push({ path: 'confirmPassword', message: '兩次密碼不一致' })
+  else if (!/(?=.*[A-Za-z])(?=.*\d{7,})/.test(state.confirmPassword))
+    errors.push({ path: 'confirmPassword', message: '密碼格式為至少 1 碼英文及 7 碼數字' })
 
   if (!state.username)
     errors.push({ path: 'username', message: '姓名不能為空' })
@@ -202,7 +206,7 @@ function toggleShowConfirmPassword() {
 .toast {
   position: fixed;
   top: 20px;
-  left: 30%;
+  left: 50%;
   transform: translateX(-50%);
   color: white;
   padding: 10px 20px;
