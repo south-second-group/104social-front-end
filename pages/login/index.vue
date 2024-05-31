@@ -26,8 +26,8 @@ function validate(state) {
 
   if (!state.password)
     errors.push({ path: 'password', message: '密碼不能為空' })
-  else if (state.password.length < 6)
-    errors.push({ path: 'password', message: '密碼需要6碼以上' })
+  else if (state.password.length < 8)
+    errors.push({ path: 'password', message: '密碼需要8碼以上' })
   return errors
 }
 
@@ -314,7 +314,7 @@ useHead(() => ({
   width: 66%;
   height: 100%;
   opacity: 0;
-  z-index: 2;
+  z-index: 1;
   &.to-right{
     opacity: 1;
     left: 100%;
