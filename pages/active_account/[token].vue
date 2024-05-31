@@ -1,5 +1,5 @@
 <script setup>
-import { auth } from '../../apis/repositories/auth'
+import { auth } from '../../apis/repositories/auth';
 
 const message = ref('身分驗證中...')
 const router = useRouter()
@@ -11,12 +11,6 @@ async function ChangeAccountStatus() {
     const response = await auth.changeAccountStatus(token)
     if (response.status === true) {
       message.value = '帳號啟用成功，已完成會員驗證！即將回到登入頁...'
-      setTimeout(() => {
-        router.push('/login')
-      }, 3000)
-    }
-    else {
-      message.value = '帳戶啟用失敗，請重新註冊，即將回到註冊頁...'
       setTimeout(() => {
         router.push('/login')
       }, 3000)
