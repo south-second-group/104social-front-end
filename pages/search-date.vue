@@ -1,4 +1,41 @@
 <script setup>
+const items = [{
+  name: 'Lisa',
+  describe_1: ['28 歲', '167 cm'],
+  describe_2: ['房仲業'],
+  rating: 4.6,
+  ratingCount: 12,
+  collect: false,
+  hashtag: ['婚後自住', '不生小孩'],
+  avatar: { src: '/member/member-lg-01.png' },
+}, {
+  name: 'Mike',
+  describe_1: ['31 歲'],
+  describe_2: ['台南', '工程師'],
+  rating: 4.3,
+  ratingCount: 12,
+  collect: false,
+  hashtag: ['年薪百萬'],
+  avatar: { src: '/member/member-lg-02.png' },
+}, {
+  name: 'Joshua',
+  describe_1: ['30 歲', '185 cm'],
+  describe_2: ['桃園機場地勤'],
+  rating: 4.1,
+  ratingCount: 15,
+  collect: false,
+  hashtag: ['開放關係', '水瓶座'],
+  avatar: { src: '/member/member-lg-03.png' },
+}, {
+  name: 'Liam',
+  describe_1: ['45 歲', '173 cm'],
+  describe_2: ['台中'],
+  rating: 4.6,
+  ratingCount: 30,
+  collect: false,
+  hashtag: ['BDSM', '主'],
+  avatar: { src: '/member/member-lg-04.png' },
+}]
 const locationType = ['北部', '中部', '南部', '東部']
 const locationSelected = ref(null)
 
@@ -10,38 +47,28 @@ const sortSelected = ref(null)
 
 const keyWord = ref(null)
 
-const userGenderOptions = [{
-  value: 'male',
-  label: '男性',
-}, {
-  value: 'female',
-  label: '女性',
-}, {
-  value: 'non-binary',
-  label: '非二元性別',
-}]
+const isDesktop = ref(false)
 
-const lookingForGenderOptions = [{
-  value: 'male',
-  label: '男性',
-}, {
-  value: 'female',
-  label: '女性',
-}, {
-  value: 'non-binary',
-  label: '非二元性別',
-}]
+function checkScreenSize() {
+  isDesktop.value = window.innerWidth >= 1024
+}
 
-const selectedUserGender = ref('')
-const selectedLookingForGenderOptions = ref('')
+onMounted(() => {
+  checkScreenSize()
+  window.addEventListener('resize', checkScreenSize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', checkScreenSize)
+})
 </script>
 
 <template>
   <div class="container">
-    <div class="mb-[73px] mt-20 grid grid-cols-12 gap-6">
-      <div class="col-span-9 mt-4">
-        <div class="mb-20 flex">
-          <div class="me-4 h-12 w-full max-w-[380px] rounded-lg border bg-white">
+    <div class="grid grid-cols-12 gap-6 p-5 lg:p-20">
+      <div class="col-span-12 mt-4 lg:col-span-9">
+        <div class="mb-3 flex flex-col lg:mb-20 lg:flex-row">
+          <div class="mb-2 me-4 h-12 w-full rounded-lg border bg-white lg:mb-0 lg:max-w-[380px]">
             <UInput
               v-model="keyWord"
               color="primary"
@@ -50,8 +77,8 @@ const selectedLookingForGenderOptions = ref('')
               placeholder="輸入理想對象的職業、興趣、星座..."
             />
           </div>
-          <div class="flex gap-4">
-            <div class="h-12 w-full rounded-lg border bg-white">
+          <div class="flex gap-2 lg:gap-4">
+            <div class="h-12 w-full min-w-[120px] rounded-lg border bg-white lg:min-w-[160px]">
               <USelectMenu
                 v-model="locationSelected"
                 :options="locationType"
@@ -61,7 +88,7 @@ const selectedLookingForGenderOptions = ref('')
                 variant="none"
               />
             </div>
-            <div class="h-12 w-full rounded-lg border bg-white">
+            <div class="h-12 w-full min-w-[120px] rounded-lg border bg-white lg:min-w-[160px]">
               <USelectMenu
                 v-model="searchTypeSelected"
                 :options="searchType"
@@ -71,42 +98,50 @@ const selectedLookingForGenderOptions = ref('')
                 variant="none"
               />
             </div>
-          </div>
-          <div class="my-auto ms-[28px]">
-            <div class="rounded-full bg-[#FFF5F5] p-2">
-              <span class="cursor-pointer text-xl text-primary-dark">
-                <icon-heroicons-adjustments-horizontal />
-              </span>
+            <div class="flex items-center">
+              <div class="my-auto lg:ms-[28px]">
+                <div class="rounded-full bg-[#FFF5F5] p-2">
+                  <span class="cursor-pointer text-xl text-primary-dark">
+                    <icon-heroicons-adjustments-horizontal class="size-6" />
+                  </span>
+                </div>
+              </div>
+              <div class="lg:w-full">
+                <UButton
+                  :ui="{ rounded: 'rounded-full' }"
+                  class="ms-2 bg-primary-dark p-2 text-base font-bold lg:ms-4 lg:w-full lg:px-5 lg:py-2"
+                >
+                  <p class="hidden lg:block">
+                    搜尋
+                  </p>
+                  <icon-heroicons-magnifying-glass class="size-6 lg:hidden" />
+                </UButton>
+              </div>
             </div>
           </div>
-          <UButton
-            :ui="{ rounded: 'rounded-full' }"
-            class="ms-4 bg-primary-dark px-5 py-2 text-base font-bold"
-          >
-            搜尋
-          </UButton>
         </div>
-        <div class="mb-6 flex w-full items-center justify-between">
-          <div class="flex gap-6">
-            <div class="p-2">
+        <search-dateMemberOptions class="lg:hidden" />
+        <div class="mb-6 mt-10 flex w-full flex-col justify-between lg:mt-0 lg:flex-row lg:items-center">
+          <div class="mb-6 flex gap-6 overflow-x-scroll lg:mb-0">
+            <div class="whitespace-nowrap p-2">
               全部（9487）
             </div>
             <UDivider
               orientation="vertical"
               class="my-1.5"
             />
-            <div class="p-2">
+            <div class="whitespace-nowrap p-2">
               公開（8524）
             </div>
             <UDivider
               orientation="vertical"
               class="my-1.5"
             />
-            <div class="p-2">
+            <div class="whitespace-nowrap p-2">
               近期刊登（487）
             </div>
           </div>
-          <div class="h-12 w-full max-w-[196px] rounded-lg border bg-white">
+          <div class="h-12 w-full max-w-[196px] self-start rounded-lg border bg-white lg:self-end">
             <USelectMenu
               v-model="sortSelected"
               :options="sortType"
@@ -117,108 +152,37 @@ const selectedLookingForGenderOptions = ref('')
             />
           </div>
         </div>
-        <MemberSearchCard />
-        <MemberSearchCard />
-        <MemberSearchCard />
-      </div>
-      <div class="col-span-3">
-        <div class="mb-6 rounded-xl bg-primary-light p-6">
-          <p class="mb-4 text-[20px] font-bold text-primary-dark">
-            會員享福利
-          </p>
-          <div class="mb-2 flex items-center rounded-xl bg-white p-4 text-zinc-600 shadow-[#F4766E1A]">
-            <icon-heroicons-lock-open />
-            <p class="ms-2 font-bold">
-              解鎖評價
-            </p>
-          </div>
-          <div class="flex items-center rounded-xl bg-white p-4 text-zinc-600 shadow-[#F4766E1A]">
-            <icon-heroicons-sparkles-solid />
-            <p class="ms-2 font-bold">
-              成為精選會員
-            </p>
-          </div>
-        </div>
-        <div class="mb-6 rounded-xl border border-zinc-200 p-6">
-          <div class="mb-10">
-            <p class="text-B2 mb-4 text-start text-zinc-400">
-              我是
-            </p>
-            <URadioGroup
-              v-model="selectedUserGender"
-              class="custom-radio-group"
-              :options="userGenderOptions"
-            >
-              <template #label="{ option }">
-                <p class="text-B2 mb-2 text-zinc-900">
-                  {{ option.label }}
-                </p>
-              </template>
-            </URadioGroup>
-          </div>
-          <div class="">
-            <p class="text-B2 mb-4 text-start text-zinc-400">
-              尋找
-            </p>
-            <URadioGroup
-              v-model="selectedLookingForGenderOptions"
-              class="custom-radio-group"
-              :options="lookingForGenderOptions"
-            >
-              <template #label="{ option }">
-                <p class="text-B2 mb-2 text-zinc-900">
-                  {{ option.label }}
-                </p>
-              </template>
-            </URadioGroup>
-          </div>
-        </div>
-        <div class="rounded-xl border border-zinc-200 p-6">
-          <div class="mb-6 flex items-center justify-center text-zinc-600">
-            <icon-heroicons-fire-solid class="size-6" />
-            <p class="ms-2 text-[20px] font-bold">
-              熱門關鍵字
-            </p>
-          </div>
-          <div class="flex flex-wrap gap-3 text-start">
-            <UBadge
-              :ui="{ rounded: 'rounded-full' }"
-              class="bg-neutral-200 px-3 py-2 text-base text-zinc-600"
-            >
-              水瓶座
-            </UBadge>
-            <UBadge
-              :ui="{ rounded: 'rounded-full' }"
-              class="bg-neutral-200 px-3 py-2 text-base text-zinc-600"
-            >
-              年薪百萬
-            </UBadge>
-            <UBadge
-              :ui="{ rounded: 'rounded-full' }"
-              class="bg-neutral-200 px-3 py-2 text-base text-zinc-600"
-            >
-              性格外向
-            </UBadge>
-            <UBadge
-              :ui="{ rounded: 'rounded-full' }"
-              class="bg-neutral-200 px-3 py-2 text-base text-zinc-600"
-            >
-              父母雙亡
-            </UBadge>
-          </div>
+        <div class="flex flex-wrap justify-center lg:flex-col">
+          <search-dateMemberSearchCard />
+          <search-dateMemberSearchCard />
+          <search-dateMemberSearchCard />
         </div>
       </div>
+      <!-- 右側表單 -->
+      <search-dateMemberOptions class="hidden lg:block" />
     </div>
-    <div class="border border-transparent border-y-zinc-200 py-20">
-      <p class="text-H4 mb-[60px] text-zinc-400">
+    <div class="border border-transparent border-y-zinc-200 py-12 lg:py-20">
+      <p class="text-H4 mb-6 text-zinc-400 lg:mb-[60px]">
         也許你也喜歡...
       </p>
-      <div class="grid grid-cols-2 gap-6">
-        <MemberSearchCard />
-        <MemberSearchCard />
-        <MemberSearchCard />
-        <MemberSearchCard />
+      <div
+        v-if="isDesktop"
+        class="grid grid-cols-2 gap-6"
+      >
+        <search-dateMemberSearchCard />
+        <search-dateMemberSearchCard />
+        <search-dateMemberSearchCard />
+        <search-dateMemberSearchCard />
       </div>
+      <UCarousel
+        v-else
+        v-slot="{ item }"
+        :items="items"
+      >
+        <div class="mx-auto text-center">
+          <search-dateMemberSearchCard :member="item" />
+        </div>
+      </UCarousel>
     </div>
   </div>
 </template>

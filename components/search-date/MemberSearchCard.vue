@@ -3,14 +3,14 @@ const isCheck = ref(false)
 </script>
 
 <template>
-  <div class="relative mb-3 rounded-[10px] bg-[#FAFAFA] p-4 md:p-6">
-    <div class="absolute end-[16px] md:end-[24px]">
+  <div class="relative mb-3 me-6 max-w-[312px] rounded-[10px] bg-[#FAFAFA] p-4 lg:me-0 lg:max-w-full lg:p-6">
+    <div class="absolute end-[16px] lg:end-[24px]">
       <span class="text-xl">
         <utilsCollectionBtn v-model="isCheck" />
       </span>
     </div>
-    <div class="flex w-full flex-col md:flex-row">
-      <div class="mb-4 shrink-0 self-center md:mb-0 md:me-6">
+    <div class="flex w-full flex-col lg:flex-row">
+      <div class="mb-4 shrink-0 self-center lg:mb-0 lg:me-6">
         <NuxtImg
           src="/notifications/member01.png"
           alt=""
@@ -34,7 +34,7 @@ const isCheck = ref(false)
         </ul>
       </div>
     </div>
-    <div class="mt-6 flex gap-3 md:justify-end">
+    <div class="mt-6 flex gap-3 lg:justify-end">
       <button class="btn-withIcon-outline">
         <icon-heroicons:lock-open />
         <p>解鎖評價</p>
