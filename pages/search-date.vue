@@ -65,7 +65,7 @@ onUnmounted(() => {
 
 <template>
   <div class="container">
-    <div class="grid grid-cols-12 gap-6 p-5 lg:p-20">
+    <div class="grid grid-cols-12 gap-6 py-5 lg:py-20">
       <div class="col-span-12 mt-4 lg:col-span-9">
         <div class="mb-3 flex flex-col lg:mb-20 lg:flex-row">
           <div class="mb-2 me-4 h-12 w-full rounded-lg border bg-white lg:mb-0 lg:max-w-[380px]">
@@ -99,7 +99,7 @@ onUnmounted(() => {
               />
             </div>
             <div class="flex items-center">
-              <div class="my-auto lg:ms-[28px]">
+              <div class="my-auto">
                 <div class="rounded-full bg-[#FFF5F5] p-2">
                   <span class="cursor-pointer text-xl text-primary-dark">
                     <icon-heroicons-adjustments-horizontal class="size-6" />
