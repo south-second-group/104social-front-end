@@ -1,7 +1,7 @@
 <script setup>
-import { ref } from 'vue';
-import { useRoute } from 'vue-router';
-import { auth } from '../apis/repositories/auth';
+import { ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { auth } from '../apis/repositories/auth'
 
 const router = useRouter()
 const route = useRoute()
@@ -16,12 +16,11 @@ const toastType = ref('')
 async function verify() {
   try {
     const response = await auth.verifys()
-    if (response.status === true) {
+    if (response.status === true)
       isLoggedIn.value = true
-    }
-    else {
+
+    else
       isLoggedIn.value = false
-    }
   }
   catch (error) {
     const errorMessage = error.response

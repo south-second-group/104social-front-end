@@ -1,5 +1,5 @@
 <script setup>
-import { auth } from '../../apis/repositories/auth';
+import { auth } from '../../apis/repositories/auth'
 
 definePageMeta({
   layout: 'LoginLayout',
@@ -156,14 +156,14 @@ function toggleShowConfirmNewPassword() {
             <p>發送</p>
           </button>
         </UForm>
-        <p class="my-4 text-B3 text-center text-gray-500">
-            已有帳號? <NuxtLink
-              to="login"
-              class="font-semibold text-primary-dark"
-            >
-              立即登入
-            </NuxtLink>
-          </p>
+        <p class="text-B3 my-4 text-center text-gray-500">
+          已有帳號? <NuxtLink
+            to="login"
+            class="font-semibold text-primary-dark"
+          >
+            立即登入
+          </NuxtLink>
+        </p>
       </div>
     </div>
     <!-- Alert 通知 -->

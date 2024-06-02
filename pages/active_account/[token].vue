@@ -1,5 +1,5 @@
 <script setup>
-import { auth } from '../../apis/repositories/auth';
+import { auth } from '../../apis/repositories/auth'
 
 const message = ref('身分驗證中...')
 const router = useRouter()

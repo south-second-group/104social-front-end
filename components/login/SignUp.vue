@@ -1,5 +1,5 @@
 <script setup>
-import { auth } from '../apis/repositories/auth';
+import { auth } from '../apis/repositories/auth'
 
 const isSignUpPage = defineModel()
 
