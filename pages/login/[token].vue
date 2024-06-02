@@ -76,7 +76,7 @@ useAsyncData(async () => {
   if (token.value) {
     try {
       const res = await auth.googleWriteCookie(token.value)
-      if (res.status || res.status === 302) {
+      if (res.status) {
         localStorage.setItem('avatar', res.data.avatar)
         toast('登入成功！正在跳轉...', 'success')
         setTimeout(() => {
@@ -85,7 +85,11 @@ useAsyncData(async () => {
       }
     }
     catch (error) {
-      toast('Google 登入失敗，請重試', 'error')
+      toast('登入成功！正在跳轉...', 'success')
+      const errorStatus = error.response.status
+      if (errorStatus === 400) {
+        toast('Google 登入失敗，請重試', 'error')
+      }
     }
   }
 })
