@@ -122,7 +122,7 @@ onUnmounted(() => {
         </div>
         <search-dateMemberOptions class="lg:hidden" />
         <div class="mb-6 mt-10 flex w-full flex-col justify-between lg:mt-0 lg:flex-row lg:items-center">
-          <div class="mb-6 flex gap-6 overflow-x-scroll lg:mb-0">
+          <div class="mb-6 flex gap-6 overflow-x-auto lg:mb-0">
             <div class="whitespace-nowrap p-2">
               全部（9487）
             </div>
