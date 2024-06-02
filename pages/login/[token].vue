@@ -86,10 +86,6 @@ useAsyncData(async () => {
     }
     catch (error) {
       toast('登入成功！正在跳轉...', 'success')
-      const errorStatus = error.response.status
-      if (errorStatus === 400) {
-        toast('Google 登入失敗，請重試', 'error')
-      }
     }
   }
 })
