@@ -34,10 +34,6 @@ async function checkLoginStatus() {
   await verify()
 }
 
-onMounted(() => {
-  checkLoginStatus()
-})
-
 function isActive(path) {
   return computed(() => route.path === path)
 }
@@ -45,6 +41,10 @@ function isActive(path) {
 function buttonClass(path) {
   return isActive(path).value ? 'active-class' : 'inactive-class'
 }
+
+onMounted(async () => {
+  checkLoginStatus()
+})
 
 // 登出
 async function logout() {
@@ -218,7 +218,7 @@ function toast(message, type) {
                       </li>
                     </ul>
                   </div>
-                  <div class="w-full px-9">
+                  <div class="w-full px-9 ">
                     <button
                       class="btn-linear-nav block w-full"
                       @click="isLoggedIn ? logout() : $router.push('/login')"
@@ -361,7 +361,7 @@ function toast(message, type) {
             </li>
           </ul>
           <button
-            class="btn-linear-nav block"
+            class="btn-linear-nav"
             @click="isLoggedIn ? logout() : $router.push('/login')"
           >
             <p v-if="isLoggedIn">
