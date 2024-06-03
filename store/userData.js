@@ -12,7 +12,7 @@ export const useUserDataStore = defineStore('userData', () => {
   return {
     userData,
     setUserData,
-    deleteUserData
+    deleteUserData,
   }
 })
 

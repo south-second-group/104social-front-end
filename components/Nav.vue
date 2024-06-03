@@ -41,7 +41,7 @@ function buttonClass(path) {
   return isActive(path).value ? 'active-class' : 'inactive-class'
 }
 
-const closeModalAndPushRouter = () => {
+function closeModalAndPushRouter() {
   isOpenModal.value = false
   router.push('/notifications')
 }
@@ -120,7 +120,10 @@ function toast(message, type) {
                   <NotificationCard />
                   <div class="flex justify-between px-2 py-4 font-bold text-primary-dark">
                     <div class="">
-                      <NuxtLink to="/notifications" @click.prevent="closeModalAndPushRouter">
+                      <NuxtLink
+                        to="/notifications"
+                        @click.prevent="closeModalAndPushRouter"
+                      >
                         <p class="text-base">
                           通知列表
                         </p>
@@ -212,7 +215,10 @@ function toast(message, type) {
                           <p>關於我們</p>
                         </NuxtLink>
                       </li>
-                      <li v-if="isLoggedIn" class="text-B2 py-4 text-center">
+                      <li
+                        v-if="isLoggedIn"
+                        class="text-B2 py-4 text-center"
+                      >
                         <NuxtLink
                           to="/account"
                           class="nav-items"
@@ -244,7 +250,7 @@ function toast(message, type) {
 
         <!-- 電腦版 -->
         <div class="hidden w-full grow items-center justify-between lg:flex">
-          <ul class="ml-auto flex items-center gap-6 me-6">
+          <ul class="me-6 ml-auto flex items-center gap-6">
             <li class="p-2">
               <NuxtLink
                 to="/articles"
@@ -299,7 +305,10 @@ function toast(message, type) {
                 </div>
               </NuxtLink>
             </li>
-            <li v-if="isLoggedIn" class="nav-items p-2">
+            <li
+              v-if="isLoggedIn"
+              class="nav-items p-2"
+            >
               <NuxtLink
                 to="/account"
                 :class="[
@@ -313,7 +322,10 @@ function toast(message, type) {
                 </div>
               </NuxtLink>
             </li>
-            <li v-if="isLoggedIn" class="nav-items p-2">
+            <li
+              v-if="isLoggedIn"
+              class="nav-items p-2"
+            >
               <UPopover :popper="{ placement: 'bottom-end' }">
                 <UButton
                   color="white"

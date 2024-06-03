@@ -1,12 +1,3 @@
-<template>
-  <indexBanner />
-  <indexSelectedMembers />
-  <indexArticles />
-  <indexStory />
-  <indexSubmitStory />
-  <indexCallToAction />
-</template>
-
 <script setup>
 import { auth } from '../apis/repositories/auth'
 
@@ -21,9 +12,8 @@ const { setUserData } = userDataStore
 onMounted(async () => {
   try {
     const response = await auth.userData()
-    if (response.status) {
+    if (response.status)
       setUserData(response.data)
-    }
   }
   catch (error) {
     // toast('請先登入，頁面跳轉中..', 'error')
@@ -41,3 +31,12 @@ function toast(message, type) {
   }, 3000)
 }
 </script>
+
+<template>
+  <indexBanner />
+  <indexSelectedMembers />
+  <indexArticles />
+  <indexStory />
+  <indexSubmitStory />
+  <indexCallToAction />
+</template>
