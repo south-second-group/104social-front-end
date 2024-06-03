@@ -5,7 +5,7 @@ import { auth } from '../apis/repositories/auth'
 
 const router = useRouter()
 const route = useRoute()
-const isOpen = ref(false)
+const isOpenSlide = ref(false)
 const isOpenModal = ref(false)
 const isLoggedIn = ref(false) // 判斷是否登入
 
@@ -41,6 +41,11 @@ function buttonClass(path) {
   return isActive(path).value ? 'active-class' : 'inactive-class'
 }
 
+const closeModalAndPushRouter = () => {
+  isOpenModal.value = false
+  router.push('/notifications')
+}
+
 onMounted(async () => {
   checkLoginStatus()
 })
@@ -51,6 +56,7 @@ async function logout() {
     const response = await auth.logout()
     if (response.status === true) {
       isLoggedIn.value = false
+      isOpenSlide.value = false // 手機版收起漢堡選單
       toast('登出成功！', 'success')
       setTimeout(() => {
         router.push('/')
@@ -91,7 +97,7 @@ function toast(message, type) {
         <!-- 手機板 -->
         <div class="flex items-center lg:hidden">
           <div class="p-3">
-            <div>
+            <div v-if="isLoggedIn">
               <UButton
                 color="white"
                 class="no-border-no-shadow"
@@ -114,7 +120,7 @@ function toast(message, type) {
                   <NotificationCard />
                   <div class="flex justify-between px-2 py-4 font-bold text-primary-dark">
                     <div class="">
-                      <NuxtLink to="/notifications">
+                      <NuxtLink to="/notifications" @click.prevent="closeModalAndPushRouter">
                         <p class="text-base">
                           通知列表
                         </p>
@@ -142,12 +148,12 @@ function toast(message, type) {
             <UButton
               color="white"
               class="no-border-no-shadow"
-              @click="isOpen = true"
+              @click="isOpenSlide = true"
             >
               <icon-heroicons:bars-3-bottom-right class="size-6 text-black" />
             </UButton>
             <USlideover
-              v-model="isOpen"
+              v-model="isOpenSlide"
               class="h-screen"
             >
               <div
@@ -159,7 +165,7 @@ function toast(message, type) {
                     variant="ghost"
                     icon="i-heroicons-x-mark-20-solid"
                     class="size-6"
-                    @click="isOpen = false"
+                    @click="isOpenSlide = false"
                   />
                 </div>
                 <div class="flex h-[95%] flex-col items-center justify-between">
@@ -174,7 +180,7 @@ function toast(message, type) {
                         <NuxtLink
                           to="/articles"
                           class="nav-items"
-                          @click="isOpen = false"
+                          @click="isOpenSlide = false"
                         >
                           <p>精選文章</p>
                         </NuxtLink>
@@ -183,7 +189,7 @@ function toast(message, type) {
                         <NuxtLink
                           to="/search-date"
                           class="nav-items"
-                          @click="isOpen = false"
+                          @click="isOpenSlide = false"
                         >
                           <p>尋找對象</p>
                         </NuxtLink>
@@ -192,7 +198,7 @@ function toast(message, type) {
                         <NuxtLink
                           to="/stroy"
                           class="nav-items"
-                          @click="isOpen = false"
+                          @click="isOpenSlide = false"
                         >
                           <p>找案例</p>
                         </NuxtLink>
@@ -201,16 +207,16 @@ function toast(message, type) {
                         <NuxtLink
                           to="/about"
                           class="nav-items"
-                          @click="isOpen = false"
+                          @click="isOpenSlide = false"
                         >
                           <p>關於我們</p>
                         </NuxtLink>
                       </li>
-                      <li class="text-B2 py-4 text-center">
+                      <li v-if="isLoggedIn" class="text-B2 py-4 text-center">
                         <NuxtLink
                           to="/account"
                           class="nav-items"
-                          @click="isOpen = false"
+                          @click="isOpenSlide = false"
                         >
                           <p>會員資料</p>
                         </NuxtLink>
@@ -238,7 +244,7 @@ function toast(message, type) {
 
         <!-- 電腦版 -->
         <div class="hidden w-full grow items-center justify-between lg:flex">
-          <ul class="ml-auto flex items-center gap-6 ">
+          <ul class="ml-auto flex items-center gap-6 me-6">
             <li class="p-2">
               <NuxtLink
                 to="/articles"
@@ -293,7 +299,7 @@ function toast(message, type) {
                 </div>
               </NuxtLink>
             </li>
-            <li class="nav-items p-2">
+            <li v-if="isLoggedIn" class="nav-items p-2">
               <NuxtLink
                 to="/account"
                 :class="[
@@ -307,10 +313,7 @@ function toast(message, type) {
                 </div>
               </NuxtLink>
             </li>
-            <!-- <li class="p-2" @click="toggleNotification($event)">
-              站內通知
-            </li> -->
-            <li class="nav-items p-2">
+            <li v-if="isLoggedIn" class="nav-items p-2">
               <UPopover :popper="{ placement: 'bottom-end' }">
                 <UButton
                   color="white"
