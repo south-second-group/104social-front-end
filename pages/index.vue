@@ -1,4 +1,4 @@
-<script setup>
+<!-- <script setup>
 import { auth } from '../apis/repositories/auth'
 
 const router = useRouter()
@@ -30,7 +30,7 @@ function toast(message, type) {
     toastMessage.value = ''
   }, 3000)
 }
-</script>
+</script> -->
 
 <template>
   <indexBanner />

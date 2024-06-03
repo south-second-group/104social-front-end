@@ -5,7 +5,7 @@ export const useUserDataStore = defineStore('userData', () => {
     userData.value = data
   }
 
-  function deleteUserData(data) {
+  function deleteUserData() {
     userData.value = null
   }
 

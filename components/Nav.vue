@@ -3,6 +3,10 @@ import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { auth } from '../apis/repositories/auth'
 
+const userDataStore = useUserDataStore()
+const { userData } = storeToRefs(userDataStore)
+const { setUserData, deleteUserData } = userDataStore
+
 const router = useRouter()
 const route = useRoute()
 const isOpenSlide = ref(false)
@@ -16,11 +20,11 @@ const toastType = ref('')
 async function verify() {
   try {
     const response = await auth.verifys()
-    if (response.status === true)
+    if (response.status === true) {
+      setUserData(response.data)
       isLoggedIn.value = true
-
-    else
-      isLoggedIn.value = false
+    }
+    else { isLoggedIn.value = false }
   }
   catch (error) {
     const errorMessage = error.response
@@ -57,6 +61,7 @@ async function logout() {
     if (response.status === true) {
       isLoggedIn.value = false
       isOpenSlide.value = false // 手機版收起漢堡選單
+      deleteUserData() // 清空 userData
       toast('登出成功！', 'success')
       setTimeout(() => {
         router.push('/')
@@ -81,9 +86,7 @@ function toast(message, type) {
 <template>
   <div class="sticky h-[60px] w-full lg:z-[1000] lg:h-[120px]">
     <div class="container mx-auto mt-0 rounded-full lg:mt-5 lg:bg-zinc-50/80">
-      <div
-        class="flex w-full items-center justify-between p-3 lg:px-10 lg:py-4"
-      >
+      <div class="flex w-full items-center justify-between p-3 lg:px-10 lg:py-4">
         <NuxtLink to="/">
           <h1 class="shrink-0">
             <NuxtImg
@@ -159,9 +162,7 @@ function toast(message, type) {
               v-model="isOpenSlide"
               class="h-screen"
             >
-              <div
-                class="w-full flex-1 bg-[url('~/public/nav/phone-bg.png')] bg-cover p-4"
-              >
+              <div class="w-full flex-1 bg-[url('~/public/nav/phone-bg.png')] bg-cover p-4">
                 <div class="flex justify-end">
                   <UButton
                     color="gray"
@@ -404,24 +405,28 @@ function toast(message, type) {
   border: none;
   box-shadow: none;
 }
+
 .toast.show {
-    display: block;
-  }
-  .toast {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    z-index: 1000;
-    display: block;
-  }
-  .toast.success {
-    background-color: #4caf50;
-  }
-  .toast.error {
-    background-color: #f44336;
-  }
+  display: block;
+}
+
+.toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  z-index: 1000;
+  display: block;
+}
+
+.toast.success {
+  background-color: #4caf50;
+}
+
+.toast.error {
+  background-color: #f44336;
+}
 </style>
