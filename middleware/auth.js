@@ -1,10 +1,8 @@
-import { auth } from '../apis/repositories/auth'
+import { useStorage } from '@vueuse/core'
 
 export default defineNuxtRouteMiddleware(async (_to, _from) => {
-  try {
-    await auth.verifys()
-  }
-  catch (_error) {
-    return navigateTo('/login')
-  }
+  const isUserLoggedIn = useStorage('name')
+
+  if (!isUserLoggedIn)
+    navigateTo('/login')
 })

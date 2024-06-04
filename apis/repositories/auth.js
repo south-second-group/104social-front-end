@@ -34,7 +34,7 @@ async function addUserData(data) {
 }
 
 // 取得會員資料
-async function userData() {
+async function getUserData() {
   return useBaseFetch('/api/v1/user-data', {
     method: 'GET',
     headers: {
@@ -167,7 +167,7 @@ async function googleWriteCookie(token) {
 export const auth = {
   userDataPatch,
   addUserData,
-  userData,
+  getUserData,
   changeAccountStatus,
   resetPassword,
   forgetPassword,

@@ -7,6 +7,9 @@ const searchTypeSelected = ref(null)
 
 const keyWord = ref(null)
 
+const userDataStore = useUserDataStore()
+const { userData } = storeToRefs(userDataStore)
+
 /* Submit */
 function submit() {
   // console.log('gender', genderSelected.value)
@@ -45,7 +48,10 @@ function submit() {
       <div class="p-9">
         <div class="h-full space-y-9">
           <!-- 我是 -->
-          <div class="">
+          <div
+            v-if="!userData"
+            class=""
+          >
             <p class="text-left text-xl font-bold">
               我是
             </p>
@@ -189,7 +195,10 @@ function submit() {
         <div class="p-[60px]">
           <div class="h-full space-y-[60px]">
             <!-- 我是 -->
-            <div class="">
+            <div
+              v-if="!userData"
+              class=""
+            >
               <p class="text-left text-xl font-bold">
                 我是
               </p>

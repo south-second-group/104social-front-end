@@ -33,12 +33,12 @@ function validate(state) {
 
 // 點擊登入按鈕
 
-const userStore = useUserStore()
+const userDataStore = useUserDataStore()
 async function login() {
   try {
     const response = await auth.login(state)
-    userStore.setName(response.data.name)
-    userStore.userEmail = response.data.email
+    userDataStore.setName(response.data.name)
+    userDataStore.setEmail(response.data.email)
     toast('登入成功！正在跳轉...', 'success')
     setTimeout(() => {
       router.push('/')
