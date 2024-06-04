@@ -32,17 +32,20 @@ function validate(state) {
 }
 
 // 點擊登入按鈕
+
+const userStore = useUserStore()
 async function login() {
   try {
     const response = await auth.login(state)
-    if (response.status === true) {
-      toast('登入成功！正在跳轉...', 'success')
-      setTimeout(() => {
-        router.push('/')
-      }, 1500)
-    }
+    userStore.setName(response.data.name)
+    userStore.userEmail = response.data.email
+    toast('登入成功！正在跳轉...', 'success')
+    setTimeout(() => {
+      router.push('/')
+    }, 1500)
   }
   catch (error) {
+    console.error(error)
     const errorMessage = error.response._data.message
     toast(errorMessage, 'error')
   }

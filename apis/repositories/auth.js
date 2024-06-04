@@ -124,7 +124,7 @@ async function logout() {
 
 // 驗證登入狀態
 async function verify() {
-  return useBaseFetch('/api/v1/verify-token', {
+  return useBaseFetch('/api/v1/verify', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

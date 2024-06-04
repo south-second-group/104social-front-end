@@ -2,19 +2,9 @@
 import { reactive, ref } from 'vue'
 import { auth } from '../apis/repositories/auth'
 
-// const router = useRouter()
-
-// definePageMeta({
-//   middleware: async () => {
-//     try {
-//       await auth.userData()
-//     }
-//     catch (error) {
-//       // console.error(error)
-//       navigateTo('/login')
-//     }
-//   },
-// })
+definePageMeta({
+  middleware: 'auth',
+})
 
 // 儲存會員資料
 const state = reactive({

@@ -295,7 +295,7 @@ function toast(message, type) {
             </li>
             <li class="nav-items p-2">
               <NuxtLink
-                to="/account"
+                to="/member-center"
                 :class="[
                   buttonClass('/account'),
                   { active: isActive('/account') },
