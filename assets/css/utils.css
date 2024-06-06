@@ -95,3 +95,7 @@
     bottom: auto;
   }
 }
+
+.chat-room-size {
+  width: 636px !important;
+}
