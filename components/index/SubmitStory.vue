@@ -1,3 +1,8 @@
+<script setup>
+const userDataStore = useUserDataStore()
+const { userData } = storeToRefs(userDataStore)
+</script>
+
 <template>
   <div class="w-full">
     <div
@@ -35,18 +40,20 @@
               </p>
             </div>
             <div class="mt-5 w-full">
-              <!-- <img
+              <img
+                v-if="userData"
                 src="../../assets/img/SubmitStory/img03.png"
                 alt=""
                 class="w-[200px]"
-              > -->
+              >
               <img
+                v-else
                 src="../../assets/img/SubmitStory/img03.png"
                 alt=""
                 class="mx-auto w-[200px] md:mx-0 md:w-[400px]"
               >
             </div>
-            <div>
+            <div v-if="userData">
               <button class="btn-linear-lg mt-6 hidden md:mt-5 md:block">
                 <p>分享幸福案例</p>
               </button>

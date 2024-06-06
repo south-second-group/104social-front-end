@@ -3,9 +3,13 @@ import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { auth } from '../apis/repositories/auth'
 
+const userDataStore = useUserDataStore()
+const { userData } = storeToRefs(userDataStore)
+const { setUserData, deleteUserData } = userDataStore
+
 const router = useRouter()
 const route = useRoute()
-const isOpen = ref(false)
+const isOpenSlide = ref(false)
 const isOpenModal = ref(false)
 const isLoggedIn = ref(false) // 判斷是否登入
 
@@ -16,11 +20,11 @@ const toastType = ref('')
 async function verify() {
   try {
     const response = await auth.verifys()
-    if (response.status === true)
+    if (response.status === true) {
+      setUserData(response.data)
       isLoggedIn.value = true
-
-    else
-      isLoggedIn.value = false
+    }
+    else { isLoggedIn.value = false }
   }
   catch (error) {
     const errorMessage = error.response
@@ -41,6 +45,11 @@ function buttonClass(path) {
   return isActive(path).value ? 'active-class' : 'inactive-class'
 }
 
+function closeModalAndPushRouter() {
+  isOpenModal.value = false
+  router.push('/notifications')
+}
+
 onMounted(async () => {
   checkLoginStatus()
 })
@@ -51,6 +60,8 @@ async function logout() {
     const response = await auth.logout()
     if (response.status === true) {
       isLoggedIn.value = false
+      isOpenSlide.value = false // 手機版收起漢堡選單
+      deleteUserData() // 清空 userData
       toast('登出成功！', 'success')
       setTimeout(() => {
         router.push('/')
@@ -75,9 +86,7 @@ function toast(message, type) {
 <template>
   <div class="sticky h-[60px] w-full lg:z-[1000] lg:h-[120px]">
     <div class="container mx-auto mt-0 rounded-full lg:mt-5 lg:bg-zinc-50/80">
-      <div
-        class="flex w-full items-center justify-between p-3 lg:px-10 lg:py-4"
-      >
+      <div class="flex w-full items-center justify-between p-3 lg:px-10 lg:py-4">
         <NuxtLink to="/">
           <h1 class="shrink-0">
             <NuxtImg
@@ -91,7 +100,7 @@ function toast(message, type) {
         <!-- 手機板 -->
         <div class="flex items-center lg:hidden">
           <div class="p-3">
-            <div>
+            <div v-if="isLoggedIn">
               <UButton
                 color="white"
                 class="no-border-no-shadow"
@@ -114,7 +123,10 @@ function toast(message, type) {
                   <NotificationCard />
                   <div class="flex justify-between px-2 py-4 font-bold text-primary-dark">
                     <div class="">
-                      <NuxtLink to="/notifications">
+                      <NuxtLink
+                        to="/notifications"
+                        @click.prevent="closeModalAndPushRouter"
+                      >
                         <p class="text-base">
                           通知列表
                         </p>
@@ -142,24 +154,22 @@ function toast(message, type) {
             <UButton
               color="white"
               class="no-border-no-shadow"
-              @click="isOpen = true"
+              @click="isOpenSlide = true"
             >
               <icon-heroicons:bars-3-bottom-right class="size-6 text-black" />
             </UButton>
             <USlideover
-              v-model="isOpen"
+              v-model="isOpenSlide"
               class="h-screen"
             >
-              <div
-                class="w-full flex-1 bg-[url('~/public/nav/phone-bg.png')] bg-cover p-4"
-              >
+              <div class="w-full flex-1 bg-[url('~/public/nav/phone-bg.png')] bg-cover p-4">
                 <div class="flex justify-end">
                   <UButton
                     color="gray"
                     variant="ghost"
                     icon="i-heroicons-x-mark-20-solid"
                     class="size-6"
-                    @click="isOpen = false"
+                    @click="isOpenSlide = false"
                   />
                 </div>
                 <div class="flex h-[95%] flex-col items-center justify-between">
@@ -174,7 +184,7 @@ function toast(message, type) {
                         <NuxtLink
                           to="/articles"
                           class="nav-items"
-                          @click="isOpen = false"
+                          @click="isOpenSlide = false"
                         >
                           <p>精選文章</p>
                         </NuxtLink>
@@ -183,7 +193,7 @@ function toast(message, type) {
                         <NuxtLink
                           to="/search-date"
                           class="nav-items"
-                          @click="isOpen = false"
+                          @click="isOpenSlide = false"
                         >
                           <p>尋找對象</p>
                         </NuxtLink>
@@ -192,7 +202,7 @@ function toast(message, type) {
                         <NuxtLink
                           to="/stroy"
                           class="nav-items"
-                          @click="isOpen = false"
+                          @click="isOpenSlide = false"
                         >
                           <p>找案例</p>
                         </NuxtLink>
@@ -201,16 +211,19 @@ function toast(message, type) {
                         <NuxtLink
                           to="/about"
                           class="nav-items"
-                          @click="isOpen = false"
+                          @click="isOpenSlide = false"
                         >
                           <p>關於我們</p>
                         </NuxtLink>
                       </li>
-                      <li class="text-B2 py-4 text-center">
+                      <li
+                        v-if="isLoggedIn"
+                        class="text-B2 py-4 text-center"
+                      >
                         <NuxtLink
                           to="/account"
                           class="nav-items"
-                          @click="isOpen = false"
+                          @click="isOpenSlide = false"
                         >
                           <p>會員資料</p>
                         </NuxtLink>
@@ -238,7 +251,7 @@ function toast(message, type) {
 
         <!-- 電腦版 -->
         <div class="hidden w-full grow items-center justify-between lg:flex">
-          <ul class="ml-auto flex items-center gap-6 ">
+          <ul class="me-6 ml-auto flex items-center gap-6">
             <li class="p-2">
               <NuxtLink
                 to="/articles"
@@ -293,9 +306,12 @@ function toast(message, type) {
                 </div>
               </NuxtLink>
             </li>
-            <li class="nav-items p-2">
+            <li
+              v-if="isLoggedIn"
+              class="nav-items p-2"
+            >
               <NuxtLink
-                to="/account"
+                to="/member"
                 :class="[
                   buttonClass('/account'),
                   { active: isActive('/account') },
@@ -307,10 +323,10 @@ function toast(message, type) {
                 </div>
               </NuxtLink>
             </li>
-            <!-- <li class="p-2" @click="toggleNotification($event)">
-              站內通知
-            </li> -->
-            <li class="nav-items p-2">
+            <li
+              v-if="isLoggedIn"
+              class="nav-items p-2"
+            >
               <UPopover :popper="{ placement: 'bottom-end' }">
                 <UButton
                   color="white"
@@ -389,24 +405,28 @@ function toast(message, type) {
   border: none;
   box-shadow: none;
 }
+
 .toast.show {
-    display: block;
-  }
-  .toast {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    z-index: 1000;
-    display: block;
-  }
-  .toast.success {
-    background-color: #4caf50;
-  }
-  .toast.error {
-    background-color: #f44336;
-  }
+  display: block;
+}
+
+.toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  z-index: 1000;
+  display: block;
+}
+
+.toast.success {
+  background-color: #4caf50;
+}
+
+.toast.error {
+  background-color: #f44336;
+}
 </style>

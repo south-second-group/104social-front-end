@@ -1,3 +1,5 @@
+import { useStorage } from '@vueuse/core'
+
 export const useUserStore = defineStore('user', () => {
   const savedName = ref('')
   const previousNames = ref('')
@@ -12,10 +14,21 @@ export const useUserStore = defineStore('user', () => {
     savedName.value = name
   }
 
+  const name = ref('')
+  const userEmail = ref('')
+
+  const setName = (newName) => {
+    name.value = newName
+    useStorage('name', newName)
+  }
+
   return {
     savedName,
     otherNames,
     setNewName,
+    name,
+    setName,
+    userEmail,
   }
 })
 

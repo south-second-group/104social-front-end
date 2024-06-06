@@ -1,5 +1,11 @@
+<script setup>
+const userDataStore = useUserDataStore()
+const { userData } = storeToRefs(userDataStore)
+</script>
+
 <template>
   <div
+    v-if="userData"
     class="w-full bg-[url('@/public/callToAction/bg-sm.png')] bg-cover py-12 md:bg-[url('@/public/callToAction/bg-lg.png')] md:py-[100px]"
   >
     <div class="container flex flex-col">
@@ -24,6 +30,7 @@
     </div>
   </div>
   <div
+    v-else
     class="w-full bg-[url('@/public/callToAction/bg-sm.png')] bg-cover py-12 md:bg-[url('@/public/callToAction/bg-lg.png')] md:py-[100px]"
   >
     <div class="container flex flex-col lg:grid lg:grid-cols-2">

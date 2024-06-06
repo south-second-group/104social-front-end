@@ -34,7 +34,7 @@ async function addUserData(data) {
 }
 
 // 取得會員資料
-async function userData() {
+async function getUserData() {
   return useBaseFetch('/api/v1/user-data', {
     method: 'GET',
     headers: {
@@ -124,7 +124,7 @@ async function logout() {
 
 // 驗證登入狀態
 async function verify() {
-  return useBaseFetch('/api/v1/verify-token', {
+  return useBaseFetch('/api/v1/verify', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -167,7 +167,7 @@ async function googleWriteCookie(token) {
 export const auth = {
   userDataPatch,
   addUserData,
-  userData,
+  getUserData,
   changeAccountStatus,
   resetPassword,
   forgetPassword,
