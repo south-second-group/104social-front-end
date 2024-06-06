@@ -97,8 +97,8 @@ const functionButtonsList = [
     path: '/member/match/',
   },
   {
-    title: '我的約會',
-    path: '/member/invite/InvitePage',
+    title: '我的邀約',
+    path: '/member/invite/ ',
   },
   {
     title: '配對結果',
@@ -106,14 +106,14 @@ const functionButtonsList = [
   },
   {
     title: '我留下的評價',
-    path: '/member/comment/CommentPage',
+    path: '/member/comment/',
   },
   {
     title: '我的收藏',
     path: '/member/CollectionPage',
   },
   {
-    title: '拒絕來信',
+    title: ' 拒絕往來',
     path: '/member/BanListPage',
   },
 ]
@@ -164,25 +164,18 @@ const personalDetails = reactive([
 ])
 
 // 熱門標籤
-const hotTags = [
-  '不生小孩',
-  '露營',
-  '要不要來我家看貓',
-]
+const hotTags = ['不生小孩', '露營', '要不要來我家看貓']
 
 // 我的標籤
-const myTags = [
-  '日語',
-  '肉食系',
-  'Cosplay',
-  '愛吃好料',
-]
+const myTags = ['日語', '肉食系', 'Cosplay', '愛吃好料']
 </script>
 
 <template>
   <div class="w-full">
     <!-- 基本資料 -->
-    <section class="container mt-12 space-y-4 lg:flex lg:space-x-6 lg:space-y-0">
+    <section
+      class="container mt-12 space-y-4 lg:flex lg:space-x-6 lg:space-y-0"
+    >
       <!-- 基本資料 -->
       <div class="flex w-full space-x-6 rounded-[10px] bg-[#FFF5F5] p-4 lg:p-6">
         <div class="w-[100px] lg:w-[120px]">
@@ -194,9 +187,7 @@ const myTags = [
         </div>
 
         <div class="flex flex-col justify-center text-left">
-          <h6
-            class="lg:text-H4 text-xl font-bold text-primary-dark"
-          >
+          <h6 class="lg:text-H4 text-xl font-bold text-primary-dark">
             {{ state.nickName }}
           </h6>
           <p
@@ -208,7 +199,9 @@ const myTags = [
       </div>
 
       <!-- 會員狀態 -->
-      <div class=" flex w-full items-end justify-between rounded-[10px] bg-neutral-100 p-4 text-left lg:p-6">
+      <div
+        class="flex w-full items-end justify-between rounded-[10px] bg-neutral-100 p-4 text-left lg:p-6"
+      >
         <ul class="">
           <li class="flex">
             <h4 class="text-B2 mb-4 text-[#52525B]">
@@ -240,13 +233,13 @@ const myTags = [
       <!-- 功能按鈕 -->
       <div class="grid w-full grid-flow-col grid-rows-3 gap-x-6 gap-y-2">
         <button
-          v-for="(button) in functionButtonsList"
+          v-for="button in functionButtonsList"
           :key="button.title"
           class="w1/2 relative rounded-full bg-gray-200 py-3 font-bold"
         >
           {{ button.title }}
           <NuxtLink
-            class=" absolute inset-0"
+            class="absolute inset-0"
             :to="button.path"
           />
         </button>
@@ -260,9 +253,15 @@ const myTags = [
       </h2>
 
       <!-- 編輯頭貼 -->
-      <div class="!mt-6 space-y-4 lg:flex lg:h-[348px] lg:space-x-4 lg:space-y-0">
-        <div class=" w-full rounded-xl bg-neutral-100 p-4 lg:flex lg:space-x-6 lg:p-6">
-          <div class="h-[240px] overflow-hidden rounded-xl lg:h-full lg:w-[400px]">
+      <div
+        class="!mt-6 space-y-4 lg:flex lg:h-[348px] lg:space-x-4 lg:space-y-0"
+      >
+        <div
+          class="w-full rounded-xl bg-neutral-100 p-4 lg:flex lg:space-x-6 lg:p-6"
+        >
+          <div
+            class="h-[240px] overflow-hidden rounded-xl lg:h-full lg:w-[400px]"
+          >
             <NuxtImg
               src="/member/member-sm-02.png"
               alt="UserSticker Image"
@@ -270,7 +269,9 @@ const myTags = [
             />
           </div>
 
-          <div class="mt-4 flex items-center justify-between lg:mt-0 lg:flex-col">
+          <div
+            class="mt-4 flex items-center justify-between lg:mt-0 lg:flex-col"
+          >
             <button class="h-10 w-[138px] rounded-full ring-1">
               上傳照片
             </button>
@@ -286,7 +287,9 @@ const myTags = [
         </div>
 
         <!-- 編輯自我介紹 -->
-        <div class=" w-full rounded-[10px] bg-neutral-100 p-4 lg:flex lg:space-x-6 lg:p-6">
+        <div
+          class="w-full rounded-[10px] bg-neutral-100 p-4 lg:flex lg:space-x-6 lg:p-6"
+        >
           <UTextarea
             v-model="value"
             placeholder="請輸入自我介紹..."
@@ -307,9 +310,11 @@ const myTags = [
       </div>
 
       <!-- 編輯詳細個資 -->
-      <ul class="w-full space-y-4 rounded-[10px] bg-neutral-100 p-4 lg:grid lg:grid-cols-2 lg:gap-x-10 lg:gap-y-6 lg:space-y-0 lg:p-6">
+      <ul
+        class="w-full space-y-4 rounded-[10px] bg-neutral-100 p-4 lg:grid lg:grid-cols-2 lg:gap-x-10 lg:gap-y-6 lg:space-y-0 lg:p-6"
+      >
         <li
-          v-for="(personalItem) in personalDetails"
+          v-for="personalItem in personalDetails"
           :key="personalItem.label"
           class="grid grid-cols-5 gap-x-2"
         >
@@ -343,7 +348,9 @@ const myTags = [
           在 # 後面輸入您的性格特徵或您感興趣的話題
         </p>
 
-        <ul class="mt-2 flex h-[64px] w-full space-x-2 overflow-x-scroll rounded-lg border border-neutral-300 bg-white p-3">
+        <ul
+          class="mt-2 flex h-[64px] w-full space-x-2 overflow-x-scroll rounded-lg border border-neutral-300 bg-white p-3"
+        >
           <li
             v-for="(tag, index) in myTags"
             :key="index"
@@ -369,7 +376,7 @@ const myTags = [
             </button>
           </li>
 
-          <li class=" hidden items-center lg:flex">
+          <li class="hidden items-center lg:flex">
             <button class="p-2 font-bold text-primary-dark">
               更多標籤...
             </button>
@@ -384,7 +391,9 @@ const myTags = [
       </div>
 
       <!-- 個人狀態 -->
-      <div class="h-[182px] w-full rounded-[10px] bg-neutral-100 p-4 lg:h-[222px] lg:p-6">
+      <div
+        class="h-[182px] w-full rounded-[10px] bg-neutral-100 p-4 lg:h-[222px] lg:p-6"
+      >
         <h2 class="text-start text-xl font-bold">
           個人狀態
         </h2>
