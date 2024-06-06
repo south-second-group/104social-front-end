@@ -1,5 +1,9 @@
 <script setup>
+const emit = defineEmits(['openChat'])
 const q = ref('')
+function openChat(n) {
+  emit('openChat', n)
+}
 </script>
 
 <template>
@@ -28,26 +32,26 @@ const q = ref('')
   </div>
   <div class="h-full overflow-auto">
     <ul
-      v-if="false"
-      class="overflow-hidden rounded-xl bg-white"
-    >
-      <chat-roomChatPreview />
-      <chat-roomChatPreview />
-      <chat-roomChatPreview />
-      <chat-roomChatPreview />
-      <chat-roomChatPreview />
-      <chat-roomChatPreview />
-      <chat-roomChatPreview />
-      <chat-roomChatPreview />
-    </ul>
-    <p
-      v-if="false"
-      class="mt-[331px] text-xl font-bold text-primary-dark"
-    >
-      Oops！查無此人
-    </p>
-    <div
       v-if="true"
+      class="size-full overflow-hidden rounded-xl bg-white"
+    >
+      <chat-roomChatPreview @click="openChat('01')" />
+      <chat-roomChatPreview @click="openChat('02')" />
+      <!-- <chat-roomChatPreview @click="openChat('03')" />
+      <chat-roomChatPreview @click="openChat('04')" /> -->
+    </ul>
+    <div
+      v-if="false"
+      class="flex size-full items-center justify-center"
+    >
+      <p
+        class="text-xl font-bold text-primary-dark"
+      >
+        Oops！查無此人
+      </p>
+    </div>
+    <div
+      v-if="false"
       class="flex h-full flex-col items-center justify-center rounded-xl bg-white"
     >
       <NuxtImg
