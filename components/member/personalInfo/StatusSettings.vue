@@ -1,10 +1,5 @@
 <script setup>
-defineProps({
-  rating: String || null,
-})
-
-// toggle
-const selected = ref(false)
+const memberStore = useMemberStore()
 </script>
 
 <template>
@@ -18,7 +13,7 @@ const selected = ref(false)
         <h4 class="text-B2 text-neutral-400">
           會員評價｜
         </h4>
-        <b class="text-neutral-600">{{ rating ?? 0 }}</b>
+        <b class="text-neutral-600">{{ memberStore.personalStatus.rating }}</b>
       </li>
 
       <li class="flex space-x-2">
@@ -27,7 +22,7 @@ const selected = ref(false)
         </h4>
         <div class="flex items-center space-x-1">
           <UToggle
-            v-model="selected"
+            v-model="memberStore.personalStatus.isShow"
             color="primary"
           />
           <span>是</span>
@@ -40,7 +35,7 @@ const selected = ref(false)
         </h4>
         <div class="flex items-center space-x-1">
           <UToggle
-            v-model="selected"
+            v-model="memberStore.personalStatus.isMatch"
             color="primary"
           />
           <span>揭露</span>

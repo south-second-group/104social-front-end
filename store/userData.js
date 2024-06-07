@@ -1,5 +1,3 @@
-import { useStorage } from '@vueuse/core'
-
 export const useUserDataStore = defineStore('userData', () => {
   const userData = ref(null)
 
@@ -11,18 +9,15 @@ export const useUserDataStore = defineStore('userData', () => {
     userData.value = null
   }
 
-  // NOTE：討論看怎麼整合
   const name = ref(null)
   const email = ref(null)
 
   const setName = (newName) => {
     name.value = newName
-    useStorage('name', newName)
   }
 
   const setEmail = (newEmail) => {
     email.value = newEmail
-    useStorage('email', newEmail)
   }
 
   return {
@@ -34,6 +29,10 @@ export const useUserDataStore = defineStore('userData', () => {
     email,
     setEmail,
   }
+}, {
+  persist: {
+    storage: persistedState.localStorage,
+  },
 })
 
 if (import.meta.hot)

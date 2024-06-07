@@ -25,6 +25,7 @@
     "@antfu/eslint-config": "^2.8.3",
     "@nuxt/devtools": "latest",
     "@nuxtjs/color-mode": "^3.3.3",
+    "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
     "@pinia/nuxt": "^0.5.1",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/container-queries": "^0.1.1",
