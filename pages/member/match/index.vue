@@ -154,18 +154,16 @@ matchListApi.getMatchListSelf().then((res) => {
 <template>
   <div class="container text-start">
     <div class="mx-auto">
-      <h1 class="text-H4 md:text-H3 mb-6 mt-[80px] text-start md:mb-[20px]">
-        配對設定
-      </h1>
       matchListData <br>
       {{ matchListData }}
 
       <hr>
       MatchListSelf<br>
       {{ temp }}
+      <h1 class="text-H4 md:text-H3 mb-6 mt-[80px] text-start md:mb-[20px]">
+        配對設定
+      </h1>
 
-      <br>
-      {{ }}
       <div
         v-if="!isDataLoading"
         class="mb-6 flex items-center border-l-2 border-x-neutral-300 pl-3"
@@ -225,10 +223,12 @@ matchListApi.getMatchListSelf().then((res) => {
             <h2 class="text-B1 mb-2 text-center text-primary-dark">
               <b>適合我的對象</b>
             </h2>
-            <div class="mb-2 flex justify-between">
-              <div>配對結果</div>
-              <div>{{ matchResult.result.length }}</div>
-            </div>
+            <NuxtLink to="/member/match/MatchResult">
+              <div class="mb-2 flex justify-between">
+                <div>配對結果</div>
+                <div>{{ matchResult.result.length }}</div>
+              </div>
+            </NuxtLink>
           </div>
         </div>
 
