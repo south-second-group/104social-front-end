@@ -49,6 +49,9 @@ function handleClick(status) {
   if (modalStatuses.includes(status)) {
     isOpenModal.value = true
     modalStatus.value = status
+
+    // switch func
+    tempfunc()
   }
   else {
     switch (status) {
@@ -65,6 +68,10 @@ function handleClick(status) {
         console.warn('Unknown status')
     }
   }
+}
+
+function tempfunc() {
+  console.warn('tempfunc')
 }
 </script>
 
