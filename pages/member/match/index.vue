@@ -32,6 +32,10 @@ function getKeyLabel(key) {
     occupation: '職業',
     industry: '產業',
     expectedSalary: '期望薪資',
+    banSmoking: '抽菸習慣',
+    banOccupation: '職業',
+    banIndustry: '產業',
+    banExpectedSalary: '薪資',
   }
   return labels[key] || key
 }
@@ -323,6 +327,56 @@ matchListApi.getMatchListSelf().then((res) => {
                   <div v-if="editMode">
                     <USelectMenu
                       v-model="matchListData.workInfo[key]"
+                      :options="matchListOptionData[0][key]"
+                      class="w-[303px] rounded-md border border-neutral-300 bg-white text-neutral-500"
+                      size="xl"
+                      variant="none"
+                      value-attribute="value"
+                      option-attribute="label"
+                      :multiple="Array.isArray(value)"
+                    />
+                  </div>
+                  <div v-else>
+                    <span class="flex-1">{{ renderValue(key, value) }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              v-else
+              class="space-y-6"
+            >
+              <USkeleton
+                v-for="item in 10"
+                :key="item.id"
+                class="h-8 w-[403px] bg-neutral-300"
+              />
+            </div>
+          </div>
+
+          <div class="mb-4 rounded-lg bg-neutral-100 p-6">
+            <h3 class="text-B1 mb-3">
+              <b>排除條件</b>
+            </h3>
+            <div
+              v-if="!isDataLoading"
+              class="hidden grid-cols-1 gap-3"
+              :class="!isDataLoading ? '!grid' : ''"
+            >
+              <div
+                v-for="(value, key) in matchListData.blacklist"
+                :key="key"
+                class="mb-2 flex h-[35px] items-center"
+              >
+                <div class="mr-4 w-24 align-middle">
+                  {{ getKeyLabel(key) }}
+                </div>
+
+                <div>
+                  <div v-if="editMode">
+                    <USelectMenu
+                      v-model="matchListData.blacklist[key]"
                       :options="matchListOptionData[0][key]"
                       class="w-[303px] rounded-md border border-neutral-300 bg-white text-neutral-500"
                       size="xl"

@@ -72,8 +72,9 @@ const buttonList = ref([
         >
           <div>
             <a
-              href=""
+              :href="`https://www.google.com/search?q=${'團膳業'}`"
               class="text-special-info"
+              target="_blank"
             >團膳業</a>
           </div>
           <div class="flex justify-end space-x-2">
