@@ -40,6 +40,16 @@ async function getMatchListSelf() {
   })
 }
 
+async function updateMatchListSelf(data) {
+  return useBaseFetch('/api/v1/match-list-self', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+}
+
 // 取得配對結果
 async function getMatchResult() {
   return useBaseFetch('/api/v1/match-result', {
@@ -55,5 +65,6 @@ export const matchListApi = {
   matchList,
   updateMatchList,
   getMatchListSelf,
+  updateMatchListSelf,
   getMatchResult,
 }
