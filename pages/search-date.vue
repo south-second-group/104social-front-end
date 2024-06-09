@@ -73,9 +73,7 @@ onUnmounted(() => {
     <div class="grid grid-cols-12 gap-6 py-5 lg:py-20">
       <div class="col-span-12 mt-4 lg:col-span-9">
         <div class="mb-3 flex flex-col lg:mb-20 lg:flex-row">
-          <div
-            class="mb-2 me-4 h-12 w-full rounded-lg border  bg-white lg:mb-0 lg:max-w-[380px]"
-          >
+          <div class="mb-2 me-4 h-12 w-full rounded-lg border  bg-white lg:mb-0 lg:max-w-[380px]">
             <UInput
               v-model="keyWord"
               color="primary"
@@ -85,9 +83,7 @@ onUnmounted(() => {
             />
           </div>
           <div class="flex gap-2 lg:gap-4">
-            <div
-              class="h-12 w-full min-w-[120px] rounded-lg border bg-white lg:min-w-[160px]"
-            >
+            <div class="h-12 w-full min-w-[120px] rounded-lg border bg-white lg:min-w-[160px]">
               <USelectMenu
                 v-model="locationSelected"
                 :options="locationType"
@@ -97,9 +93,7 @@ onUnmounted(() => {
                 variant="none"
               />
             </div>
-            <div
-              class="h-12 w-full min-w-[120px] rounded-lg border bg-white lg:min-w-[160px]"
-            >
+            <div class="h-12 w-full min-w-[120px] rounded-lg border bg-white lg:min-w-[160px]">
               <USelectMenu
                 v-model="searchTypeSelected"
                 :options="searchType"
@@ -111,16 +105,21 @@ onUnmounted(() => {
             </div>
             <div class="flex items-center">
               <div class="my-auto">
-                <div class="rounded-full bg-[#FFF5F5] p-2">
-                  <span class="cursor-pointer text-xl text-primary-dark">
-                    <icon-heroicons-adjustments-horizontal class="size-6" />
-                  </span>
-                </div>
+                <UPopover :popper="{ placement: 'bottom-end' }">
+                  <UButton
+                    class="rounded-full border-2 border-[#FFF5F5] bg-[#FFF5F5] p-2 transition delay-150 ease-in-out hover:border-primary-dark hover:bg-[#FFF5F5]"
+                  >
+                    <icon-heroicons-adjustments-horizontal class="size-6 text-primary-dark" />
+                  </UButton>
+                  <template #panel>
+                    <search-dateHashtagSelectCard />
+                  </template>
+                </UPopover>
               </div>
               <div class="lg:w-full">
                 <UButton
                   :ui="{ rounded: 'rounded-full' }"
-                  class="ms-2 border-2 border-primary-dark bg-primary-dark p-2 text-base font-bold hover:text-primary-dark lg:ms-4 lg:w-full lg:px-5 lg:py-2"
+                  class="ms-2 border-2 border-primary-dark bg-primary-dark p-2 text-base font-bold transition delay-150 ease-in-out hover:text-primary-dark lg:ms-4 lg:w-full lg:px-5 lg:py-2"
                 >
                   <p class="hidden lg:block">
                     搜尋
@@ -132,9 +131,7 @@ onUnmounted(() => {
           </div>
         </div>
         <search-dateMemberOptions class="lg:hidden" />
-        <div
-          class="mb-6 mt-10 flex w-full flex-col justify-between lg:mt-0 lg:flex-row lg:items-center"
-        >
+        <div class="mb-6 mt-10 flex w-full flex-col justify-between lg:mt-0 lg:flex-row lg:items-center">
           <div class="mb-6 flex gap-6 overflow-x-auto lg:mb-0">
             <div class="whitespace-nowrap p-2">
               全部（9487）
