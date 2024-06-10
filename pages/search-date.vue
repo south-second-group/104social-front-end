@@ -58,6 +58,12 @@ function checkScreenSize() {
   isDesktop.value = window.innerWidth >= 1024
 }
 
+const currentTab = ref('')
+
+function changeTab(tab) {
+  currentTab.value = tab
+}
+
 onMounted(() => {
   checkScreenSize()
   window.addEventListener('resize', checkScreenSize)
@@ -133,22 +139,45 @@ onUnmounted(() => {
         <search-dateMemberOptions class="lg:hidden" />
         <div class="mb-6 mt-10 flex w-full flex-col justify-between lg:mt-0 lg:flex-row lg:items-center">
           <div class="mb-6 flex gap-6 overflow-x-auto lg:mb-0">
-            <div class="whitespace-nowrap p-2">
-              全部（9487）
+            <div
+              :class="{
+                'active-tab': currentTab === 'all',
+                'inactive-tab': currentTab !== 'all',
+              }"
+              class="whitespace-nowrap p-2 transition duration-300 ease-in-out"
+              @click="changeTab('all')"
+            >
+              <p>
+                全部（9487）
+              </p>
             </div>
             <UDivider
               orientation="vertical"
               class="my-1.5"
             />
-            <div class="whitespace-nowrap p-2">
-              公開（8524）
+            <div
+              :class="{
+                'active-tab': currentTab === 'public',
+                'inactive-tab': currentTab !== 'public',
+              }"
+              class="whitespace-nowrap p-2 transition duration-300 ease-in-out"
+              @click="changeTab('public')"
+            >
+              <p>公開（8524）</p>
             </div>
             <UDivider
               orientation="vertical"
               class="my-1.5"
             />
-            <div class="whitespace-nowrap p-2">
-              近期刊登（487）
+            <div
+              :class="{
+                'active-tab': currentTab === 'newest',
+                'inactive-tab': currentTab !== 'newest',
+              }"
+              class="whitespace-nowrap p-2 transition duration-300 ease-in-out"
+              @click="changeTab('newest')"
+            >
+              <p>近期刊登（487）</p>
             </div>
           </div>
           <div
@@ -198,3 +227,13 @@ onUnmounted(() => {
     </div>
   </div>
 </template>
+
+<style scoped>
+.active-tab {
+  color: #f47277;
+  }
+
+  .active-tab p {
+  font-weight: 700 ;
+}
+</style>

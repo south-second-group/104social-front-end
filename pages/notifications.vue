@@ -178,7 +178,7 @@ function changeTab(tab) {
   </div>
 </template>
 
-<style>
+<style scoped>
 .custom-icon {
   display: flex;
   align-items: center;
