@@ -216,7 +216,7 @@ matchListApi.getMatchListSelf().then((res) => {
 
       <div class="grid grid-cols-12 gap-5">
         <!-- 適合我的對象 -->
-        <div class="col-span-3 md:col-span-3">
+        <div class="col-span-12 md:col-span-3">
           <div
             style="
               background-color: #fff5f5;
@@ -237,7 +237,7 @@ matchListApi.getMatchListSelf().then((res) => {
         </div>
 
         <!-- 配對條件 -->
-        <div class="col-span-9 md:col-span-9">
+        <div class="col-span-12 md:col-span-9">
           <div
             v-if="!isDataLoading"
             class="flex justify-between"
