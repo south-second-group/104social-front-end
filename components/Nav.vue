@@ -84,7 +84,7 @@ function toast(message, type) {
 </script>
 
 <template>
-  <div class="sticky h-[60px] w-full lg:z-[1000] lg:h-[120px]">
+  <div class="h-[60px] w-full lg:h-[120px]">
     <div class="container mx-auto mt-0 rounded-full lg:mt-5 lg:bg-zinc-50/80">
       <div class="flex w-full items-center justify-between p-3 lg:px-10 lg:py-4">
         <NuxtLink to="/">
