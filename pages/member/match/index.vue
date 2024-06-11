@@ -3,6 +3,10 @@ import { z } from 'zod'
 
 import { matchListApi } from '~/apis/repositories/matchList'
 
+useHead({
+  title: '配對設定',
+})
+
 const matchResult = useMatchResultStore()
 
 const isDataLoading = ref(true)

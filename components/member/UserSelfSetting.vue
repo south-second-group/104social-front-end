@@ -92,7 +92,6 @@ async function saveMatchListSelfSetting() {
   }
   finally {
     editMode.value = false
-    isEditEmail.value = false
     tempMatchListData.value = JSON.parse(JSON.stringify(matchListSelfSettingData.value))
     getMatchResult()
 

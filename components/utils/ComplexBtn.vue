@@ -1,6 +1,8 @@
 <script setup>
 const props = defineProps({
   status: String,
+  invitationStatus: String,
+  isLocked: Boolean,
 })
 
 const router = useRouter()
@@ -49,9 +51,6 @@ function handleClick(status) {
   if (modalStatuses.includes(status)) {
     isOpenModal.value = true
     modalStatus.value = status
-
-    // switch func
-    tempfunc()
   }
   else {
     switch (status) {
@@ -69,117 +68,113 @@ function handleClick(status) {
     }
   }
 }
-
-function tempfunc() {
-  console.warn('tempfunc')
-}
 </script>
 
 <template>
-  <div>
-    <button
-      v-if="props.status === 'status1'"
-      class="flex scale-90 gap-3 rounded-full border-2 border-neutral-400 px-[20px] py-[6px] text-[16px] leading-[24px] text-neutral-400 md:scale-100"
-      @click="handleClick(props.status)"
-    >
-      <icon-heroicons:lock-open />
+  <button
+    v-if="props.status === 'status1'"
+    class="mx-[1px] my-[3px] flex scale-90 gap-3 rounded-full border-2 border-neutral-400 px-[20px] py-[6px] text-[16px] leading-[24px] text-neutral-400 md:mx-[6px] md:scale-100"
+    @click="handleClick(props.status)"
+  >
+    <icon-heroicons:lock-open />
 
-      <p>{{ btnText }}</p>
-    </button>
+    <p>{{ btnText }}</p>
+  </button>
 
-    <button
-      v-if="props.status === 'status2'"
-      class="btn-withIcon-outline scale-90 md:scale-100"
-      @click="handleClick(props.status)"
-    >
-      <icon-heroicons:lock-closed />
+  <button
+    v-if="props.status === 'status2'"
+    class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
+    @click="handleClick(props.status)"
+  >
+    <icon-heroicons:lock-closed />
 
-      <p>{{ btnText }}</p>
-    </button>
+    <p>{{ btnText }}</p>
+  </button>
 
-    <button
-      v-if="props.status === 'status3'"
-      class="scale-90 rounded-full bg-primary-dark px-[20px] py-[8px] text-[16px] leading-[24px] text-white md:scale-100"
-      @click="handleClick(props.status)"
-    >
-      <p>{{ btnText }}</p>
-    </button>
+  <button
+    v-if="props.status === 'status3' && props.invitationStatus === 'accepted'"
+    class="mx-[1px] my-[3px] scale-90 rounded-full bg-primary-dark px-[20px] py-[8px] text-[16px] leading-[24px] text-white md:mx-[6px] md:scale-100"
+    @click="handleClick(props.status)"
+  >
+    <p>{{ btnText }}</p>
+  </button>
 
-    <button
-      v-if="props.status === 'status4'"
-      class="btn-withIcon-fill w-[100px] scale-90 md:scale-100"
-      @click="handleClick(props.status)"
-    >
-      <icon-heroicons:heart />
+  <button
+    v-if="
+      props.status === 'status4' && props.invitationStatus === 'not invited'
+    "
+    class="btn-withIcon-fill mx-[1px] my-[3px] w-[100px] scale-90 md:mx-[6px] md:scale-100"
+    @click="handleClick(props.status)"
+  >
+    <icon-heroicons:heart />
 
-      <p>{{ btnText }}</p>
-    </button>
+    <p>{{ btnText }}</p>
+  </button>
 
-    <button
-      v-if="props.status === 'status5'"
-      class="btn-withIcon-outline scale-90 md:scale-100"
-      @click="handleClick(props.status)"
-    >
-      <icon-heroicons:heart />
+  <button
+    v-if="props.status === 'status5' && props.invitationStatus === 'pending'"
+    class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
+    @click="handleClick(props.status)"
+  >
+    <icon-heroicons:heart />
 
-      <p>{{ btnText }}</p>
-    </button>
+    <p>{{ btnText }}</p>
+  </button>
 
-    <button
-      v-if="props.status === 'status6'"
-      class="btn-withIcon-outline w-[132px] scale-90 md:scale-100"
-      @click="handleClick(props.status)"
-    >
-      <icon-heroicons:x-mark />
+  <button
+    v-if="props.status === 'status6' && !isLocked"
+    class="btn-withIcon-outline mx-[1px] my-[3px] w-[132px] scale-90 md:mx-[6px] md:scale-100"
+    @click="handleClick(props.status)"
+  >
+    <icon-heroicons:x-mark />
 
-      <p>{{ btnText }}</p>
-    </button>
+    <p>{{ btnText }}</p>
+  </button>
 
-    <button
-      v-if="props.status === 'status7'"
-      class="btn-withIcon-fill w-[132px] scale-90 md:scale-100"
-      @click="handleClick(props.status)"
-    >
-      <icon-heroicons:check />
+  <button
+    v-if="props.status === 'status7' && isLocked"
+    class="btn-withIcon-fill mx-[1px] my-[3px] w-[132px] scale-90 md:mx-[6px] md:scale-100"
+    @click="handleClick(props.status)"
+  >
+    <icon-heroicons:check />
 
-      <p>{{ btnText }}</p>
-    </button>
+    <p>{{ btnText }}</p>
+  </button>
 
-    <button
-      v-if="props.status === 'status8'"
-      class="btn-withIcon-fill w-[132px] scale-90 md:scale-100"
-      @click="handleClick(props.status)"
-    >
-      <icon-heroicons:pencil />
+  <button
+    v-if="props.status === 'status8'"
+    class="btn-withIcon-fill mx-[1px] my-[3px] w-[132px] scale-90 md:mx-[6px] md:scale-100"
+    @click="handleClick(props.status)"
+  >
+    <icon-heroicons:pencil />
 
-      <p>{{ btnText }}</p>
-    </button>
+    <p>{{ btnText }}</p>
+  </button>
 
-    <button
-      v-if="props.status === 'status9'"
-      class="flex scale-90 gap-3 rounded-full border-2 border-neutral-400 px-[20px] py-[6px] text-[16px] leading-[24px] text-neutral-400 md:scale-100"
-      @click="handleClick(props.status)"
-    >
-      <icon-heroicons:pencil />
+  <button
+    v-if="props.status === 'status9'"
+    class="mx-[1px] my-[3px] flex scale-90 gap-3 rounded-full border-2 border-neutral-400 px-[20px] py-[6px] text-[16px] leading-[24px] text-neutral-400 md:mx-[6px] md:scale-100"
+    @click="handleClick(props.status)"
+  >
+    <icon-heroicons:pencil />
 
-      <p>{{ btnText }}</p>
-    </button>
+    <p>{{ btnText }}</p>
+  </button>
 
-    <button
-      v-if="props.status === 'status10'"
-      class="btn-withIcon-outline scale-90 md:scale-100"
-      @click="handleClick(props.status)"
-    >
-      <icon-heroicons:trash v />
+  <button
+    v-if="props.status === 'status10'"
+    class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
+    @click="handleClick(props.status)"
+  >
+    <icon-heroicons:trash v />
 
-      <p>{{ btnText }}</p>
-    </button>
+    <p>{{ btnText }}</p>
+  </button>
 
-    <utilsConfirmModal
-      v-model="isOpenModal"
-      :status="modalStatus"
-    />
-  </div>
+  <utilsConfirmModal
+    v-model="isOpenModal"
+    :status="modalStatus"
+  />
 </template>
 
 <style scoped></style>

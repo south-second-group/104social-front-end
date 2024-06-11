@@ -2,6 +2,8 @@
 const props = defineProps({
   status: String,
 })
+
+// 彈窗邏輯
 const isOpenModal = defineModel()
 const modalText = computed(() => {
   switch (props.status) {
@@ -30,6 +32,39 @@ const modalText = computed(() => {
   }
 })
 
+const modalClick = computed(() => {
+  switch (props.status) {
+    case 'status1':
+      return tempfunc
+    case 'status2':
+      return tempfunc
+    case 'status3':
+      return tempfunc
+    case 'status4':
+      return tempfunc
+    case 'status5':
+      return tempfunc
+    case 'status6':
+      return tempfunc
+    case 'status7':
+      return tempfunc
+    case 'status8':
+      return tempfunc
+    case 'status9':
+      return tempfunc
+    case 'status10':
+      return tempfunc
+    default:
+      return ''
+  }
+})
+
+function tempfunc() {
+  console.warn('tempfunc')
+  isOpenModal.value = false
+}
+
+// 邀約訊息
 const selectedOption = ref('請選擇訊息範本')
 const options = ['訊息01', '訊息02', '訊息03']
 const selectedToggle = ref(false)
@@ -119,6 +154,7 @@ async function fetchAnswer() {
           </button>
           <button
             class="rounded-full bg-primary-dark px-[20px] py-[8px] text-[16px] leading-[24px] text-white"
+            @click="modalClick"
           >
             <p>確定</p>
           </button>
@@ -194,9 +230,7 @@ async function fetchAnswer() {
               :disabled="isLoading"
               @click.prevent="fetchAnswer"
             >
-              <p>
-                AI 提示
-              </p>
+              <p>AI 提示</p>
             </button>
           </div>
 

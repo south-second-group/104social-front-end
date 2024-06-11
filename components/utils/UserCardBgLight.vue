@@ -1,5 +1,11 @@
-<script lang="ts" setup>
-defineProps(['i'])
+<script setup>
+import { matchListApi } from '~/apis/repositories/matchList'
+
+defineProps({
+  resultItem: Object,
+})
+
+const isDataLoading = ref(true)
 
 const buttonList = ref([
   { status: 'status1' },
@@ -13,14 +19,52 @@ const buttonList = ref([
   { status: 'status9' },
   { status: 'status10' },
 ])
+
+// 取得配對選項
+const matchListOptionData = ref([])
+async function getMatchListOption() {
+  try {
+    const res = await matchListApi.matchListOptions()
+    const { data } = res
+    matchListOptionData.value = data
+  }
+  catch (error) {
+    console.error(error)
+  }
+}
+
+Promise.all([getMatchListOption()]).then(() => {
+  isDataLoading.value = false
+})
+
+function renderValue(key, value) {
+  if (Array.isArray(value) && value.length > 1)
+    return value.map(v => matchListOptionData.value[0][key][v].label)
+
+  if (matchListOptionData.value[0][key][value].label !== '請選擇')
+    return matchListOptionData.value[0][key][value].label
+}
+
+const result = new Set() // 要傳給邀約潭窗的資料
+function createRenderValue(key, value) {
+  if (Array.isArray(value)) {
+    value.forEach((v) => {
+      if (matchListOptionData.value[0][key][v].label !== '請選擇')
+        result.add(matchListOptionData.value[0][key][v].label)
+    })
+  }
+  else if (matchListOptionData.value[0][key][value].label !== '請選擇') {
+    result.add(matchListOptionData.value[0][key][value].label)
+  }
+}
 </script>
 
 <template>
   <section
-    class="w-full space-y-4 rounded-[10px] border-2 border-neutral-300 p-4 md:p-6"
+    class="w-full space-y-4 rounded-[10px] border-2 border-neutral-300 bg-white p-4 md:p-6"
   >
     <div class="flex items-center justify-between">
-      <utilsInviteStatusBtn :status="i" />
+      <utilsInviteStatusBtn :status="resultItem.invitationStatus" />
 
       <div class="flex gap-3">
         <!-- vif 判斷顯示聊天或移除 -->
@@ -53,29 +97,71 @@ const buttonList = ref([
               'font-montserrat': !useIsChineseFunc('張詠晴'),
             }"
           >
-            張詠晴
+            {{ resultItem.personalInfo.username }}
           </h2>
-          <p class="text-B2 text-neutral-600">
-            生理女、身高 165cm、體重 50kg、健身、未婚
-          </p>
+
+          <div v-if="!isDataLoading">
+            <span
+              v-for="(value, key) in resultItem.matchListSelfSetting
+                .personalInfo"
+              :key="key"
+              class="hidden"
+            >
+              {{ createRenderValue(key, value) }}
+            </span>
+            <span class="hidden">
+              {{
+                createRenderValue(
+                  'industry',
+                  resultItem.matchListSelfSetting.workInfo.industry,
+                )
+              }}
+            </span>
+            <span class="text-B2 text-neutral-600">{{
+              Array.from(result).join('、')
+            }}</span>
+          </div>
         </div>
-        <div class="space-y-3 border-l-2 border-x-neutral-300 pl-3">
+        <div
+          v-if="!isDataLoading"
+          class="space-y-3 border-l-2 border-x-neutral-300 pl-3"
+        >
           <p class="text-B2 text-neutral-500">
-            營養師
+            {{
+              renderValue(
+                'occupation',
+                resultItem.matchListSelfSetting.workInfo.occupation,
+              )
+            }}
           </p>
           <p class="text-B2 text-neutral-300">
-            台南白河國小
+            {{
+              renderValue(
+                'expectedSalary',
+                resultItem.matchListSelfSetting.workInfo.expectedSalary,
+              )
+            }}
           </p>
         </div>
         <div
+          v-if="!isDataLoading"
           class="flex flex-col items-start justify-between gap-3 md:flex-row"
         >
           <div>
-            <a
-              :href="`https://www.google.com/search?q=${'團膳業'}`"
-              class="text-special-info"
-              target="_blank"
-            >團膳業</a>
+            <span
+              v-for="(item, idx) in renderValue(
+                'industry',
+                resultItem.matchListSelfSetting.workInfo.industry,
+              )"
+              :key="idx"
+            >
+              <a
+                :href="`https://www.google.com/search?q=${item}`"
+                class="text-special-info"
+                target="_blank"
+              >
+                {{ item }}{{ ' ' }}</a>
+            </span>
           </div>
           <div class="flex justify-end space-x-2">
             <icon-heroicons:star-solid class="text-special-warning" />
@@ -85,11 +171,15 @@ const buttonList = ref([
       </div>
     </div>
 
-    <div class="flex flex-wrap justify-end md:gap-3">
+    <div class="flex flex-wrap justify-end">
       <utilsComplexBtn
         v-for="(btn, index) in buttonList"
         :key="index"
-        :status="btn.status"
+        v-bind="{
+          status: btn.status,
+          invitationStatus: resultItem.invitationStatus,
+          isLocked: resultItem.isLocked,
+        }"
       />
     </div>
   </section>

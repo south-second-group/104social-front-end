@@ -1,6 +1,10 @@
 <script setup>
 import { matchListApi } from '~/apis/repositories/matchList'
 
+useHead({
+  title: '配對結果',
+})
+
 const matchResult = useMatchResultStore()
 
 const isDataLoading = ref(true)
@@ -71,8 +75,14 @@ Promise.all([getMatchResult()]).then(() => {
             </div> -->
           </div>
 
-          <div class="mb-4 rounded-lg bg-neutral-100 p-6">
+          <div class="mb-4 space-y-3 rounded-lg bg-neutral-100 p-6">
             {{ matchResult.result }}
+
+            <utilsUserCardBgLight
+              v-for="item in matchResult.result"
+              :key="item._id"
+              :result-item="item"
+            />
           </div>
         </div>
       </div>
