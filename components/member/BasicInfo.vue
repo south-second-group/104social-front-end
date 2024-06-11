@@ -82,9 +82,15 @@ const functionButtonsList = [
         </li>
       </ul>
 
-      <button class="btn-linear-nav block">
+      <!-- <button class="btn-linear-nav block">
         儲值
-      </button>
+      </button> -->
+      <GradientButton class="m-[2px] lg:px-5 lg:py-2">
+        <GradientButtonText
+          text="儲值"
+          class="text-base"
+        />
+      </GradientButton>
     </div>
 
     <!-- 功能按鈕 -->
