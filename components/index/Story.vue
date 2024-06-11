@@ -80,17 +80,19 @@
         </div>
       </div>
     </div>
-    <div class="lg:hidden">
-      <button class="btn-textOrIcon-sm mx-auto mt-6">
-        <p>查看更多</p>
-        <icon-heroicons:arrow-right />
-      </button>
-    </div>
-    <div class="hidden lg:block">
-      <button class="btn-textOrIcon-lg mx-auto mt-6">
-        <p>查看更多</p>
-        <icon-heroicons:arrow-right />
-      </button>
-    </div>
+    <NuxtLink to="/stores">
+      <div class="lg:hidden">
+        <button class="btn-textOrIcon-sm mx-auto mt-6">
+          <p>查看更多</p>
+          <icon-heroicons:arrow-right />
+        </button>
+      </div>
+      <div class="hidden lg:block">
+        <button class="btn-textOrIcon-lg mx-auto mt-6">
+          <p>查看更多</p>
+          <icon-heroicons:arrow-right />
+        </button>
+      </div>
+    </NuxtLink>
   </div>
 </template>

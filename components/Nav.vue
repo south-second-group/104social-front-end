@@ -200,7 +200,7 @@ function toast(message, type) {
                       </li>
                       <li class="text-B2 py-4 text-center">
                         <NuxtLink
-                          to="/stroy"
+                          to="/stores"
                           class="nav-items"
                           @click="isOpenSlide = false"
                         >
@@ -284,9 +284,9 @@ function toast(message, type) {
             </li>
             <li class="p-2">
               <NuxtLink
-                to="/stroy"
+                to="/stores"
                 class="nav-items"
-                :class="[buttonClass('/stroy'), { active: isActive('/stroy') }]"
+                :class="[buttonClass('/stores'), { active: isActive('/stores') }]"
               >
                 <div class="relative">
                   <icon-heroicons:sparkles-solid />
