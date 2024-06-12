@@ -153,7 +153,7 @@ function handleClick(status) {
 
   <button
     v-if="props.status === 'status9'"
-    class="mx-[1px] my-[3px] flex scale-90 gap-3 rounded-full border-2 border-neutral-400 px-[20px] py-[6px] text-[16px] leading-[24px] text-neutral-400 md:mx-[6px] md:scale-100"
+    class="mx-[1px] my-[3px] flex scale-90 gap-1 rounded-full border-2 border-neutral-400 px-[20px] py-[6px] text-[16px] leading-[24px] text-neutral-400 md:mx-[6px] md:scale-100"
     @click="handleClick(props.status)"
   >
     <icon-heroicons:pencil />

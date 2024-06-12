@@ -26,7 +26,7 @@ const page = defineModel()
     }"
   >
     <template #prev="{ onClick }">
-      <UTooltip text="Previous page">
+      <UTooltip text="上一頁">
         <UButton
           icon="i-heroicons-chevron-left"
           :ui="{ rounded: 'rounded-full' }"
@@ -38,7 +38,7 @@ const page = defineModel()
       </UTooltip>
     </template>
     <template #next="{ onClick }">
-      <UTooltip text="Next page">
+      <UTooltip text="下一頁">
         <UButton
           icon="i-heroicons-chevron-right"
           color="primary"

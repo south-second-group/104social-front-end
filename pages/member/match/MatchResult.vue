@@ -10,6 +10,7 @@ const matchResult = useMatchResultStore()
 const isDataLoading = ref(true)
 const toastMessage = ref('')
 const toastType = ref('')
+const currentPage = ref(1)
 
 async function getMatchResult() {
   try {
@@ -59,10 +60,7 @@ Promise.all([getMatchResult()]).then(() => {
 
         <!-- 配對條件 -->
         <div class="col-span-12 md:col-span-9">
-          <div
-            v-if="!isDataLoading"
-            class="flex justify-between"
-          >
+          <div class="flex justify-between">
             <h2 class="text-H4 md:text-H3 mb-4 text-start text-primary-dark">
               <!-- 搜尋結果 -->
             </h2>
@@ -75,7 +73,10 @@ Promise.all([getMatchResult()]).then(() => {
             </div> -->
           </div>
 
-          <div class="mb-4 space-y-3 rounded-lg bg-neutral-100 p-6">
+          <div
+            v-if="!isDataLoading"
+            class="mb-4 space-y-3 rounded-lg bg-neutral-100 p-6"
+          >
             {{ matchResult.result }}
 
             <utilsUserCardBgLight
@@ -84,6 +85,21 @@ Promise.all([getMatchResult()]).then(() => {
               :result-item="item"
             />
           </div>
+
+          <div
+            v-else
+            class="mb-4 space-y-3 rounded-lg bg-neutral-100 p-6"
+          >
+            <utilsUserCardBgLightSkeleton
+              v-for="i in 6"
+              :key="i"
+            />
+          </div>
+
+          <utilsPaginationComp
+            v-model="currentPage"
+            :items="matchResult.result"
+          />
         </div>
       </div>
     </div>
