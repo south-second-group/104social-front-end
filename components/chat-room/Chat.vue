@@ -8,11 +8,11 @@ const { chatId } = props
   <div class="mt-5 size-full rounded-xl bg-white p-3 md:px-5 md:py-4">
     <div class="flex h-full flex-col justify-between">
       <!-- 對話內容 -->
-      <div class="overflow-y-scroll pe-3">
-        <p class="mb-5">
+      <div class="h-[80vh] overflow-y-auto">
+        <p class="mb-5 text-center">
           這是對話 {{ chatId }}
         </p>
-        <p class="mb-5">
+        <p class="mb-5 text-center">
           2024 / 3 / 20
         </p>
         <div class="mb-6 flex flex-row-reverse items-center gap-2">
@@ -36,7 +36,7 @@ const { chatId } = props
             src="https://avatars.githubusercontent.com/u/739984?v=4"
             alt="Avatar"
           />
-          <div class="max-w-[60%]  rounded-lg bg-neutral-200 px-3 py-2 sm:max-w-[70%]">
+          <div class="max-w-[60%]  rounded-lg bg-neutral-200 px-3 py-2 sm:max-w-[60%]">
             <p class="mb-text-base text-start text-sm text-zinc-950">
               我住台北，你是哪裡人?我住台北，你是哪裡人?我住台北，你是哪裡人?我住台北，你是哪裡人?
             </p>
@@ -91,52 +91,6 @@ const { chatId } = props
           </div>
           <p class="self-end text-xs text-zinc-400 md:text-sm ">
             下午08 :10
-          </p>
-        </div>
-
-        <div class="mb-6 flex flex-row-reverse items-center gap-2">
-          <UAvatar
-            size="md"
-            src="https://avatars.githubusercontent.com/u/739984?v=4"
-            alt="Avatar"
-          />
-          <div class="max-w-[190px] rounded-lg bg-neutral-200 px-3 py-2">
-            <p class="mb-text-base text-start text-sm text-zinc-950">
-              我要去洗澡了
-            </p>
-          </div>
-          <p class="self-end text-xs text-zinc-400 md:text-sm ">
-            下午08 :12
-          </p>
-        </div>
-        <div class="mb-6 flex flex-row-reverse items-center gap-2">
-          <UAvatar
-            size="md"
-            src="https://avatars.githubusercontent.com/u/739984?v=4"
-            alt="Avatar"
-          />
-          <div class="max-w-[190px] rounded-lg bg-neutral-200 px-3 py-2">
-            <p class="mb-text-base text-start text-sm text-zinc-950">
-              我要去洗澡了
-            </p>
-          </div>
-          <p class="self-end text-xs text-zinc-400 md:text-sm ">
-            下午08 :12
-          </p>
-        </div>
-        <div class="mb-6 flex flex-row-reverse items-center gap-2">
-          <UAvatar
-            size="md"
-            src="https://avatars.githubusercontent.com/u/739984?v=4"
-            alt="Avatar"
-          />
-          <div class="max-w-[190px] rounded-lg bg-neutral-200 px-3 py-2">
-            <p class="mb-text-base text-start text-sm text-zinc-950">
-              我要去洗澡了
-            </p>
-          </div>
-          <p class="self-end text-xs text-zinc-400 md:text-sm ">
-            下午08 :12
           </p>
         </div>
         <div class="mb-6 flex flex-row-reverse items-center gap-2">

@@ -24,7 +24,9 @@ async function verify() {
       setUserData(response.data)
       isLoggedIn.value = true
     }
-    else { isLoggedIn.value = false }
+    else {
+      isLoggedIn.value = false
+    }
   }
   catch (error) {
     const errorMessage = error.response
@@ -84,9 +86,11 @@ function toast(message, type) {
 </script>
 
 <template>
-  <div class="sticky h-[60px] w-full lg:z-[1000] lg:h-[120px]">
+  <div class="h-[60px] w-full lg:h-[120px]">
     <div class="container mx-auto mt-0 rounded-full lg:mt-5 lg:bg-zinc-50/80">
-      <div class="flex w-full items-center justify-between p-3 lg:px-10 lg:py-4">
+      <div
+        class="flex w-full items-center justify-between p-3 lg:px-10 lg:py-4"
+      >
         <NuxtLink to="/">
           <h1 class="shrink-0">
             <NuxtImg
@@ -110,7 +114,10 @@ function toast(message, type) {
               </UButton>
               <UModal
                 v-model="isOpenModal"
-                :ui="{ inner: 'fixed inset-0 overflow-y-visible w-full custom-modal-top' }"
+                :ui="{
+                  inner:
+                    'fixed inset-0 overflow-y-visible w-full custom-modal-top',
+                }"
                 prevent-close
               >
                 <UCard
@@ -121,7 +128,9 @@ function toast(message, type) {
                   class="linear-border rounded-md"
                 >
                   <NotificationCard />
-                  <div class="flex justify-between px-2 py-4 font-bold text-primary-dark">
+                  <div
+                    class="flex justify-between px-2 py-4 font-bold text-primary-dark"
+                  >
                     <div class="">
                       <NuxtLink
                         to="/notifications"
@@ -140,7 +149,7 @@ function toast(message, type) {
                         class="p-0"
                         @click="isOpenModal = false"
                       >
-                        <p class="text-base font-bold text-primary-dark ">
+                        <p class="text-base font-bold text-primary-dark">
                           關閉
                         </p>
                       </UButton>
@@ -162,7 +171,9 @@ function toast(message, type) {
               v-model="isOpenSlide"
               class="h-screen"
             >
-              <div class="w-full flex-1 bg-[url('~/public/nav/phone-bg.png')] bg-cover p-4">
+              <div
+                class="w-full flex-1 bg-[url('~/public/nav/phone-bg.png')] bg-cover p-4"
+              >
                 <div class="flex justify-end">
                   <UButton
                     color="gray"
@@ -200,7 +211,7 @@ function toast(message, type) {
                       </li>
                       <li class="text-B2 py-4 text-center">
                         <NuxtLink
-                          to="/stroy"
+                          to="/stores"
                           class="nav-items"
                           @click="isOpenSlide = false"
                         >
@@ -230,7 +241,7 @@ function toast(message, type) {
                       </li>
                     </ul>
                   </div>
-                  <div class="w-full px-9 ">
+                  <div class="w-full px-9">
                     <button
                       class="btn-linear-nav block w-full"
                       @click="isLoggedIn ? logout() : $router.push('/login')"
@@ -284,9 +295,12 @@ function toast(message, type) {
             </li>
             <li class="p-2">
               <NuxtLink
-                to="/stroy"
+                to="/stores"
                 class="nav-items"
-                :class="[buttonClass('/stroy'), { active: isActive('/stroy') }]"
+                :class="[
+                  buttonClass('/stores'),
+                  { active: isActive('/stores') },
+                ]"
               >
                 <div class="relative">
                   <icon-heroicons:sparkles-solid />
@@ -328,15 +342,24 @@ function toast(message, type) {
               class="nav-items p-2"
             >
               <UPopover :popper="{ placement: 'bottom-end' }">
-                <UButton
-                  color="white"
-                  class="no-border-no-shadow text-B2 p-0"
+                <UChip
+                  text="3"
+                  size="2xl"
                 >
-                  <p class="font-bold">
-                    站內通知
-                  </p>
-                </UButton>
-
+                  <UButton
+                    :class="[
+                      buttonClass('/notifications'),
+                      { active: isActive('/notifications') },
+                    ]"
+                    color="white"
+                    class="no-border-no-shadow text-B2 p-0"
+                  >
+                    <icon-heroicons:sparkles-solid />
+                    <p class="font-bold">
+                      站內通知
+                    </p>
+                  </UButton>
+                </UChip>
                 <template #panel="{ close }">
                   <div class="linear-border rounded-md p-4">
                     <NotificationCard />

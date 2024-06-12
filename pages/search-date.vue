@@ -58,6 +58,12 @@ function checkScreenSize() {
   isDesktop.value = window.innerWidth >= 1024
 }
 
+const currentTab = ref('')
+
+function changeTab(tab) {
+  currentTab.value = tab
+}
+
 onMounted(() => {
   checkScreenSize()
   window.addEventListener('resize', checkScreenSize)
@@ -74,7 +80,7 @@ onUnmounted(() => {
       <div class="col-span-12 mt-4 lg:col-span-9">
         <div class="mb-3 flex flex-col lg:mb-20 lg:flex-row">
           <div
-            class="mb-2 me-4 h-12 w-full rounded-lg border  bg-white lg:mb-0 lg:max-w-[380px]"
+            class="mb-2 me-4 h-12 w-full rounded-lg border bg-white lg:mb-0 lg:max-w-[380px]"
           >
             <UInput
               v-model="keyWord"
@@ -111,16 +117,23 @@ onUnmounted(() => {
             </div>
             <div class="flex items-center">
               <div class="my-auto">
-                <div class="rounded-full bg-[#FFF5F5] p-2">
-                  <span class="cursor-pointer text-xl text-primary-dark">
-                    <icon-heroicons-adjustments-horizontal class="size-6" />
-                  </span>
-                </div>
+                <UPopover :popper="{ placement: 'bottom-end' }">
+                  <UButton
+                    class="rounded-full border-2 border-[#FFF5F5] bg-[#FFF5F5] p-2 transition delay-150 ease-in-out hover:border-primary-dark hover:bg-[#FFF5F5]"
+                  >
+                    <icon-heroicons-adjustments-horizontal
+                      class="size-6 text-primary-dark"
+                    />
+                  </UButton>
+                  <template #panel>
+                    <search-dateHashtagSelectCard />
+                  </template>
+                </UPopover>
               </div>
               <div class="lg:w-full">
                 <UButton
                   :ui="{ rounded: 'rounded-full' }"
-                  class="ms-2 border-2 border-primary-dark bg-primary-dark p-2 text-base font-bold hover:text-primary-dark lg:ms-4 lg:w-full lg:px-5 lg:py-2"
+                  class="ms-2 border-2 border-primary-dark bg-primary-dark p-2 text-base font-bold transition delay-150 ease-in-out hover:text-primary-dark lg:ms-4 lg:w-full lg:px-5 lg:py-2"
                 >
                   <p class="hidden lg:block">
                     搜尋
@@ -136,22 +149,49 @@ onUnmounted(() => {
           class="mb-6 mt-10 flex w-full flex-col justify-between lg:mt-0 lg:flex-row lg:items-center"
         >
           <div class="mb-6 flex gap-6 overflow-x-auto lg:mb-0">
-            <div class="whitespace-nowrap p-2">
-              全部（9487）
+            <div
+              :class="{
+                'active-tab': currentTab === 'all',
+                'inactive-tab': currentTab !== 'all',
+              }"
+              class="cursor-pointer whitespace-nowrap p-2 transition duration-300 ease-in-out"
+              @click="changeTab('all')"
+            >
+              <p class="text-base font-bold md:text-xl">
+                全部（9487）
+              </p>
             </div>
             <UDivider
               orientation="vertical"
               class="my-1.5"
             />
-            <div class="whitespace-nowrap p-2">
-              公開（8524）
+            <div
+              :class="{
+                'active-tab': currentTab === 'public',
+                'inactive-tab': currentTab !== 'public',
+              }"
+              class="cursor-pointer whitespace-nowrap p-2 transition duration-300 ease-in-out"
+              @click="changeTab('public')"
+            >
+              <p class="text-base font-bold md:text-xl">
+                公開（8524）
+              </p>
             </div>
             <UDivider
               orientation="vertical"
               class="my-1.5"
             />
-            <div class="whitespace-nowrap p-2">
-              近期刊登（487）
+            <div
+              :class="{
+                'active-tab': currentTab === 'newest',
+                'inactive-tab': currentTab !== 'newest',
+              }"
+              class="cursor-pointer whitespace-nowrap p-2 transition duration-300 ease-in-out"
+              @click="changeTab('newest')"
+            >
+              <p class="text-base font-bold md:text-xl">
+                近期刊登（487）
+              </p>
             </div>
           </div>
           <div
@@ -201,3 +241,21 @@ onUnmounted(() => {
     </div>
   </div>
 </template>
+
+<style scoped>
+.active-tab {
+  color: #52525b;
+  transition-duration: 0.5s;
+}
+
+.inactive-tab {
+  color: #a1a1aa;
+  transition-duration: 0.5s;
+}
+
+.active-tab :hover,
+.inactive-tab :hover {
+  color: #f47277;
+  transition-duration: 0.5s;
+}
+</style>

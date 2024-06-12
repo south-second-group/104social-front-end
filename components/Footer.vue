@@ -40,7 +40,7 @@
       </ul>
     </div>
     <div class="bg-zinc-50 p-5 md:p-10">
-      <p class="text-sm md:text-base">
+      <p class="text-center text-sm md:text-base">
         © 2024 104 緣來如此 All Rights Reserved.
       </p>
     </div>

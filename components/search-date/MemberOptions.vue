@@ -46,13 +46,13 @@ onUnmounted(() => {
       <p class="mb-4 text-[20px] font-bold text-primary-dark">
         會員享福利
       </p>
-      <div class="mb-2 flex items-center rounded-xl bg-white p-4 text-zinc-600 shadow-[#F4766E1A]">
+      <div class="mb-2 flex cursor-pointer items-center rounded-xl bg-white p-4 text-zinc-600 shadow-[#F4766E1A] transition duration-300 ease-in-out hover:text-primary-dark">
         <icon-heroicons-lock-open />
         <p class="ms-2 font-bold">
           解鎖評價
         </p>
       </div>
-      <div class="flex items-center rounded-xl bg-white p-4 text-zinc-600 shadow-[#F4766E1A]">
+      <div class="flex cursor-pointer items-center rounded-xl bg-white p-4 text-zinc-600 shadow-[#F4766E1A] transition duration-300 ease-in-out hover:text-primary-dark">
         <icon-heroicons-sparkles-solid />
         <p class="ms-2 font-bold">
           成為精選會員

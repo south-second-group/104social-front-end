@@ -141,18 +141,24 @@ function handleMouseEnter(index) {
               </div>
             </li>
           </ul>
-          <div class="lg:hidden">
+          <NuxtLink
+            class="lg:hidden"
+            to="/articles"
+          >
             <button class="btn-textOrIcon-sm mx-auto mt-6">
               <p>查看更多</p>
               <icon-heroicons:arrow-right />
             </button>
-          </div>
-          <div class="hidden lg:block">
+          </NuxtLink>
+          <NuxtLink
+            class="hidden lg:block"
+            to="/articles"
+          >
             <button class="btn-textOrIcon-lg me-[67px] ms-auto mt-6">
               <p>查看更多</p>
               <icon-heroicons:arrow-right />
             </button>
-          </div>
+          </NuxtLink>
         </div>
       </div>
       <div class="hidden w-[312px] xxl:block"></div>
