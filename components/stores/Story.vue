@@ -20,7 +20,7 @@ onUnmounted(() => {
 
 <template>
   <div
-    class="px-4 pb-4"
+    class="rounded-xl bg-neutral-50 p-4 shadow-neutral-L2"
     :class="{ 'linear-border-bottom': !isDesktop }"
   >
     <NuxtImg

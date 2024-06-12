@@ -20,8 +20,8 @@ const hashtags = {
     '害羞',
     '社恐',
     '大而化之',
-    '個性內向',
-    '個性外向',
+    'I 人',
+    'E 人',
     '嚴謹',
   ],
   hobby: ['登山', '游泳', '手遊', '購物', '看電影', '聚餐', '睡覺', '旅行'],
@@ -73,6 +73,14 @@ function removeExcludedHashtag(tag) {
   excludedHashtag.value = excludedHashtag.value.filter(item => item !== tag)
 }
 
+const selectedHashtagNewLine = computed(() => {
+  return selectedHashtag.value.length >= 3
+})
+
+const excludedHashtagNewLine = computed(() => {
+  return excludedHashtag.value.length >= 3
+})
+
 onMounted(() => {
   currentTab.value = 'signs'
   // 避免 tags 的高度跑掉
@@ -86,8 +94,11 @@ onMounted(() => {
         <p class="text-B3 mb-1 text-start text-zinc-400">
           搜尋條件
         </p>
-        <div class="flex items-center rounded-lg border border-zinc-200 p-2">
-          <div class="flex shrink-0 gap-3">
+        <div
+          class="flex rounded-lg border  border-zinc-200 p-2"
+          :class="{ 'flex-col': selectedHashtagNewLine }"
+        >
+          <div class="flex shrink-0 flex-wrap gap-3 ">
             <UBadge
               v-for="tag in selectedHashtag"
               :key="tag"
@@ -116,8 +127,11 @@ onMounted(() => {
         <p class="text-B3 mb-1 text-start text-zinc-400">
           排除條件
         </p>
-        <div class="flex items-center rounded-lg border border-zinc-200 p-2">
-          <div class="flex shrink-0 gap-3">
+        <div
+          class="flex rounded-lg border border-zinc-200 p-2"
+          :class="{ 'flex-col': excludedHashtagNewLine }"
+        >
+          <div class="flex shrink-0 flex-wrap gap-3">
             <UBadge
               v-for="tag in excludedHashtag"
               :key="tag"
@@ -152,7 +166,9 @@ onMounted(() => {
         class="cursor-pointer p-2 text-zinc-400 transition duration-300 ease-in-out"
         @click="changeTab('signs')"
       >
-        星座
+        <p class="font-bold">
+          星座
+        </p>
       </div>
       <UDivider
         orientation="vertical"
@@ -163,10 +179,12 @@ onMounted(() => {
           'active-tab': currentTab === 'personality',
           'inactive-tab': currentTab !== 'personality',
         }"
-        class="cursor-pointer p-2 text-zinc-400 transition duration-300 ease-in-out"
+        class="cursor-pointer p-2 transition duration-300 ease-in-out"
         @click="changeTab('personality')"
       >
-        個性
+        <p class="font-bold">
+          個性
+        </p>
       </div>
       <UDivider
         orientation="vertical"
@@ -177,10 +195,12 @@ onMounted(() => {
           'active-tab': currentTab === 'hobby',
           'inactive-tab': currentTab !== 'hobby',
         }"
-        class="cursor-pointer p-2 text-zinc-400 transition duration-300 ease-in-out"
+        class="cursor-pointer p-2 transition duration-300 ease-in-out"
         @click="changeTab('hobby')"
       >
-        興趣
+        <p class="font-bold">
+          興趣
+        </p>
       </div>
       <UDivider
         orientation="vertical"
@@ -191,10 +211,12 @@ onMounted(() => {
           'active-tab': currentTab === 'values',
           'inactive-tab': currentTab !== 'values',
         }"
-        class="cursor-pointer p-2 text-zinc-400 transition duration-300 ease-in-out"
+        class="cursor-pointer p-2 transition duration-300 ease-in-out"
         @click="changeTab('values')"
       >
-        價值觀
+        <p class="font-bold">
+          價值觀
+        </p>
       </div>
     </div>
     <div class="flex flex-wrap gap-3 py-3">
@@ -242,11 +264,19 @@ onMounted(() => {
 }
 
 .active-tab {
-  color: #f47277;
+  color: #52525b;
+  transition-duration: 0.5s;
 }
 
-.active-tab p {
-  font-weight: 700;
+.inactive-tab {
+  color: #a1a1aa;
+  transition-duration: 0.5s;
+}
+
+.active-tab :hover,
+.inactive-tab :hover {
+  color: #f47277;
+  transition-duration: 0.5s;
 }
 
 .no-border-no-shadow {

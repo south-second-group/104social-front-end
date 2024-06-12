@@ -8,7 +8,7 @@ const { chatId } = props
   <div class="mt-5 size-full rounded-xl bg-white p-3 md:px-5 md:py-4">
     <div class="flex h-full flex-col justify-between">
       <!-- 對話內容 -->
-      <div class="h-[85vh] overflow-y-auto">
+      <div class="h-[80vh] overflow-y-auto">
         <p class="mb-5 text-center">
           這是對話 {{ chatId }}
         </p>

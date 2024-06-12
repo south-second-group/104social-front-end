@@ -1,8 +1,10 @@
 <template>
-  <main class="flex flex-col items-center px-8 py-16 text-center">
+  <div class="flex min-h-screen flex-col">
     <Nav />
-    <slot></slot>
+    <main class="grow px-8 py-16 text-center">
+      <slot></slot>
+    </main>
     <ChatRoomButton />
     <Footer />
-  </main>
+  </div>
 </template>
