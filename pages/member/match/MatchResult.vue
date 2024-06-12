@@ -10,23 +10,51 @@ const matchResult = useMatchResultStore()
 const isDataLoading = ref(true)
 const toastMessage = ref('')
 const toastType = ref('')
-const currentPage = ref(1)
 
-async function getMatchResult() {
+const pagination = reactive({ page: 1, totalPage: 1 })
+const sortOption = ref([
+  { label: '最近更新', value: 'desc' },
+  { label: '最久更新', value: 'asc' },
+  { label: '最高評分', value: 'hightScore' },
+  { label: '最低評分', value: 'lowScore' },
+])
+const sortSelected = ref('desc')
+
+async function getMatchResult(page, sort) {
+  isDataLoading.value = true
   try {
-    const res = await matchListApi.getMatchResult()
+    const res = await matchListApi.getMatchResult(page, sort)
     const { data } = res
 
     matchResult.result = data
+    matchResult.resultTotal = data[0].pagination.totalPage
+
+    pagination.page = data[0].pagination.page
+    pagination.totalPage = data[0].pagination.totalPage
   }
   catch (error) {
     console.error(error)
   }
+  finally {
+    await new Promise(resolve => setTimeout(resolve, 2000))
+    isDataLoading.value = false
+  }
 }
 
-Promise.all([getMatchResult()]).then(() => {
+Promise.all([getMatchResult(pagination.page, sortSelected)]).then(() => {
   isDataLoading.value = false
 })
+
+watch([sortSelected], () => {
+  getMatchResult(pagination.page, sortSelected)
+})
+
+watch(
+  () => pagination.page,
+  () => {
+    getMatchResult(pagination.page, sortSelected)
+  },
+)
 </script>
 
 <template>
@@ -52,7 +80,7 @@ Promise.all([getMatchResult()]).then(() => {
             <NuxtLink to="/member/match/MatchResult">
               <div class="mb-2 flex justify-between">
                 <div>配對結果</div>
-                <div>{{ matchResult.result.length }}</div>
+                <div>{{ matchResult.resultTotal }}</div>
               </div>
             </NuxtLink>
           </div>
@@ -60,24 +88,26 @@ Promise.all([getMatchResult()]).then(() => {
 
         <!-- 配對條件 -->
         <div class="col-span-12 md:col-span-9">
-          <div class="flex justify-between">
+          <div class="mb-3 flex justify-between">
             <h2 class="text-H4 md:text-H3 mb-4 text-start text-primary-dark">
               <!-- 搜尋結果 -->
             </h2>
-            <!-- <div>
-              <UToggle
-                v-model="matchListData.noticeInfo.notice"
-                :disabled="toastMessage !== ''"
-              />
-              <b class="ml-2">配對通知</b>
-            </div> -->
+            <USelectMenu
+              v-model="sortSelected"
+              :options="sortOption"
+              class="w-[203px] rounded-md border border-neutral-300 bg-white text-neutral-500"
+              size="sm"
+              variant="none"
+              value-attribute="value"
+              option-attribute="label"
+            />
           </div>
 
           <div
             v-if="!isDataLoading"
             class="mb-4 space-y-3 rounded-lg bg-neutral-100 p-6"
           >
-            {{ matchResult.result }}
+            <!-- {{ matchResult.result }} -->
 
             <utilsUserCardBgLight
               v-for="item in matchResult.result"
@@ -97,8 +127,8 @@ Promise.all([getMatchResult()]).then(() => {
           </div>
 
           <utilsPaginationComp
-            v-model="currentPage"
-            :items="matchResult.result"
+            v-model="pagination.page"
+            :items="Array(pagination.totalPage)"
           />
         </div>
       </div>

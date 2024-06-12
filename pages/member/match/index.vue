@@ -131,6 +131,7 @@ async function getMatchResult() {
     const { data } = res
 
     matchResult.result = data
+    matchResult.resultTotal = data[0].pagination.totalPage
   }
   catch (error) {
     console.error(error)
@@ -234,7 +235,7 @@ matchListApi.getMatchListSelf().then((res) => {
             <NuxtLink to="/member/match/MatchResult">
               <div class="mb-2 flex justify-between">
                 <div>配對結果</div>
-                <div>{{ matchResult.result.length }}</div>
+                <div>{{ matchResult.resultTotal }}</div>
               </div>
             </NuxtLink>
           </div>

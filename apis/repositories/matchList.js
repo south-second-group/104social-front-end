@@ -51,8 +51,10 @@ async function updateMatchListSelf(data) {
 }
 
 // 取得配對結果
-async function getMatchResult() {
-  return useBaseFetch('/api/v1/match-result', {
+async function getMatchResult(page, sort) {
+  const url = `/api/v1/match-result?page=${page}&sort=${sort}`
+
+  return useBaseFetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

@@ -3,8 +3,7 @@ useHead({
   title: '我留下的評價',
 })
 
-const page = ref(1)
-const items = ref(Array(55))
+const pagination = reactive({ page: 1, totalPage: 10 })
 </script>
 
 <template>
@@ -26,8 +25,8 @@ const items = ref(Array(55))
       <!-- 分頁 -->
       <section class="py-12 font-montserrat">
         <utilsPaginationComp
-          v-model="page"
-          :items="items"
+          v-model="pagination.page"
+          :items="Array(pagination.totalPage)"
         />
       </section>
     </div>
