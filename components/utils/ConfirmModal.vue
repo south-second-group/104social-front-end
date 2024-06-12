@@ -1,6 +1,8 @@
 <script setup>
 const props = defineProps({
   status: String,
+  createRenderResult: Set,
+  cardUserName: String,
 })
 
 // 彈窗邏輯
@@ -76,36 +78,26 @@ const remainingCharacters = computed(
 )
 
 const isLoading = ref(false)
-// const theme = ref([
-//   '張詠晴',
-//   '音樂會',
-//   '運動',
-//   '旅行',
-//   '生理女',
-//   '身高 165cm',
-//   '體重 50kg',
-//   '未婚',
-//   '營養師',
-//   '台南白河國小',
-//   '團膳業',
-// ])
+const addedValue = ref(props.createRenderResult)
+addedValue.value.add(props.cardUserName)
+const theme = [...addedValue.value]
 
 async function fetchAnswer() {
   isLoading.value = true
   message.value = ''
 
   try {
-    // message.value = await useGetGenerativeModelGP(theme.value);
+    message.value = await useGetGenerativeModelGP(...theme)
 
-    await new Promise(resolve => setTimeout(resolve, 3000))
-    message.value = `詠晴，您好！
+    //     await new Promise((resolve) => setTimeout(resolve, 3000));
+    //     message.value = `詠晴，您好！
 
-不知道您最近是否有空？我最近想找家餐廳好好吃一頓，剛好聽說 [餐廳名] 的 [菜色類型] 很不錯，想邀請您一起去品嚐。
+    // 不知道您最近是否有空？我最近想找家餐廳好好吃一頓，剛好聽說 [餐廳名] 的 [菜色類型] 很不錯，想邀請您一起去品嚐。
 
-您是營養師，肯定很懂吃，也希望可以從您身上學習一些健康飲食的知識。如果方便的話，您看這個週末有空嗎？可以先聊聊，順便一起吃飯？
+    // 您是營養師，肯定很懂吃，也希望可以從您身上學習一些健康飲食的知識。如果方便的話，您看這個週末有空嗎？可以先聊聊，順便一起吃飯？
 
-希望您能接受我的邀請，期待您的回覆！ 😊
-    `
+    // 希望您能接受我的邀請，期待您的回覆！ 😊
+    //     `;
   }
   catch (error) {
     console.error({ error })

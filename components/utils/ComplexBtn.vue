@@ -3,6 +3,8 @@ const props = defineProps({
   status: String,
   invitationStatus: String,
   isLocked: Boolean,
+  createRenderResult: Set,
+  cardUserName: String,
 })
 
 const router = useRouter()
@@ -100,9 +102,7 @@ function handleClick(status) {
   </button>
 
   <button
-    v-if="
-      props.status === 'status4' && props.invitationStatus === 'not invited'
-    "
+    v-if="props.status === 'status4' && props.invitationStatus === 'not invited'"
     class="btn-withIcon-fill mx-[1px] my-[3px] w-[100px] scale-90 md:mx-[6px] md:scale-100"
     @click="handleClick(props.status)"
   >
@@ -174,6 +174,10 @@ function handleClick(status) {
   <utilsConfirmModal
     v-model="isOpenModal"
     :status="modalStatus"
+    v-bind="{
+      createRenderResult,
+      cardUserName,
+    }"
   />
 </template>
 

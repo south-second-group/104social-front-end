@@ -45,16 +45,16 @@ function renderValue(key, value) {
     return matchListOptionData.value[0][key][value].label
 }
 
-const result = new Set() // 要傳給邀約潭窗的資料
+const createRenderResult = new Set()
 function createRenderValue(key, value) {
   if (Array.isArray(value)) {
     value.forEach((v) => {
       if (matchListOptionData.value[0][key][v].label !== '請選擇')
-        result.add(matchListOptionData.value[0][key][v].label)
+        createRenderResult.add(matchListOptionData.value[0][key][v].label)
     })
   }
   else if (matchListOptionData.value[0][key][value].label !== '請選擇') {
-    result.add(matchListOptionData.value[0][key][value].label)
+    createRenderResult.add(matchListOptionData.value[0][key][value].label)
   }
 }
 </script>
@@ -84,9 +84,9 @@ function createRenderValue(key, value) {
     <div class="flex flex-col gap-6 rounded-xl bg-neutral-100 p-6 md:flex-row">
       <div class="shrink-0">
         <img
-          src="~/assets/img/member/Image01.png"
+          src="~/assets/img/member/Image03.png"
           alt="s3-alpha-sig"
-          class="mx-auto size-[150px] rounded-full object-cover"
+          class="mx-auto size-[150px] rounded-full object-cover object-top"
         >
       </div>
       <div class="w-full shrink-0 space-y-6 text-start md:w-[586px]">
@@ -118,7 +118,7 @@ function createRenderValue(key, value) {
               }}
             </span>
             <span class="text-B2 text-neutral-600">{{
-              Array.from(result).join('、')
+              Array.from(createRenderResult).join('、')
             }}</span>
           </div>
         </div>
@@ -179,6 +179,8 @@ function createRenderValue(key, value) {
           status: btn.status,
           invitationStatus: resultItem.invitationStatus,
           isLocked: resultItem.isLocked,
+          createRenderResult,
+          cardUserName: resultItem.personalInfo.username,
         }"
       />
     </div>

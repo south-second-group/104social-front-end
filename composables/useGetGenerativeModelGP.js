@@ -1,8 +1,8 @@
 import { useGenAi } from './useGenAi.js'
 
 export async function useGetGenerativeModelGP(prompt) {
-  const rule = `
-依照以下是訊息範例，並搭配對方資訊：${prompt}，隨機產生一段三百字的邀請訊息：
+  const rule1 = `
+參考以下是訊息範例，邀清訊息必需加入對方資訊：${prompt}，產生一段三百字的邀請訊息：
 
 **輕鬆自然:**
 * "最近想吃 [餐廳類型]，你喜歡嗎？有空一起吃飯嗎？"
@@ -30,8 +30,12 @@ export async function useGetGenerativeModelGP(prompt) {
 *  尊重她的選擇，如果她拒絕了，請不要勉強。
 `
 
+  const rule2 = `
+依照對方資訊和興趣和職業：${prompt}，產生約三百字的單獨約會的邀約訊息
+`
+
   const model = await useGenAi('gemini-1.5-flash') // 'gemini-1.5-flash' 'gemini-pro'
-  const result = await model.generateContent(rule)
+  const result = await model.generateContent(rule2)
   const response = await result.response
   const text = response.text()
 
