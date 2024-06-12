@@ -10,16 +10,16 @@
           />
         </div>
         <ul class="mt-2 flex flex-col justify-center gap-3 text-sm font-bold text-zinc-600 md:mt-0 md:flex-row md:justify-start md:text-base ">
-          <li class="p-3 ">
+          <li class="p-3 text-center">
             常見問答
           </li>
-          <li class="p-3">
+          <li class="p-3 text-center">
             使用條款
           </li>
-          <li class="p-3">
+          <li class="p-3 text-center">
             隱私中心
           </li>
-          <li class="p-3">
+          <li class="p-3 text-center">
             關於我們
           </li>
         </ul>
