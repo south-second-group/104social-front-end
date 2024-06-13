@@ -12,36 +12,46 @@ defineProps({
 </script>
 
 <template>
-  <div class="Toast flex">
+  <transition name="fade">
     <div
       v-if="toastMessage"
-      class="toast"
-      :class="[toastType === 'success' ? 'success' : 'error']"
+      class="Toast flex"
+      role="alert"
     >
-      {{ toastMessage }}
+      <div
+        class="toast"
+        :class="[toastType === 'success' ? 'success' : 'error']"
+      >
+        {{ toastMessage }}
+      </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <style lang="scss" scoped>
-  .toast.show {
-    display: block;
-  }
-  .toast {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    z-index: 1000;
-    display: block;
-  }
-  .toast.success {
+.toast {
+  position: fixed;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  z-index: 1000;
+
+  &.success {
     background-color: #4caf50;
   }
-  .toast.error {
+
+  &.error {
     background-color: #f44336;
   }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.8s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 </style>

@@ -1,7 +1,11 @@
 <script setup>
 const props = defineProps({
   status: String,
+  createRenderResult: Set,
+  cardUserName: String,
 })
+
+// 彈窗邏輯
 const isOpenModal = defineModel()
 const modalText = computed(() => {
   switch (props.status) {
@@ -30,9 +34,44 @@ const modalText = computed(() => {
   }
 })
 
+const modalClick = computed(() => {
+  switch (props.status) {
+    case 'status1':
+      return tempfunc
+    case 'status2':
+      return tempfunc
+    case 'status3':
+      return tempfunc
+    case 'status4':
+      return tempfunc
+    case 'status5':
+      return tempfunc
+    case 'status6':
+      return tempfunc
+    case 'status7':
+      return tempfunc
+    case 'status8':
+      return tempfunc
+    case 'status9':
+      return tempfunc
+    case 'status10':
+      return tempfunc
+    default:
+      return ''
+  }
+})
+
+function tempfunc() {
+  console.warn('tempfunc')
+  isOpenModal.value = false
+}
+
+// 邀約訊息
 const selectedOption = ref('請選擇訊息範本')
 const options = ['訊息01', '訊息02', '訊息03']
 const selectedToggle = ref(false)
+const toastMessage = ref('')
+const toastType = ref('')
 
 const message = ref('')
 const MAX_CHARACTERS = 1000
@@ -41,41 +80,37 @@ const remainingCharacters = computed(
 )
 
 const isLoading = ref(false)
-// const theme = ref([
-//   '張詠晴',
-//   '音樂會',
-//   '運動',
-//   '旅行',
-//   '生理女',
-//   '身高 165cm',
-//   '體重 50kg',
-//   '未婚',
-//   '營養師',
-//   '台南白河國小',
-//   '團膳業',
-// ])
+const addedValue = ref(props.createRenderResult)
+addedValue.value.add(props.cardUserName)
+const theme = [...addedValue.value]
 
 async function fetchAnswer() {
   isLoading.value = true
+  message.value = ''
 
   try {
-    // message.value = await useGetGenerativeModelGP(theme.value);
+    message.value = await useGetGenerativeModelGP(...theme)
 
-    await new Promise(resolve => setTimeout(resolve, 3000))
-    message.value = `詠晴，您好！
+    //     await new Promise((resolve) => setTimeout(resolve, 3000));
+    //     message.value = `詠晴，您好！
 
-不知道您最近是否有空？我最近想找家餐廳好好吃一頓，剛好聽說 [餐廳名] 的 [菜色類型] 很不錯，想邀請您一起去品嚐。
+    // 不知道您最近是否有空？我最近想找家餐廳好好吃一頓，剛好聽說 [餐廳名] 的 [菜色類型] 很不錯，想邀請您一起去品嚐。
 
-您是營養師，肯定很懂吃，也希望可以從您身上學習一些健康飲食的知識。如果方便的話，您看這個週末有空嗎？可以先聊聊，順便一起吃飯？
+    // 您是營養師，肯定很懂吃，也希望可以從您身上學習一些健康飲食的知識。如果方便的話，您看這個週末有空嗎？可以先聊聊，順便一起吃飯？
 
-希望您能接受我的邀請，期待您的回覆！ 😊
-    `
+    // 希望您能接受我的邀請，期待您的回覆！ 😊
+    //     `;
   }
   catch (error) {
     console.error({ error })
+    toastMessage.value = 'AI 提示發生錯誤，請通知開發者'
+    toastType.value = 'error'
   }
   finally {
     isLoading.value = false
+
+    await new Promise(resolve => setTimeout(resolve, 3000))
+    toastMessage.value = ''
   }
 }
 </script>
@@ -118,6 +153,7 @@ async function fetchAnswer() {
           </button>
           <button
             class="rounded-full bg-primary-dark px-[20px] py-[8px] text-[16px] leading-[24px] text-white"
+            @click="modalClick"
           >
             <p>確定</p>
           </button>
@@ -193,9 +229,7 @@ async function fetchAnswer() {
               :disabled="isLoading"
               @click.prevent="fetchAnswer"
             >
-              <p>
-                AI 提示
-              </p>
+              <p>AI 提示</p>
             </button>
           </div>
 
@@ -228,6 +262,11 @@ async function fetchAnswer() {
         </section>
       </UCard>
     </UModal>
+
+    <Toast
+      :toast-message="toastMessage"
+      :toast-type="toastType"
+    />
   </div>
 </template>
 
