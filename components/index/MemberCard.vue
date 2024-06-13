@@ -68,7 +68,7 @@ const isCheck = ref(false)
             <icon-heroicons:lock-open />
             <p>解鎖評價</p>
           </button>
-          <button class="btn-withIcon-fill">
+          <button class="btn-withIcon-fill w-[100px]">
             <icon-heroicons:heart />
             <p>邀約</p>
           </button>

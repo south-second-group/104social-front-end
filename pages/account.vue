@@ -163,50 +163,60 @@ function toast(message, type) {
 
       <div class="grid grid-flow-col grid-rows-3 gap-3">
         <button
-          class="gray-btn px-12 py-2"
+          class=" gray-btn relative px-12 py-2"
           style="border-radius: 100px;background-color: #F5F5F5;"
         >
-          <NuxtLink to="/member/match">
-            <b>配對設定</b>
-          </NuxtLink>
+          <b>配對設定</b>
+          <NuxtLink
+            class=" absolute inset-0"
+            to="/member/match"
+          />
         </button>
         <button
-          class="rounded bg-gray-200 px-12 py-2  text-gray-700"
+          class=" relative rounded bg-gray-200 px-12 py-2  text-gray-700"
           style="border-radius: 100px;background-color: #F5F5F5;"
         >
-          <NuxtLink to="/member/invite/InvitePage">
-            <b>我的約會</b>
-          </NuxtLink>
+          <b>我的約會</b>
+          <NuxtLink
+            class=" absolute inset-0"
+            to="/member/invite/InvitePage"
+          />
         </button>
         <button
-          class="rounded bg-gray-200 px-12 py-2 text-gray-700"
+          class=" relative rounded bg-gray-200 px-12 py-2 text-gray-700"
           style="border-radius: 100px;background-color: #F5F5F5;"
         >
           <b>配對結果</b>
         </button>
         <button
-          class="rounded bg-gray-200 px-12 py-2 text-gray-700"
+          class=" relative rounded bg-gray-200 px-12 py-2 text-gray-700"
           style="border-radius: 100px;background-color: #F5F5F5;"
         >
-          <NuxtLink to="/member/comment/CommentPage">
-            <b>我留下的評價</b>
-          </NuxtLink>
+          <b>我留下的評價</b>
+          <NuxtLink
+            class=" absolute inset-0"
+            to="/member/comment/CommentPage"
+          />
         </button>
         <button
-          class="rounded bg-gray-200 px-12 py-2 text-gray-700"
+          class=" relative rounded bg-gray-200 px-12 py-2 text-gray-700"
           style="border-radius: 100px;background-color: #F5F5F5;"
         >
-          <NuxtLink to="/member/CollectionPage">
-            <b>我的收藏</b>
-          </NuxtLink>
+          <b>我的收藏</b>
+          <NuxtLink
+            class=" absolute inset-0"
+            to="/member/CollectionPage"
+          />
         </button>
         <button
-          class="rounded bg-gray-200 px-12 py-2 text-gray-700"
+          class=" relative rounded bg-gray-200 px-12 py-2 text-gray-700"
           style="border-radius: 100px;background-color: #F5F5F5;"
         >
-          <NuxtLink to="/member/BanListPage">
-            <b>拒絕來信</b>
-          </NuxtLink>
+          <b>拒絕來信</b>
+          <NuxtLink
+            class=" absolute inset-0"
+            to="/member/BanListPage"
+          />
         </button>
       </div>
     </div>
