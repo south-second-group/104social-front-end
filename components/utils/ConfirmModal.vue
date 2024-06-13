@@ -70,6 +70,8 @@ function tempfunc() {
 const selectedOption = ref('請選擇訊息範本')
 const options = ['訊息01', '訊息02', '訊息03']
 const selectedToggle = ref(false)
+const toastMessage = ref('')
+const toastType = ref('')
 
 const message = ref('')
 const MAX_CHARACTERS = 1000
@@ -101,9 +103,14 @@ async function fetchAnswer() {
   }
   catch (error) {
     console.error({ error })
+    toastMessage.value = 'AI 提示發生錯誤，請通知開發者'
+    toastType.value = 'error'
   }
   finally {
     isLoading.value = false
+
+    await new Promise(resolve => setTimeout(resolve, 3000))
+    toastMessage.value = ''
   }
 }
 </script>
@@ -255,6 +262,11 @@ async function fetchAnswer() {
         </section>
       </UCard>
     </UModal>
+
+    <Toast
+      :toast-message="toastMessage"
+      :toast-type="toastType"
+    />
   </div>
 </template>
 

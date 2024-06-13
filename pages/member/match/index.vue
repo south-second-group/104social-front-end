@@ -131,7 +131,7 @@ async function getMatchResult() {
     const { data } = res
 
     matchResult.result = data
-    matchResult.resultTotal = data[0].pagination.totalPage
+    matchResult.resultTotal = data[0]?.pagination?.totalPage || 0
   }
   catch (error) {
     console.error(error)

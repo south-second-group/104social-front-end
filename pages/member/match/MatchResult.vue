@@ -27,7 +27,7 @@ async function getMatchResult(page, sort) {
     const { data } = res
 
     matchResult.result = data
-    matchResult.resultTotal = data[0].pagination.totalPage
+    matchResult.resultTotal = data[0]?.pagination?.totalPage || 0
 
     pagination.page = data[0].pagination.page
     pagination.totalPage = data[0].pagination.totalPage
@@ -88,7 +88,10 @@ watch(
 
         <!-- 配對條件 -->
         <div class="col-span-12 md:col-span-9">
-          <div class="mb-3 flex justify-between">
+          <div
+            v-if="matchResult.resultTotal !== 0"
+            class="mb-3 flex justify-between"
+          >
             <h2 class="text-H4 md:text-H3 mb-4 text-start text-primary-dark">
               <!-- 搜尋結果 -->
             </h2>
@@ -104,7 +107,7 @@ watch(
           </div>
 
           <div
-            v-if="!isDataLoading"
+            v-if="!isDataLoading && matchResult.resultTotal !== 0"
             class="mb-4 space-y-3 rounded-lg bg-neutral-100 p-6"
           >
             <!-- {{ matchResult.result }} -->
@@ -117,7 +120,7 @@ watch(
           </div>
 
           <div
-            v-else
+            v-else-if="isDataLoading && matchResult.resultTotal !== 0"
             class="mb-4 space-y-3 rounded-lg bg-neutral-100 p-6"
           >
             <utilsUserCardBgLightSkeleton
@@ -126,10 +129,21 @@ watch(
             />
           </div>
 
-          <utilsPaginationComp
-            v-model="pagination.page"
-            :items="Array(pagination.totalPage)"
-          />
+          <div
+            v-else
+            class="mb-4 space-y-3 rounded-lg bg-neutral-100 p-6 text-center"
+          >
+            尚無配對資料，請嘗試重新調整配對條件
+          </div>
+
+          <div
+            v-if="matchResult.resultTotal !== 0"
+          >
+            <utilsPaginationComp
+              v-model="pagination.page"
+              :items="Array(pagination.totalPage)"
+            />
+          </div>
         </div>
       </div>
     </div>
