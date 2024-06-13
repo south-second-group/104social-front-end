@@ -42,7 +42,10 @@ async function getMatchListSelfSetting() {
   try {
     const res = await matchListApi.getMatchListSelf()
     const { data } = res
+
     matchListSelfSettingData.value = data
+    matchListSelfSettingData.value.searchDataBase = []
+
     tempMatchListData.value = JSON.parse(JSON.stringify(data))
   }
   catch (error) {
@@ -64,11 +67,26 @@ async function getMatchListOption() {
 
 function renderValue(key, value) {
   if (Array.isArray(value)) {
-    return value
-      .map(v => matchListOptionData.value[0][key][v].label)
-      .join('、')
+    const arrayLabel = value.map(
+      v => matchListOptionData.value[0][key][v].label,
+    )
+
+    arrayLabel.forEach((item) => {
+      if (!matchListSelfSettingData.value.searchDataBase.includes(item))
+        matchListSelfSettingData.value.searchDataBase.push(item)
+    })
+
+    return arrayLabel.join('、')
   }
-  return matchListOptionData.value[0][key][value].label
+
+  const label = matchListOptionData.value[0][key][value].label
+  if (
+    label !== '請選擇'
+    && !matchListSelfSettingData.value.searchDataBase.includes(label)
+  )
+    matchListSelfSettingData.value.searchDataBase.push(label)
+
+  return label
 }
 
 function cancelEdit() {
@@ -78,7 +96,9 @@ function cancelEdit() {
 
 async function saveMatchListSelfSetting() {
   try {
-    const res = await matchListApi.updateMatchListSelf(matchListSelfSettingData.value)
+    const res = await matchListApi.updateMatchListSelf(
+      matchListSelfSettingData.value,
+    )
     const { message } = res
 
     toastMessage.value = `${message}`
@@ -92,7 +112,11 @@ async function saveMatchListSelfSetting() {
   }
   finally {
     editMode.value = false
-    tempMatchListData.value = JSON.parse(JSON.stringify(matchListSelfSettingData.value))
+
+    tempMatchListData.value = JSON.parse(
+      JSON.stringify(matchListSelfSettingData.value),
+    )
+    getMatchListSelfSetting()
     getMatchResult()
 
     await new Promise(resolve => setTimeout(resolve, 3000))
@@ -132,6 +156,7 @@ const accordionItems = [
 
 <template>
   <div>
+    <!-- {{ matchListSelfSettingData }} -->
     <UAccordion
       :items="accordionItems"
       color="gray"
