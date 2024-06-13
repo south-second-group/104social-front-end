@@ -1,7 +1,27 @@
 <script setup>
-defineProps({
-  point: Number,
-})
+const memberStore = useMemberStore()
+
+// toast
+const toastMessage = ref('')
+const toastType = ref('')
+function toast(message, type) {
+  toastMessage.value = message
+  toastType.value = type
+  setTimeout(() => {
+    toastMessage.value = ''
+  }, 3000)
+}
+
+async function submit() {
+  try {
+    const res = await memberStore.changeInfo()
+    toast(res.message, 'success')
+  }
+  catch (error) {
+    console.error(error)
+    toast('用戶資訊修改失敗', 'error')
+  }
+}
 </script>
 
 <template>
@@ -24,16 +44,25 @@ defineProps({
     <MemberPersonalInfoTags />
 
     <!-- 個人狀態 -->
-    <MemberPersonalInfoStatusSettings :rating="point" />
+    <MemberPersonalInfoStatusSettings />
 
     <!-- 儲存按鈕 -->
     <div class="flex justify-end space-x-3">
       <button class="rounded-full px-5 py-2 ring-1 lg:px-[118px] lg:py-3">
         取消編輯
       </button>
-      <button class="rounded-full px-5 py-2 ring-1 lg:px-[118px] lg:py-3">
+      <button
+        class="rounded-full px-5 py-2 ring-1 lg:px-[118px] lg:py-3"
+        @click="submit"
+      >
         完成編輯
       </button>
     </div>
   </section>
+
+  <!-- Alert 通知 -->
+  <Toast
+    :toast-message="toastMessage"
+    :toast-type="toastType"
+  />
 </template>

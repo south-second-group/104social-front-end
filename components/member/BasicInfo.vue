@@ -1,21 +1,16 @@
 <script setup>
-defineProps({
-  userNickName: String,
-  userId: String,
-  rating: String || null,
-  isMatch: Boolean,
-  point: Number,
-})
+const userDataStore = useUserDataStore()
+const memberStore = useMemberStore()
 
 // 功能按鈕
 const functionButtonsList = [
   {
     title: '配對設定',
-    path: '/account/match-setting',
+    path: '/member/match',
   },
   {
     title: '我的約會',
-    path: '/account/my-date',
+    path: '/member/invite',
   },
   {
     title: '配對結果',
@@ -23,15 +18,15 @@ const functionButtonsList = [
   },
   {
     title: '我留下的評價',
-    path: '/account/my-comment',
+    path: '/member/comment',
   },
   {
     title: '我的收藏',
-    path: '/account/my-favorite',
+    path: '/member/collection',
   },
   {
     title: '拒絕來信',
-    path: '/account/reject-letter',
+    path: '/member/banlist',
   },
 ]
 </script>
@@ -52,14 +47,12 @@ const functionButtonsList = [
         <h6
           class="lg:text-H4 text-xl font-bold text-primary-dark"
         >
-          <!-- {{ userBasicInfo?.data.nickNameDetails.nickName }} -->
-          {{ userNickName }}
+          {{ memberStore.basicInfo.name }}
         </h6>
         <p
           class="mt-1 block font-sans text-sm font-light leading-normal text-gray-700 antialiased"
         >
-          <!-- {{ userBasicInfo?.data.userId }} -->
-          {{ userId }}
+          {{ memberStore.basicInfo.email }}
         </p>
       </div>
     </div>
@@ -71,38 +64,45 @@ const functionButtonsList = [
           <h4 class="text-B2 mb-4 text-[#52525B]">
             會員評價｜
           </h4>
-          <b>{{ rating ?? 0 }}</b>
+          <b>{{ memberStore.basicInfo.rating }}</b>
         </li>
 
         <li class="flex">
           <h4 class="text-B2 mb-4 text-[#52525B]">
             配對狀態｜
           </h4>
-          <b>{{ isMatch === false ? "尚未配對" : "配對中" }}</b>
+          <b>{{ memberStore.basicInfo.isMatch === false ? "尚未配對" : "配對中" }}</b>
         </li>
 
         <li class="flex">
           <h4 class="text-B2 mb-4 text-[#52525B]">
             剩餘點數｜
           </h4>
-          <b>{{ point }} 點</b>
+          <b>{{ memberStore.basicInfo.point }} 點</b>
         </li>
       </ul>
 
-      <button class="btn-linear-nav block">
+      <!-- <button class="btn-linear-nav block">
         儲值
-      </button>
+      </button> -->
+      <GradientButton class="m-[2px] lg:px-5 lg:py-2">
+        <GradientButtonText
+          text="儲值"
+          class="text-base"
+        />
+      </GradientButton>
     </div>
 
     <!-- 功能按鈕 -->
     <div class="grid w-full grid-flow-col grid-rows-3 gap-x-6 gap-y-2">
-      <button
+      <router-link
         v-for="(button) in functionButtonsList"
         :key="button.title"
+        :to="button.path"
         class="w1/2 rounded-full bg-gray-200 py-3 font-bold"
       >
         {{ button.title }}
-      </button>
+      </router-link>
     </div>
   </section>
 </template>
