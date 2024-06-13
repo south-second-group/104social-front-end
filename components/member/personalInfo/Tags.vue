@@ -1,21 +1,15 @@
 <script setup>
-// toggle
-const selected = ref(false)
+const memberStore = useMemberStore()
 
-// 熱門標籤
-const hotTags = [
-  '不生小孩',
-  '露營',
-  '要不要來我家看貓',
-]
+function removeFromPersonalMyTags(tag) {
+  memberStore.personalMyTags = memberStore.personalMyTags.filter(t => t !== tag)
+}
 
-// 我的標籤
-const myTags = [
-  '日語',
-  '肉食系',
-  'Cosplay',
-  '愛吃好料',
-]
+function addToPersonalMyTags(tag) {
+  if (memberStore.personalMyTags.includes(tag))
+    return
+  memberStore.personalMyTags.push(tag)
+}
 </script>
 
 <template>
@@ -29,12 +23,15 @@ const myTags = [
 
     <ul class="mt-2 flex h-[64px] w-full space-x-2 overflow-x-scroll rounded-lg border border-neutral-300 bg-white p-3">
       <li
-        v-for="(tag, index) in myTags"
+        v-for="(tag, index) in memberStore.personalMyTags"
         :key="index"
         class="flex shrink-0 items-center space-x-1 rounded-full bg-primary-light px-3 py-2"
       >
         <span>{{ tag }}</span>
-        <button class="i-heroicons-x-mark-16-solid size-4 ring-1"></button>
+        <button
+          class="i-heroicons-x-mark-16-solid size-4 ring-1"
+          @click="removeFromPersonalMyTags(tag)"
+        ></button>
       </li>
     </ul>
 
@@ -44,11 +41,14 @@ const myTags = [
 
     <ul class="mt-2 flex h-[64px] w-full items-center space-x-2 overflow-x-scroll">
       <li
-        v-for="(tag, index) in hotTags"
+        v-for="(tag, index) in memberStore.popularTags"
         :key="index"
         class="shrink-0"
       >
-        <button class="rounded-full bg-neutral-300 px-3 py-2">
+        <button
+          class="rounded-full bg-neutral-300 px-3 py-2"
+          @click="addToPersonalMyTags(tag)"
+        >
           {{ tag }}
         </button>
       </li>
