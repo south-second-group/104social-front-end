@@ -150,14 +150,14 @@ watch(() => route.params, (newParams) => {
           <button
             v-if="apiData.isComment === 'true'"
             class="  px-[20px] py-[8px] text-[16px] leading-[24px] text-primary-dark "
-            @click="router.push('/member/comment/CommentPage')"
+            @click="router.push('/member/comment/')"
           >
             <p>回到我留下的評價</p>
           </button>
           <button
             v-else
             class=" rounded-full bg-primary-dark px-[20px] py-[8px] text-[16px]  leading-[24px] text-white "
-            @click="router.push('/member/comment/CommentPage')"
+            @click="router.push('/member/comment/')"
           >
             <p>完成評價</p>
           </button>

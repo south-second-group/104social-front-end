@@ -50,7 +50,7 @@ function toast(message, type) {
 
 <template>
   <div class="flex h-screen flex-col lg:flex-row">
-    <LoginImage />
+    <LoginImage class="hidden sm:block" />
     <div class="flex min-h-full w-full flex-col justify-center px-6 py-1 lg:w-1/3 lg:px-8">
       <div class="mb-3 flex justify-center">
         <NuxtLink to="/">

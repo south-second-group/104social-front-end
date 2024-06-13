@@ -1,42 +1,42 @@
 <script setup>
 const props = defineProps({
   status: {
-    type: Number,
+    type: String,
     required: true,
   },
 })
 
 function getBtnClass(status) {
   switch (status) {
-    case 1:
+    case 'pending':
       return 'bg-special-dark'
-    case 2:
+    case '2':
       return 'bg-special-info'
-    case 3:
+    case 'cancel':
       return 'bg-neutral-400'
-    case 4:
+    case 'accepted':
       return 'bg-special-success'
-    case 5:
+    case 'rejected':
       return 'bg-special-danger'
     default:
-      return 'bg-special-danger'
+      return 'bg-social-gradient-default'
   }
 }
 
 function getBtnText(status) {
   switch (status) {
-    case 1:
+    case 'pending':
       return '已發起邀約'
-    case 2:
+    case '2':
       return '已完成約會'
-    case 3:
+    case 'cancel':
       return '已取消邀約'
-    case 4:
+    case 'accepted':
       return '成功邀約'
-    case 5:
+    case 'rejected':
       return '邀約失敗'
     default:
-      return 'Unknown'
+      return '尚未邀約'
   }
 }
 </script>

@@ -30,4 +30,6 @@ const memberStore = useMemberStore()
       </div>
     </li>
   </ul>
+
+  <memberUserSelfSetting />
 </template>

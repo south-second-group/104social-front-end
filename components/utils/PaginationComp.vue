@@ -2,13 +2,16 @@
 const props = defineProps({
   items: Array,
 })
+
 const page = defineModel()
+
+const pageCount = 6
 </script>
 
 <template>
   <UPagination
     v-model="page"
-    :page-count="6"
+    :page-count="pageCount"
     :max="8"
     :total="props.items.length"
     :ui="{
@@ -26,25 +29,29 @@ const page = defineModel()
     }"
   >
     <template #prev="{ onClick }">
-      <UTooltip text="Previous page">
+      <UTooltip text="上一頁">
         <UButton
           icon="i-heroicons-chevron-left"
           :ui="{ rounded: 'rounded-full' }"
           :disabled="page === 1"
-          class="me-2 bg-primary-light  text-primary-dark hover:bg-primary-light rtl:[&_span:first-child]:rotate-180"
-          :class="{ 'cursor-not-allowed !bg-primary-light text-neutral-400': page === 1 }"
+          class="me-2 bg-primary-light text-primary-dark hover:bg-primary-light rtl:[&_span:first-child]:rotate-180"
+          :class="{
+            'cursor-not-allowed !bg-primary-light text-neutral-400': page === 1,
+          }"
           @click="onClick"
         />
       </UTooltip>
     </template>
     <template #next="{ onClick }">
-      <UTooltip text="Next page">
+      <UTooltip text="下一頁">
         <UButton
           icon="i-heroicons-chevron-right"
           color="primary"
           :ui="{ rounded: 'rounded-full' }"
-          :disabled="page === Math.ceil(props.items.length / 6)"
-          :class="{ 'cursor-not-allowed': page === Math.ceil(props.items.length / 6) }"
+          :disabled="page === Math.ceil(props.items.length / pageCount)"
+          :class="{
+            'cursor-not-allowed': page === Math.ceil(props.items.length / pageCount),
+          }"
           class="ms-2 bg-primary-light text-primary-dark hover:bg-primary-light disabled:bg-primary-light disabled:text-neutral-400 rtl:[&_span:last-child]:rotate-180"
           @click="onClick"
         />
