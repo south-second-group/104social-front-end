@@ -1,25 +1,25 @@
 <script setup>
-const userGenderOptions = [{
-  value: 'male',
-  label: '男性',
-}, {
-  value: 'female',
-  label: '女性',
-}, {
-  value: 'non-binary',
-  label: '非二元性別',
-}]
+// const userGenderOptions = [{
+//   value: 'male',
+//   label: '男性',
+// }, {
+//   value: 'female',
+//   label: '女性',
+// }, {
+//   value: 'non-binary',
+//   label: '非二元性別',
+// }]
 
-const lookingForGenderOptions = [{
-  value: 'male',
-  label: '男性',
-}, {
-  value: 'female',
-  label: '女性',
-}, {
-  value: 'non-binary',
-  label: '非二元性別',
-}]
+// const lookingForGenderOptions = [{
+//   value: 'male',
+//   label: '男性',
+// }, {
+//   value: 'female',
+//   label: '女性',
+// }, {
+//   value: 'non-binary',
+//   label: '非二元性別',
+// }]
 
 const selectedUserGender = ref('')
 const selectedLookingForGenderOptions = ref('')
@@ -59,7 +59,7 @@ onUnmounted(() => {
         </p>
       </div>
     </div>
-    <div class="mb-4 rounded-xl border border-zinc-200 p-6 lg:mb-6">
+    <!-- <div class="mb-4 rounded-xl border border-zinc-200 p-6 lg:mb-6">
       <div class="mb-10">
         <p class="text-B2 mb-4 text-start text-zinc-400">
           我是
@@ -92,7 +92,7 @@ onUnmounted(() => {
           </template>
         </URadioGroup>
       </div>
-    </div>
+    </div> -->
     <div class="mb-4 rounded-xl border border-zinc-200 p-4 lg:mb-6 lg:p-6">
       <div class="mb-6 flex items-center justify-center text-zinc-600">
         <icon-heroicons-fire-solid class="size-6" />
