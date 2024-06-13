@@ -14,7 +14,7 @@ const functionButtonsList = [
   },
   {
     title: '配對結果',
-    path: '/account/match-result',
+    path: '/member/match/MatchResult',
   },
   {
     title: '我留下的評價',
