@@ -11,7 +11,7 @@ const isDataLoading = ref(true)
 const toastMessage = ref('')
 const toastType = ref('')
 
-const pagination = reactive({ page: 1, totalPage: 1 })
+const pagination = reactive({ page: 1, totalCount: 1 })
 const sortOption = ref([
   { label: '最近更新', value: 'desc' },
   { label: '最久更新', value: 'asc' },
@@ -27,11 +27,11 @@ async function getMatchResult(page, sort) {
     const res = await matchListApi.getMatchResult(page, sort)
     const { data } = res
 
-    matchResult.result = data
-    matchResult.resultTotal = data[0]?.pagination?.totalPage || 0
+    matchResult.result = data.resultList
+    matchResult.resultTotal = data?.pagination?.totalCount || 0
 
-    pagination.page = data[0].pagination.page
-    pagination.totalPage = data[0].pagination.totalPage
+    pagination.page = data.pagination.page
+    pagination.totalCount = data.pagination.totalCount
   }
   catch (error) {
     console.error(error)
@@ -117,6 +117,7 @@ watch(
               v-for="item in matchResult.result"
               :key="item._id"
               :result-item="item"
+              :is-trash-icon="false"
             />
           </div>
 
@@ -142,7 +143,7 @@ watch(
           >
             <utilsPaginationComp
               v-model="pagination.page"
-              :items="Array(pagination.totalPage)"
+              :items="Array(pagination.totalCount)"
             />
           </div>
         </div>

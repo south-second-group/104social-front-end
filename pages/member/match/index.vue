@@ -52,6 +52,7 @@ const schema = z.object({
 })
 
 // 配對設定資料
+// 多選若超過一 就無請選擇 （待處理） 
 // const processedActivities = computed(() => {
 //   if (personalInfo.activities.length > 1)
 //     return personalInfo.activities.filter(activity => activity !== 0)
@@ -131,7 +132,7 @@ async function getMatchResult() {
     const { data } = res
 
     matchResult.result = data
-    matchResult.resultTotal = data[0]?.pagination?.totalPage || 0
+    matchResult.resultTotal = data[0]?.pagination?.totalCount || 0
   }
   catch (error) {
     console.error(error)
