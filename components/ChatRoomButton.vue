@@ -3,6 +3,8 @@ const isOpen = ref(false)
 const isShowChat = ref(false)
 const isShowChatList = ref(true)
 const chatId = ref('')
+const slideOverHeight = ref('auto')
+
 function backToChatList() {
   isShowChat.value = !isShowChat.value
   setTimeout(() => {
@@ -14,6 +16,10 @@ function handleOpenChat(n) {
   chatId.value = n
   isShowChat.value = true
 }
+
+onMounted(() => {
+  slideOverHeight.value = `${window.innerHeight}px`
+})
 </script>
 
 <template>
@@ -31,8 +37,11 @@ function handleOpenChat(n) {
       prevent-close
       class="z-[5000]"
     >
-      <div class=" flex flex-1 flex-col bg-[#FFF5F5] p-4">
-        <div class="flex items-center justify-between">
+      <div
+        class=" flex flex-1 flex-col bg-[#FFF5F5] p-4"
+        :style="{ height: slideOverHeight }"
+      >
+        <div class="chat-room-header flex items-center justify-between">
           <div :class="{ 'opacity-0': isShowChatList }">
             <UButton
               color="gray"
