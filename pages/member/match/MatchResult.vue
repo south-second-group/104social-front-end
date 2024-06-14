@@ -23,6 +23,7 @@ const sortSelected = ref('desc')
 async function getMatchResult(page, sort) {
   isDataLoading.value = true
   try {
+    await matchListApi.matchList()
     const res = await matchListApi.getMatchResult(page, sort)
     const { data } = res
 
