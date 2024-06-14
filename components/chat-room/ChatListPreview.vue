@@ -31,7 +31,7 @@ function openChat(n) {
         </template>
       </UInput>
     </div>
-    <div class="h-[70vh] overflow-y-auto md:h-[80vh]">
+    <div class="h-[70vh] md:h-[80vh] overflow-y-auto">
       <ul
         v-if="true"
         class="rounded-xl bg-white"

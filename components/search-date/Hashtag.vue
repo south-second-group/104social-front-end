@@ -1,5 +1,9 @@
 <script setup>
-const props = defineProps(['item'])
+const props = defineProps([
+  'item',
+  'selectedBySelectedHashtag',
+  'selectedByExcludedHashtag',
+])
 const emit = defineEmits(['pushSelectedHashtag', 'pushExcludedHashtag'])
 const { item } = props
 const open = ref(false)
@@ -21,7 +25,12 @@ function addToExcludedHashtag(tag) {
     <UButton
       color="white"
       :label="item"
-      class="no-border-no-shadow rounded-full bg-neutral-200 px-5 py-2 text-base text-zinc-600 transition duration-300 ease-in-out hover:bg-[#FFF5F5]"
+      class="no-border-no-shadow rounded-full px-5 py-2 text-base  transition duration-300 ease-in-out hover:bg-[#FFF5F5]"
+      :class="{
+        'bg-[#FFF5F5]': selectedBySelectedHashtag || selectedByExcludedHashtag,
+        'bg-neutral-200':
+          !selectedBySelectedHashtag && !selectedByExcludedHashtag,
+      }"
       trailing-icon="i-heroicons-plus"
     />
 

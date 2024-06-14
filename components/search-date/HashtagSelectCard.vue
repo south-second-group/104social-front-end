@@ -81,6 +81,14 @@ const excludedHashtagNewLine = computed(() => {
   return excludedHashtag.value.length >= 3
 })
 
+function selectedBySelectedHashtag(item) {
+  return selectedHashtag.value.includes(item)
+}
+
+function selectedByExcludedHashtag(item) {
+  return excludedHashtag.value.includes(item)
+}
+
 onMounted(() => {
   currentTab.value = 'signs'
   // 避免 tags 的高度跑掉
@@ -226,6 +234,8 @@ onMounted(() => {
       >
         <search-dateHashtag
           :item="item"
+          :selected-by-selected-hashtag="selectedBySelectedHashtag(item)"
+          :selected-by-excluded-hashtag="selectedByExcludedHashtag(item)"
           @push-selected-hashtag="handleAddToSelectedHashtag"
           @push-excluded-hashtag="handleAddToExcludedHashtag"
         />
