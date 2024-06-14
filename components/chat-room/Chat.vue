@@ -27,7 +27,7 @@ onMounted(() => {
   >
     <!-- 對話內容 -->
     <div class="flex h-full flex-col">
-      <div class="overflow-y-auto">
+      <div class="h-full overflow-y-auto">
         <p class="mb-5 text-center">
           這是對話 {{ chatId }}
         </p>
