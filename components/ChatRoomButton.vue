@@ -53,7 +53,7 @@ onMounted(() => {
             />
           </div>
           <p class="text-xl font-bold text-primary-dark">
-            聊天 {{ chatRoomHeaderHeight }}
+            聊天
           </p>
           <UButton
             color="gray"
