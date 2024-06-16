@@ -17,6 +17,7 @@ const memberStore = useMemberStore()
           :placeholder="personalItem.placeholder"
           size="xl"
           :value="personalItem.value"
+          :disabled="!memberStore.editStatus"
           @input="personalItem.value = $event.target.value"
         />
       </UFormGroup>
@@ -25,11 +26,13 @@ const memberStore = useMemberStore()
         <UToggle
           v-model="personalItem.isShow"
           color="primary"
+          :disabled="!memberStore.editStatus"
         />
         <span>揭露</span>
       </div>
     </li>
   </ul>
 
+  <!-- 詳細配對設定 -->
   <memberUserSelfSetting />
 </template>

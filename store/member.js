@@ -1,6 +1,14 @@
 import { memberAPI } from '@/apis/repositories/member'
+import { matchListApi } from '@/apis/repositories/matchList'
 
 export const useMemberStore = defineStore('member', () => {
+  // 暫存資料
+  const tempData = reactive({})
+
+  // 配對設定資料
+  const matchListSelfSettingData = ref([])
+  const tempMatchListData = ref([])
+
   // 會員基本資料
   const basicInfo = reactive({
     name: '',
@@ -10,6 +18,9 @@ export const useMemberStore = defineStore('member', () => {
     isMatch: false,
     point: 0,
   })
+
+  // 大頭貼
+  const avatar = ref('')
 
   // 自我介紹
   const personalIntro = reactive({
@@ -26,33 +37,9 @@ export const useMemberStore = defineStore('member', () => {
       isShow: true,
     },
     {
-      label: '年收入',
-      value: '',
-      placeholder: '請輸入年收入',
-      isShow: false,
-    },
-    {
-      label: '電話',
-      value: '',
-      placeholder: '請輸入電話',
-      isShow: false,
-    },
-    {
       label: 'Line ID',
       value: '',
       placeholder: '請輸入Line ID',
-      isShow: false,
-    },
-    {
-      label: '公司',
-      value: '',
-      placeholder: '請輸入公司名稱',
-      isShow: false,
-    },
-    {
-      label: '職業',
-      value: '',
-      placeholder: '請輸入職業',
       isShow: false,
     },
   ])
@@ -84,23 +71,61 @@ export const useMemberStore = defineStore('member', () => {
     isMatch: true,
   })
 
-  /** 取得會員資料 */
   // 我的標籤
   const personalMyTags = reactive([])
 
+  // 編輯狀態
+  const editStatus = ref(false)
+  const toggleEditStatus = (status, cancel = false) => {
+    // 如果是取消編輯
+    if (cancel === true) {
+      basicInfo.name = tempData.basicInfo.name
+      basicInfo.userId = tempData.basicInfo.userId
+      basicInfo.email = tempData.basicInfo.email
+      basicInfo.rating = tempData.basicInfo.rating
+      basicInfo.isMatch = tempData.basicInfo.isMatch
+      basicInfo.point = tempData.basicInfo.point
+
+      personalIntro.content = tempData.personalIntro.content
+      personalIntro.isShow = tempData.personalIntro.isShow
+
+      personalDetails[0].value = tempData.personalDetails[0].value
+      personalDetails[0].isShow = tempData.personalDetails[0].isShow
+
+      personalDetails[1].value = tempData.personalDetails[1].value
+      personalDetails[1].isShow = tempData.personalDetails[1].isShow
+
+      personalMyTags.splice(0, personalMyTags.length, ...tempData.personalMyTags)
+
+      personalStatus.rating = tempData.personalStatus.rating
+      personalStatus.isShow = tempData.personalStatus.isShow
+      personalStatus.isMatch = tempData.personalStatus.isMatch
+
+      matchListSelfSettingData.value = tempMatchListData.value
+    }
+    editStatus.value = !status
+  }
+
+  /** 取得會員資料 */
   async function getMemberData() {
     try {
       const res = await memberAPI.getUserData()
+      const matchRes = await matchListApi.getMatchListSelf()
+
+      if (matchRes) {
+        const { data } = matchRes
+
+        matchListSelfSettingData.value = data
+        matchListSelfSettingData.value.searchDataBase = []
+
+        tempMatchListData.value = JSON.parse(JSON.stringify(data))
+      }
       if (res) {
         const {
           photoDetails,
           introDetails,
           nickNameDetails,
-          phoneDetails,
-          companyDetails,
-          incomeDetails,
           lineDetails,
-          jobDetails,
           tags,
           exposureSettings,
           userStatus,
@@ -114,32 +139,29 @@ export const useMemberStore = defineStore('member', () => {
         basicInfo.isMatch = exposureSettings.isMatch
         basicInfo.point = userStatus.point
 
+        avatar.value = photoDetails.photo
+
         personalIntro.content = introDetails.intro
         personalIntro.isShow = introDetails.isShow
 
         personalDetails[0].value = nickNameDetails.nickName
         personalDetails[0].isShow = nickNameDetails.isShow
 
-        personalDetails[1].value = incomeDetails.income
-        personalDetails[1].isShow = incomeDetails.isShow
-
-        personalDetails[2].value = phoneDetails.phone
-        personalDetails[2].isShow = phoneDetails.isShow
-
-        personalDetails[3].value = lineDetails.lineId
-        personalDetails[3].isShow = lineDetails.isShow
-
-        personalDetails[4].value = companyDetails.company
-        personalDetails[4].isShow = companyDetails.isShow
-
-        personalDetails[5].value = jobDetails.job
-        personalDetails[5].isShow = jobDetails.isShow
+        personalDetails[1].value = lineDetails.lineId
+        personalDetails[1].isShow = lineDetails.isShow
 
         personalMyTags.splice(0, personalMyTags.length, ...tags)
 
         personalStatus.rating = exposureSettings.rating
         personalStatus.isShow = exposureSettings.isShow
         personalStatus.isMatch = exposureSettings.isMatch
+
+        // 存儲初始資料到 tempData
+        tempData.basicInfo = JSON.parse(JSON.stringify(basicInfo))
+        tempData.personalIntro = JSON.parse(JSON.stringify(personalIntro))
+        tempData.personalDetails = JSON.parse(JSON.stringify(personalDetails))
+        tempData.personalMyTags = JSON.parse(JSON.stringify(personalMyTags))
+        tempData.personalStatus = JSON.parse(JSON.stringify(personalStatus))
       }
       return true
     }
@@ -164,26 +186,26 @@ export const useMemberStore = defineStore('member', () => {
         nickName: personalDetails[0].value,
         isShow: personalDetails[0].isShow,
       },
-      phoneDetails: {
-        phone: personalDetails[2].value,
-        isShow: personalDetails[2].isShow,
-      },
-      companyDetails: {
-        company: personalDetails[4].value,
-        isShow: personalDetails[4].isShow,
-      },
-      incomeDetails: {
-        income: personalDetails[1].value,
+      lineDetails: {
+        lineId: personalDetails[1].value,
         isShow: personalDetails[1].isShow,
       },
-      lineDetails: {
-        lineId: personalDetails[3].value,
-        isShow: personalDetails[3].isShow,
-      },
-      jobDetails: {
-        job: personalDetails[5].value,
-        isShow: personalDetails[5].isShow,
-      },
+      // phoneDetails: {
+      //   phone: personalDetails[2].value,
+      //   isShow: personalDetails[2].isShow,
+      // },
+      // companyDetails: {
+      //   company: personalDetails[4].value,
+      //   isShow: personalDetails[4].isShow,
+      // },
+      // incomeDetails: {
+      //   income: personalDetails[1].value,
+      //   isShow: personalDetails[1].isShow,
+      // },
+      // jobDetails: {
+      //   job: personalDetails[5].value,
+      //   isShow: personalDetails[5].isShow,
+      // },
       tags: personalMyTags,
       exposureSettings: {
         rating: personalStatus.rating,
@@ -196,22 +218,37 @@ export const useMemberStore = defineStore('member', () => {
       // },
     }
 
-    const res = await memberAPI.userDataPatch(updateData)
+    try {
+      const res = await memberAPI.userDataPatch(updateData)
+      const updateMatchListRes = await matchListApi.updateMatchListSelf(
+        matchListSelfSettingData.value,
+      )
 
-    await getMemberData()
-
-    return res
+      return res
+    }
+    catch (error) {
+      console.error(error)
+      return false
+    }
+    finally {
+      await getMemberData()
+    }
   }
 
   return {
+    matchListSelfSettingData,
+    tempMatchListData,
     basicInfo,
+    avatar,
     personalIntro,
     personalDetails,
     personalMyTags,
     personalStatus,
     popularTags,
+    editStatus,
     changeInfo,
     getMemberData,
+    toggleEditStatus,
   }
 })
 

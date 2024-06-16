@@ -13,6 +13,12 @@ function toast(message, type) {
 }
 
 async function submit() {
+  // 每次點擊按鈕都會切換編輯狀態
+  memberStore.toggleEditStatus(memberStore.editStatus)
+
+  // 如果點擊立即編輯，不需要執行修改資料的 API
+  if (memberStore.editStatus)
+    return
   try {
     const res = await memberStore.changeInfo()
     toast(res.message, 'success')
@@ -48,15 +54,26 @@ async function submit() {
 
     <!-- 儲存按鈕 -->
     <div class="flex justify-end space-x-3">
-      <button class="rounded-full px-5 py-2 ring-1 lg:px-[118px] lg:py-3">
-        取消編輯
-      </button>
-      <button
-        class="rounded-full px-5 py-2 ring-1 lg:px-[118px] lg:py-3"
+      <GradientButtonRevert
+        v-if="memberStore.editStatus"
+        class="m-[2px] w-full px-[118px] lg:py-3"
+        @click="memberStore.toggleEditStatus(true, true)"
+      >
+        <GradientButtonTextRevert
+          text="取消編輯"
+          class="text-base"
+        />
+      </GradientButtonRevert>
+
+      <GradientButton
+        class="m-[2px] w-full px-[118px] lg:py-3"
         @click="submit"
       >
-        完成編輯
-      </button>
+        <GradientButtonText
+          :text="memberStore.editStatus ? '完成編輯' : '立即編輯'"
+          class="text-base"
+        />
+      </GradientButton>
     </div>
   </section>
 

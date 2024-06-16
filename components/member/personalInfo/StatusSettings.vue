@@ -24,6 +24,7 @@ const memberStore = useMemberStore()
           <UToggle
             v-model="memberStore.personalStatus.isShow"
             color="primary"
+            :disabled="!memberStore.editStatus"
           />
           <span>是</span>
         </div>
@@ -37,6 +38,7 @@ const memberStore = useMemberStore()
           <UToggle
             v-model="memberStore.personalStatus.isMatch"
             color="primary"
+            :disabled="!memberStore.editStatus"
           />
           <span>揭露</span>
         </div>

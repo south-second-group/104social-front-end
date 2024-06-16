@@ -35,9 +35,9 @@ const functionButtonsList = [
   <section class="container mt-12 space-y-4 lg:flex lg:space-x-6 lg:space-y-0">
     <!-- 基本資料 -->
     <div class="flex w-full space-x-6 rounded-[10px] bg-[#FFF5F5] p-4 lg:p-6">
-      <div class="w-[100px] lg:w-[120px]">
+      <div class="size-[100px] overflow-hidden rounded-full lg:size-[120px]">
         <img
-          src="~assets/img/member/memberCentre/UserSticker.png"
+          :src="memberStore.avatar"
           alt="UserSticker Image"
           class="size-full object-cover"
         >
@@ -94,12 +94,12 @@ const functionButtonsList = [
     </div>
 
     <!-- 功能按鈕 -->
-    <div class="grid w-full grid-flow-col grid-rows-3 gap-x-6 gap-y-2">
+    <div class="grid w-full grid-flow-col grid-rows-3 gap-x-6 gap-y-2 ">
       <router-link
         v-for="(button) in functionButtonsList"
         :key="button.title"
         :to="button.path"
-        class="w1/2 rounded-full bg-gray-200 py-3 font-bold"
+        class="rounded-full bg-gray-200 py-3 font-bold duration-300 ease-in-out active:scale-75 lg:hover:opacity-70"
       >
         {{ button.title }}
       </router-link>

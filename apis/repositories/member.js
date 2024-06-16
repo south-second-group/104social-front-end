@@ -38,8 +38,18 @@ async function getUserData() {
   })
 }
 
+// 上傳圖片
+async function uploadImage(data) {
+  return useBaseFetch('/api/v1/image', {
+    method: 'POST',
+    headers: {},
+    body: data,
+  })
+}
+
 export const memberAPI = {
   userDataPatch,
   addUserData,
   getUserData,
+  uploadImage,
 }
