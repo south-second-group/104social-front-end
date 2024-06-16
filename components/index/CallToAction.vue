@@ -5,7 +5,7 @@ const { userData } = storeToRefs(userDataStore)
 
 <template>
   <div
-    v-if="userData"
+    v-show="userData"
     class="w-full bg-[url('@/public/callToAction/bg-sm.png')] bg-cover py-12 md:bg-[url('@/public/callToAction/bg-lg.png')] md:py-[100px]"
   >
     <div class="container flex flex-col">
@@ -30,7 +30,7 @@ const { userData } = storeToRefs(userDataStore)
     </div>
   </div>
   <div
-    v-else
+    v-show="!userData"
     class="w-full bg-[url('@/public/callToAction/bg-sm.png')] bg-cover py-12 md:bg-[url('@/public/callToAction/bg-lg.png')] md:py-[100px]"
   >
     <div class="container flex flex-col lg:grid lg:grid-cols-2">

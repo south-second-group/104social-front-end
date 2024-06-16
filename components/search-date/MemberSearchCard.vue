@@ -1,12 +1,8 @@
-<script setup>
-const isCheck = ref(false)
-</script>
-
 <template>
   <div class="relative mb-3 me-6 max-w-[312px] rounded-[10px] bg-[#FAFAFA] p-4 lg:me-0 lg:max-w-full lg:p-6">
     <div class="absolute end-[16px] lg:end-[24px]">
       <span class="text-xl">
-        <utilsCollectionBtn v-model="isCheck" />
+        <utilsCollectionBtn />
       </span>
     </div>
     <div class="flex w-full flex-col lg:flex-row">
