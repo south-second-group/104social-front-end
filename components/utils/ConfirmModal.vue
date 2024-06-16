@@ -5,6 +5,10 @@ const props = defineProps({
   cardUserName: String,
 })
 
+const toastMessage = ref('')
+const toastType = ref('')
+const isLoading = ref(false)
+
 // 彈窗邏輯
 const isOpenModal = defineModel()
 const modalText = computed(() => {
@@ -70,8 +74,6 @@ function tempfunc() {
 const selectedOption = ref('請選擇訊息範本')
 const options = ['訊息01', '訊息02', '訊息03']
 const selectedToggle = ref(false)
-const toastMessage = ref('')
-const toastType = ref('')
 
 const message = ref('')
 const MAX_CHARACTERS = 1000
@@ -79,17 +81,16 @@ const remainingCharacters = computed(
   () => MAX_CHARACTERS - message.value.length,
 )
 
-const isLoading = ref(false)
 const addedValue = ref(props.createRenderResult)
 addedValue.value.add(props.cardUserName)
-const theme = [...addedValue.value]
+const theme = Array.from(addedValue.value)
 
 async function fetchAnswer() {
   isLoading.value = true
   message.value = ''
 
   try {
-    message.value = await useGetGenerativeModelGP(...theme)
+    message.value = await useGetGenerativeModelGP(JSON.stringify(theme))
 
     //     await new Promise((resolve) => setTimeout(resolve, 3000));
     //     message.value = `詠晴，您好！
@@ -160,6 +161,7 @@ async function fetchAnswer() {
         </section>
       </UCard>
 
+      <!-- 邀約彈窗 -->
       <UCard
         v-else
         :ui="{ ring: '', divide: 'divide-y divide-white dark:divide-gray-800' }"

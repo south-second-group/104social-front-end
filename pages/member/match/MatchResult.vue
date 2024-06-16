@@ -91,15 +91,12 @@ watch(
         <div class="col-span-12 md:col-span-9">
           <div
             v-if="matchResult.resultTotal !== 0"
-            class="mb-3 flex justify-between"
+            class="mb-3 "
           >
-            <h2 class="text-H4 md:text-H3 mb-4 text-start text-primary-dark">
-              <!-- 搜尋結果 -->
-            </h2>
             <USelectMenu
               v-model="sortSelected"
               :options="sortOption"
-              class="w-[203px] rounded-md border border-neutral-300 bg-white text-neutral-500"
+              class="ml-auto w-[203px] rounded-md border border-neutral-300 bg-white text-neutral-500"
               size="sm"
               variant="none"
               value-attribute="value"
@@ -113,12 +110,15 @@ watch(
           >
             <!-- {{ matchResult.result }} -->
 
-            <utilsUserCardBgLight
+            <div
               v-for="item in matchResult.result"
               :key="item._id"
-              :result-item="item"
-              :is-trash-icon="false"
-            />
+            >
+              <utilsUserCardBgLight
+                :result-item="item"
+                :is-trash-icon="false"
+              />
+            </div>
           </div>
 
           <div
