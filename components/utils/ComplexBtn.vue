@@ -31,6 +31,10 @@ const btnText = computed(() => {
       return '已給評價'
     case 'status10':
       return '刪除評價'
+    case 'status11':
+      return '接受'
+    case 'status12':
+      return '拒絕'
     default:
       return ''
   }
@@ -47,6 +51,8 @@ const modalStatuses = [
   'status6',
   'status7',
   'status10',
+  'status11',
+  'status12',
 ]
 
 function handleClick(status) {
@@ -168,6 +174,22 @@ function handleClick(status) {
   >
     <icon-heroicons:trash v />
 
+    <p>{{ btnText }}</p>
+  </button>
+
+  <button
+    v-if="props.status === 'status11'"
+    class="btn-withIcon-fill mx-[1px] my-[3px] w-[72px] scale-90 md:mx-[6px] md:scale-100"
+    @click="handleClick(props.status)"
+  >
+    <p>{{ btnText }}</p>
+  </button>
+
+  <button
+    v-if="props.status === 'status12'"
+    class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
+    @click="handleClick(props.status)"
+  >
     <p>{{ btnText }}</p>
   </button>
 

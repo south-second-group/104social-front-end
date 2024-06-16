@@ -16,7 +16,14 @@ export default defineNuxtConfig({
     'unplugin-icons/nuxt',
     '@nuxtjs/google-fonts',
     '@nuxt/image',
+    'nuxt-simple-sitemap',
   ],
+  sitemap: {
+    xsl: false,
+  },
+  site: {
+    url: process.env.BASE_API_URL,
+  },
 
   postcss: {
     plugins: {
