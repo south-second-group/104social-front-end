@@ -19,6 +19,8 @@ const buttonList = ref([
   { status: 'status8' },
   { status: 'status9' },
   { status: 'status10' },
+  { status: 'status11' },
+  { status: 'status12' },
 ])
 
 // 取得配對選項
