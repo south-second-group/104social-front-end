@@ -41,19 +41,19 @@ const { userData } = storeToRefs(userDataStore)
             </div>
             <div class="mt-5 w-full">
               <img
-                v-if="userData"
+                v-show="userData"
                 src="../../assets/img/SubmitStory/img03.png"
                 alt=""
                 class="w-[200px]"
               >
               <img
-                v-else
+                v-show="!userData"
                 src="../../assets/img/SubmitStory/img03.png"
                 alt=""
                 class="mx-auto w-[200px] md:mx-0 md:w-[400px]"
               >
             </div>
-            <div v-if="userData">
+            <div v-show="userData">
               <button class="btn-linear-lg mt-6 hidden md:mt-5 md:block">
                 <p>分享幸福案例</p>
               </button>

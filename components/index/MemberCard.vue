@@ -1,7 +1,6 @@
 <script setup>
 const props = defineProps(['member'])
 const { member } = props
-const isCheck = ref(false)
 </script>
 
 <template>
@@ -24,7 +23,7 @@ const isCheck = ref(false)
             </p>
             <div class="">
               <span class="text-xl">
-                <utilsCollectionBtn v-model="isCheck" />
+                <utilsCollectionBtn />
               </span>
             </div>
           </div>

@@ -49,7 +49,7 @@ function submit() {
         <div class="h-full space-y-9">
           <!-- 我是 -->
           <div
-            v-if="!userData"
+            v-show="!userData"
             class=""
           >
             <p class="text-left text-xl font-bold">
@@ -196,7 +196,7 @@ function submit() {
           <div class="h-full space-y-[60px]">
             <!-- 我是 -->
             <div
-              v-if="!userData"
+              v-show="!userData"
               class=""
             >
               <p class="text-left text-xl font-bold">
