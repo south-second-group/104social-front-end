@@ -3,6 +3,7 @@ import { matchListApi } from '~/apis/repositories/matchList'
 
 defineProps({
   resultItem: Object,
+  isTrashIcon: Boolean,
 })
 
 const isDataLoading = ref(true)
@@ -37,6 +38,7 @@ Promise.all([getMatchListOption()]).then(() => {
   isDataLoading.value = false
 })
 
+// 渲染詳細資料邏輯
 function renderValue(key, value) {
   if (Array.isArray(value) && value.length > 1)
     return value.map(v => matchListOptionData.value[0][key][v].label)
@@ -65,19 +67,24 @@ function createRenderValue(key, value) {
     class="w-full space-y-4 rounded-[10px] border-2 border-neutral-300 bg-white p-4 md:p-6"
   >
     <div class="flex items-center justify-between">
-      <utilsInviteStatusBtn :status="resultItem.invitationStatus" />
+      <utilsInviteStatusBtn :status="resultItem.status" />
 
       <div class="flex gap-3">
-        <!-- vif 判斷顯示聊天或移除 -->
         <div class="rounded-full bg-neutral-100 p-[10px]">
           <utilsChatBtn />
         </div>
-        <div class="rounded-full bg-neutral-100 p-[10px]">
+        <div
+          v-if="isTrashIcon"
+          class="rounded-full bg-neutral-100 p-[10px]"
+        >
           <utilsTrashBtn />
         </div>
 
         <div class="rounded-full bg-neutral-100 p-[10px]">
-          <utilsCollectionBtn />
+          <utilsCollectionBtn
+            :is-collected="resultItem.isCollected"
+            :user-id="resultItem.userId"
+          />
         </div>
       </div>
     </div>
@@ -95,10 +102,10 @@ function createRenderValue(key, value) {
           <h2
             class="text-H4 text-neutral-600"
             :class="{
-              'font-montserrat': !useIsChineseFunc('張詠晴'),
+              'font-montserrat': !useIsChineseFunc(resultItem.userInfo.personalInfo.username),
             }"
           >
-            {{ resultItem.personalInfo.username }}
+            {{ resultItem.userInfo.personalInfo.username }}
           </h2>
 
           <div v-if="!isDataLoading">
@@ -178,10 +185,10 @@ function createRenderValue(key, value) {
         :key="index"
         v-bind="{
           status: btn.status,
-          invitationStatus: resultItem.invitationStatus,
+          invitationStatus: resultItem.status,
           isLocked: resultItem.isLocked,
           createRenderResult,
-          cardUserName: resultItem.personalInfo.username,
+          cardUserName: resultItem.userInfo.personalInfo.username,
         }"
       />
     </div>

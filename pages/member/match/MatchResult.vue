@@ -11,7 +11,7 @@ const isDataLoading = ref(true)
 const toastMessage = ref('')
 const toastType = ref('')
 
-const pagination = reactive({ page: 1, totalPage: 1 })
+const pagination = reactive({ page: 1, totalCount: 1 })
 const sortOption = ref([
   { label: '最近更新', value: 'desc' },
   { label: '最久更新', value: 'asc' },
@@ -23,14 +23,15 @@ const sortSelected = ref('desc')
 async function getMatchResult(page, sort) {
   isDataLoading.value = true
   try {
+    await matchListApi.matchList()
     const res = await matchListApi.getMatchResult(page, sort)
     const { data } = res
 
-    matchResult.result = data
-    matchResult.resultTotal = data[0]?.pagination?.totalPage || 0
+    matchResult.result = data.resultList
+    matchResult.resultTotal = data?.pagination?.totalCount || 0
 
-    pagination.page = data[0].pagination.page
-    pagination.totalPage = data[0].pagination.totalPage
+    pagination.page = data.pagination.page
+    pagination.totalCount = data.pagination.totalCount
   }
   catch (error) {
     console.error(error)
@@ -90,15 +91,12 @@ watch(
         <div class="col-span-12 md:col-span-9">
           <div
             v-if="matchResult.resultTotal !== 0"
-            class="mb-3 flex justify-between"
+            class="mb-3 "
           >
-            <h2 class="text-H4 md:text-H3 mb-4 text-start text-primary-dark">
-              <!-- 搜尋結果 -->
-            </h2>
             <USelectMenu
               v-model="sortSelected"
               :options="sortOption"
-              class="w-[203px] rounded-md border border-neutral-300 bg-white text-neutral-500"
+              class="ml-auto w-[203px] rounded-md border border-neutral-300 bg-white text-neutral-500"
               size="sm"
               variant="none"
               value-attribute="value"
@@ -112,11 +110,15 @@ watch(
           >
             <!-- {{ matchResult.result }} -->
 
-            <utilsUserCardBgLight
+            <div
               v-for="item in matchResult.result"
               :key="item._id"
-              :result-item="item"
-            />
+            >
+              <utilsUserCardBgLight
+                :result-item="item"
+                :is-trash-icon="false"
+              />
+            </div>
           </div>
 
           <div
@@ -141,7 +143,7 @@ watch(
           >
             <utilsPaginationComp
               v-model="pagination.page"
-              :items="Array(pagination.totalPage)"
+              :items="Array(pagination.totalCount)"
             />
           </div>
         </div>
