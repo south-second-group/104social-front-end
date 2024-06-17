@@ -62,5 +62,5 @@ export const memberAPI = {
   addUserData,
   getUserData,
   uploadImage,
-  getTagList
+  getTagList,
 }

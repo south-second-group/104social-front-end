@@ -218,11 +218,9 @@ onMounted(() => {
       </li>
     </ul>
 
-    <div class="w-full h-[352px] ring-1 p-3">
-
+    <div class="h-[352px] w-full p-3 ring-1">
       <!-- 輸入關鍵字 -->
-       <div class="w-full h-12 ring-1"></div>
-
+      <div class="h-12 w-full ring-1"></div>
     </div>
 
     <!-- <div class="">

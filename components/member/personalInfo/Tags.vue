@@ -58,7 +58,7 @@ function addToPersonalMyTags(tag) {
       <li class=" hidden items-center lg:flex">
         <UPopover
           :popper="{ placement: 'bottom-end' }"
-          :disabled="memberStore.editStatus" 
+          :disabled="memberStore.editStatus"
           class="disabled:cursor-not-allowed"
         >
           <p

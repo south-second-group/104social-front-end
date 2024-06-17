@@ -47,7 +47,6 @@ export const useMemberStore = defineStore('member', () => {
   // 熱門標籤
   const popularTags = reactive([])
 
-
   // 個人狀態
   const personalStatus = reactive({
     rating: 0,
