@@ -146,9 +146,10 @@ const remainingCharacters = computed(
   () => MAX_CHARACTERS - message.value.length,
 )
 
-const addedValue = ref(props.createRenderResult)
-addedValue.value.add(props.cardUserName)
-const theme = Array.from(addedValue.value)
+const addedValue = new Set()
+props.createRenderResult.forEach(item => addedValue.add(item))
+addedValue.add(`我的名字是：${props.cardUserName}`)
+const theme = Array.from(addedValue)
 
 async function fetchAnswer() {
   isLoading.value = true
@@ -169,6 +170,7 @@ async function fetchAnswer() {
   }
   catch (error) {
     console.error({ error })
+
     toastMessage.value = 'AI 提示發生錯誤，請通知開發者'
     toastType.value = 'error'
   }

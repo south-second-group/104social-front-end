@@ -69,7 +69,7 @@ function createRenderValue(key, value) {
     class="w-full space-y-4 rounded-[10px] border-2 border-neutral-300 bg-white p-4 md:p-6"
   >
     <div class="flex items-center justify-between">
-      <utilsInviteStatusBtn :status="resultItem.status" />
+      <utilsInviteStatusBtn :status="resultItem.invitationStatus" />
 
       <div class="flex gap-3">
         <div class="rounded-full bg-neutral-100 p-[10px]">
@@ -113,6 +113,7 @@ function createRenderValue(key, value) {
           </h2>
 
           <div v-if="!isDataLoading">
+            <!-- 將個人條件全部加入顯示陣列 -->
             <span
               v-for="(value, key) in resultItem.matchListSelfSetting
                 .personalInfo"
@@ -121,6 +122,8 @@ function createRenderValue(key, value) {
             >
               {{ createRenderValue(key, value) }}
             </span>
+
+            <!-- 將工作條件的產業 加入 顯示陣列 -->
             <span class="hidden">
               {{
                 createRenderValue(
@@ -146,6 +149,8 @@ function createRenderValue(key, value) {
               )
             }}
           </p>
+
+          <!-- 顯示陣列 -->
           <p class="text-B2 text-neutral-300">
             {{
               renderValue(
@@ -189,7 +194,7 @@ function createRenderValue(key, value) {
         :key="index"
         v-bind="{
           status: btn.status,
-          invitationStatus: resultItem.status,
+          invitationStatus: resultItem.invitationStatus,
           isLocked: resultItem.isLocked,
           createRenderResult,
           cardUserName: resultItem.userInfo.personalInfo.username,
