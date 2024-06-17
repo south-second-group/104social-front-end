@@ -25,11 +25,12 @@ function addToPersonalMyTags(tag) {
       <li
         v-for="(tag, index) in memberStore.personalMyTags"
         :key="index"
-        class="flex shrink-0 items-center space-x-1 rounded-full bg-primary-light px-3 py-2"
+        class="flex shrink-0 items-center space-x-1 rounded-full bg-primary-light px-3 py-2 "
       >
         <span>{{ tag }}</span>
         <button
-          class="i-heroicons-x-mark-16-solid size-4 ring-1"
+          class="i-heroicons-x-mark-16-solid size-4 duration-300 ease-in-out disabled:cursor-not-allowed disabled:opacity-60 lg:hover:scale-90 lg:hover:opacity-60"
+          :disabled="!memberStore.editStatus"
           @click="removeFromPersonalMyTags(tag)"
         ></button>
       </li>
@@ -46,7 +47,8 @@ function addToPersonalMyTags(tag) {
         class="shrink-0"
       >
         <button
-          class="rounded-full bg-neutral-300 px-3 py-2"
+          class="rounded-full bg-neutral-300 px-3 py-2 duration-300 ease-in-out  disabled:cursor-not-allowed disabled:bg-neutral-300 disabled:opacity-60 disabled:duration-300 disabled:ease-in-out disabled:hover:scale-100 lg:hover:bg-primary-light lg:disabled:hover:bg-neutral-300"
+          :disabled="!memberStore.editStatus"
           @click="addToPersonalMyTags(tag)"
         >
           {{ tag }}
@@ -54,16 +56,33 @@ function addToPersonalMyTags(tag) {
       </li>
 
       <li class=" hidden items-center lg:flex">
-        <button class="p-2 font-bold text-primary-dark">
-          更多標籤...
-        </button>
+        <UPopover
+          :popper="{ placement: 'bottom-end' }"
+          :disabled="memberStore.editStatus" 
+          class="disabled:cursor-not-allowed"
+        >
+          <p
+            class="p-2 font-bold text-primary-dark group-disabled:opacity-50"
+            :disabled="true"
+          >
+            更多標籤...
+          </p>
+          <template #panel>
+            <search-dateHashtagSelectCard />
+          </template>
+        </UPopover>
       </li>
     </ul>
 
     <div class="flex justify-end lg:hidden">
-      <button class="mt-2 p-2 font-bold text-primary-dark">
-        更多標籤...
-      </button>
+      <UPopover :popper="{ placement: 'bottom-end' }">
+        <p class="p-2 font-bold text-primary-dark">
+          更多標籤...
+        </p>
+        <template #panel>
+          <search-dateHashtagSelectCard />
+        </template>
+      </UPopover>
     </div>
   </div>
 </template>

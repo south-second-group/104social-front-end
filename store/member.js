@@ -44,25 +44,9 @@ export const useMemberStore = defineStore('member', () => {
     },
   ])
 
-  // 熱門標籤（假資料）
-  const popularTags = reactive([
-    '日語',
-    '肉食系',
-    'Cosplay',
-    '愛吃好料',
-    '英文',
-    '素食',
-    '旅遊',
-    '攝影',
-    '音樂',
-    '運動',
-    '美食',
-    '閱讀',
-    '藝術',
-    '電影',
-    '寵物',
-    '科技',
-  ])
+  // 熱門標籤
+  const popularTags = reactive([])
+
 
   // 個人狀態
   const personalStatus = reactive({
@@ -110,7 +94,14 @@ export const useMemberStore = defineStore('member', () => {
   async function getMemberData() {
     try {
       const res = await memberAPI.getUserData()
+      const tagListRes = await memberAPI.getTagList()
       const matchRes = await matchListApi.getMatchListSelf()
+
+      if (tagListRes) {
+        const { hashTags } = tagListRes.data[0]
+
+        popularTags.splice(0, popularTags.length, ...hashTags.value)
+      }
 
       if (matchRes) {
         const { data } = matchRes

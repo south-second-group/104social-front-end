@@ -47,9 +47,20 @@ async function uploadImage(data) {
   })
 }
 
+// 取得興趣 tag
+async function getTagList() {
+  return useBaseFetch('/api/v1/user-params', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+}
+
 export const memberAPI = {
   userDataPatch,
   addUserData,
   getUserData,
   uploadImage,
+  getTagList
 }
