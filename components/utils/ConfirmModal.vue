@@ -1,9 +1,14 @@
 <script setup>
+import { blackListApi } from '~/apis/repositories/blackList'
+
 const props = defineProps({
   status: String,
   createRenderResult: Set,
   cardUserName: String,
+  userId: String,
 })
+
+const matchResult = useMatchResultStore()
 
 const toastMessage = ref('')
 const toastType = ref('')
@@ -51,9 +56,9 @@ const modalClick = computed(() => {
     case 'status5':
       return tempfunc
     case 'status6':
-      return tempfunc
+      return postBlackList
     case 'status7':
-      return tempfunc
+      return deleteBlackListById
     case 'status8':
       return tempfunc
     case 'status9':
@@ -68,6 +73,66 @@ const modalClick = computed(() => {
 function tempfunc() {
   console.warn('tempfunc')
   isOpenModal.value = false
+}
+
+async function deleteBlackListById() {
+  isLoading.value = true
+  try {
+    await blackListApi.deleteBlackListById(props.userId)
+
+    toastMessage.value = '恢復往來成功'
+    toastType.value = 'success'
+
+    matchResult.result = matchResult.result.map((item) => {
+      if (item.userInfo._id === props.userId)
+        return { ...item, isLocked: false }
+
+      return item
+    })
+  }
+  catch (error) {
+    console.error({ error })
+
+    toastMessage.value = '恢復往來失敗，請通知開發者'
+    toastType.value = 'error'
+  }
+  finally {
+    isLoading.value = false
+    isOpenModal.value = false
+
+    await new Promise(resolve => setTimeout(resolve, 3000))
+    toastMessage.value = ''
+  }
+}
+
+async function postBlackList() {
+  isLoading.value = true
+  try {
+    await blackListApi.postBlackList({ lockedUserId: props.userId })
+
+    toastMessage.value = '拒絕往來成功'
+    toastType.value = 'success'
+
+    matchResult.result = matchResult.result.map((item) => {
+      if (item.userInfo._id === props.userId)
+        return { ...item, isLocked: true }
+
+      return item
+    })
+  }
+  catch (error) {
+    console.error({ error })
+
+    toastMessage.value = '拒絕往來失敗，請通知開發者'
+    toastType.value = 'error'
+  }
+  finally {
+    isLoading.value = false
+    isOpenModal.value = false
+
+    await new Promise(resolve => setTimeout(resolve, 3000))
+    toastMessage.value = ''
+  }
 }
 
 // 邀約訊息
@@ -148,12 +213,14 @@ async function fetchAnswer() {
         <section class="-mt-4 flex justify-center">
           <button
             class="px-[20px] py-[8px] text-[16px] leading-[24px] text-primary-dark"
+            :disabled="isLoading"
             @click="isOpenModal = false"
           >
             <p>取消</p>
           </button>
           <button
             class="rounded-full bg-primary-dark px-[20px] py-[8px] text-[16px] leading-[24px] text-white"
+            :disabled="isLoading"
             @click="modalClick"
           >
             <p>確定</p>

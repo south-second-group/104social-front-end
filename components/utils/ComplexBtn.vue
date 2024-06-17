@@ -5,6 +5,7 @@ const props = defineProps({
   isLocked: Boolean,
   createRenderResult: Set,
   cardUserName: String,
+  userId: String,
 })
 
 const router = useRouter()
@@ -199,6 +200,7 @@ function handleClick(status) {
     v-bind="{
       createRenderResult,
       cardUserName,
+      userId,
     }"
   />
 </template>
