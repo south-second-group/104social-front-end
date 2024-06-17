@@ -81,7 +81,7 @@ const functionButtonsList = [
         </li>
       </ul>
 
-      <GradientButton class="m-[2px] px-4 xl:px-5 lg:py-2">
+      <GradientButton class="m-[2px] px-4 lg:py-2 xl:px-5">
         <GradientButtonText
           text="儲值"
           class="text-base"
