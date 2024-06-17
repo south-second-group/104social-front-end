@@ -56,6 +56,18 @@ export const useMemberStore = defineStore('member', () => {
 
   // 我的標籤
   const personalMyTags = reactive([])
+  function addToPersonalMyTags(tag) {
+    if (personalMyTags.includes(tag))
+      return
+    personalMyTags.push(tag)
+  }
+  function removeFromPersonalMyTags(tag) {
+    const index = personalMyTags.indexOf(tag)
+    if (index > -1)
+      personalMyTags.splice(index, 1)
+
+    
+  }
 
   // 編輯狀態
   const editStatus = ref(false)
@@ -239,6 +251,8 @@ export const useMemberStore = defineStore('member', () => {
     changeInfo,
     getMemberData,
     toggleEditStatus,
+    removeFromPersonalMyTags,
+    addToPersonalMyTags,
   }
 })
 

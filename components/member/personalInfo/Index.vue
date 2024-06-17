@@ -53,7 +53,7 @@ async function submit() {
     <MemberPersonalInfoStatusSettings />
 
     <!-- 儲存按鈕 -->
-    <div class="flex justify-end space-x-3">
+    <div class="w-full justify-end space-y-4 lg:flex lg:space-x-3 lg:space-y-0">
       <GradientButtonRevert
         v-if="memberStore.editStatus"
         class="m-[2px] w-full px-[118px] lg:py-3"

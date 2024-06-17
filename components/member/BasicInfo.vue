@@ -1,5 +1,4 @@
 <script setup>
-const userDataStore = useUserDataStore()
 const memberStore = useMemberStore()
 
 // 功能按鈕
@@ -82,10 +81,7 @@ const functionButtonsList = [
         </li>
       </ul>
 
-      <!-- <button class="btn-linear-nav block">
-        儲值
-      </button> -->
-      <GradientButton class="m-[2px] lg:px-5 lg:py-2">
+      <GradientButton class="m-[2px] px-4 xl:px-5 lg:py-2">
         <GradientButtonText
           text="儲值"
           class="text-base"
