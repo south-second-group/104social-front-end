@@ -70,6 +70,7 @@ function sendMessage() {
 
 // 待修
 // 傳訊自動至底
+// 六角講師的 https://github.com/ayugioh2003/demo-websocket-client/blob/main/src/views/ChatView.vue
 async function scrollToBottom() {
   // console.warn(messageRef.value.scrollHeight);
   // console.warn(messageRef.value.scrollTop);
