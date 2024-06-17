@@ -35,6 +35,9 @@ defineProps({
   padding: 10px 20px;
   border-radius: 5px;
   z-index: 1000;
+  top: .2em;
+  left: 50%;
+  transform: translateX(-50%);
 
   &.success {
     background-color: #4caf50;
