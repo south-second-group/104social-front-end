@@ -104,7 +104,9 @@ function createRenderValue(key, value) {
           <h2
             class="text-H4 text-neutral-600"
             :class="{
-              'font-montserrat': !useIsChineseFunc(resultItem.userInfo.personalInfo.username),
+              'font-montserrat': !useIsChineseFunc(
+                resultItem.userInfo.personalInfo.username,
+              ),
             }"
           >
             {{ resultItem.userInfo.personalInfo.username }}
@@ -191,6 +193,7 @@ function createRenderValue(key, value) {
           isLocked: resultItem.isLocked,
           createRenderResult,
           cardUserName: resultItem.userInfo.personalInfo.username,
+          userId: resultItem.matchListSelfSetting.userId,
         }"
       />
     </div>
