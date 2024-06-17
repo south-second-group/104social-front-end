@@ -76,6 +76,10 @@ onUnmounted(() => {
 
 <template>
   <div class="container">
+    <h1 class="sr-only">
+      尋找對象
+    </h1>
+
     <div class="grid grid-cols-12 gap-6 py-5 lg:py-20">
       <div class="col-span-12 mt-4 lg:col-span-9">
         <div class="mb-3 flex flex-col lg:mb-20 lg:flex-row">

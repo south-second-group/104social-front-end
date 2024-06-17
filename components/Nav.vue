@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { auth } from '../apis/repositories/auth'
 
@@ -92,13 +91,9 @@ function toast(message, type) {
         class="flex w-full items-center justify-between p-3 lg:px-10 lg:py-4"
       >
         <NuxtLink to="/">
-          <h1 class="shrink-0">
-            <NuxtImg
-              src="/logo.png"
-              alt="104 緣來如此"
-              class="w-[144px] lg:w-[192px]"
-            />
-          </h1>
+          <h2 class="shrink-0">
+            104緣來如此
+          </h2>
         </NuxtLink>
 
         <!-- 手機板 -->
@@ -423,7 +418,7 @@ function toast(message, type) {
   </div>
 </template>
 
-<style>
+<style lang="scss" scoped>
 .no-border-no-shadow {
   border: none;
   box-shadow: none;
@@ -451,5 +446,17 @@ function toast(message, type) {
 
 .toast.error {
   background-color: #f44336;
+}
+
+h2 {
+  background-image: url('../assets/img/logo.png');
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-indent: 101%;
+  display: block;
+  width: 192px;
+  height: 48px;
 }
 </style>

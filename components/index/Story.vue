@@ -1,8 +1,8 @@
 <template>
   <div class="container mx-auto my-12 w-full lg:my-[100px]">
-    <p class="text-H4 mb-6 text-primary-dark md:hidden">
+    <h1 class="text-H4 mb-6 text-primary-dark md:hidden">
       幸福案例
-    </p>
+    </h1>
     <p class="text-H2 mb-[60px] hidden text-primary-dark md:block">
       幸福案例
     </p>
