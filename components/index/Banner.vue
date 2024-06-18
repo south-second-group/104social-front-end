@@ -1,4 +1,6 @@
 <script setup>
+const router = useRouter()
+
 const gender = ['男性', '女性', '其他']
 const genderSelected = ref(null)
 
@@ -12,6 +14,7 @@ const { userData } = storeToRefs(userDataStore)
 
 /* Submit */
 function submit() {
+  router.push('/search-date')
   // console.log('gender', genderSelected.value)
   // console.log('searchType', searchTypeSelected.value)
   // console.log('keyWord', keyWord.value)

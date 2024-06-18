@@ -2,7 +2,6 @@
 const isOpen = ref(false)
 const isShowChat = ref(false)
 const isShowChatList = ref(true)
-const chatId = ref('')
 const slideOverHeight = ref('auto')
 
 function backToChatList() {
@@ -13,7 +12,6 @@ function backToChatList() {
 }
 function handleOpenChat(n) {
   isShowChatList.value = false
-  chatId.value = n
   isShowChat.value = true
 }
 
@@ -71,7 +69,6 @@ onMounted(() => {
         <transition name="slide">
           <chat-roomChat
             v-if="isShowChat"
-            :chat-id="chatId"
           />
         </transition>
       </div>
