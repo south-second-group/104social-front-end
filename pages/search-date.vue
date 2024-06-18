@@ -1,46 +1,14 @@
 <script setup>
-const items = [
-  {
-    name: 'Lisa',
-    describe_1: ['28 歲', '167 cm'],
-    describe_2: ['房仲業'],
-    rating: 4.6,
-    ratingCount: 12,
-    collect: false,
-    hashtag: ['婚後自住', '不生小孩'],
-    avatar: { src: '/member/member-lg-01.png' },
-  },
-  {
-    name: 'Mike',
-    describe_1: ['31 歲'],
-    describe_2: ['台南', '工程師'],
-    rating: 4.3,
-    ratingCount: 12,
-    collect: false,
-    hashtag: ['年薪百萬'],
-    avatar: { src: '/member/member-lg-02.png' },
-  },
-  {
-    name: 'Joshua',
-    describe_1: ['30 歲', '185 cm'],
-    describe_2: ['桃園機場地勤'],
-    rating: 4.1,
-    ratingCount: 15,
-    collect: false,
-    hashtag: ['開放關係', '水瓶座'],
-    avatar: { src: '/member/member-lg-03.png' },
-  },
-  {
-    name: 'Liam',
-    describe_1: ['45 歲', '173 cm'],
-    describe_2: ['台中'],
-    rating: 4.6,
-    ratingCount: 30,
-    collect: false,
-    hashtag: ['BDSM', '主'],
-    avatar: { src: '/member/member-lg-04.png' },
-  },
-]
+import { searchApi } from '../apis/repositories/search'
+
+useHead({
+  title: '尋找對象',
+})
+
+const searchCriteriaStore = useSearchCriteriaStore()
+const { selected, excluded } = storeToRefs(searchCriteriaStore)
+const { removeSelectedTag, removeExcludedHashtag } = searchCriteriaStore
+
 const locationType = ['北部', '中部', '南部', '東部']
 const locationSelected = ref(null)
 
@@ -50,23 +18,48 @@ const searchTypeSelected = ref(null)
 const sortType = ['最後更新時間', '最多評價']
 const sortSelected = ref(null)
 
-const keyWord = ref(null)
-
+const keyWord = ref('')
 const isDesktop = ref(false)
 
+const noResultFound = ref(false)
+
+// 抓取畫面尺寸，分辨電腦或手機
 function checkScreenSize() {
   isDesktop.value = window.innerWidth >= 1024
 }
 
+// 標籤控制
 const currentTab = ref('')
 
 function changeTab(tab) {
   currentTab.value = tab
 }
 
-onMounted(() => {
+// 分頁控制
+const pagination = reactive({ page: 1, totalCount: 2 })
+
+// 搜尋 API
+const searchResultsList = ref([])
+async function getResultListOption(keyword) {
+  try {
+    const params = {
+      keyword: keyword || '',
+      pageNumber: 1,
+      pageSize: 6,
+    }
+    const response = await searchApi.getSearchResultList(params)
+    if (response.status)
+      searchResultsList.value = response.data
+  }
+  catch (error) {
+    const errorMessage = error.response
+  }
+}
+
+onMounted(async () => {
   checkScreenSize()
   window.addEventListener('resize', checkScreenSize)
+  await getResultListOption(keyWord)
 })
 
 onUnmounted(() => {
@@ -78,7 +71,7 @@ onUnmounted(() => {
   <div class="container">
     <div class="grid grid-cols-12 gap-6 py-5 lg:py-20">
       <div class="col-span-12 mt-4 lg:col-span-9">
-        <div class="mb-3 flex flex-col lg:mb-20 lg:flex-row">
+        <div class="my-3 flex flex-col lg:mb-6 lg:flex-row">
           <div
             class="mb-2 me-4 h-12 w-full rounded-lg border bg-white lg:mb-0 lg:max-w-[380px]"
           >
@@ -88,6 +81,7 @@ onUnmounted(() => {
               variant="none"
               size="xl"
               placeholder="輸入理想對象的職業、興趣、星座..."
+              v-bind="keyWord"
             />
           </div>
           <div class="flex gap-2 lg:gap-4">
@@ -125,8 +119,8 @@ onUnmounted(() => {
                       class="size-6 text-primary-dark"
                     />
                   </UButton>
-                  <template #panel>
-                    <search-dateHashtagSelectCard />
+                  <template #panel="{ close }">
+                    <search-dateHashtagSelectCard :close="close" />
                   </template>
                 </UPopover>
               </div>
@@ -134,6 +128,7 @@ onUnmounted(() => {
                 <UButton
                   :ui="{ rounded: 'rounded-full' }"
                   class="ms-2 border-2 border-primary-dark bg-primary-dark p-2 text-base font-bold transition delay-150 ease-in-out hover:text-primary-dark lg:ms-4 lg:w-full lg:px-5 lg:py-2"
+                  @click="() => getResultListOption(keyWord)"
                 >
                   <p class="hidden lg:block">
                     搜尋
@@ -141,6 +136,59 @@ onUnmounted(() => {
                   <icon-heroicons-magnifying-glass class="size-6 lg:hidden" />
                 </UButton>
               </div>
+            </div>
+          </div>
+        </div>
+        <div
+          v-if="selected.length > 0 || excluded.length > 0"
+          class="my-3 ps-3 lg:mb-5"
+        >
+          <div
+            v-if="selected.length > 0"
+            class="mb-3 flex items-center gap-3"
+          >
+            <p class="text-B2 mb-1 text-start text-zinc-400">
+              搜尋條件
+            </p>
+            <div class="flex shrink-0 flex-wrap gap-3">
+              <UBadge
+                v-for="tag in selected"
+                :key="tag"
+                :ui="{ rounded: 'rounded-full' }"
+                class="bg-[#FFF5F5] px-3 py-2"
+              >
+                <p class="me-1 text-base text-zinc-900">
+                  {{ tag }}
+                </p>
+                <icon-heroicons-x-mark
+                  class="size-4 cursor-pointer text-zinc-900"
+                  @click="removeSelectedTag(tag)"
+                />
+              </UBadge>
+            </div>
+          </div>
+          <div
+            v-if="excluded.length > 0"
+            class="flex items-center gap-3"
+          >
+            <p class="text-B2 mb-1 text-start text-zinc-400">
+              排除條件
+            </p>
+            <div class="flex shrink-0 flex-wrap gap-3">
+              <UBadge
+                v-for="tag in excluded"
+                :key="tag"
+                :ui="{ rounded: 'rounded-full' }"
+                class="bg-[#FFF5F5] px-3 py-2"
+              >
+                <p class="me-1 text-base text-zinc-900">
+                  {{ tag }}
+                </p>
+                <icon-heroicons-x-mark
+                  class="size-4 cursor-pointer text-zinc-900"
+                  @click="removeExcludedHashtag(tag)"
+                />
+              </UBadge>
             </div>
           </div>
         </div>
@@ -208,11 +256,31 @@ onUnmounted(() => {
           </div>
         </div>
         <div class="flex flex-wrap justify-center lg:flex-col">
-          <search-dateMemberSearchCard />
-          <search-dateMemberSearchCard />
-          <search-dateMemberSearchCard />
+          <div v-if="noResultFound">
+            <NuxtImg
+              src="/chatRoom/No-Result-Found.png"
+              alt=""
+              class="mx-auto w-[250px]"
+            />
+            <p class="font-bold text-zinc-400">
+              Oops! 沒有找到符合條件的對象
+            </p>
+          </div>
+          <!-- <search-dateSearchUserCard :result-item="result" :is-trash-icon="true" v-for="result in searchResultsList" :key="result" /> -->
+          <search-dateMemberSearchCard
+            v-for="result in searchResultsList"
+            :key="result"
+            :result-item="result"
+          />
+        </div>
+        <div v-if="searchResultsList.resultTotal !== 0">
+          <utilsPaginationComp
+            v-model="pagination.page"
+            :items="Array(pagination.totalCount)"
+          />
         </div>
       </div>
+
       <!-- 右側表單 -->
       <search-dateMemberOptions class="hidden lg:block" />
     </div>
@@ -224,15 +292,16 @@ onUnmounted(() => {
         v-if="isDesktop"
         class="grid grid-cols-2 gap-6"
       >
-        <search-dateMemberSearchCard />
-        <search-dateMemberSearchCard />
-        <search-dateMemberSearchCard />
-        <search-dateMemberSearchCard />
+        <search-dateMemberSearchCard
+          v-for="result in searchResultsList"
+          :key="result"
+          :result-item="result"
+        />
       </div>
       <UCarousel
         v-else
         v-slot="{ item }"
-        :items="items"
+        :items="searchResultsList"
       >
         <div class="mx-auto text-center">
           <search-dateMemberSearchCard :member="item" />
