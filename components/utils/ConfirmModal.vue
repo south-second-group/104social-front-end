@@ -1,5 +1,7 @@
 <script setup>
 import { blackListApi } from '~/apis/repositories/blackList'
+import { unlockCommentApi } from '~/apis/repositories/unlockComment'
+import { commentApi } from '~/apis/repositories/comment'
 
 const props = defineProps({
   status: String,
@@ -21,7 +23,7 @@ const modalText = computed(() => {
     case 'status1':
       return '確認已解鎖評價'
     case 'status2':
-      return '確認解鎖評價'
+      return '確認使用點數 5 點，解鎖評價'
     case 'status3':
       return '確認完成約會'
     case 'status4':
@@ -48,7 +50,7 @@ const modalClick = computed(() => {
     case 'status1':
       return tempfunc
     case 'status2':
-      return tempfunc
+      return unlockComment
     case 'status3':
       return tempfunc
     case 'status4':
@@ -64,7 +66,7 @@ const modalClick = computed(() => {
     case 'status9':
       return tempfunc
     case 'status10':
-      return tempfunc
+      return deleteComment
     default:
       return ''
   }
@@ -75,6 +77,54 @@ function tempfunc() {
   isOpenModal.value = false
 }
 
+// 解鎖評價
+async function unlockComment() {
+  isLoading.value = true
+  try {
+    await unlockCommentApi.unlockComment(props.userId)
+    toastMessage.value = '解鎖評價成功'
+    toastType.value = 'success'
+
+    matchResult.result = matchResult.result.map((item) => {
+      if (item.userInfo._id === props.userId)
+        return { ...item, isUnlock: true }
+      return item
+    })
+  }
+  catch (error) {
+    console.error({ error })
+
+    toastMessage.value = '解鎖評價失敗，請通知開發者'
+    toastType.value = 'error'
+  }
+  finally {
+    isLoading.value = false
+    isOpenModal.value = false
+  }
+}
+
+// 刪除評價
+async function deleteComment() {
+  isLoading.value = true
+  try {
+    await commentApi.deleteComment(props.userId)
+
+    toastMessage.value = '刪除評價成功'
+    toastType.value = 'success'
+  }
+  catch (error) {
+    console.error({ error })
+
+    toastMessage.value = '刪除評價失敗，請通知開發者'
+    toastType.value = 'error'
+  }
+  finally {
+    isLoading.value = false
+    isOpenModal.value = false
+  }
+}
+
+// 收藏
 async function deleteBlackListById() {
   isLoading.value = true
   try {
@@ -99,9 +149,6 @@ async function deleteBlackListById() {
   finally {
     isLoading.value = false
     isOpenModal.value = false
-
-    await new Promise(resolve => setTimeout(resolve, 3000))
-    toastMessage.value = ''
   }
 }
 
@@ -129,9 +176,6 @@ async function postBlackList() {
   finally {
     isLoading.value = false
     isOpenModal.value = false
-
-    await new Promise(resolve => setTimeout(resolve, 3000))
-    toastMessage.value = ''
   }
 }
 
@@ -176,9 +220,6 @@ async function fetchAnswer() {
   }
   finally {
     isLoading.value = false
-
-    await new Promise(resolve => setTimeout(resolve, 3000))
-    toastMessage.value = ''
   }
 }
 </script>

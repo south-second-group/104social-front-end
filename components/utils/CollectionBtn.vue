@@ -15,20 +15,22 @@ async function clickHandler() {
   isCheck.value = !isCheck.value
 
   if (isCheck.value) {
-    await collectionApi.addCollection({ collectedUserId: props.userId }).catch(() => {
+    await collectionApi.addCollection({ collectedUserId: props.userId }).then((res) => {
+      toastMessage.value = res.message
+      toastType.value = 'success'
+    }).catch(() => {
       toastMessage.value = '加入收藏失敗'
       toastType.value = 'error'
     })
-
-    toastMessage.value = '已加入收藏'
   }
   else {
-    await collectionApi.deleteCollectionById({ collectedUserId: props.userId }).catch(() => {
+    await collectionApi.deleteCollectionById({ collectedUserId: props.userId }).then((res) => {
+      toastMessage.value = res.message
+      toastType.value = 'success'
+    }).catch(() => {
       toastMessage.value = '移除收藏失敗'
       toastType.value = 'error'
     })
-
-    toastMessage.value = '已移除收藏'
   }
 }
 

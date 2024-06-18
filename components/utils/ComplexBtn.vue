@@ -6,6 +6,9 @@ const props = defineProps({
   createRenderResult: Set,
   cardUserName: String,
   userId: String,
+  isUnlock: Boolean,
+  beCommentCount: Number,
+  hasComment: Boolean,
 })
 
 const router = useRouter()
@@ -64,13 +67,13 @@ function handleClick(status) {
   else {
     switch (status) {
       case 'status1':
-        router.push('/member/Comment/true')
+        router.push(`/member/Comment/${props.userId}`)
         break
       case 'status8':
-        router.push('/member/Comment/false')
+        router.push(`/member/Comment/${props.userId}--${'false'}`)
         break
       case 'status9':
-        router.push('/member/Comment/true')
+        router.push(`/member/Comment/${props.userId}--${'true'}`)
         break
       default:
         console.warn('Unknown status')
@@ -81,7 +84,7 @@ function handleClick(status) {
 
 <template>
   <button
-    v-if="props.status === 'status1'"
+    v-if="props.status === 'status1' && props.isUnlock"
     class="mx-[1px] my-[3px] flex scale-90 gap-3 rounded-full border-2 border-neutral-400 px-[20px] py-[6px] text-[16px] leading-[24px] text-neutral-400 md:mx-[6px] md:scale-100"
     @click="handleClick(props.status)"
   >
@@ -91,7 +94,9 @@ function handleClick(status) {
   </button>
 
   <button
-    v-if="props.status === 'status2'"
+    v-if="
+      props.status === 'status2' && !props.isUnlock && props.beCommentCount > 0
+    "
     class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
     @click="handleClick(props.status)"
   >
@@ -101,7 +106,7 @@ function handleClick(status) {
   </button>
 
   <button
-    v-if="props.status === 'status3' && props.invitationStatus === 'accepted'"
+    v-if="props.status === 'status3' && props.invitationStatus === 'accepted' && props.hasComment"
     class="mx-[1px] my-[3px] scale-90 rounded-full bg-primary-dark px-[20px] py-[8px] text-[16px] leading-[24px] text-white md:mx-[6px] md:scale-100"
     @click="handleClick(props.status)"
   >
@@ -109,7 +114,9 @@ function handleClick(status) {
   </button>
 
   <button
-    v-if="props.status === 'status4' && props.invitationStatus === 'not invited'"
+    v-if="
+      props.status === 'status4' && props.invitationStatus === 'not invited'
+    "
     class="btn-withIcon-fill mx-[1px] my-[3px] w-[100px] scale-90 md:mx-[6px] md:scale-100"
     @click="handleClick(props.status)"
   >
@@ -149,7 +156,7 @@ function handleClick(status) {
   </button>
 
   <button
-    v-if="props.status === 'status8'"
+    v-if="props.status === 'status8' && !props.hasComment"
     class="btn-withIcon-fill mx-[1px] my-[3px] w-[132px] scale-90 md:mx-[6px] md:scale-100"
     @click="handleClick(props.status)"
   >
@@ -159,7 +166,7 @@ function handleClick(status) {
   </button>
 
   <button
-    v-if="props.status === 'status9'"
+    v-if="props.status === 'status9' && props.hasComment && props.invitationStatus === 'accepted'"
     class="mx-[1px] my-[3px] flex scale-90 gap-1 rounded-full border-2 border-neutral-400 px-[20px] py-[6px] text-[16px] leading-[24px] text-neutral-400 md:mx-[6px] md:scale-100"
     @click="handleClick(props.status)"
   >
@@ -169,7 +176,7 @@ function handleClick(status) {
   </button>
 
   <button
-    v-if="props.status === 'status10'"
+    v-if="props.status === 'status10' && props.hasComment && props.invitationStatus === 'accepted'"
     class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
     @click="handleClick(props.status)"
   >
@@ -179,7 +186,10 @@ function handleClick(status) {
   </button>
 
   <button
-    v-if="props.status === 'status11'"
+    v-if="
+      props.status === 'status11'
+        && router.currentRoute.value.path === '/member/invite'
+    "
     class="btn-withIcon-fill mx-[1px] my-[3px] w-[72px] scale-90 md:mx-[6px] md:scale-100"
     @click="handleClick(props.status)"
   >
@@ -187,7 +197,10 @@ function handleClick(status) {
   </button>
 
   <button
-    v-if="props.status === 'status12'"
+    v-if="
+      props.status === 'status12'
+        && router.currentRoute.value.path === '/member/invite'
+    "
     class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
     @click="handleClick(props.status)"
   >

@@ -132,11 +132,14 @@ function createRenderValue(key, value) {
                 )
               }}
             </span>
+
+            <!-- 顯示陣列 -->
             <span class="text-B2 text-neutral-600">{{
               Array.from(createRenderResult).join('、')
             }}</span>
           </div>
         </div>
+
         <div
           v-if="!isDataLoading"
           class="space-y-3 border-l-2 border-x-neutral-300 pl-3"
@@ -150,15 +153,25 @@ function createRenderValue(key, value) {
             }}
           </p>
 
-          <!-- 顯示陣列 -->
-          <p class="text-B2 text-neutral-300">
-            {{
-              renderValue(
-                'expectedSalary',
-                resultItem.matchListSelfSetting.workInfo.expectedSalary,
-              )
-            }}
-          </p>
+          <div class="space-x-2">
+            <span class="text-B2 text-neutral-300">
+              {{
+                renderValue(
+                  'expectedSalary',
+                  resultItem.matchListSelfSetting.workInfo.expectedSalary,
+                )
+              }}
+            </span>
+
+            <span class="text-B2 text-neutral-300">
+              {{
+                renderValue(
+                  'industry',
+                  resultItem.matchListSelfSetting.workInfo.industry,
+                )
+              }}
+            </span>
+          </div>
         </div>
         <div
           v-if="!isDataLoading"
@@ -167,8 +180,8 @@ function createRenderValue(key, value) {
           <div>
             <span
               v-for="(item, idx) in renderValue(
-                'industry',
-                resultItem.matchListSelfSetting.workInfo.industry,
+                'activities',
+                resultItem.matchListSelfSetting.personalInfo.activities,
               )"
               :key="idx"
             >
@@ -182,7 +195,17 @@ function createRenderValue(key, value) {
           </div>
           <div class="flex justify-end space-x-2">
             <icon-heroicons:star-solid class="text-special-warning" />
-            <span class="text-B3 text-neutral-400"> 評分 4.2 (13) </span>
+            <span
+              v-if="resultItem.userStatus.commentCount"
+              class="text-B3 text-neutral-400"
+            >
+              評分 {{ resultItem.userStatus.commentScore }}
+              ({{ resultItem.userStatus.commentCount }})
+            </span>
+            <span
+              v-else
+              class="text-B3 text-neutral-400"
+            > 無評分 </span>
           </div>
         </div>
       </div>
@@ -199,6 +222,9 @@ function createRenderValue(key, value) {
           createRenderResult,
           cardUserName: resultItem.userInfo.personalInfo.username,
           userId: resultItem.matchListSelfSetting.userId,
+          isUnlock: resultItem.isUnlock,
+          beCommentCount: resultItem.userStatus.commentCount,
+          hasComment: resultItem.hasComment,
         }"
       />
     </div>
