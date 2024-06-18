@@ -8,10 +8,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  timeOut:{
+  timeOut: {
     type: Number,
     default: 2000,
-  }
+  },
 })
 
 const tempMessage = ref('')
@@ -27,7 +27,6 @@ watch(() => props.toastMessage, () => {
 const computedToastType = computed(() => {
   return props.toastType || 'info'
 })
-
 </script>
 
 <template>

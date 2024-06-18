@@ -118,9 +118,6 @@ async function saveMatchListSelfSetting() {
     )
     getMatchListSelfSetting()
     getMatchResult()
-
-    await new Promise(resolve => setTimeout(resolve, 3000))
-    toastMessage.value = ''
   }
 }
 

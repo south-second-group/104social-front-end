@@ -120,9 +120,6 @@ async function saveMatchList() {
     isEditEmail.value = false
     tempMatchListData.value = JSON.parse(JSON.stringify(matchListData.value))
     getMatchResult()
-
-    await new Promise(resolve => setTimeout(resolve, 3000))
-    toastMessage.value = ''
   }
 }
 
