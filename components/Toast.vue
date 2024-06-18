@@ -1,5 +1,5 @@
 <script setup>
-defineProps({
+const props = defineProps({
   toastMessage: {
     type: String,
     default: '',
@@ -8,21 +8,40 @@ defineProps({
     type: String,
     default: '',
   },
+  timeOut:{
+    type: Number,
+    default: 2000,
+  }
 })
+
+const tempMessage = ref('')
+
+watch(() => props.toastMessage, () => {
+  tempMessage.value = props.toastMessage
+
+  setTimeout(() => {
+    tempMessage.value = ''
+  }, props.timeOut)
+}, { immediate: true, deep: true })
+
+const computedToastType = computed(() => {
+  return props.toastType || 'info'
+})
+
 </script>
 
 <template>
   <transition name="fade">
     <div
-      v-if="toastMessage"
+      v-if="tempMessage"
       class="Toast flex"
       role="alert"
     >
       <div
         class="toast"
-        :class="[toastType === 'success' ? 'success' : 'error']"
+        :class="computedToastType"
       >
-        {{ toastMessage }}
+        {{ tempMessage }}
       </div>
     </div>
   </transition>
@@ -45,6 +64,14 @@ defineProps({
 
   &.error {
     background-color: #f44336;
+  }
+
+  &.warning {
+    background-color: orange;
+  }
+
+  &.info {
+    background-color: #2196f3;
   }
 }
 

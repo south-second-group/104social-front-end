@@ -21,7 +21,6 @@ async function clickHandler() {
     })
 
     toastMessage.value = '已加入收藏'
-    toastType.value = 'success'
   }
   else {
     await collectionApi.deleteCollectionById({ collectedUserId: props.userId }).catch(() => {
@@ -30,11 +29,7 @@ async function clickHandler() {
     })
 
     toastMessage.value = '已移除收藏'
-    toastType.value = 'success'
   }
-
-  await new Promise(resolve => setTimeout(resolve, 2000))
-  toastMessage.value = ''
 }
 
 onMounted(() => {
@@ -46,6 +41,7 @@ onMounted(() => {
   <Toast
     :toast-message="toastMessage"
     :toast-type="toastType"
+    :time-out="3000"
   />
 
   <svg
