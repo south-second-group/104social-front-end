@@ -55,7 +55,7 @@ const memberStore = useMemberStore()
             label="Open"
             :disabled="!memberStore.editStatus"
             :class="!memberStore.editStatus ? 'cursor-not-allowed' : 'cursor-pointer'"
-            class="p-2 font-bold text-primary-dark duration-300 ease-in-out hover:opacity-70 disabled:hover:opacity-100"
+            class="p-2 font-bold text-primary-dark duration-300 ease-in-out hover:opacity-70 disabled:text-neutral-400 disabled:hover:opacity-100"
           >
             更多標籤...
           </button>
@@ -74,7 +74,7 @@ const memberStore = useMemberStore()
         <button
           :disabled="!memberStore.editStatus"
           label="Open"
-          class="p-2 font-bold text-primary-dark"
+          class="p-2 font-bold text-primary-dark disabled:text-neutral-400"
         >
           更多標籤...
         </button>
