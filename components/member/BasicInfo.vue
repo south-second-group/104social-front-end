@@ -35,11 +35,11 @@ const functionButtonsList = [
     <!-- 基本資料 -->
     <div class="flex w-full space-x-6 rounded-[10px] bg-[#FFF5F5] p-4 lg:p-6">
       <div class="size-[100px] overflow-hidden rounded-full lg:size-[120px]">
-        <img
-          :src="memberStore.avatar"
+        <NuxtImg
+          :src="memberStore.previewImage || memberStore.avatar"
           alt="UserSticker Image"
           class="size-full object-cover"
-        >
+        />
       </div>
 
       <div class="flex flex-col justify-center text-left">
@@ -81,12 +81,14 @@ const functionButtonsList = [
         </li>
       </ul>
 
-      <GradientButton class="m-[2px] px-4 py-2 lg:py-2 xl:px-5">
-        <GradientButtonText
-          text="儲值"
-          class="text-sm lg:text-base"
-        />
-      </GradientButton>
+      <router-link to="/order/PayPage">
+        <GradientButton class="m-[2px] px-4 py-2 lg:py-2 xl:px-5">
+          <GradientButtonText
+            text="儲值"
+            class="text-sm lg:text-base"
+          />
+        </GradientButton>
+      </router-link>
     </div>
 
     <!-- 功能按鈕 -->

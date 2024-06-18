@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils'
 
 const props = defineProps<{
   class?: string
+  isDisabled?: boolean
   click?: () => void
 }>()
 </script>
@@ -10,7 +11,15 @@ const props = defineProps<{
 <template>
   <GradientBaseRevert class="group">
     <button
-      :class="cn('relative z-10 block w-full rounded-full lg:group-hover:bg-gradient-to-r from-[#FE839A] to-[#4A72FF] lg:py-4 py-3 duration-300 ease-in-out bg-white bg-none disabled:cursor-not-allowed', props.class)"
+      :class="cn(
+        'relative z-10 block w-full rounded-full lg:py-4 py-3 duration-300 ease-in-out bg-white disabled:cursor-not-allowed',
+        props.class,
+        {
+          'lg:group-hover:bg-gradient-to-r from-[#FE839A] to-[#4A72FF]': !props.isDisabled,
+          'lg:disabled:group-hover:bg-none': props.isDisabled,
+        },
+      )"
+      :disabled="props.isDisabled"
       @click="props.click"
     >
       <slot></slot>

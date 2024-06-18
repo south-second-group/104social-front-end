@@ -25,7 +25,7 @@ async function submit() {
   }
   catch (error) {
     console.error(error)
-    toast('用戶資訊修改失敗', 'error')
+    toast(error.message, 'error')
   }
 }
 </script>

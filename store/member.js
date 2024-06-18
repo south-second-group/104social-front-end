@@ -5,6 +5,9 @@ export const useMemberStore = defineStore('member', () => {
   // 暫存資料
   const tempData = reactive({})
 
+  // 圖像預覽
+  const previewImage = ref('')
+
   // 配對設定資料
   const matchListSelfSettingData = ref([])
   const tempMatchListData = ref([])
@@ -171,6 +174,8 @@ export const useMemberStore = defineStore('member', () => {
     }
   }
 
+  const imageFile = ref(null)
+
   /** 完成編輯 */
   async function changeInfo() {
     const updateData = {
@@ -190,37 +195,36 @@ export const useMemberStore = defineStore('member', () => {
         lineId: personalDetails[1].value,
         isShow: personalDetails[1].isShow,
       },
-      // phoneDetails: {
-      //   phone: personalDetails[2].value,
-      //   isShow: personalDetails[2].isShow,
-      // },
-      // companyDetails: {
-      //   company: personalDetails[4].value,
-      //   isShow: personalDetails[4].isShow,
-      // },
-      // incomeDetails: {
-      //   income: personalDetails[1].value,
-      //   isShow: personalDetails[1].isShow,
-      // },
-      // jobDetails: {
-      //   job: personalDetails[5].value,
-      //   isShow: personalDetails[5].isShow,
-      // },
       tags: personalMyTags,
       exposureSettings: {
         rating: personalStatus.rating,
         isShow: personalStatus.isShow,
         isMatch: personalStatus.isMatch,
       },
-      // userStatus: {
-      //   status: '',
-      //   isShow: false,
-      // },
+    }
+
+    // 確認是否有圖片需要上傳
+    if (imageFile.value) {
+      const formData = new FormData()
+      formData.append('image', imageFile.value)
+
+      try {
+        const uploadRes = await memberAPI.uploadImage(formData)
+        updateData.photoDetails.photo = uploadRes.data.user.photo
+        avatar.value = uploadRes.data.user.photo
+        previewImage.value = uploadRes.data.user.photo
+      }
+      catch (error) {
+        updateData.photoDetails.photo = avatar.value
+        previewImage.value = avatar.value
+        console.error(error)
+        throw new Error('照片上傳失敗')
+      }
     }
 
     try {
       const res = await memberAPI.userDataPatch(updateData)
-      const updateMatchListRes = await matchListApi.updateMatchListSelf(
+      await matchListApi.updateMatchListSelf(
         matchListSelfSettingData.value,
       )
 
@@ -228,14 +232,28 @@ export const useMemberStore = defineStore('member', () => {
     }
     catch (error) {
       console.error(error)
-      return false
+      throw new Error('用戶資訊修改失敗')
     }
     finally {
       await getMemberData()
     }
   }
 
+  /** 處理圖片預覽 */
+  async function handleFileChange(event) {
+    imageFile.value = event.target.files[0]
+
+    if (imageFile.value) {
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        previewImage.value = e.target.result
+      }
+      reader.readAsDataURL(imageFile.value)
+    }
+  }
+
   return {
+    previewImage,
     matchListSelfSettingData,
     tempMatchListData,
     basicInfo,
@@ -251,6 +269,7 @@ export const useMemberStore = defineStore('member', () => {
     toggleEditStatus,
     removeFromPersonalMyTags,
     addToPersonalMyTags,
+    handleFileChange,
   }
 })
 
