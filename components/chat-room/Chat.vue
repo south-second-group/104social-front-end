@@ -111,7 +111,7 @@ onMounted(() => {
             alt="Avatar"
           />
           <div class="max-w-[190px] rounded-lg bg-neutral-200 px-3 py-2 sm:max-w-[65%]">
-            <p class="mb-text-base text-start text-sm text-zinc-950">
+            <p class="mb-text-base text-wrap break-all text-start text-sm text-zinc-950">
               {{ message.message }}
             </p>
           </div>
