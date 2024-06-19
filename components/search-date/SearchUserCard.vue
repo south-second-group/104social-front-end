@@ -85,7 +85,7 @@ function createRenderValue(key, value) {
         <div class="rounded-full bg-neutral-100 p-[10px]">
           <utilsCollectionBtn
             :is-collected="resultItem.isCollected"
-            :user-id="resultItem.matchListSelfSetting.userId"
+            :user-id="resultItem.userId"
           />
         </div>
       </div>
@@ -104,9 +104,7 @@ function createRenderValue(key, value) {
           <h2
             class="text-H4 text-neutral-600"
             :class="{
-              'font-montserrat': !useIsChineseFunc(
-                resultItem.userInfo.personalInfo.username,
-              ),
+              'font-montserrat': !useIsChineseFunc(resultItem.userInfo.personalInfo.username),
             }"
           >
             {{ resultItem.userInfo.personalInfo.username }}
@@ -177,11 +175,7 @@ function createRenderValue(key, value) {
           </div>
           <div class="flex justify-end space-x-2">
             <icon-heroicons:star-solid class="text-special-warning" />
-            <span class="text-B3 text-neutral-400">
-              評分 {{ resultItem.profile.userStatus.commentScore }} ({{
-                resultItem.profile.userStatus.commentCount
-              }})
-            </span>
+            <span class="text-B3 text-neutral-400"> 評分 4.2 (13) </span>
           </div>
         </div>
       </div>

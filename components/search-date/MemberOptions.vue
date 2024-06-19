@@ -1,4 +1,6 @@
 <script setup>
+const popularTag = ['水瓶座', '年薪百萬', '性格外向', '父母雙亡', '00940']
+
 // const userGenderOptions = [{
 //   value: 'male',
 //   label: '男性',
@@ -21,8 +23,36 @@
 //   label: '非二元性別',
 // }]
 
-const selectedUserGender = ref('')
-const selectedLookingForGenderOptions = ref('')
+// const selectedUserGender = ref('')
+// const selectedLookingForGenderOptions = ref('')
+
+const searchCriteriaStore = useSearchCriteriaStore()
+const { selected, excluded } = storeToRefs(searchCriteriaStore)
+const { setSelectedList, setExcludedList, removeSelectedTag, removeExcludedHashtag } = searchCriteriaStore
+
+function selectedBySelectedHashtag(item) {
+  return selected.value.includes(item)
+}
+
+function selectedByExcludedHashtag(item) {
+  return excluded.value.includes(item)
+}
+
+function handleAddToSelectedHashtag(tag) {
+  if (!selected.value.includes(tag))
+    setSelectedList([...selected.value, tag])
+
+  if (excluded.value.includes(tag))
+    removeExcludedHashtag(tag)
+}
+
+function handleAddToExcludedHashtag(tag) {
+  if (!excluded.value.includes(tag))
+    setExcludedList([...excluded.value, tag])
+
+  if (selected.value.includes(tag))
+    removeSelectedTag(tag)
+}
 
 const isDesktop = ref(false)
 
@@ -93,38 +123,26 @@ onUnmounted(() => {
         </URadioGroup>
       </div>
     </div> -->
-    <div class="mb-4 rounded-xl border border-zinc-200 p-4 lg:mb-6 lg:p-6">
+    <div class="mb-4 rounded-xl border border-zinc-200 p-4 lg:mb-6 lg:p-3">
       <div class="mb-6 flex items-center justify-center text-zinc-600">
         <icon-heroicons-fire-solid class="size-6" />
         <p class="ms-2 text-[20px] font-bold">
           熱門關鍵字
         </p>
       </div>
-      <div class="flex gap-3 overflow-x-auto text-start lg:flex-wrap">
-        <UBadge
-          :ui="{ rounded: 'rounded-full' }"
-          class="shrink-0 bg-neutral-200 px-3 py-2 text-base text-zinc-600"
+      <div class="flex flex-wrap gap-2">
+        <div
+          v-for="item in popularTag"
+          :key="item"
         >
-          水瓶座
-        </UBadge>
-        <UBadge
-          :ui="{ rounded: 'rounded-full' }"
-          class="shrink-0 bg-neutral-200 px-3 py-2 text-base text-zinc-600"
-        >
-          年薪百萬
-        </UBadge>
-        <UBadge
-          :ui="{ rounded: 'rounded-full' }"
-          class="shrink-0 bg-neutral-200 px-3 py-2 text-base text-zinc-600"
-        >
-          性格外向
-        </UBadge>
-        <UBadge
-          :ui="{ rounded: 'rounded-full' }"
-          class="shrink-0 bg-neutral-200 px-3 py-2 text-base text-zinc-600"
-        >
-          父母雙亡
-        </UBadge>
+          <search-dateHashtag
+            :item="item"
+            :selected-by-selected-hashtag="selectedBySelectedHashtag(item)"
+            :selected-by-excluded-hashtag="selectedByExcludedHashtag(item)"
+            @push-selected-hashtag="handleAddToSelectedHashtag"
+            @push-excluded-hashtag="handleAddToExcludedHashtag"
+          />
+        </div>
       </div>
     </div>
   </div>

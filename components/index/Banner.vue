@@ -1,4 +1,6 @@
 <script setup>
+const router = useRouter()
+
 const gender = ['男性', '女性', '其他']
 const genderSelected = ref(null)
 
@@ -12,6 +14,7 @@ const { userData } = storeToRefs(userDataStore)
 
 /* Submit */
 function submit() {
+  router.push('/search-date')
   // console.log('gender', genderSelected.value)
   // console.log('searchType', searchTypeSelected.value)
   // console.log('keyWord', keyWord.value)
@@ -129,7 +132,7 @@ function submit() {
   <div class="IndexBanner hidden w-full overflow-hidden lg:block">
     <div class="container relative my-[171px]">
       <!-- 裝飾球_Large -->
-      <div class="absolute left-[-155px] top-[-155px] w-[684px]">
+      <div class="animate-scale-up-loop decoration-ball-1 absolute left-[-155px] top-[-145px] w-[684px]">
         <NuxtImg
           src="/banner/bg-ball-large-lg.png"
           alt="Banner_ball"
@@ -138,7 +141,7 @@ function submit() {
       </div>
 
       <!-- 裝飾球_Medium -->
-      <div class="absolute left-[381px] top-[-179px] w-[305px]">
+      <div class="animate-scale-up-loop decoration-ball-2 absolute left-[381px] top-[-130px] w-[305px]">
         <NuxtImg
           src="/banner/bg-ball-medium-lg.png"
           alt="Banner_ball"
@@ -147,7 +150,7 @@ function submit() {
       </div>
 
       <!-- 裝飾球_Medium -->
-      <div class="absolute right-[-406px] top-[-155px] w-[305px]">
+      <div class="animate-scale-up-loop decoration-ball-3 absolute right-[-406px] top-[-155px] w-[305px]">
         <NuxtImg
           src="/banner/bg-ball-medium-lg.png"
           alt="Banner_ball"
@@ -285,5 +288,47 @@ function submit() {
     linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
+}
+
+@keyframes scaleUp {
+  0% {
+    transform: scale(0.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleUpLoop {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.4;
+    filter: blur(5px);
+  }
+}
+
+.animate-scale-up-loop {
+  animation: scaleUp 1s ease-out forwards, scaleUpLoop 5s ease-in-out infinite 3s;
+}
+
+.animate-scale-up {
+  animation: scaleUp 0.4s ease-in-out forwards;
+}
+
+.decoration-ball-1 {
+  animation-delay: 0ms;
+}
+
+.decoration-ball-2 {
+  animation-delay: 1300ms;
+}
+
+.decoration-ball-3 {
+  animation-delay: 2100ms;
 }
 </style>

@@ -37,7 +37,6 @@ async function getMatchResult(page, sort) {
     console.error(error)
   }
   finally {
-    await new Promise(resolve => setTimeout(resolve, 2000))
     isDataLoading.value = false
   }
 }
@@ -60,6 +59,8 @@ watch(
 
 <template>
   <div class="container text-start">
+    <!-- {{ matchResult.result[0].profile.userStatus.commentCount }} -->
+    {{ matchResult.result[0] }}
     <div class="mx-auto">
       <h1 class="text-H4 md:text-H3 mb-6 mt-[80px] text-start md:mb-[20px]">
         配對結果
@@ -114,7 +115,7 @@ watch(
               v-for="item in matchResult.result"
               :key="item._id"
             >
-              <utilsUserCardBgLight
+              <utilsUserCardMatchResult
                 :result-item="item"
                 :is-trash-icon="false"
               />
@@ -125,7 +126,7 @@ watch(
             v-else-if="isDataLoading && matchResult.resultTotal !== 0"
             class="mb-4 space-y-3 rounded-lg bg-neutral-100 p-6"
           >
-            <utilsUserCardBgLightSkeleton
+            <utilsUserCardSkeleton
               v-for="i in 6"
               :key="i"
             />

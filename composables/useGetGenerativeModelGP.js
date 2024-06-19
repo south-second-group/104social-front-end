@@ -2,7 +2,7 @@ import { useGenAi } from './useGenAi.js'
 
 export async function useGetGenerativeModelGP(prompt) {
   const rule1 = `
-參考以下是訊息範例，邀清訊息必需加入對方資訊：${prompt}，產生一段三百字的邀請訊息：
+參考以下是訊息範例，邀清訊息必需加入對方資訊：${prompt}，產生一段三百字繁體中文的邀請訊息：
 
 **輕鬆自然:**
 * "最近想吃 [餐廳類型]，你喜歡嗎？有空一起吃飯嗎？"

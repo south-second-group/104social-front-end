@@ -1,5 +1,4 @@
 <script setup>
-const userDataStore = useUserDataStore()
 const memberStore = useMemberStore()
 
 // 功能按鈕
@@ -35,12 +34,12 @@ const functionButtonsList = [
   <section class="container mt-12 space-y-4 lg:flex lg:space-x-6 lg:space-y-0">
     <!-- 基本資料 -->
     <div class="flex w-full space-x-6 rounded-[10px] bg-[#FFF5F5] p-4 lg:p-6">
-      <div class="w-[100px] lg:w-[120px]">
-        <img
-          src="~assets/img/member/memberCentre/UserSticker.png"
+      <div class="size-[100px] overflow-hidden rounded-full lg:size-[120px]">
+        <NuxtImg
+          :src="memberStore.previewImage || memberStore.avatar"
           alt="UserSticker Image"
           class="size-full object-cover"
-        >
+        />
       </div>
 
       <div class="flex flex-col justify-center text-left">
@@ -82,24 +81,23 @@ const functionButtonsList = [
         </li>
       </ul>
 
-      <!-- <button class="btn-linear-nav block">
-        儲值
-      </button> -->
-      <GradientButton class="m-[2px] lg:px-5 lg:py-2">
-        <GradientButtonText
-          text="儲值"
-          class="text-base"
-        />
-      </GradientButton>
+      <router-link to="/order/PayPage">
+        <GradientButton class="m-[2px] px-4 py-2 lg:py-2 xl:px-5">
+          <GradientButtonText
+            text="儲值"
+            class="text-sm lg:text-base"
+          />
+        </GradientButton>
+      </router-link>
     </div>
 
     <!-- 功能按鈕 -->
-    <div class="grid w-full grid-flow-col grid-rows-3 gap-x-6 gap-y-2">
+    <div class="grid w-full grid-flow-col grid-rows-3 gap-x-6 gap-y-2 ">
       <router-link
         v-for="(button) in functionButtonsList"
         :key="button.title"
         :to="button.path"
-        class="w1/2 rounded-full bg-gray-200 py-3 font-bold"
+        class="rounded-full bg-gray-200 py-3 font-bold duration-300 ease-in-out active:scale-75 lg:hover:opacity-70"
       >
         {{ button.title }}
       </router-link>

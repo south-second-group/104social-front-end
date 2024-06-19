@@ -1,15 +1,5 @@
 <script setup>
 const memberStore = useMemberStore()
-
-function removeFromPersonalMyTags(tag) {
-  memberStore.personalMyTags = memberStore.personalMyTags.filter(t => t !== tag)
-}
-
-function addToPersonalMyTags(tag) {
-  if (memberStore.personalMyTags.includes(tag))
-    return
-  memberStore.personalMyTags.push(tag)
-}
 </script>
 
 <template>
@@ -25,12 +15,13 @@ function addToPersonalMyTags(tag) {
       <li
         v-for="(tag, index) in memberStore.personalMyTags"
         :key="index"
-        class="flex shrink-0 items-center space-x-1 rounded-full bg-primary-light px-3 py-2"
+        class="flex shrink-0 items-center space-x-1 rounded-full bg-primary-light px-3 py-2 "
       >
         <span>{{ tag }}</span>
         <button
-          class="i-heroicons-x-mark-16-solid size-4 ring-1"
-          @click="removeFromPersonalMyTags(tag)"
+          class="i-heroicons-x-mark-16-solid size-4 duration-300 ease-in-out disabled:cursor-not-allowed disabled:opacity-60 lg:hover:scale-90 lg:hover:opacity-60"
+          :disabled="!memberStore.editStatus"
+          @click="memberStore.removeFromPersonalMyTags(tag)"
         ></button>
       </li>
     </ul>
@@ -46,24 +37,51 @@ function addToPersonalMyTags(tag) {
         class="shrink-0"
       >
         <button
-          class="rounded-full bg-neutral-300 px-3 py-2"
-          @click="addToPersonalMyTags(tag)"
+          class="rounded-full bg-neutral-300 px-3 py-2 duration-300 ease-in-out  disabled:cursor-not-allowed disabled:bg-neutral-300 disabled:opacity-60 disabled:duration-300 disabled:ease-in-out disabled:hover:scale-100 lg:hover:bg-primary-light lg:disabled:hover:bg-neutral-300"
+          :disabled="!memberStore.editStatus"
+          @click="memberStore.addToPersonalMyTags(tag)"
         >
           {{ tag }}
         </button>
       </li>
 
       <li class=" hidden items-center lg:flex">
-        <button class="p-2 font-bold text-primary-dark">
-          更多標籤...
-        </button>
+        <UPopover
+          :popper="{ placement: 'bottom-end' }"
+          :disabled="!memberStore.editStatus"
+          class="disabled:cursor-not-allowed"
+        >
+          <button
+            label="Open"
+            :disabled="!memberStore.editStatus"
+            :class="!memberStore.editStatus ? 'cursor-not-allowed' : 'cursor-pointer'"
+            class="p-2 font-bold text-primary-dark duration-300 ease-in-out hover:opacity-70 disabled:text-neutral-400 disabled:hover:opacity-100"
+          >
+            更多標籤...
+          </button>
+          <template #panel="{ close }">
+            <MemberPersonalInfoHashtagSelectCard :close="close" />
+          </template>
+        </UPopover>
       </li>
     </ul>
 
     <div class="flex justify-end lg:hidden">
-      <button class="mt-2 p-2 font-bold text-primary-dark">
-        更多標籤...
-      </button>
+      <UPopover
+        :popper="{ placement: 'bottom-end' }"
+        :disabled="!memberStore.editStatus"
+      >
+        <button
+          :disabled="!memberStore.editStatus"
+          label="Open"
+          class="p-2 font-bold text-primary-dark disabled:text-neutral-400"
+        >
+          更多標籤...
+        </button>
+        <template #panel="{ close }">
+          <MemberPersonalInfoHashtagSelectCard :close="close" />
+        </template>
+      </UPopover>
     </div>
   </div>
 </template>

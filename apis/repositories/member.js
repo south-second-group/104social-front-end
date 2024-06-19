@@ -38,8 +38,29 @@ async function getUserData() {
   })
 }
 
+// 上傳圖片
+async function uploadImage(data) {
+  return useBaseFetch('/api/v1/image', {
+    method: 'POST',
+    headers: {},
+    body: data,
+  })
+}
+
+// 取得興趣 tag
+async function getTagList() {
+  return useBaseFetch('/api/v1/user-params', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+}
+
 export const memberAPI = {
   userDataPatch,
   addUserData,
   getUserData,
+  uploadImage,
+  getTagList,
 }

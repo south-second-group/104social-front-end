@@ -1,16 +1,13 @@
 <script setup>
 import { matchListApi } from '~/apis/repositories/matchList'
 
+const memberStore = useMemberStore()
+
 const matchResult = useMatchResultStore()
 
 const isDataLoading = ref(true)
 const toastMessage = ref('')
 const toastType = ref('')
-
-const editMode = ref(false)
-function toggleEditMode() {
-  editMode.value = !editMode.value
-}
 
 // 配對設定標頭
 function getKeyLabel(key) {
@@ -34,25 +31,6 @@ function getKeyLabel(key) {
   return labels[key] || key
 }
 
-// 配對設定資料
-const matchListSelfSettingData = ref([])
-const tempMatchListData = ref([])
-
-async function getMatchListSelfSetting() {
-  try {
-    const res = await matchListApi.getMatchListSelf()
-    const { data } = res
-
-    matchListSelfSettingData.value = data
-    matchListSelfSettingData.value.searchDataBase = []
-
-    tempMatchListData.value = JSON.parse(JSON.stringify(data))
-  }
-  catch (error) {
-    console.error(error)
-  }
-}
-
 const matchListOptionData = ref([])
 async function getMatchListOption() {
   try {
@@ -72,8 +50,8 @@ function renderValue(key, value) {
     )
 
     arrayLabel.forEach((item) => {
-      if (!matchListSelfSettingData.value.searchDataBase.includes(item))
-        matchListSelfSettingData.value.searchDataBase.push(item)
+      if (!memberStore.matchListSelfSettingData.searchDataBase.includes(item))
+        memberStore.matchListSelfSettingData.searchDataBase.push(item)
     })
 
     return arrayLabel.join('、')
@@ -82,16 +60,11 @@ function renderValue(key, value) {
   const label = matchListOptionData.value[0][key][value].label
   if (
     label !== '請選擇'
-    && !matchListSelfSettingData.value.searchDataBase.includes(label)
+    && !memberStore.matchListSelfSettingData.searchDataBase.includes(label)
   )
-    matchListSelfSettingData.value.searchDataBase.push(label)
+    memberStore.matchListSelfSettingData.searchDataBase.push(label)
 
   return label
-}
-
-function cancelEdit() {
-  matchListSelfSettingData.value = tempMatchListData.value
-  toggleEditMode()
 }
 
 async function saveMatchListSelfSetting() {
@@ -111,16 +84,10 @@ async function saveMatchListSelfSetting() {
     toastType.value = 'error'
   }
   finally {
-    editMode.value = false
-
-    tempMatchListData.value = JSON.parse(
+    memberStore.tempMatchListData.value = JSON.parse(
       JSON.stringify(matchListSelfSettingData.value),
     )
-    getMatchListSelfSetting()
     getMatchResult()
-
-    await new Promise(resolve => setTimeout(resolve, 3000))
-    toastMessage.value = ''
   }
 }
 
@@ -136,7 +103,7 @@ async function getMatchResult() {
   }
 }
 
-Promise.all([getMatchListOption(), getMatchListSelfSetting()]).then(() => {
+Promise.all([getMatchListOption()]).then(() => {
   isDataLoading.value = false
 })
 
@@ -144,19 +111,18 @@ const accordionItems = [
   {
     defaultOpen: false,
     slot: 'personalInfo',
-    title: '個人條件',
+    title: '詳細資訊',
   },
   {
     defaultOpen: false,
     slot: 'workInfo',
-    title: '工作條件',
+    title: '我的工作',
   },
 ]
 </script>
 
 <template>
   <div>
-    <!-- {{ matchListSelfSettingData }} -->
     <UAccordion
       :items="accordionItems"
       color="gray"
@@ -193,7 +159,7 @@ const accordionItems = [
             :class="!isDataLoading ? '!grid' : ''"
           >
             <div
-              v-for="(value, key) in matchListSelfSettingData.personalInfo"
+              v-for="(value, key) in memberStore.matchListSelfSettingData.personalInfo"
               :key="key"
               class="mb-2 flex h-[35px] items-center"
             >
@@ -201,9 +167,9 @@ const accordionItems = [
                 {{ getKeyLabel(key) }}
               </div>
               <div>
-                <div v-if="editMode">
+                <div v-if="memberStore.editStatus">
                   <USelectMenu
-                    v-model="matchListSelfSettingData.personalInfo[key]"
+                    v-model="memberStore.matchListSelfSettingData.personalInfo[key]"
                     :options="matchListOptionData[0][key]"
                     class="w-[303px] rounded-md border border-neutral-300 bg-white text-neutral-500"
                     size="xl"
@@ -242,7 +208,7 @@ const accordionItems = [
             :class="!isDataLoading ? '!grid' : ''"
           >
             <div
-              v-for="(value, key) in matchListSelfSettingData.workInfo"
+              v-for="(value, key) in memberStore.matchListSelfSettingData.workInfo"
               :key="key"
               class="mb-2 flex h-[35px] items-center"
             >
@@ -250,9 +216,9 @@ const accordionItems = [
                 {{ getKeyLabel(key) }}
               </div>
               <div>
-                <div v-if="editMode">
+                <div v-if="memberStore.editStatus">
                   <USelectMenu
-                    v-model="matchListSelfSettingData.workInfo[key]"
+                    v-model="memberStore.matchListSelfSettingData.workInfo[key]"
                     :options="matchListOptionData[0][key]"
                     class="w-[303px] rounded-md border border-neutral-300 bg-white text-neutral-500"
                     size="xl"
@@ -283,36 +249,6 @@ const accordionItems = [
         </div>
       </template>
     </UAccordion>
-
-    <!-- 編輯按鈕 -->
-    <div class="mt-4 flex w-full justify-end">
-      <template v-if="editMode">
-        <button
-          type="button"
-          class="btn-withIcon-outline mr-2 w-[303px]"
-          @click="cancelEdit"
-        >
-          <p>取消</p>
-        </button>
-        <button
-          type="button"
-          class="btn-linear-md"
-          @click="saveMatchListSelfSetting"
-        >
-          <p>儲存</p>
-        </button>
-      </template>
-      <template v-else>
-        <button
-          :disabled="toastMessage !== ''"
-          type="submit"
-          class="btn-linear-md"
-          @click="toggleEditMode"
-        >
-          <p>編輯</p>
-        </button>
-      </template>
-    </div>
 
     <Toast
       :toast-message="toastMessage"

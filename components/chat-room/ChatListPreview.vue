@@ -36,14 +36,14 @@ function openChat(n) {
       class="rounded-xl bg-white"
     >
       <chat-roomChatPreview @click="openChat('01')" />
-      <chat-roomChatPreview @click="openChat('02')" />
+      <!-- <chat-roomChatPreview @click="openChat('02')" />
       <chat-roomChatPreview @click="openChat('03')" />
       <chat-roomChatPreview @click="openChat('04')" />
       <chat-roomChatPreview @click="openChat('04')" />
       <chat-roomChatPreview @click="openChat('04')" />
       <chat-roomChatPreview @click="openChat('04')" />
       <chat-roomChatPreview @click="openChat('04')" />
-      <chat-roomChatPreview @click="openChat('04')" />
+      <chat-roomChatPreview @click="openChat('04')" /> -->
     </ul>
     <div
       v-if="false"
