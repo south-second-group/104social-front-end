@@ -196,11 +196,11 @@ function createRenderValue(key, value) {
           <div class="flex justify-end space-x-2">
             <icon-heroicons:star-solid class="text-special-warning" />
             <span
-              v-if="resultItem.userStatus.commentCount"
+              v-if="resultItem.profile.userStatus.commentCount"
               class="text-B3 text-neutral-400"
             >
-              評分 {{ resultItem.userStatus.commentScore }}
-              ({{ resultItem.userStatus.commentCount }})
+              評分 {{ resultItem.profile.userStatus.commentScore }}
+              ({{ resultItem.profile.userStatus.commentCount }})
             </span>
             <span
               v-else
@@ -223,8 +223,9 @@ function createRenderValue(key, value) {
           cardUserName: resultItem.userInfo.personalInfo.username,
           userId: resultItem.matchListSelfSetting.userId,
           isUnlock: resultItem.isUnlock,
-          beCommentCount: resultItem.userStatus.commentCount,
+          beCommentCount: resultItem.profile.userStatus.commentCount,
           hasComment: resultItem.hasComment,
+          beInvitationStatus: resultItem.beInvitationStatus,
         }"
       />
     </div>

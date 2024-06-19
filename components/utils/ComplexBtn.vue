@@ -9,6 +9,7 @@ const props = defineProps({
   isUnlock: Boolean,
   beCommentCount: Number,
   hasComment: Boolean,
+  beInvitationStatus: String,
 })
 
 const router = useRouter()
@@ -106,7 +107,11 @@ function handleClick(status) {
   </button>
 
   <button
-    v-if="props.status === 'status3' && props.invitationStatus === 'accepted' && props.hasComment"
+    v-if="
+      props.status === 'status3'
+        && props.invitationStatus === 'accept'
+        && props.hasComment
+    "
     class="mx-[1px] my-[3px] scale-90 rounded-full bg-primary-dark px-[20px] py-[8px] text-[16px] leading-[24px] text-white md:mx-[6px] md:scale-100"
     @click="handleClick(props.status)"
   >
@@ -115,8 +120,7 @@ function handleClick(status) {
 
   <button
     v-if="
-      props.status === 'status4' && props.invitationStatus === 'not invited'
-    "
+      props.status === 'status4' && props.invitationStatus === 'not invited'"
     class="btn-withIcon-fill mx-[1px] my-[3px] w-[100px] scale-90 md:mx-[6px] md:scale-100"
     @click="handleClick(props.status)"
   >
@@ -156,7 +160,11 @@ function handleClick(status) {
   </button>
 
   <button
-    v-if="props.status === 'status8' && !props.hasComment"
+    v-if="
+      props.status === 'status8'
+        && !props.hasComment
+        && props.invitationStatus === 'accept'
+    "
     class="btn-withIcon-fill mx-[1px] my-[3px] w-[132px] scale-90 md:mx-[6px] md:scale-100"
     @click="handleClick(props.status)"
   >
@@ -166,7 +174,12 @@ function handleClick(status) {
   </button>
 
   <button
-    v-if="props.status === 'status9' && props.hasComment && props.invitationStatus === 'accepted'"
+    v-if="
+      props.status === 'status9'
+        && props.hasComment
+        && (props.invitationStatus === 'accept'
+          || props.invitationStatus === 'finishDating')
+    "
     class="mx-[1px] my-[3px] flex scale-90 gap-1 rounded-full border-2 border-neutral-400 px-[20px] py-[6px] text-[16px] leading-[24px] text-neutral-400 md:mx-[6px] md:scale-100"
     @click="handleClick(props.status)"
   >
@@ -176,7 +189,11 @@ function handleClick(status) {
   </button>
 
   <button
-    v-if="props.status === 'status10' && props.hasComment && props.invitationStatus === 'accepted'"
+    v-if="
+      props.status === 'status10'
+        && props.hasComment
+        && props.invitationStatus === 'accept'
+    "
     class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
     @click="handleClick(props.status)"
   >
@@ -185,22 +202,18 @@ function handleClick(status) {
     <p>{{ btnText }}</p>
   </button>
 
+  <!-- && router.currentRoute.value.path === '/member/invite' -->
   <button
-    v-if="
-      props.status === 'status11'
-        && router.currentRoute.value.path === '/member/invite'
-    "
+    v-if="props.status === 'status11' && props.beInvitationStatus === 'pending'"
     class="btn-withIcon-fill mx-[1px] my-[3px] w-[72px] scale-90 md:mx-[6px] md:scale-100"
     @click="handleClick(props.status)"
   >
     <p>{{ btnText }}</p>
   </button>
 
+  <!-- && router.currentRoute.value.path === '/member/invite' -->
   <button
-    v-if="
-      props.status === 'status12'
-        && router.currentRoute.value.path === '/member/invite'
-    "
+    v-if="props.status === 'status12' && props.beInvitationStatus === 'pending'"
     class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
     @click="handleClick(props.status)"
   >
@@ -217,5 +230,3 @@ function handleClick(status) {
     }"
   />
 </template>
-
-<style scoped></style>

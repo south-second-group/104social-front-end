@@ -1,7 +1,8 @@
 import { useBaseFetch } from '../instance'
 
-async function getCommentByUserId(params) {
-  return useBaseFetch(`/api/v1/comment-list/${params}`, {
+// 我留下的評價
+async function getCommentByIdAndUserId(params) {
+  return useBaseFetch(`/api/v1/comment-i-left/${params}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -28,8 +29,19 @@ async function deleteComment(params) {
   })
 }
 
+// 該卡片用戶的評價 (多個)
+async function getCommentByUserId(params) {
+  return useBaseFetch(`/api/v1/comment-list/${params}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+}
+
 export const commentApi = {
-  getCommentByUserId,
+  getCommentByIdAndUserId,
   postComment,
   deleteComment,
+  getCommentByUserId,
 }

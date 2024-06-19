@@ -4,25 +4,40 @@ import { matchListApi } from '~/apis/repositories/matchList'
 
 const route = useRoute()
 const router = useRouter()
+const matchResult = useMatchResultStore()
 
 const apiData = ref({})
 const rating = ref(5)
 const tempRating = ref(0)
 const isLoaded = ref(false)
+const hasComment = ref(route.params.hasComment)
+const renderData = ref([])
 
 const toastMessage = ref('')
 const toastType = ref('')
 
-async function getCommentByUserId() {
+matchResult.result = matchResult.result.map((item) => {
+  if (item.userInfo._id === route.params.commentId) {
+    renderData.value = item
+    return item
+  }
+  return item
+})
+
+async function getCommentByIdAndUserId() {
+  isLoaded.value = false
   try {
-    const res = await commentApi.getCommentByUserId(route.params.commentId)
+    const res = await commentApi.getCommentByIdAndUserId(route.params.commentId)
     apiData.value = res.data
 
-    if (route.params.hasComment === 'true')
-      tempRating.value = apiData.value.comments[0].score
+    if (hasComment.value === 'true')
+      tempRating.value = apiData.value.score
   }
   catch (error) {
     console.error(error)
+  }
+  finally {
+    isLoaded.value = true
   }
 }
 
@@ -54,14 +69,16 @@ async function postComment() {
         toastType.value = 'error'
       })
 
-    await getCommentByUserId()
+    await getCommentByIdAndUserId()
   }
   catch (error) {
     console.error(error)
   }
   finally {
+    hasComment.value = 'true'
+
+    await new Promise(resolve => setTimeout(resolve, 2000))
     isLoaded.value = true
-    router.push(`/member/Comment/${route.params.commentId}--${'true'}`)
   }
 }
 
@@ -77,9 +94,16 @@ async function getMatchListOption() {
   }
 }
 
-Promise.all([getMatchListOption(), getCommentByUserId()]).then(() => {
-  isLoaded.value = true
-})
+if (hasComment.value === 'true') {
+  Promise.all([getMatchListOption(), getCommentByIdAndUserId()]).then(() => {
+    isLoaded.value = true
+  })
+}
+else {
+  Promise.all([getMatchListOption()]).then(() => {
+    isLoaded.value = true
+  })
+}
 
 // 配對設定標頭
 function getKeyLabel(key) {
@@ -112,13 +136,16 @@ function renderValue(key, value) {
 
   if (matchListOptionData.value[0][key][value].label !== '請選擇')
     return matchListOptionData.value[0][key][value].label
-  else
-    return '對方保留'
+  else return '對方保留'
 }
 </script>
 
 <template>
   <div class="container p-3 text-start md:px-12">
+    <!-- {{ apiData }} -->
+
+    {{ renderData }}
+
     <Toast
       :toast-message="toastMessage"
       :toast-type="toastType"
@@ -131,7 +158,7 @@ function renderValue(key, value) {
       />
       <utilsPhotoCaroucel
         v-else
-        :photo-details="apiData.beCommentedUserProfile.photoDetails"
+        :photo-details="renderData.profile.photoDetails"
       />
 
       <h1 class="text-H4 mt-24">
@@ -147,17 +174,14 @@ function renderValue(key, value) {
             <span
               :class="{
                 'font-montserrat': !useIsChineseFunc(
-                  apiData.beCommentedUserProfile.nickNameDetails.nickName,
+                  renderData.userInfo.personalInfo.username,
                 ),
               }"
-            >{{
-              apiData.beCommentedUserProfile.nickNameDetails.nickName
-            }}</span>
+            >{{ renderData.userInfo.personalInfo.username }}</span>
           </div>
 
           <div
-            v-for="(value, key) in apiData.beCommentedUserProfile
-              .matchListSelfSettingByUserId[0].personalInfo"
+            v-for="(value, key) in renderData.matchListSelfSetting.personalInfo"
             :key="key"
             class="mb-2 flex h-[35px] items-center"
           >
@@ -168,8 +192,7 @@ function renderValue(key, value) {
           </div>
 
           <div
-            v-for="(value, key) in apiData.beCommentedUserProfile
-              .matchListSelfSettingByUserId[0].workInfo"
+            v-for="(value, key) in renderData.matchListSelfSetting.workInfo"
             :key="key"
             class="mb-2 flex h-[35px] items-center"
           >
@@ -180,15 +203,18 @@ function renderValue(key, value) {
           </div>
 
           <div class="col-span-2">
-            <label>{{
-              apiData.beCommentedUserProfile.nickNameDetails.nickName
-            }}
-              的標籤：</label>
+            <label
+              :class="{
+                'font-montserrat': !useIsChineseFunc(
+                  renderData.userInfo.personalInfo.username,
+                ),
+              }"
+            >{{ renderData.userInfo.personalInfo.username }} 的標籤：</label>
             <div
               class="mt-3 flex flex-wrap items-center justify-start gap-2 rounded-md"
             >
               <UBadge
-                v-for="i in apiData.beCommentedUserProfile.tags"
+                v-for="i in renderData.profile.tags"
                 :key="i"
                 class="btn-withIcon-outline-rwd pointer-events-none !rounded-lg !px-1 !py-[2px]"
               >
@@ -211,10 +237,10 @@ function renderValue(key, value) {
             for=""
           >見面心得</label>
           <p
-            v-if="route.params.hasComment === 'true'"
+            v-if="hasComment === 'true'"
             class="rounded-md border-2 p-3"
           >
-            {{ apiData.comments[0].content }}
+            {{ apiData.content }}
           </p>
           <UTextarea
             v-else
@@ -231,7 +257,7 @@ function renderValue(key, value) {
             for=""
           >整體評價</label>
           <div
-            v-if="route.params.hasComment === 'true'"
+            v-if="hasComment === 'true'"
             class="flex"
           >
             <icon-heroicons:heart-solid
@@ -239,8 +265,8 @@ function renderValue(key, value) {
               :key="heart"
               class="size-10"
               :class="{
-                'text-primary-dark': heart <= apiData.comments[0].score,
-                'text-gray-300': heart > apiData.comments[0].score,
+                'text-primary-dark': heart <= apiData.score,
+                'text-gray-300': heart > apiData.score,
               }"
             />
           </div>
@@ -268,7 +294,7 @@ function renderValue(key, value) {
 
         <section class="mt-12 flex justify-center">
           <button
-            v-if="route.params.hasComment === 'true'"
+            v-if="hasComment === 'true'"
             class="px-[20px] py-[8px] text-[16px] leading-[24px] text-primary-dark"
             @click="router.push('/member/comment/')"
           >

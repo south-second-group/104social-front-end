@@ -178,8 +178,8 @@ function createRenderValue(key, value) {
           <div class="flex justify-end space-x-2">
             <icon-heroicons:star-solid class="text-special-warning" />
             <span class="text-B3 text-neutral-400">
-              評分 {{ resultItem.userStatus.commentScore }} ({{
-                resultItem.userStatus.commentCount
+              評分 {{ resultItem.profile.userStatus.commentScore }} ({{
+                resultItem.profile.userStatus.commentCount
               }})
             </span>
           </div>

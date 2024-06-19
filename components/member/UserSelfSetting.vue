@@ -301,7 +301,6 @@ const accordionItems = [
       </template>
       <template v-else>
         <button
-          :disabled="toastMessage !== ''"
           type="submit"
           class="btn-linear-md"
           @click="toggleEditMode"

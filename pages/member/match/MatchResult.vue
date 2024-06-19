@@ -59,7 +59,7 @@ watch(
 
 <template>
   <div class="container text-start">
-    <!-- {{ matchResult.result[0].userStatus.commentCount }} -->
+    <!-- {{ matchResult.result[0].profile.userStatus.commentCount }} -->
     {{ matchResult.result[0] }}
     <div class="mx-auto">
       <h1 class="text-H4 md:text-H3 mb-6 mt-[80px] text-start md:mb-[20px]">
