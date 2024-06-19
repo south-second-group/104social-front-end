@@ -120,9 +120,6 @@ async function saveMatchList() {
     isEditEmail.value = false
     tempMatchListData.value = JSON.parse(JSON.stringify(matchListData.value))
     getMatchResult()
-
-    await new Promise(resolve => setTimeout(resolve, 3000))
-    toastMessage.value = ''
   }
 }
 
@@ -431,7 +428,6 @@ matchListApi.getMatchListSelf().then((res) => {
             </template>
             <template v-else>
               <button
-                :disabled="toastMessage !== ''"
                 type="submit"
                 class="btn-linear-md"
                 @click="toggleEditMode"

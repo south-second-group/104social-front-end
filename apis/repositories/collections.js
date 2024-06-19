@@ -1,6 +1,5 @@
 import { useBaseFetch } from '../instance'
 
-// 取得收藏
 async function getCollections() {
   return useBaseFetch('/api/v1/collections', {
     method: 'GET',
@@ -10,7 +9,6 @@ async function getCollections() {
   })
 }
 
-// 新增收藏
 async function addCollection(body) {
   return useBaseFetch('/api/v1/collections', {
     method: 'POST',
@@ -21,7 +19,18 @@ async function addCollection(body) {
   })
 }
 
+async function deleteCollectionById(body) {
+  return useBaseFetch(`/api/v1/collections`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  })
+}
+
 export const collectionApi = {
   getCollections,
   addCollection,
+  deleteCollectionById,
 }
