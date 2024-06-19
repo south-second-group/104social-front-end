@@ -3,18 +3,18 @@ const memberStore = useMemberStore()
 </script>
 
 <template>
-  <div class="h-[182px] w-full rounded-[10px] bg-neutral-100 p-4 lg:h-[222px] lg:p-6">
+  <div class="w-full rounded-[10px] bg-neutral-100 p-4 lg:p-6">
     <h2 class="text-start text-xl font-bold">
       個人狀態
     </h2>
 
     <ul class="mt-4 space-y-4">
-      <li class="flex space-x-2">
+      <!-- <li class="flex space-x-2">
         <h4 class="text-B2 text-neutral-400">
           會員評價｜
         </h4>
         <b class="text-neutral-600">{{ memberStore.personalStatus.rating }}</b>
-      </li>
+      </li> -->
 
       <li class="flex space-x-2">
         <h4 class="text-B2 text-neutral-400">
@@ -24,6 +24,7 @@ const memberStore = useMemberStore()
           <UToggle
             v-model="memberStore.personalStatus.isShow"
             color="primary"
+            :disabled="!memberStore.editStatus"
           />
           <span>是</span>
         </div>
@@ -37,6 +38,7 @@ const memberStore = useMemberStore()
           <UToggle
             v-model="memberStore.personalStatus.isMatch"
             color="primary"
+            :disabled="!memberStore.editStatus"
           />
           <span>揭露</span>
         </div>

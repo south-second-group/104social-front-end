@@ -11,12 +11,12 @@ const props = defineProps<{
   <!-- Icon 插入點 -->
   <slot name="icon"></slot>
 
-  <p :class="cn('inline-block text-xl font-bold text-white group-hover:hidden', props.class)">
+  <p :class="cn('inline-block text-xl font-bold text-white lg:group-hover:hidden', props.class)">
     {{ props.text }}
   </p>
 
   <p
-    :class="cn('text-gradient hidden bg-gradient-to-r from-[#FE839A] to-[#4A72FF] text-xl font-bold !text-transparent group-hover:inline-block', props.class)"
+    :class="cn('text-gradient hidden bg-gradient-to-r from-[#FE839A] to-[#4A72FF] text-xl font-bold !text-transparent lg:group-hover:inline-block', props.class)"
   >
     {{ props.text }}
   </p>
