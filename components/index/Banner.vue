@@ -203,7 +203,7 @@ function submit() {
               class=""
             >
               <p class="text-left text-xl font-bold">
-                我是{{ ball1Transform }}
+                我是
               </p>
 
               <!-- 搜尋欄位 -->

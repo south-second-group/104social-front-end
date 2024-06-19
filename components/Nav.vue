@@ -232,7 +232,7 @@ function toast(message, type) {
                         class="text-B2 py-4 text-center"
                       >
                         <NuxtLink
-                          to="/account"
+                          to="/member"
                           class="nav-items"
                           @click="isOpenSlide = false"
                         >
@@ -327,8 +327,8 @@ function toast(message, type) {
               <NuxtLink
                 to="/member"
                 :class="[
-                  buttonClass('/account'),
-                  { active: isActive('/account') },
+                  buttonClass('/member'),
+                  { active: isActive('/member') },
                 ]"
               >
                 <div class="relative">
