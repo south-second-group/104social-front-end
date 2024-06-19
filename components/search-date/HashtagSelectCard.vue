@@ -1,4 +1,6 @@
 <script setup>
+const props = defineProps(['close'])
+
 const hashtags = {
   signs: [
     '牡羊座',
@@ -36,8 +38,11 @@ const hashtags = {
   ],
 }
 
-const selectedHashtag = ref([])
-const excludedHashtag = ref([])
+const { close } = props
+
+const searchCriteriaStore = useSearchCriteriaStore()
+const { selected, excluded } = storeToRefs(searchCriteriaStore)
+const { setSelectedList, setExcludedList, removeSelectedTag, removeExcludedHashtag } = searchCriteriaStore
 
 const currentTab = ref('')
 
@@ -50,43 +55,35 @@ function changeTab(tab) {
 }
 
 function handleAddToSelectedHashtag(tag) {
-  if (!selectedHashtag.value.includes(tag))
-    selectedHashtag.value = [...selectedHashtag.value, tag]
+  if (!selected.value.includes(tag))
+    setSelectedList([...selected.value, tag])
 
-  if (excludedHashtag.value.includes(tag))
+  if (excluded.value.includes(tag))
     removeExcludedHashtag(tag)
 }
 
 function handleAddToExcludedHashtag(tag) {
-  if (!excludedHashtag.value.includes(tag))
-    excludedHashtag.value = [...excludedHashtag.value, tag]
+  if (!excluded.value.includes(tag))
+    setExcludedList([...excluded.value, tag])
 
-  if (selectedHashtag.value.includes(tag))
+  if (selected.value.includes(tag))
     removeSelectedTag(tag)
 }
 
-function removeSelectedTag(tag) {
-  selectedHashtag.value = selectedHashtag.value.filter(item => item !== tag)
-}
-
-function removeExcludedHashtag(tag) {
-  excludedHashtag.value = excludedHashtag.value.filter(item => item !== tag)
-}
-
 const selectedHashtagNewLine = computed(() => {
-  return selectedHashtag.value.length >= 3
+  return selected.value.length >= 3
 })
 
 const excludedHashtagNewLine = computed(() => {
-  return excludedHashtag.value.length >= 3
+  return excluded.value.length >= 3
 })
 
 function selectedBySelectedHashtag(item) {
-  return selectedHashtag.value.includes(item)
+  return selected.value.includes(item)
 }
 
 function selectedByExcludedHashtag(item) {
-  return excludedHashtag.value.includes(item)
+  return excluded.value.includes(item)
 }
 
 onMounted(() => {
@@ -108,7 +105,7 @@ onMounted(() => {
         >
           <div class="flex shrink-0 flex-wrap gap-3 ">
             <UBadge
-              v-for="tag in selectedHashtag"
+              v-for="tag in selected"
               :key="tag"
               :ui="{ rounded: 'rounded-full' }"
               class="bg-[#FFF5F5] px-3 py-2"
@@ -141,7 +138,7 @@ onMounted(() => {
         >
           <div class="flex shrink-0 flex-wrap gap-3">
             <UBadge
-              v-for="tag in excludedHashtag"
+              v-for="tag in excluded"
               :key="tag"
               :ui="{ rounded: 'rounded-full' }"
               class="bg-[#FFF5F5] px-3 py-2"
@@ -246,8 +243,9 @@ onMounted(() => {
         :ui="{ rounded: 'rounded-full' }"
         class="hover:text-primary border bg-primary-dark px-5 py-2 text-base font-bold text-white transition duration-300 ease-in-out hover:border-primary-dark hover:bg-white"
         hover:text-primary-dark
+        @click="close"
       >
-        開始搜尋
+        關閉選單
       </UButton>
     </div>
   </div>
