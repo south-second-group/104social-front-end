@@ -296,9 +296,9 @@ function renderValue(key, value) {
           <button
             v-if="hasComment === 'true'"
             class="px-[20px] py-[8px] text-[16px] leading-[24px] text-primary-dark"
-            @click="router.push('/member/comment/')"
+            @click="router.go(-1)"
           >
-            <p>回到我留下的評價</p>
+            <p>回到上一頁</p>
           </button>
           <button
             v-else

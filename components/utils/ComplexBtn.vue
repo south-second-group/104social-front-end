@@ -68,7 +68,7 @@ function handleClick(status) {
   else {
     switch (status) {
       case 'status1':
-        router.push(`/member/Comment/${props.userId}`)
+        router.push(`/member/card/${props.userId}--${'true'}`)
         break
       case 'status8':
         router.push(`/member/Comment/${props.userId}--${'false'}`)
@@ -84,149 +84,133 @@ function handleClick(status) {
 </script>
 
 <template>
-  <button
-    v-if="props.status === 'status1' && props.isUnlock"
-    class="mx-[1px] my-[3px] flex scale-90 gap-3 rounded-full border-2 border-neutral-400 px-[20px] py-[6px] text-[16px] leading-[24px] text-neutral-400 md:mx-[6px] md:scale-100"
-    @click="handleClick(props.status)"
-  >
-    <icon-heroicons:lock-open />
-
-    <p>{{ btnText }}</p>
-  </button>
-
-  <button
-    v-if="
-      props.status === 'status2' && !props.isUnlock && props.beCommentCount > 0
-    "
-    class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
-    @click="handleClick(props.status)"
-  >
-    <icon-heroicons:lock-closed />
-
-    <p>{{ btnText }}</p>
-  </button>
-
-  <button
-    v-if="
-      props.status === 'status3'
-        && props.invitationStatus === 'accept'
-        && props.hasComment
-    "
-    class="mx-[1px] my-[3px] scale-90 rounded-full bg-primary-dark px-[20px] py-[8px] text-[16px] leading-[24px] text-white md:mx-[6px] md:scale-100"
-    @click="handleClick(props.status)"
-  >
-    <p>{{ btnText }}</p>
-  </button>
-
-  <button
-    v-if="
-      props.status === 'status4' && props.invitationStatus === 'not invited'"
-    class="btn-withIcon-fill mx-[1px] my-[3px] w-[100px] scale-90 md:mx-[6px] md:scale-100"
-    @click="handleClick(props.status)"
-  >
-    <icon-heroicons:heart />
-
-    <p>{{ btnText }}</p>
-  </button>
-
-  <button
-    v-if="props.status === 'status5' && props.invitationStatus === 'pending'"
-    class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
-    @click="handleClick(props.status)"
-  >
-    <icon-heroicons:heart />
-
-    <p>{{ btnText }}</p>
-  </button>
-
-  <button
-    v-if="props.status === 'status6' && !isLocked"
-    class="btn-withIcon-outline mx-[1px] my-[3px] w-[132px] scale-90 md:mx-[6px] md:scale-100"
-    @click="handleClick(props.status)"
-  >
-    <icon-heroicons:x-mark />
-
-    <p>{{ btnText }}</p>
-  </button>
-
-  <button
-    v-if="props.status === 'status7' && isLocked"
-    class="btn-withIcon-fill mx-[1px] my-[3px] w-[132px] scale-90 md:mx-[6px] md:scale-100"
-    @click="handleClick(props.status)"
-  >
-    <icon-heroicons:check />
-
-    <p>{{ btnText }}</p>
-  </button>
-
-  <button
-    v-if="
-      props.status === 'status8'
-        && !props.hasComment
-        && props.invitationStatus === 'accept'
-    "
-    class="btn-withIcon-fill mx-[1px] my-[3px] w-[132px] scale-90 md:mx-[6px] md:scale-100"
-    @click="handleClick(props.status)"
-  >
-    <icon-heroicons:pencil />
-
-    <p>{{ btnText }}</p>
-  </button>
-
-  <button
-    v-if="
-      props.status === 'status9'
-        && props.hasComment
-        && (props.invitationStatus === 'accept'
-          || props.invitationStatus === 'finishDating')
-    "
-    class="mx-[1px] my-[3px] flex scale-90 gap-1 rounded-full border-2 border-neutral-400 px-[20px] py-[6px] text-[16px] leading-[24px] text-neutral-400 md:mx-[6px] md:scale-100"
-    @click="handleClick(props.status)"
-  >
-    <icon-heroicons:pencil />
-
-    <p>{{ btnText }}</p>
-  </button>
-
-  <button
-    v-if="
-      props.status === 'status10'
-        && props.hasComment
-        && props.invitationStatus === 'accept'
-    "
-    class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
-    @click="handleClick(props.status)"
-  >
-    <icon-heroicons:trash v />
-
-    <p>{{ btnText }}</p>
-  </button>
-
-  <!-- && router.currentRoute.value.path === '/member/invite' -->
-  <button
-    v-if="props.status === 'status11' && props.beInvitationStatus === 'pending'"
-    class="btn-withIcon-fill mx-[1px] my-[3px] w-[72px] scale-90 md:mx-[6px] md:scale-100"
-    @click="handleClick(props.status)"
-  >
-    <p>{{ btnText }}</p>
-  </button>
-
-  <!-- && router.currentRoute.value.path === '/member/invite' -->
-  <button
-    v-if="props.status === 'status12' && props.beInvitationStatus === 'pending'"
-    class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
-    @click="handleClick(props.status)"
-  >
-    <p>{{ btnText }}</p>
-  </button>
-
-  <utilsConfirmModal
-    v-model="isOpenModal"
-    :status="modalStatus"
-    v-bind="{
-      createRenderResult,
-      cardUserName,
-      userId,
-    }"
-  />
+  <div>
+    <button
+      v-if="props.status === 'status1' && props.isUnlock"
+      class="mx-[1px] my-[3px] flex scale-90 gap-3 rounded-full border-2 border-neutral-400 px-[20px] py-[6px] text-[16px] leading-[24px] text-neutral-400 md:mx-[6px] md:scale-100"
+      @click="handleClick(props.status)"
+    >
+      <icon-heroicons:lock-open />
+      <p>{{ btnText }}</p>
+    </button>
+    <button
+      v-if="
+        props.status === 'status2' && !props.isUnlock && props.beCommentCount > 0
+      "
+      class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
+      @click="handleClick(props.status)"
+    >
+      <icon-heroicons:lock-closed />
+      <p>{{ btnText }}</p>
+    </button>
+    <button
+      v-if="
+        props.status === 'status3'
+          && props.invitationStatus === 'accept'
+          && props.hasComment
+      "
+      class="mx-[1px] my-[3px] scale-90 rounded-full bg-primary-dark px-[20px] py-[8px] text-[16px] leading-[24px] text-white md:mx-[6px] md:scale-100"
+      @click="handleClick(props.status)"
+    >
+      <p>{{ btnText }}</p>
+    </button>
+    <button
+      v-if="
+        props.status === 'status4'
+          && (props.invitationStatus === 'not invited'
+            || props.invitationStatus === 'cancel')
+      "
+      class="btn-withIcon-fill mx-[1px] my-[3px] w-[100px] scale-90 md:mx-[6px] md:scale-100"
+      @click="handleClick(props.status)"
+    >
+      <icon-heroicons:heart />
+      <p>{{ btnText }}</p>
+    </button>
+    <button
+      v-if="props.status === 'status5' && props.invitationStatus === 'pending'"
+      class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
+      @click="handleClick(props.status)"
+    >
+      <icon-heroicons:heart />
+      <p>{{ btnText }}</p>
+    </button>
+    <button
+      v-if="props.status === 'status6' && !isLocked"
+      class="btn-withIcon-outline mx-[1px] my-[3px] w-[132px] scale-90 md:mx-[6px] md:scale-100"
+      @click="handleClick(props.status)"
+    >
+      <icon-heroicons:x-mark />
+      <p>{{ btnText }}</p>
+    </button>
+    <button
+      v-if="props.status === 'status7' && isLocked"
+      class="btn-withIcon-fill mx-[1px] my-[3px] w-[132px] scale-90 md:mx-[6px] md:scale-100"
+      @click="handleClick(props.status)"
+    >
+      <icon-heroicons:check />
+      <p>{{ btnText }}</p>
+    </button>
+    <button
+      v-if="
+        props.status === 'status8'
+          && !props.hasComment
+          && props.invitationStatus === 'accept'
+      "
+      class="btn-withIcon-fill mx-[1px] my-[3px] w-[132px] scale-90 md:mx-[6px] md:scale-100"
+      @click="handleClick(props.status)"
+    >
+      <icon-heroicons:pencil />
+      <p>{{ btnText }}</p>
+    </button>
+    <button
+      v-if="
+        props.status === 'status9'
+          && props.hasComment
+          && (props.invitationStatus === 'accept'
+            || props.invitationStatus === 'finishDating')
+      "
+      class="mx-[1px] my-[3px] flex scale-90 gap-1 rounded-full border-2 border-neutral-400 px-[20px] py-[6px] text-[16px] leading-[24px] text-neutral-400 md:mx-[6px] md:scale-100"
+      @click="handleClick(props.status)"
+    >
+      <icon-heroicons:pencil />
+      <p>{{ btnText }}</p>
+    </button>
+    <button
+      v-if="
+        props.status === 'status10'
+          && props.hasComment
+          && props.invitationStatus === 'accept'
+      "
+      class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
+      @click="handleClick(props.status)"
+    >
+      <icon-heroicons:trash v />
+      <p>{{ btnText }}</p>
+    </button>
+    <!-- && router.currentRoute.value.path === '/member/invite' -->
+    <button
+      v-if="props.status === 'status11' && props.beInvitationStatus === 'pending'"
+      class="btn-withIcon-fill mx-[1px] my-[3px] w-[72px] scale-90 md:mx-[6px] md:scale-100"
+      @click="handleClick(props.status)"
+    >
+      <p>{{ btnText }}</p>
+    </button>
+    <!-- && router.currentRoute.value.path === '/member/invite' -->
+    <button
+      v-if="props.status === 'status12' && props.beInvitationStatus === 'pending'"
+      class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
+      @click="handleClick(props.status)"
+    >
+      <p>{{ btnText }}</p>
+    </button>
+    <utilsConfirmModal
+      v-model="isOpenModal"
+      :status="modalStatus"
+      v-bind="{
+        createRenderResult,
+        cardUserName,
+        userId,
+      }"
+    />
+  </div>
 </template>

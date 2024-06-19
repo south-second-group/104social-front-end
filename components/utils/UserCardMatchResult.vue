@@ -68,9 +68,9 @@ function createRenderValue(key, value) {
     v-if="resultItem"
     class="w-full space-y-4 rounded-[10px] border-2 border-neutral-300 bg-white p-4 md:p-6"
   >
+    <!-- 上 -->
     <div class="flex items-center justify-between">
       <utilsInviteStatusBtn :status="resultItem.invitationStatus" />
-
       <div class="flex gap-3">
         <div class="rounded-full bg-neutral-100 p-[10px]">
           <utilsChatBtn />
@@ -81,7 +81,6 @@ function createRenderValue(key, value) {
         >
           <utilsTrashBtn />
         </div>
-
         <div class="rounded-full bg-neutral-100 p-[10px]">
           <utilsCollectionBtn
             :is-collected="resultItem.isCollected"
@@ -91,126 +90,132 @@ function createRenderValue(key, value) {
       </div>
     </div>
 
-    <div class="flex flex-col gap-6 rounded-xl bg-neutral-100 p-6 md:flex-row">
-      <div class="shrink-0">
-        <img
-          src="~/assets/img/member/Image03.png"
-          alt="s3-alpha-sig"
-          class="mx-auto size-[150px] rounded-full object-cover object-top"
-        >
-      </div>
-      <div class="w-full shrink-0 space-y-6 text-start md:w-[586px]">
-        <div class="space-y-1">
-          <h2
-            class="text-H4 text-neutral-600"
-            :class="{
-              'font-montserrat': !useIsChineseFunc(
-                resultItem.userInfo.personalInfo.username,
-              ),
-            }"
+    <!-- 中 -->
+    <!-- resultItem.isUnlock -->
+    <NuxtLink
+      :to="`/member/card/${
+        resultItem.matchListSelfSetting.userId
+      }--${Boolean(false)}`"
+    >
+      <div
+        class="flex flex-col gap-6 rounded-xl bg-neutral-100 p-6 md:flex-row"
+      >
+        <div class="shrink-0">
+          <img
+            src="~/assets/img/member/Image03.png"
+            alt="s3-alpha-sig"
+            class="mx-auto size-[150px] rounded-full object-cover object-top"
           >
-            {{ resultItem.userInfo.personalInfo.username }}
-          </h2>
-
-          <div v-if="!isDataLoading">
-            <!-- 將個人條件全部加入顯示陣列 -->
-            <span
-              v-for="(value, key) in resultItem.matchListSelfSetting
-                .personalInfo"
-              :key="key"
-              class="hidden"
-            >
-              {{ createRenderValue(key, value) }}
-            </span>
-
-            <!-- 將工作條件的產業 加入 顯示陣列 -->
-            <span class="hidden">
-              {{
-                createRenderValue(
-                  'industry',
-                  resultItem.matchListSelfSetting.workInfo.industry,
-                )
-              }}
-            </span>
-
-            <!-- 顯示陣列 -->
-            <span class="text-B2 text-neutral-600">{{
-              Array.from(createRenderResult).join('、')
-            }}</span>
-          </div>
         </div>
-
-        <div
-          v-if="!isDataLoading"
-          class="space-y-3 border-l-2 border-x-neutral-300 pl-3"
-        >
-          <p class="text-B2 text-neutral-500">
-            {{
-              renderValue(
-                'occupation',
-                resultItem.matchListSelfSetting.workInfo.occupation,
-              )
-            }}
-          </p>
-
-          <div class="space-x-2">
-            <span class="text-B2 text-neutral-300">
-              {{
-                renderValue(
-                  'expectedSalary',
-                  resultItem.matchListSelfSetting.workInfo.expectedSalary,
-                )
-              }}
-            </span>
-
-            <span class="text-B2 text-neutral-300">
-              {{
-                renderValue(
-                  'industry',
-                  resultItem.matchListSelfSetting.workInfo.industry,
-                )
-              }}
-            </span>
-          </div>
-        </div>
-        <div
-          v-if="!isDataLoading"
-          class="flex flex-col items-start justify-between gap-3 md:flex-row"
-        >
-          <div>
-            <span
-              v-for="(item, idx) in renderValue(
-                'activities',
-                resultItem.matchListSelfSetting.personalInfo.activities,
-              )"
-              :key="idx"
+        <div class="w-full shrink-0 space-y-6 text-start md:w-[586px]">
+          <div class="space-y-1">
+            <h2
+              class="text-H4 text-neutral-600"
+              :class="{
+                'font-montserrat': !useIsChineseFunc(
+                  resultItem.userInfo.personalInfo.username,
+                ),
+              }"
             >
-              <a
-                :href="`https://www.google.com/search?q=${item}`"
-                class="text-special-info"
-                target="_blank"
+              {{ resultItem.userInfo.personalInfo.username }}
+            </h2>
+            <div v-if="!isDataLoading">
+              <!-- 將個人條件全部加入顯示陣列 -->
+              <span
+                v-for="(value, key) in resultItem.matchListSelfSetting
+                  .personalInfo"
+                :key="key"
+                class="hidden"
               >
-                {{ item }}{{ ' ' }}</a>
-            </span>
+                {{ createRenderValue(key, value) }}
+              </span>
+              <!-- 將工作條件的產業 加入 顯示陣列 -->
+              <span class="hidden">
+                {{
+                  createRenderValue(
+                    'industry',
+                    resultItem.matchListSelfSetting.workInfo.industry,
+                  )
+                }}
+              </span>
+              <!-- 顯示陣列 -->
+              <span class="text-B2 text-neutral-600">{{
+                Array.from(createRenderResult).join('、')
+              }}</span>
+            </div>
           </div>
-          <div class="flex justify-end space-x-2">
-            <icon-heroicons:star-solid class="text-special-warning" />
-            <span
-              v-if="resultItem.profile.userStatus.commentCount"
-              class="text-B3 text-neutral-400"
-            >
-              評分 {{ resultItem.profile.userStatus.commentScore }}
-              ({{ resultItem.profile.userStatus.commentCount }})
-            </span>
-            <span
-              v-else
-              class="text-B3 text-neutral-400"
-            > 無評分 </span>
+          <div
+            v-if="!isDataLoading"
+            class="space-y-3 border-l-2 border-x-neutral-300 pl-3"
+          >
+            <p class="text-B2 text-neutral-500">
+              {{
+                renderValue(
+                  'occupation',
+                  resultItem.matchListSelfSetting.workInfo.occupation,
+                )
+              }}
+            </p>
+            <div class="space-x-2">
+              <span class="text-B2 text-neutral-300">
+                {{
+                  renderValue(
+                    'expectedSalary',
+                    resultItem.matchListSelfSetting.workInfo.expectedSalary,
+                  )
+                }}
+              </span>
+              <span class="text-B2 text-neutral-300">
+                {{
+                  renderValue(
+                    'industry',
+                    resultItem.matchListSelfSetting.workInfo.industry,
+                  )
+                }}
+              </span>
+            </div>
+          </div>
+          <div
+            v-if="!isDataLoading"
+            class="flex flex-col items-start justify-between gap-3 md:flex-row"
+          >
+            <div>
+              <span
+                v-for="(item, idx) in renderValue(
+                  'activities',
+                  resultItem.matchListSelfSetting.personalInfo.activities,
+                )"
+                :key="idx"
+              >
+                <a
+                  :href="`https://www.google.com/search?q=${item}`"
+                  class="text-special-info"
+                  target="_blank"
+                >
+                  {{ item }}{{ ' ' }}</a>
+              </span>
+            </div>
+            <div class="flex justify-end space-x-2">
+              <icon-heroicons:star-solid class="text-special-warning" />
+              <span
+                v-if="resultItem.profile.userStatus.commentCount"
+                class="text-B3 text-neutral-400"
+              >
+                評分 {{ resultItem.profile.userStatus.commentScore }} ({{
+                  resultItem.profile.userStatus.commentCount
+                }})
+              </span>
+              <span
+                v-else
+                class="text-B3 text-neutral-400"
+              > 無評分 </span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </NuxtLink>
 
+    <!-- 下 -->
     <div class="flex flex-wrap justify-end">
       <utilsComplexBtn
         v-for="(btn, index) in buttonList"
