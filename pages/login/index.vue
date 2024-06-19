@@ -324,7 +324,7 @@ useHead(() => ({
   width: 66%;
   height: 100%;
   opacity: 0;
-  z-index: 2;
+  z-index: 1;
 
   &.to-right {
     opacity: 1;

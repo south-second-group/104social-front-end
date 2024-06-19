@@ -10,11 +10,11 @@ function getBtnClass(status) {
   switch (status) {
     case 'pending':
       return 'bg-special-dark'
-    case '2':
+    case 'finishDating':
       return 'bg-special-info'
     case 'cancel':
       return 'bg-neutral-400'
-    case 'accepted':
+    case 'accept':
       return 'bg-special-success'
     case 'rejected':
       return 'bg-special-danger'
@@ -27,11 +27,11 @@ function getBtnText(status) {
   switch (status) {
     case 'pending':
       return '已發起邀約'
-    case '2':
+    case 'finishDating':
       return '已完成約會'
     case 'cancel':
       return '已取消邀約'
-    case 'accepted':
+    case 'accept':
       return '成功邀約'
     case 'rejected':
       return '邀約失敗'

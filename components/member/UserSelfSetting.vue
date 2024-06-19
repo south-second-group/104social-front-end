@@ -88,9 +88,6 @@ async function saveMatchListSelfSetting() {
       JSON.stringify(matchListSelfSettingData.value),
     )
     getMatchResult()
-
-    await new Promise(resolve => setTimeout(resolve, 3000))
-    toastMessage.value = ''
   }
 }
 

@@ -1,9 +1,18 @@
 <script setup>
+import { blackListApi } from '~/apis/repositories/blackList'
+import { unlockCommentApi } from '~/apis/repositories/unlockComment'
+import { commentApi } from '~/apis/repositories/comment'
+import { inviteApi } from '~/apis/repositories/invite'
+import { beInviteApi } from '~/apis/repositories/beInvite'
+
 const props = defineProps({
   status: String,
   createRenderResult: Set,
   cardUserName: String,
+  userId: String,
 })
+
+const matchResult = useMatchResultStore()
 
 const toastMessage = ref('')
 const toastType = ref('')
@@ -16,7 +25,7 @@ const modalText = computed(() => {
     case 'status1':
       return '確認已解鎖評價'
     case 'status2':
-      return '確認解鎖評價'
+      return '確認使用點數 5 點，解鎖評價'
     case 'status3':
       return '確認完成約會'
     case 'status4':
@@ -33,6 +42,10 @@ const modalText = computed(() => {
       return '確認已給評價'
     case 'status10':
       return '確認刪除評價'
+    case 'status11':
+      return '確認接受邀約'
+    case 'status12':
+      return '確認拒絕邀約'
     default:
       return ''
   }
@@ -43,23 +56,27 @@ const modalClick = computed(() => {
     case 'status1':
       return tempfunc
     case 'status2':
-      return tempfunc
+      return unlockComment
     case 'status3':
-      return tempfunc
+      return finishInvitationDating
     case 'status4':
       return tempfunc
     case 'status5':
-      return tempfunc
+      return cancelInvitation
     case 'status6':
-      return tempfunc
+      return postBlackList
     case 'status7':
-      return tempfunc
+      return deleteBlackListById
     case 'status8':
       return tempfunc
     case 'status9':
       return tempfunc
     case 'status10':
-      return tempfunc
+      return deleteComment
+    case 'status11':
+      return acceptInvitation
+    case 'status12':
+      return rejectInvitation
     default:
       return ''
   }
@@ -70,30 +87,146 @@ function tempfunc() {
   isOpenModal.value = false
 }
 
-// 邀約訊息
-const selectedOption = ref('請選擇訊息範本')
-const options = ['訊息01', '訊息02', '訊息03']
-const selectedToggle = ref(false)
+// 解鎖評價
+async function unlockComment() {
+  isLoading.value = true
+  try {
+    await unlockCommentApi.unlockComment(props.userId)
+    toastMessage.value = '解鎖評價成功'
+    toastType.value = 'success'
 
-const message = ref('')
+    matchResult.result = matchResult.result.map((item) => {
+      if (item.userInfo._id === props.userId)
+        return { ...item, isUnlock: true }
+      return item
+    })
+  }
+  catch (error) {
+    console.error({ error })
+
+    toastMessage.value = '解鎖評價失敗，請通知開發者'
+    toastType.value = 'error'
+  }
+  finally {
+    isLoading.value = false
+    isOpenModal.value = false
+  }
+}
+
+// 刪除評價
+async function deleteComment() {
+  isLoading.value = true
+  try {
+    await commentApi.deleteComment(props.userId)
+
+    toastMessage.value = '刪除評價成功'
+    toastType.value = 'success'
+
+    matchResult.result = matchResult.result.map((item) => {
+      if (item.userInfo._id === props.userId)
+        return { ...item, hasComment: false }
+      return item
+    })
+  }
+  catch (error) {
+    console.error({ error })
+
+    toastMessage.value = '刪除評價失敗，請通知開發者'
+    toastType.value = 'error'
+  }
+  finally {
+    isLoading.value = false
+    isOpenModal.value = false
+  }
+}
+
+// 收藏
+async function deleteBlackListById() {
+  isLoading.value = true
+  try {
+    await blackListApi.deleteBlackListById(props.userId)
+
+    toastMessage.value = '恢復往來成功'
+    toastType.value = 'success'
+
+    matchResult.result = matchResult.result.map((item) => {
+      if (item.userInfo._id === props.userId)
+        return { ...item, isLocked: false }
+      return item
+    })
+  }
+  catch (error) {
+    console.error({ error })
+
+    toastMessage.value = '恢復往來失敗，請通知開發者'
+    toastType.value = 'error'
+  }
+  finally {
+    isLoading.value = false
+    isOpenModal.value = false
+  }
+}
+
+async function postBlackList() {
+  isLoading.value = true
+  try {
+    await blackListApi.postBlackList({ lockedUserId: props.userId })
+
+    toastMessage.value = '拒絕往來成功'
+    toastType.value = 'success'
+
+    matchResult.result = matchResult.result.map((item) => {
+      if (item.userInfo._id === props.userId)
+        return { ...item, isLocked: true }
+      return item
+    })
+  }
+  catch (error) {
+    console.error({ error })
+
+    toastMessage.value = '拒絕往來失敗，請通知開發者'
+    toastType.value = 'error'
+  }
+  finally {
+    isLoading.value = false
+    isOpenModal.value = false
+  }
+}
+
+// 邀約訊息
+// const selectedOption = ref('請選擇訊息範本');
+// const options = ['訊息01', '訊息02', '訊息03'];
+// const selectedToggle = ref(false);
+
+const inviteForm = reactive({
+  invitedUserId: props.userId,
+  message: {
+    title: '預設標題',
+    content: '',
+  },
+})
+
 const MAX_CHARACTERS = 1000
 const remainingCharacters = computed(
-  () => MAX_CHARACTERS - message.value.length,
+  () => MAX_CHARACTERS - inviteForm.message.content.length,
 )
 
-const addedValue = ref(props.createRenderResult)
-addedValue.value.add(props.cardUserName)
-const theme = Array.from(addedValue.value)
+const addedValue = new Set()
+props.createRenderResult.forEach(item => addedValue.add(item))
+addedValue.add(`我的名字是：${props.cardUserName}`)
+const theme = Array.from(addedValue)
 
 async function fetchAnswer() {
   isLoading.value = true
-  message.value = ''
+  inviteForm.message.content = ''
 
   try {
-    message.value = await useGetGenerativeModelGP(JSON.stringify(theme))
+    inviteForm.message.content = await useGetGenerativeModelGP(
+      JSON.stringify(theme),
+    )
 
     //     await new Promise((resolve) => setTimeout(resolve, 3000));
-    //     message.value = `詠晴，您好！
+    //     inviteForm.message.content = `詠晴，您好！
 
     // 不知道您最近是否有空？我最近想找家餐廳好好吃一頓，剛好聽說 [餐廳名] 的 [菜色類型] 很不錯，想邀請您一起去品嚐。
 
@@ -104,25 +237,159 @@ async function fetchAnswer() {
   }
   catch (error) {
     console.error({ error })
+
     toastMessage.value = 'AI 提示發生錯誤，請通知開發者'
     toastType.value = 'error'
   }
   finally {
     isLoading.value = false
+  }
+}
+
+async function postInvitation() {
+  isLoading.value = true
+  try {
+    await inviteApi.postInvitation(inviteForm)
+
+    toastMessage.value = '邀約成功'
+    toastType.value = 'success'
+
+    matchResult.result = matchResult.result.map((item) => {
+      if (item.userInfo._id === props.userId)
+        return { ...item, invitationStatus: 'pending' }
+      return item
+    })
+  }
+  catch (error) {
+    console.error({ error })
+
+    toastMessage.value = '邀約失敗，請通知開發者'
+    toastType.value = 'error'
+  }
+  finally {
+    isLoading.value = false
+    isOpenModal.value = false
+  }
+}
+
+async function cancelInvitation() {
+  isLoading.value = true
+  try {
+    await inviteApi.cancelInvitation(props.userId)
+
+    toastMessage.value = '取消邀約成功'
+    toastType.value = 'success'
+
+    matchResult.result = matchResult.result.map((item) => {
+      if (item.userInfo._id === props.userId)
+        return { ...item, invitationStatus: 'cancel' }
+      return item
+    })
+  }
+  catch (error) {
+    console.error({ error })
+
+    toastMessage.value = '取消邀約失敗，請通知開發者'
+    toastType.value = 'error'
+  }
+  finally {
+    isLoading.value = false
+    isOpenModal.value = false
+  }
+}
+
+async function finishInvitationDating() {
+  isLoading.value = true
+  try {
+    await inviteApi.finishInvitationDating(props.userId)
+
+    toastMessage.value = '完成約會成功'
+    toastType.value = 'success'
+
+    matchResult.result = matchResult.result.map((item) => {
+      if (item.userInfo._id === props.userId)
+        return { ...item, invitationStatus: 'finishDating' }
+      return item
+    })
+  }
+  catch (error) {
+    console.error({ error })
+
+    toastMessage.value = '完成約會失敗，請通知開發者'
+    toastType.value = 'error'
+  }
+  finally {
+    isOpenModal.value = false
 
     await new Promise(resolve => setTimeout(resolve, 3000))
-    toastMessage.value = ''
+    isLoading.value = false
+  }
+}
+
+// 自己的被邀約處理
+async function acceptInvitation() {
+  isLoading.value = true
+  try {
+    await beInviteApi.acceptInvitation(props.userId)
+
+    toastMessage.value = '接受邀約成功'
+    toastType.value = 'success'
+
+    matchResult.result = matchResult.result.map((item) => {
+      if (item.userInfo._id === props.userId)
+        return { ...item, beInvitationStatus: 'accept' }
+      return item
+    })
+  }
+  catch (error) {
+    console.error({ error })
+
+    toastMessage.value = '接受邀約失敗，請通知開發者'
+    toastType.value = 'error'
+  }
+  finally {
+    isLoading.value = false
+    isOpenModal.value = false
+  }
+}
+
+async function rejectInvitation() {
+  isLoading.value = true
+  try {
+    await beInviteApi.rejectInvitation(props.userId)
+
+    toastMessage.value = '拒絕邀約成功'
+    toastType.value = 'success'
+
+    matchResult.result = matchResult.result.map((item) => {
+      if (item.userInfo._id === props.userId)
+        return { ...item, beInvitationStatus: 'reject' }
+      return item
+    })
+  }
+  catch (error) {
+    console.error({ error })
+
+    toastMessage.value = '拒絕邀約失敗，請通知開發者'
+    toastType.value = 'error'
+  }
+  finally {
+    isLoading.value = false
+    isOpenModal.value = false
   }
 }
 </script>
 
 <template>
   <div>
+    <utilsFireWork :is-fire-work="isLoading" />
+
     <UModal
       v-model="isOpenModal"
       :overlay="true"
       :ui="{ width: 'max-w-[350px] md:max-w-[666px]' }"
     >
+      <!-- {{ inviteForm }} -->
       <UCard
         v-if="props.status !== 'status4'"
         :ui="{ ring: '', divide: 'divide-y divide-white dark:divide-gray-800' }"
@@ -148,12 +415,14 @@ async function fetchAnswer() {
         <section class="-mt-4 flex justify-center">
           <button
             class="px-[20px] py-[8px] text-[16px] leading-[24px] text-primary-dark"
+            :disabled="isLoading"
             @click="isOpenModal = false"
           >
             <p>取消</p>
           </button>
           <button
             class="rounded-full bg-primary-dark px-[20px] py-[8px] text-[16px] leading-[24px] text-white"
+            :disabled="isLoading"
             @click="modalClick"
           >
             <p>確定</p>
@@ -185,15 +454,15 @@ async function fetchAnswer() {
         </template>
 
         <section class="space-y-3">
-          <utilsDropdownComp
+          <!-- <utilsDropdownComp
             v-model="selectedOption"
             :options="options"
             size="sm"
             :disabled="isLoading"
-          />
+          /> -->
           <div class="relative">
             <UTextarea
-              v-model="message"
+              v-model="inviteForm.message.content"
               :ui="{ base: ' focus:!ring-primary-dark focus:!ring-1' }"
               :rows="10"
               :placeholder="
@@ -201,7 +470,9 @@ async function fetchAnswer() {
                   ? ''
                   : '請填寫邀約訊息，推薦主題：電影、音樂會、餐廳、運動、旅行等...'
               "
-              :disabled="isLoading || message.length === 1000"
+              :disabled="
+                isLoading || inviteForm.message.content.length === 1000
+              "
             />
 
             <div
@@ -239,11 +510,11 @@ async function fetchAnswer() {
             上限 {{ MAX_CHARACTERS }} 字（剩餘 {{ remainingCharacters }} 字）
           </p>
           <div class="flex justify-end">
-            <UToggle
+            <!-- <UToggle
               v-model="selectedToggle"
               :ui="{ active: 'bg-primary-dark' }"
             />
-            <span class="text-B4">儲存此次範本</span>
+            <span class="text-B4">儲存此次範本</span> -->
           </div>
         </section>
 
@@ -258,6 +529,7 @@ async function fetchAnswer() {
           <button
             class="rounded-full bg-primary-dark px-[20px] py-[8px] text-[16px] leading-[24px] text-white"
             :disabled="isLoading"
+            @click="postInvitation"
           >
             <p>發送邀約</p>
           </button>
