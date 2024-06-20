@@ -106,7 +106,7 @@ function createRenderValue(key, value) {
               alt="s3-alpha-sig"
               class="mx-auto size-[150px] rounded-full object-cover object-top hover:blur-sm "
             >
-            <span class=" absolute left-1/2 top-1/2 -translate-y-1/2 hidden -translate-x-1/2 text-white group-hover:block ">查看</span>
+            <span class=" absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 text-white group-hover:block ">查看</span>
           </div>
         </NuxtLink>
       </div>
