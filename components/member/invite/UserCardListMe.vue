@@ -111,7 +111,6 @@ const buttonList = ref([
         <!-- 自介 -->
         <p
           class="text-B2 line-clamp-2 text-neutral-600"
-          @click="() => goToDetail(resultItem._id, 'me')"
         >
           {{ resultItem?.message.content }}
         </p>
