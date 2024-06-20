@@ -30,8 +30,8 @@ async function getMatchResult(page, sort) {
     matchResult.result = data.resultList
     matchResult.resultTotal = data?.pagination?.totalCount || 0
 
-    pagination.page = data.pagination.page
-    pagination.totalCount = data.pagination.totalCount
+    pagination.page = data?.pagination?.page || 1
+    pagination.totalCount = data?.pagination?.totalCount || 1
   }
   catch (error) {
     console.error(error)
@@ -61,6 +61,7 @@ watch(
   <div class="container text-start">
     <!-- {{ matchResult.result[0].profile.userStatus.commentCount }} -->
     {{ matchResult.result[0] }}
+
     <div class="mx-auto">
       <h1 class="text-H4 md:text-H3 mb-6 mt-[80px] text-start md:mb-[20px]">
         配對結果
