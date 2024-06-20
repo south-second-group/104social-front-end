@@ -55,7 +55,7 @@ const buttonList = ref([
     class="w-full space-y-4 rounded-[10px] border-2 border-neutral-300 p-4 md:p-6"
   >
     <div class="flex items-center justify-between">
-      <utilsInviteStatusBtn :status="resultItem.status" />
+      <MemberInviteStatusBtnMe :status="resultItem.status" />
 
       <div class="flex gap-3">
         <!-- 聊天 -->
@@ -109,7 +109,10 @@ const buttonList = ref([
         </div>
 
         <!-- 自介 -->
-        <p class="text-B2 line-clamp-2 text-neutral-600">
+        <p
+          class="text-B2 line-clamp-2 text-neutral-600"
+          @click="() => goToDetail(resultItem._id, 'me')"
+        >
           {{ resultItem?.message.content }}
         </p>
 
