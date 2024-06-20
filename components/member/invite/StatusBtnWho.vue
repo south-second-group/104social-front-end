@@ -1,0 +1,51 @@
+<script setup>
+const props = defineProps({
+  status: {
+    type: String,
+    required: true,
+  },
+})
+
+function getBtnClass(status) {
+  switch (status) {
+    case 'pending':
+      return 'bg-special-dark'
+    case 'finishDating':
+      return 'bg-special-info'
+    case 'cancel':
+      return 'bg-neutral-400'
+    case 'accepted':
+      return 'bg-special-success'
+    case 'rejected':
+      return 'bg-special-danger'
+    default:
+      return 'bg-social-gradient-default'
+  }
+}
+
+function getBtnText(status) {
+  switch (status) {
+    case 'pending':
+      return '已發起邀約'
+    case 'finishDating':
+      return '已完成約會'
+    case 'cancel':
+      return '已取消邀約'
+    case 'accepted':
+      return '成功邀約'
+    case 'rejected':
+      return '邀約失敗'
+    default:
+      return '尚未邀約'
+  }
+}
+</script>
+
+<template>
+  <button
+    :class="getBtnClass(props.status)"
+    class="text-B3 pointer-events-none rounded-full px-3 py-1 text-white "
+  >
+    {{ getBtnText(props.status) }}
+  </button>
+</template>
