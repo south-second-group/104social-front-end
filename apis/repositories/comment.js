@@ -20,12 +20,13 @@ async function postComment(body) {
   })
 }
 
-async function deleteComment(params) {
+async function deleteComment(params, body) {
   return useBaseFetch(`/api/v1/comment-i-left/${params}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
     },
+    body: JSON.stringify(body),
   })
 }
 

@@ -10,6 +10,9 @@ const props = defineProps({
   createRenderResult: Set,
   cardUserName: String,
   userId: String,
+  invitationTableId: String,
+  beInvitationTableId: String,
+  commentTableId: String,
 })
 
 const matchResult = useMatchResultStore()
@@ -117,7 +120,7 @@ async function unlockComment() {
 async function deleteComment() {
   isLoading.value = true
   try {
-    await commentApi.deleteComment(props.userId)
+    await commentApi.deleteComment(props.commentTableId, { commentedUserId: props.userId })
 
     toastMessage.value = '刪除評價成功'
     toastType.value = 'success'
@@ -140,7 +143,7 @@ async function deleteComment() {
   }
 }
 
-// 收藏
+// 拒絕往來
 async function deleteBlackListById() {
   isLoading.value = true
   try {
@@ -246,10 +249,13 @@ async function fetchAnswer() {
   }
 }
 
+const tempInvitationTableId = ref(props.invitationTableId)
 async function postInvitation() {
   isLoading.value = true
   try {
-    await inviteApi.postInvitation(inviteForm)
+    await inviteApi.postInvitation(inviteForm).then((res) => {
+      tempInvitationTableId.value = res.data.id
+    })
 
     toastMessage.value = '邀約成功'
     toastType.value = 'success'
@@ -275,7 +281,7 @@ async function postInvitation() {
 async function cancelInvitation() {
   isLoading.value = true
   try {
-    await inviteApi.cancelInvitation(props.userId)
+    await inviteApi.cancelInvitation(tempInvitationTableId.value)
 
     toastMessage.value = '取消邀約成功'
     toastType.value = 'success'
@@ -301,7 +307,7 @@ async function cancelInvitation() {
 async function finishInvitationDating() {
   isLoading.value = true
   try {
-    await inviteApi.finishInvitationDating(props.userId)
+    await inviteApi.finishInvitationDating(props.invitationTableId)
 
     toastMessage.value = '完成約會成功'
     toastType.value = 'success'
@@ -330,7 +336,7 @@ async function finishInvitationDating() {
 async function acceptInvitation() {
   isLoading.value = true
   try {
-    await beInviteApi.acceptInvitation(props.userId)
+    await beInviteApi.acceptInvitation(props.beInvitationTableId)
 
     toastMessage.value = '接受邀約成功'
     toastType.value = 'success'

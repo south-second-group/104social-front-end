@@ -42,7 +42,7 @@ Promise.all([getMatchListOption()]).then(() => {
 
 // 渲染詳細資料邏輯
 function renderValue(key, value) {
-  if (Array.isArray(value) && value.length > 1)
+  if (Array.isArray(value) && value.length >= 1)
     return value.map(v => matchListOptionData.value[0][key][v].label)
 
   if (matchListOptionData.value[0][key][value].label !== '請選擇')
@@ -93,20 +93,20 @@ function createRenderValue(key, value) {
 
     <!-- 中 -->
     <div class="flex flex-col gap-6 rounded-xl bg-neutral-100 p-6 md:flex-row">
-      <div class=" shrink-0">
+      <div class="shrink-0">
         <!-- resultItem.isUnlock -->
         <NuxtLink
-          :to="`/member/card/${
-            resultItem.matchListSelfSetting.userId
-          }`"
+          :to="`/member/card/${resultItem.matchListSelfSetting.userId}`"
         >
           <div class="group relative">
             <img
-              src="~/assets/img/member/Image03.png"
+              :src="resultItem.profile.photoDetails.photo"
               alt="s3-alpha-sig"
-              class="mx-auto size-[150px] rounded-full object-cover object-top hover:blur-sm "
+              class="mx-auto size-[150px] rounded-full object-contain object-center group-hover:blur-sm"
             >
-            <span class=" absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 text-white group-hover:block ">查看</span>
+            <span
+              class="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 text-white group-hover:block "
+            >查看資訊</span>
           </div>
         </NuxtLink>
       </div>
@@ -235,6 +235,9 @@ function createRenderValue(key, value) {
           beCommentCount: resultItem.profile.userStatus.commentCount,
           hasComment: resultItem.hasComment,
           beInvitationStatus: resultItem.beInvitationStatus,
+          invitationTableId: resultItem.invitationTableId,
+          beInvitationTableId: resultItem.beInvitationTableId,
+          commentTableId: resultItem.commentTableId,
         }"
       />
     </div>

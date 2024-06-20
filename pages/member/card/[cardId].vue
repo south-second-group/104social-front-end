@@ -74,11 +74,15 @@ async function getMatchListOption() {
   }
 }
 
-Promise.all([getMatchListOption(), getCommentList(), updateRenderData()]).then(
-  () => {
-    isLoaded.value = true
-  },
-)
+const promises = [getMatchListOption(), updateRenderData()]
+Promise.all(promises).then(() => {
+  isLoaded.value = true
+})
+
+watchEffect(() => {
+  if (renderData.value.hasComment)
+    getCommentList()
+})
 
 // 配對設定標頭
 function getKeyLabel(key) {
