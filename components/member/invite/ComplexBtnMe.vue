@@ -109,35 +109,11 @@ function handleClick(status) {
     <button
       v-if="
         props.status === 'status3'
-          && invitationStatus === 'accepted'
+          && isFinishDating
       "
       class="mx-[1px] my-[3px] scale-90 rounded-full bg-primary-dark px-[20px] py-[8px] text-[16px] leading-[24px] text-white md:mx-[6px] md:scale-100"
       @click="handleClick(props.status)"
     >
-      <p>{{ btnText }}</p>
-    </button>
-
-    <!-- 邀約 -->
-    <button
-      v-if="
-        props.status === 'status4'
-          && (invitationStatus === 'not invited'
-            || invitationStatus === 'cancel')
-      "
-      class="btn-withIcon-fill mx-[1px] my-[3px] w-[100px] scale-90 md:mx-[6px] md:scale-100"
-      @click="handleClick(props.status)"
-    >
-      <icon-heroicons:heart />
-      <p>{{ btnText }}</p>
-    </button>
-
-    <!-- 收回邀約 -->
-    <button
-      v-if="props.status === 'status5' && invitationStatus === 'pending'"
-      class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
-      @click="handleClick(props.status)"
-    >
-      <icon-heroicons:heart />
       <p>{{ btnText }}</p>
     </button>
 
@@ -166,7 +142,7 @@ function handleClick(status) {
       v-if="
         props.status === 'status8'
           && !hasComment
-          && invitationStatus === 'accept'
+          && invitationStatus === 'accepted'
       "
       class="btn-withIcon-fill mx-[1px] my-[3px] w-[132px] scale-90 md:mx-[6px] md:scale-100"
       @click="handleClick(props.status)"
@@ -180,7 +156,7 @@ function handleClick(status) {
       v-if="
         props.status === 'status9'
           && hasComment
-          && (invitationStatus === 'accept'
+          && (invitationStatus === 'accepted'
             || invitationStatus === 'finishDating')
       "
       class="mx-[1px] my-[3px] flex scale-90 gap-1 rounded-full border-2 border-neutral-400 px-[20px] py-[6px] text-[16px] leading-[24px] text-neutral-400 md:mx-[6px] md:scale-100"
