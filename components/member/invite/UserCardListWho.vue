@@ -62,7 +62,7 @@ const buttonList = ref([
     class="w-full space-y-4 rounded-[10px] border-2 border-neutral-300 bg-white p-4 md:p-6"
   >
     <div class="flex items-center justify-between">
-      <utilsInviteStatusBtn :status="resultItem.status" />
+      <MemberInviteStatusBtnWho :status="resultItem.status" />
 
       <div class="flex gap-3">
         <!-- 聊天 -->
