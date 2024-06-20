@@ -109,7 +109,7 @@ function handleClick(status) {
     <button
       v-if="
         props.status === 'status3'
-          && invitationStatus === 'accepted'
+          && isFinishDating
       "
       class="mx-[1px] my-[3px] scale-90 rounded-full bg-primary-dark px-[20px] py-[8px] text-[16px] leading-[24px] text-white md:mx-[6px] md:scale-100"
       @click="handleClick(props.status)"
@@ -201,24 +201,6 @@ function handleClick(status) {
       @click="handleClick(props.status)"
     >
       <icon-heroicons:trash v />
-      <p>{{ btnText }}</p>
-    </button>
-
-    <!-- 接受 -->
-    <button
-      v-if="props.status === 'status11' && beInvitationStatus === 'pending'"
-      class="btn-withIcon-fill mx-[1px] my-[3px] w-[72px] scale-90 md:mx-[6px] md:scale-100"
-      @click="handleClick(props.status)"
-    >
-      <p>{{ btnText }}</p>
-    </button>
-
-    <!-- 拒絕 -->
-    <button
-      v-if="props.status === 'status12' && beInvitationStatus === 'pending'"
-      class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
-      @click="handleClick(props.status)"
-    >
       <p>{{ btnText }}</p>
     </button>
 
