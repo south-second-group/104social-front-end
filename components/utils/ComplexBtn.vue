@@ -68,7 +68,7 @@ function handleClick(status) {
   else {
     switch (status) {
       case 'status1':
-        router.push(`/member/card/${props.userId}--${'true'}`)
+        router.push(`/member/card/${props.userId}`)
         break
       case 'status8':
         router.push(`/member/Comment/${props.userId}--${'false'}`)

@@ -85,6 +85,7 @@ function createRenderValue(key, value) {
           <utilsCollectionBtn
             :is-collected="resultItem.isCollected"
             :user-id="resultItem.matchListSelfSetting.userId"
+            :collection-table-id="resultItem.collectionTableId"
           />
         </div>
       </div>
@@ -92,18 +93,21 @@ function createRenderValue(key, value) {
 
     <!-- 中 -->
     <div class="flex flex-col gap-6 rounded-xl bg-neutral-100 p-6 md:flex-row">
-      <div class="shrink-0">
+      <div class=" shrink-0">
         <!-- resultItem.isUnlock -->
         <NuxtLink
           :to="`/member/card/${
             resultItem.matchListSelfSetting.userId
-          }--${Boolean(false)}`"
+          }`"
         >
-          <img
-            src="~/assets/img/member/Image03.png"
-            alt="s3-alpha-sig"
-            class="mx-auto size-[150px] rounded-full object-cover object-top"
-          >
+          <div class="group relative">
+            <img
+              src="~/assets/img/member/Image03.png"
+              alt="s3-alpha-sig"
+              class="mx-auto size-[150px] rounded-full object-cover object-top hover:blur-sm "
+            >
+            <span class=" absolute left-1/2 top-1/2 -translate-y-1/2 hidden -translate-x-1/2 text-white group-hover:block ">查看</span>
+          </div>
         </NuxtLink>
       </div>
       <div class="w-full shrink-0 space-y-6 text-start md:w-[586px]">

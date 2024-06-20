@@ -29,9 +29,19 @@ async function deleteComment(params) {
   })
 }
 
-// 該卡片用戶的評價 (多個)
+// 該卡片用戶的評價 (多個) (需有解鎖)
 async function getCommentByUserId(params) {
   return useBaseFetch(`/api/v1/comment-list/${params}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+}
+
+// 無需解鎖
+async function getCommentList(params) {
+  return useBaseFetch(`/api/v1/comment-list-no-check/${params.id}?page=${params.page}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -44,4 +54,5 @@ export const commentApi = {
   postComment,
   deleteComment,
   getCommentByUserId,
+  getCommentList,
 }

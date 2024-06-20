@@ -28,7 +28,7 @@ const props = defineProps({
 }
 
 $particles: 50;
-$width: 500;
+$width: 800;
 $height: 500;
 
 // Create the explosion...
@@ -37,11 +37,11 @@ $box-shadow2: ();
 
 @for $i from 0 through $particles {
   $box-shadow: $box-shadow,
-    random($width)-$width /
-      2 +
+    random($width)-
+      calc($width / 2) +
       px
-      random($height)-$height /
-      1.2 +
+      random($height) -
+      calc($height / 1.2) +
       px
       hsl(random(360), 100%, 50%);
   $box-shadow2: $box-shadow2, 0 0 #fff;

@@ -9,7 +9,7 @@ const matchResult = useMatchResultStore()
 
 const apiData = ref({})
 const isLoaded = ref(false)
-const hasUnComment = ref(route.params.hasUnComment)
+const isUnlock = ref(false)
 const renderData = ref([])
 
 const toastMessage = ref('')
@@ -17,8 +17,9 @@ const toastType = ref('')
 
 function updateRenderData() {
   matchResult.result.forEach((item) => {
-    if (item.userInfo._id === route.params.commentId)
+    if (item.userInfo._id === route.params.cardId)
       renderData.value = item
+    isUnlock.value = renderData.value.isUnlock
   })
 }
 
@@ -26,10 +27,13 @@ watchEffect(() => {
   updateRenderData()
 })
 
-async function getCommentByUserId() {
+async function getCommentList() {
   isLoaded.value = false
   try {
-    const res = await commentApi.getCommentByUserId(route.params.commentId)
+    const res = await commentApi.getCommentList({
+      id: route.params.cardId,
+      page: 1,
+    })
     apiData.value = res.data
   }
   catch (error) {
@@ -40,6 +44,24 @@ async function getCommentByUserId() {
   }
 }
 
+// 隨機中文字
+function randomChineseText(content) {
+  const baseText
+    = '這是一個示例文本，包含中文字符用於生成隨機長度的字符串。這是一個示例文本，包含中文字符用於生成隨機長度的字符串。這是一個示例文本，包含中文字符用於生成隨機長度的字符串。這是一個示例文本，包含中文字符用於生成隨機長度的字符串。這是一個示例文本，包含中文字符用於生成隨機長度的字符串。這是一個示例文本，包含中文字符用於生成隨機長度的字符串。這是一個示例文本，包含中文字符用於生成隨機長度的字符串。這是一個示例文本，包含中文字符用於生成隨機長度的字符串。'
+
+  const randomLength
+    = Math.floor(Math.random() * content.length) < 100
+      ? 100
+      : Math.floor(Math.random() * content.length)
+  let result = ''
+  for (let i = 0; i < randomLength; i++) {
+    const randomIndex = Math.floor(Math.random() * content.length)
+    result += baseText[randomIndex]
+  }
+  return result
+}
+
+// 取得配對選項
 const matchListOptionData = ref([])
 async function getMatchListOption() {
   try {
@@ -52,13 +74,11 @@ async function getMatchListOption() {
   }
 }
 
-Promise.all([
-  getMatchListOption(),
-  getCommentByUserId(),
-  updateRenderData(),
-]).then(() => {
-  isLoaded.value = true
-})
+Promise.all([getMatchListOption(), getCommentList(), updateRenderData()]).then(
+  () => {
+    isLoaded.value = true
+  },
+)
 
 // 配對設定標頭
 function getKeyLabel(key) {
@@ -252,7 +272,7 @@ function createRenderValue(key, value) {
 
         <!-- 大家的評價 -->
         <div
-          v-for="i in apiData.comments"
+          v-for="i in apiData"
           :key="i.id"
           class="mt-12 w-full space-y-3"
         >
@@ -267,16 +287,18 @@ function createRenderValue(key, value) {
             {{ i.commentUserProfile[0].nickNameDetails.nickName }}
             留下的評價</label>
           <p
-            v-if="hasUnComment === 'true'"
-            class="rounded-md border-2 p-3"
+            v-if="isUnlock === true"
+            class="break-words rounded-md border-2 p-3"
           >
             {{ i.content }}
           </p>
           <p
             v-else
-            class="rounded-md border-2 p-3 blur-sm"
+            class="break-words rounded-md border-2 p-3"
           >
-            {{ i.content }}
+            {{ i.content.substring(0, 20) }} ...解鎖查看更多
+            <span class="block blur-sm">
+              {{ randomChineseText(i.content) }}</span>
           </p>
 
           <div class="mt-12 w-full space-y-3">
