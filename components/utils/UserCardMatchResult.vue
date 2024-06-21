@@ -102,7 +102,7 @@ function createRenderValue(key, value) {
             <img
               :src="resultItem.profile.photoDetails.photo"
               alt="s3-alpha-sig"
-              class="mx-auto size-[150px] rounded-full object-contain object-center group-hover:blur-sm"
+              class="mx-auto size-[150px] rounded-full border-2 border-neutral-300 object-contain object-center group-hover:blur-sm"
             >
             <span
               class="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 text-white group-hover:block "

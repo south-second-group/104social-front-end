@@ -17,17 +17,18 @@ const toastMessage = ref('')
 const toastType = ref('')
 
 matchResult.result = matchResult.result.map((item) => {
-  if (item.userInfo._id === route.params.commentId) {
+  if (item.userInfo._id === route.params.cardId) {
     renderData.value = item
     return item
   }
   return item
 })
 
+let tempCommentTableId = route.params.commentTableId
 async function getCommentByIdAndUserId() {
   isLoaded.value = false
   try {
-    const res = await commentApi.getCommentByIdAndUserId(route.params.commentId)
+    const res = await commentApi.getCommentByIdAndUserId(tempCommentTableId)
     apiData.value = res.data
 
     if (hasComment.value === 'true')
@@ -37,12 +38,13 @@ async function getCommentByIdAndUserId() {
     console.error(error)
   }
   finally {
+    await new Promise(resolve => setTimeout(resolve, 1000))
     isLoaded.value = true
   }
 }
 
 const postCommentForm = reactive({
-  commentedUserId: route.params.commentId,
+  commentedUserId: route.params.cardId,
   content: '',
   score: 0,
 })
@@ -61,8 +63,7 @@ async function postComment() {
     await commentApi
       .postComment(postCommentForm)
       .then((res) => {
-        toastMessage.value = res.message
-        toastType.value = 'success'
+        tempCommentTableId = res.data._id
       })
       .catch((err) => {
         toastMessage.value = err.message
@@ -78,6 +79,9 @@ async function postComment() {
     hasComment.value = 'true'
 
     await new Promise(resolve => setTimeout(resolve, 2000))
+    toastMessage.value = res.message
+    toastType.value = 'success'
+
     isLoaded.value = true
   }
 }

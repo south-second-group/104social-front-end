@@ -74,10 +74,14 @@ function handleClick(status) {
         router.push(`/member/card/${props.userId}`)
         break
       case 'status8':
-        router.push(`/member/Comment/${props.userId}--${'false'}`)
+        router.push(
+          `/member/Comment/${props.userId}--${props.commentTableId}--${'false'}`,
+        )
         break
       case 'status9':
-        router.push(`/member/Comment/${props.userId}--${'true'}`)
+        router.push(
+          `/member/Comment/${props.userId}--${props.commentTableId}--${'true'}`,
+        )
         break
       default:
         console.warn('Unknown status')
@@ -88,14 +92,19 @@ function handleClick(status) {
 
 <template>
   <div>
+    <!-- 已解鎖評價 -->
     <button
-      v-if="props.status === 'status1' && props.isUnlock && props.hasComment"
+      v-if="
+        props.status === 'status1' && props.isUnlock && props.beCommentCount > 0
+      "
       class="mx-[1px] my-[3px] flex scale-90 gap-3 rounded-full border-2 border-neutral-400 px-[20px] py-[6px] text-[16px] leading-[24px] text-neutral-400 md:mx-[6px] md:scale-100"
       @click="handleClick(props.status)"
     >
       <icon-heroicons:lock-open />
       <p>{{ btnText }}</p>
     </button>
+
+    <!-- 解鎖評價 -->
     <button
       v-if="
         props.status === 'status2'
@@ -108,6 +117,8 @@ function handleClick(status) {
       <icon-heroicons:lock-closed />
       <p>{{ btnText }}</p>
     </button>
+
+    <!-- 完成約會 -->
     <button
       v-if="
         props.status === 'status3'
@@ -119,6 +130,8 @@ function handleClick(status) {
     >
       <p>{{ btnText }}</p>
     </button>
+
+    <!-- 邀約 -->
     <button
       v-if="
         props.status === 'status4'
@@ -131,6 +144,8 @@ function handleClick(status) {
       <icon-heroicons:heart />
       <p>{{ btnText }}</p>
     </button>
+
+    <!-- 收回邀約 -->
     <button
       v-if="props.status === 'status5' && props.invitationStatus === 'pending'"
       class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
@@ -139,6 +154,8 @@ function handleClick(status) {
       <icon-heroicons:heart />
       <p>{{ btnText }}</p>
     </button>
+
+    <!-- 拒絕往來 -->
     <button
       v-if="props.status === 'status6' && !isLocked"
       class="btn-withIcon-outline mx-[1px] my-[3px] w-[132px] scale-90 md:mx-[6px] md:scale-100"
@@ -155,6 +172,8 @@ function handleClick(status) {
       <icon-heroicons:check />
       <p>{{ btnText }}</p>
     </button>
+
+    <!-- 未給評價 -->
     <button
       v-if="
         props.status === 'status8'
@@ -167,6 +186,8 @@ function handleClick(status) {
       <icon-heroicons:pencil />
       <p>{{ btnText }}</p>
     </button>
+
+    <!-- 已給評價 -->
     <button
       v-if="
         props.status === 'status9'
@@ -180,6 +201,8 @@ function handleClick(status) {
       <icon-heroicons:pencil />
       <p>{{ btnText }}</p>
     </button>
+
+    <!-- 刪除評價 -->
     <button
       v-if="
         props.status === 'status10'
@@ -193,6 +216,8 @@ function handleClick(status) {
       <icon-heroicons:trash v />
       <p>{{ btnText }}</p>
     </button>
+
+    <!-- 接受 -->
     <!-- && router.currentRoute.value.path === '/member/invite' -->
     <button
       v-if="
@@ -203,6 +228,8 @@ function handleClick(status) {
     >
       <p>{{ btnText }}</p>
     </button>
+
+    <!-- 拒絕 -->
     <!-- && router.currentRoute.value.path === '/member/invite' -->
     <button
       v-if="
@@ -213,6 +240,7 @@ function handleClick(status) {
     >
       <p>{{ btnText }}</p>
     </button>
+
     <utilsConfirmModal
       v-model="isOpenModal"
       :status="modalStatus"

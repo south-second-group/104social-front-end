@@ -120,14 +120,27 @@ async function unlockComment() {
 async function deleteComment() {
   isLoading.value = true
   try {
-    await commentApi.deleteComment(props.commentTableId, { commentedUserId: props.userId })
+    await commentApi.deleteComment(props.commentTableId, {
+      commentedUserId: props.userId,
+    })
 
     toastMessage.value = '刪除評價成功'
     toastType.value = 'success'
 
     matchResult.result = matchResult.result.map((item) => {
-      if (item.userInfo._id === props.userId)
-        return { ...item, hasComment: false }
+      if (item.userInfo._id === props.userId) {
+        return {
+          ...item,
+          hasComment: false,
+          profile: {
+            ...item.profile,
+            userStatus: {
+              ...item.profile.userStatus,
+              commentCount: item.profile.userStatus.commentCount - 1,
+            },
+          },
+        }
+      }
       return item
     })
   }

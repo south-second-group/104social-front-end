@@ -23,10 +23,6 @@ function updateRenderData() {
   })
 }
 
-watchEffect(() => {
-  updateRenderData()
-})
-
 async function getCommentList() {
   isLoaded.value = false
   try {
@@ -40,6 +36,7 @@ async function getCommentList() {
     console.error(error)
   }
   finally {
+    await new Promise(resolve => setTimeout(resolve, 1000))
     isLoaded.value = true
   }
 }
@@ -73,16 +70,6 @@ async function getMatchListOption() {
     console.error(error)
   }
 }
-
-const promises = [getMatchListOption(), updateRenderData()]
-Promise.all(promises).then(() => {
-  isLoaded.value = true
-})
-
-watchEffect(() => {
-  if (renderData.value.hasComment)
-    getCommentList()
-})
 
 // 配對設定標頭
 function getKeyLabel(key) {
@@ -146,6 +133,20 @@ function createRenderValue(key, value) {
     createRenderResult.add(matchListOptionData.value[0][key][value].label)
   }
 }
+
+const promises = [getMatchListOption(), updateRenderData()]
+Promise.all(promises).then(() => {
+  isLoaded.value = true
+})
+
+watchEffect(() => {
+  updateRenderData()
+})
+
+watchEffect(() => {
+  if (renderData.value.profile.userStatus.commentCount)
+    getCommentList()
+})
 </script>
 
 <template>
@@ -256,7 +257,7 @@ function createRenderValue(key, value) {
           </span>
         </div>
         <div class="flex flex-wrap justify-center pb-6 pt-3">
-          <utilsComplexBtn
+          <!-- <utilsComplexBtn
             v-for="(btn, index) in buttonList"
             :key="index"
             v-bind="{
@@ -270,8 +271,9 @@ function createRenderValue(key, value) {
               beCommentCount: renderData.profile.userStatus.commentCount,
               hasComment: renderData.hasComment,
               beInvitationStatus: renderData.beInvitationStatus,
+              beInvitationTableId: renderData.beInvitationTableId,
             }"
-          />
+          /> -->
         </div>
 
         <!-- 大家的評價 -->
