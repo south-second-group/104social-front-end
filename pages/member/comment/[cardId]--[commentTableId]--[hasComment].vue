@@ -5,6 +5,7 @@ import { matchListApi } from '~/apis/repositories/matchList'
 const route = useRoute()
 const router = useRouter()
 const matchResult = useMatchResultStore()
+const searchCriteriaStore = useSearchCriteriaStore()
 
 const apiData = ref({})
 const rating = ref(5)
@@ -15,14 +16,27 @@ const renderData = ref([])
 
 const toastMessage = ref('')
 const toastType = ref('')
+const beforeRoute = ref(window.history.state.back)
 
-matchResult.result = matchResult.result.map((item) => {
-  if (item.userInfo._id === route.params.cardId) {
-    renderData.value = item
+// 判斷進入哪一個用戶的已給評價
+if (beforeRoute.value.includes('MatchResult')) {
+  matchResult.result.map((item) => {
+    if (item.userInfo._id === route.params.cardId) {
+      renderData.value = item
+      return item
+    }
     return item
-  }
-  return item
-})
+  })
+}
+else if (beforeRoute.value.includes('search-date')) {
+  searchCriteriaStore.searchResultsList.map((item) => {
+    if (item.userInfo._id === route.params.cardId) {
+      renderData.value = item
+      return item
+    }
+    return item
+  })
+}
 
 let tempCommentTableId = route.params.commentTableId
 async function getCommentByIdAndUserId() {
