@@ -110,7 +110,7 @@ function createRenderValue(key, value) {
           </div>
         </NuxtLink>
       </div>
-      <div class="w-full shrink-0 space-y-6 text-start md:w-[586px]">
+      <div class="shrink-1 w-full space-y-6 text-start ">
         <div class="space-y-1">
           <h2
             class="text-H4 text-neutral-600"

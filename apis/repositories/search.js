@@ -1,20 +1,18 @@
 import { useBaseFetch } from '../instance'
 
-// 取得搜尋結果列表
-async function getSearchResultList(params) {
-  const { keyword, pageNumber, pageSize } = params
-  let url = `/api/v1/search-list/keyword?pageNumber=${pageNumber}&pageSize=${pageSize}&`
-  if (keyword && keyword.length > 0)
-    url += `keyword=${keyword}`
+async function keywordSearch(query, body) {
+  const { page, sort } = query
+  const url = `/api/v1/search-list/?page=${page}&sort=${sort}`
 
   return useBaseFetch(url, {
-    method: 'GET',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
+    body: JSON.stringify(body),
   })
 }
 
 export const searchApi = {
-  getSearchResultList,
+  keywordSearch,
 }

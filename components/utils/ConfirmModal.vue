@@ -15,7 +15,10 @@ const props = defineProps({
   commentTableId: String,
 })
 
+const route = useRoute()
+
 const matchResult = useMatchResultStore()
+const { searchResultsList, updateSearchResultsList } = useSearchCriteriaStore()
 
 const toastMessage = ref('')
 const toastType = ref('')
@@ -103,6 +106,13 @@ async function unlockComment() {
         return { ...item, isUnlock: true }
       return item
     })
+
+    searchCriteriaStore.searchResultsList
+      = searchCriteriaStore.searchResultsList.map((item) => {
+        if (item.userInfo._id === props.userId)
+          return { ...item, isUnlock: true }
+        return item
+      })
   }
   catch (error) {
     console.error({ error })
@@ -156,7 +166,7 @@ async function deleteComment() {
   }
 }
 
-// 拒絕往來
+// 恢復往來
 async function deleteBlackListById() {
   isLoading.value = true
   try {
@@ -165,11 +175,10 @@ async function deleteBlackListById() {
     toastMessage.value = '恢復往來成功'
     toastType.value = 'success'
 
-    matchResult.result = matchResult.result.map((item) => {
-      if (item.userInfo._id === props.userId)
-        return { ...item, isLocked: false }
-      return item
-    })
+    if (route.path.includes('search-date'))
+      updateSearchResultsList(props.userId, { isLocked: false })
+    else
+      matchResult.updateMatchResultList(props.userId, { isLocked: false })
   }
   catch (error) {
     console.error({ error })
@@ -183,6 +192,7 @@ async function deleteBlackListById() {
   }
 }
 
+// 拒絕往來
 async function postBlackList() {
   isLoading.value = true
   try {
@@ -191,11 +201,10 @@ async function postBlackList() {
     toastMessage.value = '拒絕往來成功'
     toastType.value = 'success'
 
-    matchResult.result = matchResult.result.map((item) => {
-      if (item.userInfo._id === props.userId)
-        return { ...item, isLocked: true }
-      return item
-    })
+    if (route.path.includes('search-date'))
+      updateSearchResultsList(props.userId, { isLocked: true })
+    else
+      matchResult.updateMatchResultList(props.userId, { isLocked: true })
   }
   catch (error) {
     console.error({ error })
@@ -278,6 +287,13 @@ async function postInvitation() {
         return { ...item, invitationStatus: 'pending' }
       return item
     })
+
+    searchCriteriaStore.searchResultsList
+      = searchCriteriaStore.searchResultsList.map((item) => {
+        if (item.userInfo._id === props.userId)
+          return { ...item, invitationStatus: 'pending' }
+        return item
+      })
   }
   catch (error) {
     console.error({ error })
@@ -304,6 +320,13 @@ async function cancelInvitation() {
         return { ...item, invitationStatus: 'cancel' }
       return item
     })
+
+    searchCriteriaStore.searchResultsList
+      = searchCriteriaStore.searchResultsList.map((item) => {
+        if (item.userInfo._id === props.userId)
+          return { ...item, invitationStatus: 'cancel' }
+        return item
+      })
   }
   catch (error) {
     console.error({ error })
@@ -330,6 +353,13 @@ async function finishInvitationDating() {
         return { ...item, invitationStatus: 'finishDating' }
       return item
     })
+
+    searchCriteriaStore.searchResultsList
+      = searchCriteriaStore.searchResultsList.map((item) => {
+        if (item.userInfo._id === props.userId)
+          return { ...item, invitationStatus: 'finishDating' }
+        return item
+      })
   }
   catch (error) {
     console.error({ error })
@@ -359,6 +389,13 @@ async function acceptInvitation() {
         return { ...item, beInvitationStatus: 'accept' }
       return item
     })
+
+    searchCriteriaStore.searchResultsList
+      = searchCriteriaStore.searchResultsList.map((item) => {
+        if (item.userInfo._id === props.userId)
+          return { ...item, beInvitationStatus: 'accept' }
+        return item
+      })
   }
   catch (error) {
     console.error({ error })
@@ -385,6 +422,13 @@ async function rejectInvitation() {
         return { ...item, beInvitationStatus: 'reject' }
       return item
     })
+
+    searchCriteriaStore.searchResultsList
+      = searchCriteriaStore.searchResultsList.map((item) => {
+        if (item.userInfo._id === props.userId)
+          return { ...item, beInvitationStatus: 'reject' }
+        return item
+      })
   }
   catch (error) {
     console.error({ error })
