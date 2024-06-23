@@ -10,6 +10,9 @@ const props = defineProps({
   resultItem: Object,
 })
 
+// 通知渲染列表資料
+// const emit = defineEmits(['refreshWhoList'])
+
 const router = useRouter()
 
 const btnText = computed(() => {
@@ -34,10 +37,6 @@ const btnText = computed(() => {
       return '已給評價'
     case 'status10':
       return '刪除評價'
-    case 'status11':
-      return '接受'
-    case 'status12':
-      return '拒絕'
     default:
       return ''
   }
@@ -54,8 +53,6 @@ const modalStatuses = [
   'status6',
   'status7',
   'status10',
-  'status11',
-  'status12',
 ]
 
 function handleClick(status) {
@@ -166,7 +163,7 @@ function handleClick(status) {
       v-if="
         props.status === 'status8'
           && !hasComment
-          && invitationStatus === 'accept'
+          && invitationStatus === 'accepted'
       "
       class="btn-withIcon-fill mx-[1px] my-[3px] w-[132px] scale-90 md:mx-[6px] md:scale-100"
       @click="handleClick(props.status)"
@@ -180,7 +177,7 @@ function handleClick(status) {
       v-if="
         props.status === 'status9'
           && hasComment
-          && (invitationStatus === 'accept'
+          && (invitationStatus === 'accepted'
             || invitationStatus === 'finishDating')
       "
       class="mx-[1px] my-[3px] flex scale-90 gap-1 rounded-full border-2 border-neutral-400 px-[20px] py-[6px] text-[16px] leading-[24px] text-neutral-400 md:mx-[6px] md:scale-100"
@@ -195,7 +192,7 @@ function handleClick(status) {
       v-if="
         props.status === 'status10'
           && hasComment
-          && invitationStatus === 'accept'
+          && invitationStatus === 'accepted'
       "
       class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
       @click="handleClick(props.status)"
@@ -208,12 +205,22 @@ function handleClick(status) {
       v-model="isOpenModal"
       :status="modalStatus"
       v-bind="{
-        createRenderResult: props.createRenderResult,
-        cardUserName: props.cardUserName,
-        userId: props.invitedUserId,
-        Id: props._id,
+        userId: props.resultItem.userId,
+        id: props.resultItem._id,
         resultItem: props.resultItem,
       }"
     />
+    <!-- <MemberInviteConfirmModal
+      v-model="isOpenModal"
+      :status="modalStatus"
+      v-bind="{
+        createRenderResult: props.createRenderResult,
+        cardUserName: props.resultItem.profileByInvitedUser[0].nickNameDetails.nickName,
+        userId: props.resultItem.userId,
+        id: props.resultItem._id,
+        resultItem: props.resultItem,
+        @refresh-who-list="$emit('refreshWhoList')"
+      }"
+    /> -->
   </div>
 </template>

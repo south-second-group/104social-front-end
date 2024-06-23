@@ -1,6 +1,8 @@
 <script setup>
-import { unlockCommentApi } from '~/apis/repositories/unlockComment'
-import { inviteListApi } from '~/apis/repositories/inviteList'
+import { blackListApi } from '~/apis/repositories/blackList' // 黑名單
+import { unlockCommentApi } from '~/apis/repositories/unlockComment' // 解鎖評價
+import { commentApi } from '~/apis/repositories/comment' // 評價
+import { beInviteApi } from '~/apis/repositories/beInvite' // 被邀約
 
 const props = defineProps({
   status: String,
@@ -11,11 +13,16 @@ const props = defineProps({
   resultItem: Object,
 })
 
+// 通知渲染列表資料
+// const emit = defineEmits(['refreshWhoList'])
+
 const matchResult = useMatchResultStore()
 
 const toastMessage = ref('')
 const toastType = ref('')
 const isLoading = ref(false)
+
+const tempInvitationTableId = ref(props.resultItem._id)
 
 // 彈窗邏輯
 const isOpenModal = defineModel()
@@ -90,15 +97,15 @@ function tempfunc() {
 async function unlockComment() {
   isLoading.value = true
   try {
-    await unlockCommentApi.unlockComment(props.userId)
-    toastMessage.value = '解鎖評價成功'
-    toastType.value = 'success'
-
+    await unlockCommentApi.unlockComment(props.resultItem.invitationId)
+    // emit('refreshWhoList')
     matchResult.result = matchResult.result.map((item) => {
-      if (item.userInfo._id === props.userId)
+      if (item.userId === props.resultItem.invitationId)
         return { ...item, isUnlock: true }
       return item
     })
+    toastMessage.value = '解鎖評價成功'
+    toastType.value = 'success'
   }
   catch (error) {
     console.error({ error })
@@ -112,18 +119,181 @@ async function unlockComment() {
   }
 }
 
+// 刪除評價
+async function deleteComment() {
+  isLoading.value = true
+  try {
+    await commentApi.deleteComment(props.resultItem.invitationId)
+    matchResult.result = matchResult.result.map((item) => {
+      if (item.userId === props.resultItem.invitationId)
+        return { ...item, hasComment: false }
+      return item
+    })
+
+    toastMessage.value = '刪除評價成功'
+    toastType.value = 'success'
+  }
+  catch (error) {
+    console.error({ error })
+
+    toastMessage.value = '刪除評價失敗，請通知開發者'
+    toastType.value = 'error'
+  }
+  finally {
+    isLoading.value = false
+    isOpenModal.value = false
+  }
+}
+
+// 刪除黑名單
+async function deleteBlackListById() {
+  isLoading.value = true
+  try {
+    await blackListApi.deleteBlackListById(props.userId)
+    matchResult.result = matchResult.result.map((item) => {
+      if (item.userId === tempInvitationTableId.value)
+        return { ...item, isLocked: false }
+      return item
+    })
+
+    toastMessage.value = '恢復往來成功'
+    toastType.value = 'success'
+  }
+  catch (error) {
+    console.error({ error })
+
+    toastMessage.value = '恢復往來失敗，請通知開發者'
+    toastType.value = 'error'
+  }
+  finally {
+    isLoading.value = false
+    isOpenModal.value = false
+  }
+}
+
+// 新增黑名單
+async function postBlackList() {
+  isLoading.value = true
+  try {
+    await blackListApi.postBlackList({ lockedUserId: props.resultItem.invitationId })
+    matchResult.result = matchResult.result.map((item) => {
+      if (item.userId === props.resultItem.invitationId)
+        return { ...item, isLocked: true }
+      return item
+    })
+    toastMessage.value = '拒絕往來成功'
+    toastType.value = 'success'
+  }
+  catch (error) {
+    console.error({ error })
+
+    toastMessage.value = '拒絕往來失敗，請通知開發者'
+    toastType.value = 'error'
+  }
+  finally {
+    isLoading.value = false
+    isOpenModal.value = false
+  }
+}
+
+// 被邀約-完成約會
+async function finishInvitationDating() {
+  isLoading.value = true
+  try {
+    await beInviteApi.finishInvitationDating(tempInvitationTableId.value)
+    matchResult.result = matchResult.result.map((item) => {
+      if (item.userId === props.resultItem.invitationId)
+        return { ...item, status: 'finishDating' }
+      return item
+    })
+
+    toastMessage.value = '完成約會成功'
+    toastType.value = 'success'
+  }
+  catch (error) {
+    console.error({ error })
+
+    toastMessage.value = '完成約會失敗，請通知開發者'
+    toastType.value = 'error'
+  }
+  finally {
+    isOpenModal.value = false
+
+    await new Promise(resolve => setTimeout(resolve, 3000))
+    isLoading.value = false
+  }
+}
+
+// 被邀約-接受邀約
+async function acceptInvitation() {
+  isLoading.value = true
+  try {
+    await beInviteApi.acceptInvitation(tempInvitationTableId.value)
+    matchResult.result = matchResult.result.map((item) => {
+      if (item.userId === props.resultItem.invitationId)
+        return { ...item, beInvitationStatus: 'accept' }
+      return item
+    })
+
+    toastMessage.value = '接受邀約成功'
+    toastType.value = 'success'
+  }
+  catch (error) {
+    console.error({ error })
+
+    toastMessage.value = '接受邀約失敗，請通知開發者'
+    toastType.value = 'error'
+  }
+  finally {
+    isLoading.value = false
+    isOpenModal.value = false
+  }
+}
+
+// 被邀約-取消邀約
 async function cancelInvitation() {
   isLoading.value = true
   try {
-    const data = props.resultItem.id
-    const response = await inviteListApi.cancelInviteWho(data)
-    emit('refreshWhoList')
+    const res = await beInviteApi.cancelInvitation(tempInvitationTableId.value)
+    matchResult.result = matchResult.result.map((item) => {
+      if (item.userId === props.resultItem.invitationId)
+        return { ...item, status: 'cancel' }
+
+      return item
+    })
+
     toastMessage.value = '取消邀約成功'
     toastType.value = 'success'
   }
   catch (error) {
     console.error({ error })
+
     toastMessage.value = '取消邀約失敗，請通知開發者'
+    toastType.value = 'error'
+  }
+  finally {
+    isLoading.value = false
+    isOpenModal.value = false
+  }
+}
+
+// 被邀約-拒絕邀約
+async function rejectInvitation() {
+  isLoading.value = true
+  try {
+    await beInviteApi.rejectInvitation(tempInvitationTableId.value)
+    matchResult.result = matchResult.result.map((item) => {
+      if (item.userId === props.resultItem.invitationId)
+        return { ...item, beInvitationStatus: 'reject' }
+      return item
+    })
+    toastMessage.value = '拒絕邀約成功'
+    toastType.value = 'success'
+  }
+  catch (error) {
+    console.error({ error })
+
+    toastMessage.value = '拒絕邀約失敗，請通知開發者'
     toastType.value = 'error'
   }
   finally {
@@ -135,6 +305,8 @@ async function cancelInvitation() {
 
 <template>
   <div>
+    <utilsFireWork :is-fire-work="isLoading" />
+
     <UModal
       v-model="isOpenModal"
       :overlay="true"
@@ -202,6 +374,60 @@ async function cancelInvitation() {
             />
           </div>
         </template>
+
+        <section class="space-y-3">
+          <div class="relative">
+            <UTextarea
+              v-model="inviteForm.message.content"
+              :ui="{ base: ' focus:!ring-primary-dark focus:!ring-1' }"
+              :rows="10"
+              :placeholder="
+                isLoading
+                  ? ''
+                  : '請填寫邀約訊息，推薦主題：電影、音樂會、餐廳、運動、旅行等...'
+              "
+              :disabled="
+                isLoading || inviteForm.message.content.length === 1000
+              "
+            />
+
+            <div
+              v-show="isLoading"
+              class="absolute left-2 top-2 space-y-3"
+            >
+              <USkeleton
+                class="h-4 w-[250px] bg-social-gradient-default md:w-[550px]"
+              />
+              <USkeleton
+                class="h-4 w-[240px] bg-social-gradient-default md:w-[450px]"
+              />
+              <USkeleton
+                class="h-4 w-[220px] bg-social-gradient-default md:w-[200px]"
+              />
+              <USkeleton
+                class="h-4 w-[240px] bg-social-gradient-default md:w-[450px]"
+              />
+              <USkeleton
+                class="h-4 w-[220px] bg-social-gradient-default md:w-[200px]"
+              />
+            </div>
+
+            <button
+              type="button"
+              class="btn-linear-sm absolute bottom-2 right-2 !p-0"
+              :disabled="isLoading"
+              @click.prevent="fetchAnswer"
+            >
+              <p>AI 提示</p>
+            </button>
+          </div>
+
+          <p class="text-B4 text-end text-neutral-400">
+            上限 {{ MAX_CHARACTERS }} 字（剩餘 {{ remainingCharacters }} 字）
+          </p>
+          <div class="flex justify-end">
+          </div>
+        </section>
 
         <section class="mt-4 flex justify-center">
           <button
