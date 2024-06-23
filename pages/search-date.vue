@@ -130,7 +130,7 @@ const sortOption = ref([
       尋找對象
     </h1>
     <div v-if="searchCriteriaStore.searchResultsList.length > 0 && !isDataLoading">
-      {{ searchCriteriaStore.searchResultsList[0] }}
+      <!-- {{ searchCriteriaStore.searchResultsList[0] }} -->
     </div>
     <!-- {{ searchForm }} -->
 
