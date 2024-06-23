@@ -6,6 +6,8 @@ defineProps({
   isTrashIcon: Boolean,
 })
 
+const searchCriteriaStore = useSearchCriteriaStore()
+
 const isDataLoading = ref(true)
 
 const buttonList = ref([
@@ -65,7 +67,7 @@ function createRenderValue(key, value) {
 
 <template>
   <section
-    v-if="resultItem"
+    v-if="!isDataLoading && Object.keys(resultItem).length > 0"
     class="w-full space-y-4 rounded-[10px] border-2 border-neutral-300 bg-white p-4 md:p-6"
   >
     <!-- 上 -->
@@ -83,6 +85,10 @@ function createRenderValue(key, value) {
         </div>
         <div class="rounded-full bg-neutral-100 p-[10px]">
           <utilsCollectionBtn
+            v-if="
+              resultItem.matchListSelfSetting
+                && resultItem.matchListSelfSetting.userId
+            "
             :is-collected="resultItem.isCollected"
             :user-id="resultItem.matchListSelfSetting.userId"
             :collection-table-id="resultItem.collectionTableId"
@@ -93,7 +99,13 @@ function createRenderValue(key, value) {
 
     <!-- 中 -->
     <div class="flex flex-col gap-6 rounded-xl bg-neutral-100 p-6 md:flex-row">
-      <div class="shrink-0">
+      <div
+        v-if="
+          resultItem.matchListSelfSetting
+            && resultItem.matchListSelfSetting.userId
+        "
+        class="shrink-0"
+      >
         <!-- resultItem.isUnlock -->
         <NuxtLink
           :to="`/member/card/${resultItem.matchListSelfSetting.userId}`"
@@ -105,12 +117,12 @@ function createRenderValue(key, value) {
               class="mx-auto size-[150px] rounded-full border-2 border-neutral-300 object-contain object-center group-hover:blur-sm"
             >
             <span
-              class="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 text-white group-hover:block "
+              class="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 text-white group-hover:block"
             >查看資訊</span>
           </div>
         </NuxtLink>
       </div>
-      <div class="shrink-1 w-full space-y-6 text-start ">
+      <div class="shrink-1 w-full space-y-6 text-start">
         <div class="space-y-1">
           <h2
             class="text-H4 text-neutral-600"
@@ -122,7 +134,13 @@ function createRenderValue(key, value) {
           >
             {{ resultItem.userInfo.personalInfo.username }}
           </h2>
-          <div v-if="!isDataLoading">
+          <div
+            v-if="
+              !isDataLoading
+                && resultItem.matchListSelfSetting
+                && resultItem.matchListSelfSetting.personalInfo
+            "
+          >
             <!-- 將個人條件全部加入顯示陣列 -->
             <span
               v-for="(value, key) in resultItem.matchListSelfSetting
@@ -151,15 +169,29 @@ function createRenderValue(key, value) {
           v-if="!isDataLoading"
           class="space-y-3 border-l-2 border-x-neutral-300 pl-3"
         >
-          <p class="text-B2 text-neutral-500">
+          <p
+            v-if="
+              resultItem.matchListSelfSetting
+                && resultItem.matchListSelfSetting.workInfo
+            "
+            class="text-B2 text-neutral-500"
+          >
             {{
               renderValue(
                 'occupation',
-                resultItem.matchListSelfSetting.workInfo.occupation,
+                resultItem.matchListSelfSetting.workInfo.occupation === '請選擇'
+                  ? '保留職業資訊'
+                  : resultItem.matchListSelfSetting.workInfo.occupation,
               )
             }}
           </p>
-          <div class="space-x-2">
+          <div
+            v-if="
+              resultItem.matchListSelfSetting
+                && resultItem.matchListSelfSetting.workInfo
+            "
+            class="space-x-2"
+          >
             <span class="text-B2 text-neutral-300">
               {{
                 renderValue(
@@ -176,12 +208,16 @@ function createRenderValue(key, value) {
               :key="i"
               class="text-B2 text-neutral-300"
             >
-              {{ i }}{{ ' ' }}
+              {{ i === '請選擇' ? '對方保留產業資訊' : i }}{{ ' ' }}
             </span>
           </div>
         </div>
         <div
-          v-if="!isDataLoading"
+          v-if="
+            !isDataLoading
+              && resultItem.matchListSelfSetting
+              && resultItem.matchListSelfSetting.personalInfo
+          "
           class="flex flex-col items-start justify-between gap-3 md:flex-row"
         >
           <div>
@@ -196,8 +232,11 @@ function createRenderValue(key, value) {
                 :href="`https://www.google.com/search?q=${item}`"
                 class="text-special-info"
                 target="_blank"
+                :class="{
+                  'pointer-events-none !text-neutral-300': item === '請選擇',
+                }"
               >
-                {{ item }}{{ ' ' }}</a>
+                {{ item === '請選擇' ? '無選擇嗜好' : item }}{{ ' ' }}</a>
             </span>
           </div>
           <div class="flex justify-end space-x-2">
@@ -220,26 +259,31 @@ function createRenderValue(key, value) {
     </div>
 
     <!-- 下 -->
-    <div class="flex flex-wrap justify-end">
-      <utilsComplexBtn
-        v-for="(btn, index) in buttonList"
-        :key="index"
-        v-bind="{
-          status: btn.status,
-          invitationStatus: resultItem.invitationStatus,
-          isLocked: resultItem.isLocked,
-          createRenderResult,
-          cardUserName: resultItem.userInfo.personalInfo.username,
-          userId: resultItem.matchListSelfSetting.userId,
-          isUnlock: resultItem.isUnlock,
-          beCommentCount: resultItem.profile.userStatus.commentCount,
-          hasComment: resultItem.hasComment,
-          beInvitationStatus: resultItem.beInvitationStatus,
-          invitationTableId: resultItem.invitationTableId,
-          beInvitationTableId: resultItem.beInvitationTableId,
-          commentTableId: resultItem.commentTableId,
-        }"
-      />
+    <div
+      v-if="resultItem.profile.userStatus "
+      class="flex flex-wrap justify-end"
+    >
+      <ClientOnly>
+        <utilsComplexBtn
+          v-for="(btn, index) in buttonList"
+          :key="index"
+          v-bind="{
+            status: btn.status,
+            invitationStatus: resultItem.invitationStatus,
+            isLocked: resultItem.isLocked,
+            createRenderResult,
+            cardUserName: resultItem.userInfo.personalInfo.username,
+            userId: resultItem.matchListSelfSetting.userId,
+            isUnlock: resultItem.isUnlock,
+            beCommentCount: resultItem.profile.userStatus.commentCount,
+            hasComment: resultItem.hasComment,
+            beInvitationStatus: resultItem.beInvitationStatus,
+            invitationTableId: resultItem.invitationTableId,
+            beInvitationTableId: resultItem.beInvitationTableId,
+            commentTableId: resultItem.commentTableId,
+          }"
+        />
+      </ClientOnly>
     </div>
   </section>
 </template>

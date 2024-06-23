@@ -61,7 +61,7 @@ async function keywordSearch() {
     toastType.value = 'error'
   }
   finally {
-    await new Promise(resolve => setTimeout(resolve, 1000))
+    // await new Promise(resolve => setTimeout(resolve, 2000))
     isDataLoading.value = false
   }
 }
