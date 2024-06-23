@@ -6,20 +6,32 @@ import { matchListApi } from '~/apis/repositories/matchList'
 const route = useRoute()
 const router = useRouter()
 const matchResult = useMatchResultStore()
+const searchCriteriaStore = useSearchCriteriaStore()
 
 const apiData = ref({})
 const isLoaded = ref(false)
-const isUnlock = ref(false)
 const renderData = ref([])
 
 const toastMessage = ref('')
 const toastType = ref('')
+const beforeRoute = ref(window.history.state.back)
 
-function updateRenderData() {
+if (beforeRoute.value.includes('MatchResult')) {
   matchResult.result.forEach((item) => {
-    if (item.userInfo._id === route.params.cardId)
+    if (item.userInfo._id === route.params.cardId) {
       renderData.value = item
-    isUnlock.value = renderData.value.isUnlock
+      return item
+    }
+    return item
+  })
+}
+else if (beforeRoute.value.includes('search-date')) {
+  searchCriteriaStore.searchResultsList.forEach((item) => {
+    if (item.userInfo._id === route.params.cardId) {
+      renderData.value = item
+      return item
+    }
+    return item
   })
 }
 
@@ -134,13 +146,9 @@ function createRenderValue(key, value) {
   }
 }
 
-const promises = [getMatchListOption(), updateRenderData()]
+const promises = [getMatchListOption()]
 Promise.all(promises).then(() => {
   isLoaded.value = true
-})
-
-watchEffect(() => {
-  updateRenderData()
 })
 
 watchEffect(() => {
@@ -278,7 +286,7 @@ watchEffect(() => {
 
         <!-- 大家的評價 -->
         <div
-          v-for="i in apiData"
+          v-for="i in apiData.comments"
           :key="i.id"
           class="mt-12 w-full space-y-3"
         >
@@ -293,7 +301,7 @@ watchEffect(() => {
             {{ i.commentUserProfile[0].nickNameDetails.nickName }}
             留下的評價</label>
           <p
-            v-if="isUnlock === true"
+            v-if="renderData.isUnlock === true"
             class="break-words rounded-md border-2 p-3"
           >
             {{ i.content }}

@@ -78,6 +78,9 @@ async function postComment() {
       .postComment(postCommentForm)
       .then((res) => {
         tempCommentTableId = res.data._id
+
+        toastMessage.value = res.message
+        toastType.value = 'success'
       })
       .catch((err) => {
         toastMessage.value = err.message
@@ -93,9 +96,6 @@ async function postComment() {
     hasComment.value = 'true'
 
     await new Promise(resolve => setTimeout(resolve, 2000))
-    toastMessage.value = res.message
-    toastType.value = 'success'
-
     isLoaded.value = true
   }
 }

@@ -16,7 +16,7 @@ function getBtnClass(status) {
       return 'bg-neutral-400'
     case 'accept':
       return 'bg-special-success'
-    case 'rejected':
+    case 'reject':
       return 'bg-special-danger'
     default:
       return 'bg-social-gradient-default'
@@ -33,7 +33,7 @@ function getBtnText(status) {
       return '已取消邀約'
     case 'accept':
       return '成功邀約'
-    case 'rejected':
+    case 'reject':
       return '邀約失敗'
     default:
       return '尚未邀約'

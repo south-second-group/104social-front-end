@@ -14,7 +14,7 @@ function checkScreenSize() {
   isDesktop.value = window.innerWidth >= 1024
 }
 
-const currentTab = ref('')
+const currentTab = ref('all')
 function changeTab(tab) {
   currentTab.value = tab
 }
@@ -25,7 +25,7 @@ const isDataLoading = ref(true)
 
 const pagination = reactive({ page: 1, totalCount: 10 })
 const query = reactive({
-  sort: '',
+  sort: '-updatedAt',
   page: pagination.page,
 })
 const searchForm = reactive({
@@ -112,10 +112,10 @@ const genderOption = [
 ]
 
 const sortOption = ref([
-  { label: '最近更新', value: 'desc' },
-  { label: '最久更新', value: 'asc' },
-  { label: '最高評分', value: 'hightScore' },
-  { label: '最低評分', value: 'lowScore' },
+  { label: '最近更新', value: '-updatedAt' },
+  { label: '最久更新', value: 'updatedAt' },
+  { label: '最高評分', value: '-score' },
+  { label: '最低評分', value: 'score' },
 ])
 </script>
 
@@ -129,7 +129,9 @@ const sortOption = ref([
     <h1 class="sr-only">
       尋找對象
     </h1>
-    <!-- {{ searchCriteriaStore.searchResultsList[0] }} -->
+    <div v-if="searchCriteriaStore.searchResultsList.length > 0 && !isDataLoading">
+      {{ searchCriteriaStore.searchResultsList[0] }}
+    </div>
     <!-- {{ searchForm }} -->
 
     <div class="grid grid-cols-12 gap-6 py-5 lg:py-20">
@@ -278,10 +280,10 @@ const sortOption = ref([
               @click="changeTab('all')"
             >
               <p class="text-base font-bold md:text-xl">
-                全部（9487）
+                全部（{{ pagination.totalCount }}）
               </p>
             </div>
-            <UDivider
+            <!-- <UDivider
               orientation="vertical"
               class="my-1.5"
             />
@@ -296,7 +298,7 @@ const sortOption = ref([
               <p class="text-base font-bold md:text-xl">
                 公開（8524）
               </p>
-            </div>
+            </div> -->
             <UDivider
               orientation="vertical"
               class="my-1.5"

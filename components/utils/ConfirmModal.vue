@@ -18,7 +18,11 @@ const props = defineProps({
 const route = useRoute()
 
 const matchResult = useMatchResultStore()
-const { searchResultsList, updateSearchResultsList } = useSearchCriteriaStore()
+const {
+  searchResultsList,
+  updateSearchResultsList,
+  updateSearchResultsListCommentsCount,
+} = useSearchCriteriaStore()
 
 const toastMessage = ref('')
 const toastType = ref('')
@@ -101,18 +105,10 @@ async function unlockComment() {
     toastMessage.value = '解鎖評價成功'
     toastType.value = 'success'
 
-    matchResult.result = matchResult.result.map((item) => {
-      if (item.userInfo._id === props.userId)
-        return { ...item, isUnlock: true }
-      return item
-    })
-
-    searchCriteriaStore.searchResultsList
-      = searchCriteriaStore.searchResultsList.map((item) => {
-        if (item.userInfo._id === props.userId)
-          return { ...item, isUnlock: true }
-        return item
-      })
+    if (route.path.includes('search-date'))
+      updateSearchResultsList(props.userId, { isUnlock: true })
+    else if (route.path.includes('MatchResult'))
+      matchResult.updateMatchResultList(props.userId, { isUnlock: true })
   }
   catch (error) {
     console.error({ error })
@@ -137,22 +133,10 @@ async function deleteComment() {
     toastMessage.value = '刪除評價成功'
     toastType.value = 'success'
 
-    matchResult.result = matchResult.result.map((item) => {
-      if (item.userInfo._id === props.userId) {
-        return {
-          ...item,
-          hasComment: false,
-          profile: {
-            ...item.profile,
-            userStatus: {
-              ...item.profile.userStatus,
-              commentCount: item.profile.userStatus.commentCount - 1,
-            },
-          },
-        }
-      }
-      return item
-    })
+    if (route.path.includes('search-date'))
+      updateSearchResultsListCommentsCount(props.userId)
+    else if (route.path.includes('MatchResult'))
+      matchResult.updateMatchResultListCommentsCount(props.userId)
   }
   catch (error) {
     console.error({ error })
@@ -177,7 +161,7 @@ async function deleteBlackListById() {
 
     if (route.path.includes('search-date'))
       updateSearchResultsList(props.userId, { isLocked: false })
-    else
+    else if (route.path.includes('MatchResult'))
       matchResult.updateMatchResultList(props.userId, { isLocked: false })
   }
   catch (error) {
@@ -203,7 +187,7 @@ async function postBlackList() {
 
     if (route.path.includes('search-date'))
       updateSearchResultsList(props.userId, { isLocked: true })
-    else
+    else if (route.path.includes('MatchResult'))
       matchResult.updateMatchResultList(props.userId, { isLocked: true })
   }
   catch (error) {
@@ -274,6 +258,13 @@ async function fetchAnswer() {
 const tempInvitationTableId = ref(props.invitationTableId)
 async function postInvitation() {
   isLoading.value = true
+
+  if (inviteForm.message.content.length === 0) {
+    toastMessage.value = '請填寫邀約訊息'
+    toastType.value = 'error'
+    isLoading.value = false
+    return
+  }
   try {
     await inviteApi.postInvitation(inviteForm).then((res) => {
       tempInvitationTableId.value = res.data.id
@@ -282,18 +273,14 @@ async function postInvitation() {
     toastMessage.value = '邀約成功'
     toastType.value = 'success'
 
-    matchResult.result = matchResult.result.map((item) => {
-      if (item.userInfo._id === props.userId)
-        return { ...item, invitationStatus: 'pending' }
-      return item
-    })
-
-    searchCriteriaStore.searchResultsList
-      = searchCriteriaStore.searchResultsList.map((item) => {
-        if (item.userInfo._id === props.userId)
-          return { ...item, invitationStatus: 'pending' }
-        return item
+    if (route.path.includes('search-date')) {
+      updateSearchResultsList(props.userId, { invitationStatus: 'pending' })
+    }
+    else if (route.path.includes('MatchResult')) {
+      matchResult.updateMatchResultList(props.userId, {
+        invitationStatus: 'pending',
       })
+    }
   }
   catch (error) {
     console.error({ error })
@@ -315,18 +302,14 @@ async function cancelInvitation() {
     toastMessage.value = '取消邀約成功'
     toastType.value = 'success'
 
-    matchResult.result = matchResult.result.map((item) => {
-      if (item.userInfo._id === props.userId)
-        return { ...item, invitationStatus: 'cancel' }
-      return item
-    })
-
-    searchCriteriaStore.searchResultsList
-      = searchCriteriaStore.searchResultsList.map((item) => {
-        if (item.userInfo._id === props.userId)
-          return { ...item, invitationStatus: 'cancel' }
-        return item
+    if (route.path.includes('search-date')) {
+      updateSearchResultsList(props.userId, { invitationStatus: 'cancel' })
+    }
+    else if (route.path.includes('MatchResult')) {
+      matchResult.updateMatchResultList(props.userId, {
+        invitationStatus: 'cancel',
       })
+    }
   }
   catch (error) {
     console.error({ error })
@@ -348,18 +331,14 @@ async function finishInvitationDating() {
     toastMessage.value = '完成約會成功'
     toastType.value = 'success'
 
-    matchResult.result = matchResult.result.map((item) => {
-      if (item.userInfo._id === props.userId)
-        return { ...item, invitationStatus: 'finishDating' }
-      return item
-    })
-
-    searchCriteriaStore.searchResultsList
-      = searchCriteriaStore.searchResultsList.map((item) => {
-        if (item.userInfo._id === props.userId)
-          return { ...item, invitationStatus: 'finishDating' }
-        return item
+    if (route.path.includes('search-date')) {
+      updateSearchResultsList(props.userId, { invitationStatus: 'finishDating' })
+    }
+    else if (route.path.includes('MatchResult')) {
+      matchResult.updateMatchResultList(props.userId, {
+        invitationStatus: 'finishDating',
       })
+    }
   }
   catch (error) {
     console.error({ error })
@@ -384,18 +363,14 @@ async function acceptInvitation() {
     toastMessage.value = '接受邀約成功'
     toastType.value = 'success'
 
-    matchResult.result = matchResult.result.map((item) => {
-      if (item.userInfo._id === props.userId)
-        return { ...item, beInvitationStatus: 'accept' }
-      return item
-    })
-
-    searchCriteriaStore.searchResultsList
-      = searchCriteriaStore.searchResultsList.map((item) => {
-        if (item.userInfo._id === props.userId)
-          return { ...item, beInvitationStatus: 'accept' }
-        return item
+    if (route.path.includes('search-date')) {
+      updateSearchResultsList(props.userId, { beInvitationStatus: 'accept' })
+    }
+    else if (route.path.includes('MatchResult')) {
+      matchResult.updateMatchResultList(props.userId, {
+        beInvitationStatus: 'accept',
       })
+    }
   }
   catch (error) {
     console.error({ error })
@@ -412,23 +387,19 @@ async function acceptInvitation() {
 async function rejectInvitation() {
   isLoading.value = true
   try {
-    await beInviteApi.rejectInvitation(props.userId)
+    await beInviteApi.rejectInvitation(props.beInvitationTableId)
 
     toastMessage.value = '拒絕邀約成功'
     toastType.value = 'success'
 
-    matchResult.result = matchResult.result.map((item) => {
-      if (item.userInfo._id === props.userId)
-        return { ...item, beInvitationStatus: 'reject' }
-      return item
-    })
-
-    searchCriteriaStore.searchResultsList
-      = searchCriteriaStore.searchResultsList.map((item) => {
-        if (item.userInfo._id === props.userId)
-          return { ...item, beInvitationStatus: 'reject' }
-        return item
+    if (route.path.includes('search-date')) {
+      updateSearchResultsList(props.userId, { beInvitationStatus: 'reject' })
+    }
+    else if (route.path.includes('MatchResult')) {
+      matchResult.updateMatchResultList(props.userId, {
+        beInvitationStatus: 'reject',
       })
+    }
   }
   catch (error) {
     console.error({ error })

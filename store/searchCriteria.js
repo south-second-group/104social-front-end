@@ -26,6 +26,25 @@ export const useSearchCriteriaStore = defineStore('searchCriteria', () => {
     })
   }
 
+  function updateSearchResultsListCommentsCount(userId) {
+    searchResultsList.value = searchResultsList.value.map((item) => {
+      if (item.userInfo._id === userId) {
+        return {
+          ...item,
+          hasComment: false,
+          profile: {
+            ...item.profile,
+            userStatus: {
+              ...item.profile.userStatus,
+              commentCount: item.profile.userStatus.commentCount - 1,
+            },
+          },
+        }
+      }
+      return item
+    })
+  }
+
   return {
     selected,
     excluded,
@@ -35,6 +54,7 @@ export const useSearchCriteriaStore = defineStore('searchCriteria', () => {
     removeSelectedTag,
     removeExcludedHashtag,
     updateSearchResultsList,
+    updateSearchResultsListCommentsCount,
   }
 }, {
   persist: {
