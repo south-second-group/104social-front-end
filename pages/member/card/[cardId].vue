@@ -6,40 +6,71 @@ import { matchListApi } from '~/apis/repositories/matchList'
 const route = useRoute()
 const router = useRouter()
 const matchResult = useMatchResultStore()
+const searchCriteriaStore = useSearchCriteriaStore()
 
 const apiData = ref({})
 const isLoaded = ref(false)
-const hasUnComment = ref(route.params.hasUnComment)
 const renderData = ref([])
 
 const toastMessage = ref('')
 const toastType = ref('')
+const beforeRoute = ref(window.history.state.back)
 
-function updateRenderData() {
+if (beforeRoute.value.includes('MatchResult')) {
   matchResult.result.forEach((item) => {
-    if (item.userInfo._id === route.params.commentId)
+    if (item.userInfo._id === route.params.cardId) {
       renderData.value = item
+      return item
+    }
+    return item
+  })
+}
+else if (beforeRoute.value.includes('search-date')) {
+  searchCriteriaStore.searchResultsList.forEach((item) => {
+    if (item.userInfo._id === route.params.cardId) {
+      renderData.value = item
+      return item
+    }
+    return item
   })
 }
 
-watchEffect(() => {
-  updateRenderData()
-})
-
-async function getCommentByUserId() {
+async function getCommentList() {
   isLoaded.value = false
   try {
-    const res = await commentApi.getCommentByUserId(route.params.commentId)
+    const res = await commentApi.getCommentList({
+      id: route.params.cardId,
+      page: 1,
+    })
     apiData.value = res.data
   }
   catch (error) {
     console.error(error)
   }
   finally {
+    await new Promise(resolve => setTimeout(resolve, 1000))
     isLoaded.value = true
   }
 }
 
+// 隨機中文字
+function randomChineseText(content) {
+  const baseText
+    = '這是一個示例文本，包含中文字符用於生成隨機長度的字符串。這是一個示例文本，包含中文字符用於生成隨機長度的字符串。這是一個示例文本，包含中文字符用於生成隨機長度的字符串。這是一個示例文本，包含中文字符用於生成隨機長度的字符串。這是一個示例文本，包含中文字符用於生成隨機長度的字符串。這是一個示例文本，包含中文字符用於生成隨機長度的字符串。這是一個示例文本，包含中文字符用於生成隨機長度的字符串。這是一個示例文本，包含中文字符用於生成隨機長度的字符串。'
+
+  const randomLength
+    = Math.floor(Math.random() * content.length) < 100
+      ? 100
+      : Math.floor(Math.random() * content.length)
+  let result = ''
+  for (let i = 0; i < randomLength; i++) {
+    const randomIndex = Math.floor(Math.random() * content.length)
+    result += baseText[randomIndex]
+  }
+  return result
+}
+
+// 取得配對選項
 const matchListOptionData = ref([])
 async function getMatchListOption() {
   try {
@@ -51,14 +82,6 @@ async function getMatchListOption() {
     console.error(error)
   }
 }
-
-Promise.all([
-  getMatchListOption(),
-  getCommentByUserId(),
-  updateRenderData(),
-]).then(() => {
-  isLoaded.value = true
-})
 
 // 配對設定標頭
 function getKeyLabel(key) {
@@ -122,6 +145,16 @@ function createRenderValue(key, value) {
     createRenderResult.add(matchListOptionData.value[0][key][value].label)
   }
 }
+
+const promises = [getMatchListOption()]
+Promise.all(promises).then(() => {
+  isLoaded.value = true
+})
+
+watchEffect(() => {
+  if (renderData.value.profile.userStatus.commentCount)
+    getCommentList()
+})
 </script>
 
 <template>
@@ -232,7 +265,7 @@ function createRenderValue(key, value) {
           </span>
         </div>
         <div class="flex flex-wrap justify-center pb-6 pt-3">
-          <utilsComplexBtn
+          <!-- <utilsComplexBtn
             v-for="(btn, index) in buttonList"
             :key="index"
             v-bind="{
@@ -246,8 +279,9 @@ function createRenderValue(key, value) {
               beCommentCount: renderData.profile.userStatus.commentCount,
               hasComment: renderData.hasComment,
               beInvitationStatus: renderData.beInvitationStatus,
+              beInvitationTableId: renderData.beInvitationTableId,
             }"
-          />
+          /> -->
         </div>
 
         <!-- 大家的評價 -->
@@ -267,16 +301,18 @@ function createRenderValue(key, value) {
             {{ i.commentUserProfile[0].nickNameDetails.nickName }}
             留下的評價</label>
           <p
-            v-if="hasUnComment === 'true'"
-            class="rounded-md border-2 p-3"
+            v-if="renderData.isUnlock === true"
+            class="break-words rounded-md border-2 p-3"
           >
             {{ i.content }}
           </p>
           <p
             v-else
-            class="rounded-md border-2 p-3 blur-sm"
+            class="break-words rounded-md border-2 p-3"
           >
-            {{ i.content }}
+            {{ i.content.substring(0, 20) }} ...解鎖查看更多
+            <span class="block blur-sm">
+              {{ randomChineseText(i.content) }}</span>
           </p>
 
           <div class="mt-12 w-full space-y-3">

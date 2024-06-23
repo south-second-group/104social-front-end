@@ -10,9 +10,19 @@ const props = defineProps({
   createRenderResult: Set,
   cardUserName: String,
   userId: String,
+  invitationTableId: String,
+  beInvitationTableId: String,
+  commentTableId: String,
 })
 
+const route = useRoute()
+
 const matchResult = useMatchResultStore()
+const {
+  searchResultsList,
+  updateSearchResultsList,
+  updateSearchResultsListCommentsCount,
+} = useSearchCriteriaStore()
 
 const toastMessage = ref('')
 const toastType = ref('')
@@ -95,11 +105,10 @@ async function unlockComment() {
     toastMessage.value = '解鎖評價成功'
     toastType.value = 'success'
 
-    matchResult.result = matchResult.result.map((item) => {
-      if (item.userInfo._id === props.userId)
-        return { ...item, isUnlock: true }
-      return item
-    })
+    if (route.path.includes('search-date'))
+      updateSearchResultsList(props.userId, { isUnlock: true })
+    else if (route.path.includes('MatchResult'))
+      matchResult.updateMatchResultList(props.userId, { isUnlock: true })
   }
   catch (error) {
     console.error({ error })
@@ -117,16 +126,17 @@ async function unlockComment() {
 async function deleteComment() {
   isLoading.value = true
   try {
-    await commentApi.deleteComment(props.userId)
+    await commentApi.deleteComment(props.commentTableId, {
+      commentedUserId: props.userId,
+    })
 
     toastMessage.value = '刪除評價成功'
     toastType.value = 'success'
 
-    matchResult.result = matchResult.result.map((item) => {
-      if (item.userInfo._id === props.userId)
-        return { ...item, hasComment: false }
-      return item
-    })
+    if (route.path.includes('search-date'))
+      updateSearchResultsListCommentsCount(props.userId)
+    else if (route.path.includes('MatchResult'))
+      matchResult.updateMatchResultListCommentsCount(props.userId)
   }
   catch (error) {
     console.error({ error })
@@ -140,7 +150,7 @@ async function deleteComment() {
   }
 }
 
-// 收藏
+// 恢復往來
 async function deleteBlackListById() {
   isLoading.value = true
   try {
@@ -149,11 +159,10 @@ async function deleteBlackListById() {
     toastMessage.value = '恢復往來成功'
     toastType.value = 'success'
 
-    matchResult.result = matchResult.result.map((item) => {
-      if (item.userInfo._id === props.userId)
-        return { ...item, isLocked: false }
-      return item
-    })
+    if (route.path.includes('search-date'))
+      updateSearchResultsList(props.userId, { isLocked: false })
+    else if (route.path.includes('MatchResult'))
+      matchResult.updateMatchResultList(props.userId, { isLocked: false })
   }
   catch (error) {
     console.error({ error })
@@ -167,6 +176,7 @@ async function deleteBlackListById() {
   }
 }
 
+// 拒絕往來
 async function postBlackList() {
   isLoading.value = true
   try {
@@ -175,11 +185,10 @@ async function postBlackList() {
     toastMessage.value = '拒絕往來成功'
     toastType.value = 'success'
 
-    matchResult.result = matchResult.result.map((item) => {
-      if (item.userInfo._id === props.userId)
-        return { ...item, isLocked: true }
-      return item
-    })
+    if (route.path.includes('search-date'))
+      updateSearchResultsList(props.userId, { isLocked: true })
+    else if (route.path.includes('MatchResult'))
+      matchResult.updateMatchResultList(props.userId, { isLocked: true })
   }
   catch (error) {
     console.error({ error })
@@ -246,19 +255,32 @@ async function fetchAnswer() {
   }
 }
 
+const tempInvitationTableId = ref(props.invitationTableId)
 async function postInvitation() {
   isLoading.value = true
+
+  if (inviteForm.message.content.length === 0) {
+    toastMessage.value = '請填寫邀約訊息'
+    toastType.value = 'error'
+    isLoading.value = false
+    return
+  }
   try {
-    await inviteApi.postInvitation(inviteForm)
+    await inviteApi.postInvitation(inviteForm).then((res) => {
+      tempInvitationTableId.value = res.data.id
+    })
 
     toastMessage.value = '邀約成功'
     toastType.value = 'success'
 
-    matchResult.result = matchResult.result.map((item) => {
-      if (item.userInfo._id === props.userId)
-        return { ...item, invitationStatus: 'pending' }
-      return item
-    })
+    if (route.path.includes('search-date')) {
+      updateSearchResultsList(props.userId, { invitationStatus: 'pending' })
+    }
+    else if (route.path.includes('MatchResult')) {
+      matchResult.updateMatchResultList(props.userId, {
+        invitationStatus: 'pending',
+      })
+    }
   }
   catch (error) {
     console.error({ error })
@@ -275,16 +297,19 @@ async function postInvitation() {
 async function cancelInvitation() {
   isLoading.value = true
   try {
-    await inviteApi.cancelInvitation(props.userId)
+    await inviteApi.cancelInvitation(tempInvitationTableId.value)
 
     toastMessage.value = '取消邀約成功'
     toastType.value = 'success'
 
-    matchResult.result = matchResult.result.map((item) => {
-      if (item.userInfo._id === props.userId)
-        return { ...item, invitationStatus: 'cancel' }
-      return item
-    })
+    if (route.path.includes('search-date')) {
+      updateSearchResultsList(props.userId, { invitationStatus: 'cancel' })
+    }
+    else if (route.path.includes('MatchResult')) {
+      matchResult.updateMatchResultList(props.userId, {
+        invitationStatus: 'cancel',
+      })
+    }
   }
   catch (error) {
     console.error({ error })
@@ -301,16 +326,19 @@ async function cancelInvitation() {
 async function finishInvitationDating() {
   isLoading.value = true
   try {
-    await inviteApi.finishInvitationDating(props.userId)
+    await inviteApi.finishInvitationDating(props.invitationTableId)
 
     toastMessage.value = '完成約會成功'
     toastType.value = 'success'
 
-    matchResult.result = matchResult.result.map((item) => {
-      if (item.userInfo._id === props.userId)
-        return { ...item, invitationStatus: 'finishDating' }
-      return item
-    })
+    if (route.path.includes('search-date')) {
+      updateSearchResultsList(props.userId, { invitationStatus: 'finishDating' })
+    }
+    else if (route.path.includes('MatchResult')) {
+      matchResult.updateMatchResultList(props.userId, {
+        invitationStatus: 'finishDating',
+      })
+    }
   }
   catch (error) {
     console.error({ error })
@@ -330,16 +358,19 @@ async function finishInvitationDating() {
 async function acceptInvitation() {
   isLoading.value = true
   try {
-    await beInviteApi.acceptInvitation(props.userId)
+    await beInviteApi.acceptInvitation(props.beInvitationTableId)
 
     toastMessage.value = '接受邀約成功'
     toastType.value = 'success'
 
-    matchResult.result = matchResult.result.map((item) => {
-      if (item.userInfo._id === props.userId)
-        return { ...item, beInvitationStatus: 'accept' }
-      return item
-    })
+    if (route.path.includes('search-date')) {
+      updateSearchResultsList(props.userId, { beInvitationStatus: 'accept' })
+    }
+    else if (route.path.includes('MatchResult')) {
+      matchResult.updateMatchResultList(props.userId, {
+        beInvitationStatus: 'accept',
+      })
+    }
   }
   catch (error) {
     console.error({ error })
@@ -356,16 +387,19 @@ async function acceptInvitation() {
 async function rejectInvitation() {
   isLoading.value = true
   try {
-    await beInviteApi.rejectInvitation(props.userId)
+    await beInviteApi.rejectInvitation(props.beInvitationTableId)
 
     toastMessage.value = '拒絕邀約成功'
     toastType.value = 'success'
 
-    matchResult.result = matchResult.result.map((item) => {
-      if (item.userInfo._id === props.userId)
-        return { ...item, beInvitationStatus: 'reject' }
-      return item
-    })
+    if (route.path.includes('search-date')) {
+      updateSearchResultsList(props.userId, { beInvitationStatus: 'reject' })
+    }
+    else if (route.path.includes('MatchResult')) {
+      matchResult.updateMatchResultList(props.userId, {
+        beInvitationStatus: 'reject',
+      })
+    }
   }
   catch (error) {
     console.error({ error })

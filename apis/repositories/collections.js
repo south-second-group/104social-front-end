@@ -19,13 +19,12 @@ async function addCollection(body) {
   })
 }
 
-async function deleteCollectionById(body) {
-  return useBaseFetch(`/api/v1/collections`, {
+async function deleteCollectionById(params) {
+  return useBaseFetch(`/api/v1/collections/${params}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(body),
   })
 }
 

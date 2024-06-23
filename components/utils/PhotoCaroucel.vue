@@ -4,7 +4,7 @@ const props = defineProps({
 })
 
 const items = ref([
-  'http://localhost:8001/_nuxt/assets/img/member/Image03.png',
+  props.photoDetails.photo,
   'http://localhost:8001/_nuxt/assets/img/member/Image03.png',
   'https://picsum.photos/600/800?random=3',
   'https://picsum.photos/600/800?random=4',
