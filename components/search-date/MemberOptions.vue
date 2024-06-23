@@ -77,13 +77,13 @@ onUnmounted(() => {
         會員享福利
       </p>
       <div class="mb-2 flex items-center rounded-xl bg-white p-4 text-zinc-600 shadow-[#F4766E1A] transition duration-300 ease-in-out hover:text-primary-dark">
-        <icon-heroicons-lock-open />
+        <icon-heroicons-user />
         <p class="ms-2 font-bold">
           註冊即送點數
         </p>
       </div>
       <div class="mb-2 flex items-center rounded-xl bg-white p-4 text-zinc-600 shadow-[#F4766E1A] transition duration-300 ease-in-out hover:text-primary-dark">
-        <icon-heroicons-lock-open />
+        <icon-heroicons-chat-bubble-left-ellipsis />
         <p class="ms-2 font-bold">
           自由聊天邀約
         </p>
