@@ -27,6 +27,7 @@ const {
 const toastMessage = ref('')
 const toastType = ref('')
 const isLoading = ref(false)
+const isCheer = ref(false)
 
 // 彈窗邏輯
 const isOpenModal = defineModel()
@@ -223,26 +224,29 @@ const remainingCharacters = computed(
 const addedValue = new Set()
 props.createRenderResult.forEach(item => addedValue.add(item))
 addedValue.add(`我的名字是：${props.cardUserName}`)
-const theme = Array.from(addedValue)
+// const theme = Array.from(addedValue)
 
 async function fetchAnswer() {
   isLoading.value = true
   inviteForm.message.content = ''
 
   try {
-    inviteForm.message.content = await useGetGenerativeModelGP(
-      JSON.stringify(theme),
-    )
+    // inviteForm.message.content = await useGetGenerativeModelGP(
+    //   JSON.stringify(theme),
+    // )
 
-    //     await new Promise((resolve) => setTimeout(resolve, 3000));
-    //     inviteForm.message.content = `詠晴，您好！
+    await new Promise(resolve => setTimeout(resolve, 2000))
+    inviteForm.message.content
+    = `[對方名字]，您好！
 
-    // 不知道您最近是否有空？我最近想找家餐廳好好吃一頓，剛好聽說 [餐廳名] 的 [菜色類型] 很不錯，想邀請您一起去品嚐。
+    不知道您最近是否有空？我最近想找家餐廳好好吃一頓，剛好聽說 [餐廳名] 的 [菜色類型] 很不錯，想邀請您一起去品嚐。
 
-    // 您是營養師，肯定很懂吃，也希望可以從您身上學習一些健康飲食的知識。如果方便的話，您看這個週末有空嗎？可以先聊聊，順便一起吃飯？
+    您是[對方職業]，肯定很懂[對方專業]。如果方便的話，您看這個週末有空嗎？可以先聊聊，順便一起吃飯？
 
-    // 希望您能接受我的邀請，期待您的回覆！ 😊
-    //     `;
+    希望您能接受我的邀請，期待您的回覆！ 😊
+    `
+
+    isCheer.value = true
   }
   catch (error) {
     console.error({ error })
@@ -252,6 +256,9 @@ async function fetchAnswer() {
   }
   finally {
     isLoading.value = false
+
+    await new Promise(resolve => setTimeout(resolve, 2000))
+    isCheer.value = false
   }
 }
 
@@ -325,6 +332,7 @@ async function cancelInvitation() {
 
 async function finishInvitationDating() {
   isLoading.value = true
+  isCheer.value = true
   try {
     await inviteApi.finishInvitationDating(props.invitationTableId)
 
@@ -351,6 +359,7 @@ async function finishInvitationDating() {
 
     await new Promise(resolve => setTimeout(resolve, 3000))
     isLoading.value = false
+    isCheer.value = false
   }
 }
 
@@ -416,7 +425,10 @@ async function rejectInvitation() {
 
 <template>
   <div>
-    <utilsFireWork :is-fire-work="isLoading" />
+    <utilsFireWork
+      class="z-[99999]"
+      :is-fire-work="isCheer"
+    />
 
     <UModal
       v-model="isOpenModal"
@@ -532,11 +544,13 @@ async function rejectInvitation() {
 
             <button
               type="button"
-              class="btn-linear-sm absolute bottom-2 right-2 !p-0"
+              class="btn-linear-sm absolute bottom-2 right-2 !p-0 opacity-[70]"
               :disabled="isLoading"
               @click.prevent="fetchAnswer"
             >
-              <p>AI 提示</p>
+              <UTooltip text="消耗 50 點/次">
+                <p>AI 提示</p>
+              </UTooltip>
             </button>
           </div>
 

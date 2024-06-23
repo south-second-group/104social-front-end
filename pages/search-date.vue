@@ -1,4 +1,5 @@
 <script setup>
+import { useStorage } from '@vueuse/core'
 import { searchApi } from '../apis/repositories/search'
 
 useHead({
@@ -23,6 +24,7 @@ const toastMessage = ref('')
 const toastType = ref('')
 const isDataLoading = ref(true)
 
+const searchHistory = useStorage('searchHistory', [])
 const pagination = reactive({ page: 1, totalCount: 10 })
 const query = reactive({
   sort: '-updatedAt',
@@ -37,7 +39,7 @@ const searchForm = reactive({
 })
 
 function resetSearchForm() {
-  searchForm.keyWord = ''
+  // searchForm.keyWord = ''
   searchForm.location = 0
   searchForm.gender = 0
   selected.value = []
@@ -52,6 +54,8 @@ async function keywordSearch() {
     searchCriteriaStore.searchResultsList = data.resultList
     pagination.totalCount = data?.pagination?.totalCount || 0
 
+    searchHistory.value.push(searchForm.keyWord)
+
     resetSearchForm()
   }
   catch (error) {
@@ -63,6 +67,17 @@ async function keywordSearch() {
   finally {
     // await new Promise(resolve => setTimeout(resolve, 2000))
     isDataLoading.value = false
+  }
+}
+
+const lastEnterTime = ref(0)
+function handleKeyup(event) {
+  if (event.key === 'Enter') {
+    const now = Date.now()
+    if (now - lastEnterTime.value < 500)
+      keywordSearch()
+
+    lastEnterTime.value = now
   }
 }
 
@@ -148,7 +163,7 @@ const sortOption = ref([
               placeholder="輸入理想對象的職業、興趣、星座..."
               value-attribute="value"
               option-attribute="label"
-              @keydown.enter="($event) => !$event.shiftKey && keywordSearch()"
+              @keydown="handleKeyup"
             />
           </div>
           <div class="flex gap-2 lg:gap-4">

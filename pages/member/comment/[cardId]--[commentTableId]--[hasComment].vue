@@ -1,4 +1,6 @@
 <script setup>
+import { useStorage } from '@vueuse/core'
+
 import { commentApi } from '~/apis/repositories/comment'
 import { matchListApi } from '~/apis/repositories/matchList'
 
@@ -16,8 +18,11 @@ const renderData = ref([])
 
 const toastMessage = ref('')
 const toastType = ref('')
-const beforeRoute = ref(window.history.state.back)
 
+const beforeRoute = useStorage('beforeRoute', '')
+onMounted(() => {
+  beforeRoute.value = window.history.state.back
+})
 // 判斷進入哪一個用戶的已給評價
 if (beforeRoute.value.includes('MatchResult')) {
   matchResult.result.map((item) => {

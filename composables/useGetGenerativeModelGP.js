@@ -35,7 +35,7 @@ export async function useGetGenerativeModelGP(prompt) {
 `
 
   const model = await useGenAi('gemini-1.5-flash') // 'gemini-1.5-flash' 'gemini-pro'
-  const result = await model.generateContent(rule2)
+  const result = await model.generateContent(rule1)
   const response = await result.response
   const text = response.text()
 
