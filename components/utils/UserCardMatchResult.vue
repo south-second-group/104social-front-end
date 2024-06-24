@@ -66,8 +66,9 @@ function createRenderValue(key, value) {
 </script>
 
 <template>
+  <!-- 無userId就隱藏，可能原因帳號不完全 -->
   <section
-    v-if="!isDataLoading && Object.keys(resultItem).length > 0"
+    v-if="!isDataLoading && Object.keys(resultItem).length > 0 && resultItem.matchListSelfSetting && resultItem.matchListSelfSetting.userId"
     class="w-full space-y-4 rounded-[10px] border-2 border-neutral-300 bg-white p-4 md:p-6"
   >
     <!-- 上 -->
@@ -125,6 +126,7 @@ function createRenderValue(key, value) {
       <div class="shrink-1 w-full space-y-6 text-start">
         <div class="space-y-1">
           <h2
+            v-if="resultItem.matchListSelfSetting && resultItem.matchListSelfSetting.userId"
             class="text-H4 text-neutral-600"
             :class="{
               'font-montserrat': !useIsChineseFunc(
@@ -260,7 +262,7 @@ function createRenderValue(key, value) {
 
     <!-- 下 -->
     <div
-      v-if="resultItem.profile.userStatus "
+      v-if="resultItem.profile.userStatus"
       class="flex flex-wrap justify-end"
     >
       <ClientOnly>

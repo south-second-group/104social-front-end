@@ -1,6 +1,7 @@
 <script setup>
 import { useStorage } from '@vueuse/core'
 import { searchApi } from '../apis/repositories/search'
+import { matchListApi } from '~/apis/repositories/matchList'
 
 useHead({
   title: '尋找對象',
@@ -102,6 +103,7 @@ onMounted(async () => {
   window.addEventListener('resize', checkScreenSize)
 
   await resetSearchForm()
+  await matchListApi.getMatchListSelf()
   keywordSearch()
 })
 

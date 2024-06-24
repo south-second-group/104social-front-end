@@ -153,7 +153,9 @@ function getKeyLabel(key) {
 function renderValue(key, value) {
   if (Array.isArray(value)) {
     return value
-      .map(v => matchListOptionData.value[0][key][v].label)
+      .map(v => matchListOptionData.value[0][key][v].label !== '請選擇'
+        ? matchListOptionData.value[0][key][v].label
+        : '對方保留')
       .join('、')
   }
 
