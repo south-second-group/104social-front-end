@@ -39,7 +39,7 @@ const searchForm = reactive({
 })
 
 function resetSearchForm() {
-  // searchForm.keyWord = ''
+  searchForm.keyWord = ''
   searchForm.location = 0
   searchForm.gender = 0
   selected.value = []
@@ -56,7 +56,7 @@ async function keywordSearch() {
 
     searchHistory.value.push(searchForm.keyWord)
 
-    resetSearchForm()
+    // resetSearchForm()
   }
   catch (error) {
     console.error(error)
@@ -67,6 +67,7 @@ async function keywordSearch() {
   finally {
     // await new Promise(resolve => setTimeout(resolve, 2000))
     isDataLoading.value = false
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 }
 
@@ -129,25 +130,33 @@ const genderOption = [
 const sortOption = ref([
   { label: '最近更新', value: '-updatedAt' },
   { label: '最久更新', value: 'updatedAt' },
-  { label: '最高評分', value: '-score' },
-  { label: '最低評分', value: 'score' },
+  {
+    label: '最高評分',
+    value: '{ "scoreByProfile.userStatus.commentScore": -1 }',
+  },
+  {
+    label: '最低評分',
+    value: '{ "scoreByProfile.userStatus.commentScore": 1 }',
+  },
 ])
 </script>
 
 <template>
   <div class="container">
+    <h1 class="sr-only">
+      尋找對象
+    </h1>
     <Toast
       :toast-message="toastMessage"
       :toast-type="toastType"
     />
 
-    <h1 class="sr-only">
-      尋找對象
-    </h1>
-    <div v-if="searchCriteriaStore.searchResultsList.length > 0 && !isDataLoading">
+    <div
+      v-if="searchCriteriaStore.searchResultsList.length > 0 && !isDataLoading"
+    >
       <!-- {{ searchCriteriaStore.searchResultsList[0] }} -->
+      <!-- {{ searchForm }} -->
     </div>
-    <!-- {{ searchForm }} -->
 
     <div class="grid grid-cols-12 gap-6 py-5 lg:py-20">
       <div class="col-span-12 mt-4 lg:col-span-9">
@@ -160,7 +169,7 @@ const sortOption = ref([
               color="primary"
               variant="none"
               size="xl"
-              placeholder="輸入理想對象的職業、興趣、星座..."
+              placeholder="輸入理想對象的職業、興趣"
               value-attribute="value"
               option-attribute="label"
               @keydown="handleKeyup"
@@ -210,16 +219,30 @@ const sortOption = ref([
                   </template>
                 </UPopover>
               </div>
-              <div class="lg:w-full">
+              <div class="flex lg:w-full">
                 <UButton
                   :ui="{ rounded: 'rounded-full' }"
-                  class="ms-2 border-2 border-primary-dark bg-primary-dark p-2 text-base font-bold transition delay-150 ease-in-out hover:text-primary-dark lg:ms-4 lg:w-full lg:px-5 lg:py-2"
+                  class="ms-2 border-2 border-primary-dark bg-primary-dark p-2 text-base font-bold transition delay-150 ease-in-out hover:text-primary-dark lg:ms-4 lg:px-3 lg:py-2"
+                  :disabled="isDataLoading"
+                  :class="{ ' pointer-events-none': isDataLoading }"
                   @click="keywordSearch"
                 >
                   <p class="hidden lg:block">
                     搜尋
                   </p>
                   <icon-heroicons-magnifying-glass class="size-6 lg:hidden" />
+                </UButton>
+                <UButton
+                  :ui="{ rounded: 'rounded-full' }"
+                  class="ms-2 border-2 border-neutral-300 bg-neutral-300 p-2 text-base font-bold transition delay-150 ease-in-out hover:text-neutral-300 lg:ms-4 lg:px-3 lg:py-2"
+                  :disabled="isDataLoading"
+                  :class="{ ' pointer-events-none': isDataLoading }"
+                  @click="resetSearchForm"
+                >
+                  <p class="hidden lg:block">
+                    清空
+                  </p>
+                  <icon-heroicons-archive-box class="size-6 lg:hidden" />
                 </UButton>
               </div>
             </div>
