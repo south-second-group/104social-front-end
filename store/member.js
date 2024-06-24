@@ -121,6 +121,15 @@ export const useMemberStore = defineStore('member', () => {
       if (matchRes) {
         const { data } = matchRes
 
+        // 若選兩個就清除請選擇 （暫時，之後直接改選項）
+        if (data.personalInfo.activities.length > 1) {
+          data.personalInfo.activities = data.personalInfo.activities.filter(
+            i => i !== 0,
+          )
+        }
+        if (data.workInfo.industry.length > 1)
+          data.workInfo.industry = data.workInfo.industry.filter(i => i !== 0)
+
         matchListSelfSettingData.value = data
         matchListSelfSettingData.value.searchDataBase = []
 

@@ -13,12 +13,18 @@ const toastType = ref('')
 
 const pagination = reactive({ page: 1, totalCount: 1 })
 const sortOption = ref([
-  { label: '最近更新', value: 'desc' },
-  { label: '最久更新', value: 'asc' },
-  { label: '最高評分', value: 'hightScore' },
-  { label: '最低評分', value: 'lowScore' },
+  { label: '最近更新', value: '-updatedAt' },
+  { label: '最久更新', value: 'updatedAt' },
+  {
+    label: '最高評分',
+    value: '{ "scoreByProfile.userStatus.commentScore": -1 }',
+  },
+  {
+    label: '最低評分',
+    value: '{ "scoreByProfile.userStatus.commentScore": 1 }',
+  },
 ])
-const sortSelected = ref('desc')
+const sortSelected = ref('-updatedAt')
 
 async function getMatchResult(page, sort) {
   isDataLoading.value = true
@@ -60,7 +66,7 @@ watch(
 <template>
   <div class="container text-start">
     <!-- {{ matchResult.result[0].profile.userStatus.commentCount }} -->
-    {{ matchResult.result[0] }}
+    <!-- {{ matchResult.result[0] }} -->
 
     <div class="mx-auto">
       <h1 class="text-H4 md:text-H3 mb-6 mt-[80px] text-start md:mb-[20px]">

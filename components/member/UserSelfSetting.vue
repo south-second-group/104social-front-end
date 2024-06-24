@@ -54,6 +54,17 @@ function renderValue(key, value) {
         memberStore.matchListSelfSettingData.searchDataBase.push(item)
     })
 
+    // 將名稱加入搜尋資料庫
+    if (
+      !memberStore.matchListSelfSettingData.searchDataBase.includes(
+        memberStore.basicInfo.name,
+      )
+    ) {
+      memberStore.matchListSelfSettingData.searchDataBase.push(
+        memberStore.basicInfo.name,
+      )
+    }
+
     return arrayLabel.join('、')
   }
 
@@ -67,6 +78,7 @@ function renderValue(key, value) {
   return label
 }
 
+// 看起來被 member.js的函式取代了
 async function saveMatchListSelfSetting() {
   try {
     const res = await matchListApi.updateMatchListSelf(
@@ -159,7 +171,8 @@ const accordionItems = [
             :class="!isDataLoading ? '!grid' : ''"
           >
             <div
-              v-for="(value, key) in memberStore.matchListSelfSettingData.personalInfo"
+              v-for="(value, key) in memberStore.matchListSelfSettingData
+                .personalInfo"
               :key="key"
               class="mb-2 flex h-[35px] items-center"
             >
@@ -169,7 +182,9 @@ const accordionItems = [
               <div>
                 <div v-if="memberStore.editStatus">
                   <USelectMenu
-                    v-model="memberStore.matchListSelfSettingData.personalInfo[key]"
+                    v-model="
+                      memberStore.matchListSelfSettingData.personalInfo[key]
+                    "
                     :options="matchListOptionData[0][key]"
                     class="w-[303px] rounded-md border border-neutral-300 bg-white text-neutral-500"
                     size="xl"
@@ -208,7 +223,8 @@ const accordionItems = [
             :class="!isDataLoading ? '!grid' : ''"
           >
             <div
-              v-for="(value, key) in memberStore.matchListSelfSettingData.workInfo"
+              v-for="(value, key) in memberStore.matchListSelfSettingData
+                .workInfo"
               :key="key"
               class="mb-2 flex h-[35px] items-center"
             >

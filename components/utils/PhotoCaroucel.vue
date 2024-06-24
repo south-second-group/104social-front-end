@@ -5,7 +5,7 @@ const props = defineProps({
 
 const items = ref([
   props.photoDetails.photo,
-  'http://localhost:8001/_nuxt/assets/img/member/Image03.png',
+  'https://firebasestorage.googleapis.com/v0/b/my-first-project-1110913.appspot.com/o/104social%2F1716519560969.jpg?alt=media&token=eb42f638-6328-48a8-a151-ef0d55970ffc',
   'https://picsum.photos/600/800?random=3',
   'https://picsum.photos/600/800?random=4',
   'https://picsum.photos/600/800?random=5',

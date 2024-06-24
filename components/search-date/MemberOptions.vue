@@ -1,5 +1,5 @@
 <script setup>
-const popularTag = ['水瓶座', '年薪百萬', '性格外向', '父母雙亡', '00940']
+const popularTag = ['水瓶座']
 
 // const userGenderOptions = [{
 //   value: 'male',
@@ -76,18 +76,30 @@ onUnmounted(() => {
       <p class="mb-4 text-[20px] font-bold text-primary-dark">
         會員享福利
       </p>
-      <div class="mb-2 flex cursor-pointer items-center rounded-xl bg-white p-4 text-zinc-600 shadow-[#F4766E1A] transition duration-300 ease-in-out hover:text-primary-dark">
-        <icon-heroicons-lock-open />
+      <div class="mb-2 flex items-center rounded-xl bg-white p-4 text-zinc-600 shadow-[#F4766E1A] transition duration-300 ease-in-out hover:text-primary-dark">
+        <icon-heroicons-user />
         <p class="ms-2 font-bold">
-          解鎖評價
+          註冊即送點數
         </p>
       </div>
-      <div class="flex cursor-pointer items-center rounded-xl bg-white p-4 text-zinc-600 shadow-[#F4766E1A] transition duration-300 ease-in-out hover:text-primary-dark">
+      <div class="mb-2 flex items-center rounded-xl bg-white p-4 text-zinc-600 shadow-[#F4766E1A] transition duration-300 ease-in-out hover:text-primary-dark">
+        <icon-heroicons-chat-bubble-left-ellipsis />
+        <p class="ms-2 font-bold">
+          自由聊天邀約
+        </p>
+      </div>
+      <div class="mb-2 flex items-center rounded-xl bg-white p-4 text-zinc-600 shadow-[#F4766E1A] transition duration-300 ease-in-out hover:text-primary-dark">
+        <icon-heroicons-lock-open />
+        <p class="ms-2 font-bold">
+          解鎖真實評價
+        </p>
+      </div>
+      <!-- <div class="flex items-center rounded-xl bg-white p-4 text-zinc-600 shadow-[#F4766E1A] transition duration-300 ease-in-out hover:text-primary-dark">
         <icon-heroicons-sparkles-solid />
         <p class="ms-2 font-bold">
           成為精選會員
         </p>
-      </div>
+      </div> -->
     </div>
     <!-- <div class="mb-4 rounded-xl border border-zinc-200 p-6 lg:mb-6">
       <div class="mb-10">
@@ -127,7 +139,7 @@ onUnmounted(() => {
       <div class="mb-6 flex items-center justify-center text-zinc-600">
         <icon-heroicons-fire-solid class="size-6" />
         <p class="ms-2 text-[20px] font-bold">
-          熱門關鍵字
+          熱門標籤
         </p>
       </div>
       <div class="flex flex-wrap gap-2">
