@@ -152,7 +152,7 @@ export const useMemberStore = defineStore('member', () => {
         basicInfo.email = userInfo.personalInfo.email
         basicInfo.rating = userStatus.rating
         basicInfo.isMatch = exposureSettings.isMatch
-        basicInfo.point = userStatus.point
+        basicInfo.point = userInfo.points
 
         personalPhoto.photo = photoDetails.photo
         personalPhoto.isShow = photoDetails.isShow
