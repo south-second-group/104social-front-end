@@ -28,6 +28,7 @@ const toastMessage = ref('')
 const toastType = ref('')
 const isLoading = ref(false)
 const isCheer = ref(false)
+const isFetch = ref(false)
 
 // 彈窗邏輯
 const isOpenModal = defineModel()
@@ -227,7 +228,7 @@ addedValue.add(`我的名字是：${props.cardUserName}`)
 // const theme = Array.from(addedValue)
 
 async function fetchAnswer() {
-  isLoading.value = true
+  isFetch.value = true
   inviteForm.message.content = ''
 
   try {
@@ -255,7 +256,7 @@ async function fetchAnswer() {
     toastType.value = 'error'
   }
   finally {
-    isLoading.value = false
+    isFetch.value = false
 
     await new Promise(resolve => setTimeout(resolve, 2000))
     isCheer.value = false
@@ -512,17 +513,17 @@ async function rejectInvitation() {
               :ui="{ base: ' focus:!ring-primary-dark focus:!ring-1' }"
               :rows="10"
               :placeholder="
-                isLoading
+                isFetch
                   ? ''
                   : '請填寫邀約訊息，推薦主題：電影、音樂會、餐廳、運動、旅行等...'
               "
               :disabled="
-                isLoading || inviteForm.message.content.length === 1000
+                isFetch || inviteForm.message.content.length === 1000
               "
             />
 
             <div
-              v-show="isLoading"
+              v-show="isFetch"
               class="absolute left-2 top-2 space-y-3"
             >
               <USkeleton
@@ -545,7 +546,7 @@ async function rejectInvitation() {
             <button
               type="button"
               class="btn-linear-sm absolute bottom-2 right-2 !p-0 opacity-[70]"
-              :disabled="isLoading"
+              :disabled="isFetch"
               @click.prevent="fetchAnswer"
             >
               <UTooltip text="消耗 50 點/次">
@@ -569,14 +570,14 @@ async function rejectInvitation() {
         <section class="mt-4 flex justify-center">
           <button
             class="px-[20px] py-[8px] text-[16px] leading-[24px] text-primary-dark"
-            :disabled="isLoading"
+            :disabled="isLoading || isFetch"
             @click="isOpenModal = false"
           >
             <p>取消</p>
           </button>
           <button
             class="rounded-full bg-primary-dark px-[20px] py-[8px] text-[16px] leading-[24px] text-white"
-            :disabled="isLoading"
+            :disabled="isLoading || isFetch"
             @click="postInvitation"
           >
             <p>發送邀約</p>
