@@ -66,6 +66,7 @@ function createRenderValue(key, value) {
 </script>
 
 <template>
+  <!-- {{ resultItem.commentTableId }} -->
   <!-- 無userId就隱藏，可能原因帳號不完全 -->
   <section
     v-if="!isDataLoading && Object.keys(resultItem).length > 0 && resultItem.matchListSelfSetting && resultItem.matchListSelfSetting.userId"
