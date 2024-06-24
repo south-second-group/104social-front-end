@@ -1,18 +1,6 @@
-<!-- 儲值方案 -->
 <script setup>
-import { ref } from 'vue'
-
-const pointsType = ['100點', '200點', '300點', '400點', '500點', '600點', '700點', '800點', '900點', '1000點']
-const pointsSelected = ref('100點')
 const router = useRouter()
-
-// 新增函數，用來從選擇的點數中提取數字並計算價格
-function calculatePrice(points) {
-  if (!points)
-    return 150 // 如果沒有選擇點數，返回基本價格
-  const numericPoints = Number.parseInt(points.match(/\d+/)[0]) // 從字串中提取數字
-  return numericPoints * 1.5 // 根據點數計算價格
-}
+const orderStore = useOrderStore()
 
 function navigateToPayPage() {
   router.push('/order/PayPage')
@@ -26,15 +14,15 @@ function navigateToPayPage() {
         儲值方案
       </p>
       <div class="mb-4">
-        <span class="text-H3 font-bold">{{ pointsSelected || '100點' }}</span>
-        <span class="text-B1 text-neutral-400"> / NTD$ {{ calculatePrice(pointsSelected) }}</span>
+        <span class="text-H3 font-bold">{{ orderStore.pointsSelected || '100點' }}</span>
+        <span class="text-B1 text-neutral-400"> / NTD$ {{ orderStore.totalPrice }}</span>
       </div>
 
       <div class="mb-4 flex justify-between lg:mb-6">
         <div class="mr-2 h-12 w-full rounded-lg border bg-white">
           <USelectMenu
-            v-model="pointsSelected"
-            :options="pointsType"
+            v-model="orderStore.pointsSelected"
+            :options="orderStore.pointsType"
             placeholder="請選擇要儲值的點數"
             class="text-gray-400"
             size="xl"
