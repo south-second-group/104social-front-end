@@ -208,7 +208,7 @@ function createRenderValue(key, value) {
               :key="i"
               class="text-B2 text-neutral-300"
             >
-              {{ i === '請選擇' ? '對方保留產業資訊' : i }}{{ ' ' }}
+              {{ i === '請選擇' ? '保留產業資訊' : i }}{{ ' ' }}
             </span>
           </div>
         </div>
@@ -236,7 +236,7 @@ function createRenderValue(key, value) {
                   'pointer-events-none !text-neutral-300': item === '請選擇',
                 }"
               >
-                {{ item === '請選擇' ? '無選擇嗜好' : item }}{{ ' ' }}</a>
+                {{ item === '請選擇' ? '無興趣嗜好' : item }}{{ ' ' }}</a>
             </span>
           </div>
           <div class="flex justify-end space-x-2">

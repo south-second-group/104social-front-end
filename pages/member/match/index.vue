@@ -67,6 +67,22 @@ async function getMatchList() {
   try {
     const res = await matchListApi.matchList()
     const { data } = res
+
+    // 若選兩個就清除請選擇 （暫時，之後直接改選項 為禁用請選擇 0輸入保留）
+    if (data.personalInfo.activities.length > 1) {
+      data.personalInfo.activities = data.personalInfo.activities.filter(
+        i => i !== 0,
+      )
+    }
+    if (data.workInfo.industry.length > 1)
+      data.workInfo.industry = data.workInfo.industry.filter(i => i !== 0)
+
+    if (data.blacklist.banIndustry.length > 1) {
+      data.blacklist.banIndustry = data.blacklist.banIndustry.filter(
+        i => i !== 0,
+      )
+    }
+
     matchListData.value = data
     tempMatchListData.value = JSON.parse(JSON.stringify(data))
   }
@@ -119,6 +135,8 @@ async function saveMatchList() {
     editMode.value = false
     isEditEmail.value = false
     tempMatchListData.value = JSON.parse(JSON.stringify(matchListData.value))
+
+    await getMatchList()
     getMatchResult()
   }
 }
@@ -161,12 +179,13 @@ matchListApi.getMatchListSelf().then((res) => {
 <template>
   <div class="container text-start">
     <div class="mx-auto">
-      matchListData <br>
+      <!-- matchListData <br>
       {{ matchListData }}
 
       <hr>
       MatchListSelf<br>
-      {{ temp }}
+      {{ temp }} -->
+
       <h1 class="text-H4 md:text-H3 mb-6 mt-[80px] text-start md:mb-[20px]">
         配對設定
       </h1>
@@ -185,7 +204,7 @@ matchListApi.getMatchListSelf().then((res) => {
           }}</span>
           <button
             class="text-primary-dark"
-            :disabled="toastMessage !== ''"
+            :disabled="matchListData.noticeInfo.email === ''"
             @click="toggleEditEmail()"
           >
             <icon-heroicons:pencil-square />
