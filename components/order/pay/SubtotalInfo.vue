@@ -1,12 +1,8 @@
 <script setup>
-import { defineProps } from 'vue'
-
-const props = defineProps({
-  totalPrice: Number,
-})
+const orderStore = useOrderStore()
 
 function handlePayment() {
-  alert('進行付款流程')
+  orderStore.checkout()
 }
 </script>
 
@@ -18,7 +14,7 @@ function handlePayment() {
           小計
         </div>
         <div class="text-H4">
-          NTD$ {{ props.totalPrice }}
+          NTD$ {{ orderStore.totalPrice }}
         </div>
       </div>
       <div class="mt-6">

@@ -1,5 +1,5 @@
 <script setup>
-import { computed, defineProps, ref, watch } from 'vue'
+import { inviteListApi } from '~/apis/repositories/inviteList'
 
 const props = defineProps({
   showModal: {
@@ -14,16 +14,14 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  onConfirm: {
-    type: Function,
-    required: true,
-  },
   onClose: {
     type: Function,
     required: true,
   },
 })
 
+// const emit = defineEmits(['refreshWhoList'])
+const matchResult = useMatchResultStore()
 const isModalOpen = ref(props.showModal)
 const toastMessage = ref('')
 const toastType = ref('')
@@ -48,25 +46,22 @@ watch(() => props.showModal, (newVal) => {
   isModalOpen.value = newVal
 })
 
+// 刪除邀約
 async function deleteModalClick() {
+  isLoading.value = true
   try {
-    isLoading.value = true
-    await props.onConfirm(props.resultItem.id)
-    toastMessage.value = '刪除成功'
+    const res = await inviteListApi.deleteInviteWho(props.resultItem._id)
+    // emit('refreshWhoList')
+    toastMessage.value = '刪除邀約成功'
     toastType.value = 'success'
-    setTimeout(() => {
-      toastMessage.value = ''
-      toastType.value = ''
-    }, 3000)
+
+    matchResult.result = matchResult.result.filter(item => item.data.userId !== props.resultItem.invitedUserId)
   }
   catch (error) {
-    toastMessage.value = '刪除失敗'
-    toastType.value = 'error'
-    setTimeout(() => {
-      toastMessage.value = ''
-      toastType.value = ''
-    }, 3000)
     console.error('Error deleting:', error)
+
+    toastMessage.value = '刪除邀約失敗，請通知開發者'
+    toastType.value = 'error'
   }
   finally {
     isLoading.value = false
@@ -78,6 +73,8 @@ async function deleteModalClick() {
 
 <template>
   <div>
+    <utilsFireWork :is-fire-work="isLoading" />
+
     <UModal
       v-model="isModalOpen"
       :overlay="true"
@@ -107,6 +104,7 @@ async function deleteModalClick() {
         <section class="-mt-4 flex justify-center">
           <button
             class="px-[20px] py-[8px] text-[16px] leading-[24px] text-primary-dark"
+            :disabled="isLoading"
             @click="isModalOpen = false; props.onClose()"
           >
             <p>取消</p>

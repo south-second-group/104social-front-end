@@ -9,7 +9,7 @@ const props = defineProps({
 function getBtnClass(status) {
   switch (status) {
     case 'pending':
-      return 'bg-special-dark'
+      return 'bg-primary-dark'
     case 'finishDating':
       return 'bg-special-info'
     case 'cancel':

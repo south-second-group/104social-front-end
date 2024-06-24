@@ -36,9 +36,15 @@ const functionButtonsList = [
     <div class="flex w-full space-x-6 rounded-[10px] bg-[#FFF5F5] p-4 lg:p-6">
       <div class="size-[100px] overflow-hidden rounded-full lg:size-[120px]">
         <NuxtImg
-          :src="memberStore.previewImage || memberStore.avatar"
+          v-if="memberStore.previewImage || memberStore.personalPhoto.photo"
+          :src="memberStore.previewImage || memberStore.personalPhoto.photo"
           alt="UserSticker Image"
           class="size-full object-cover"
+        />
+        <USkeleton
+          v-else
+          class="size-full"
+          :ui="{ rounded: 'rounded-full' }"
         />
       </div>
 
@@ -81,7 +87,7 @@ const functionButtonsList = [
         </li>
       </ul>
 
-      <router-link to="/order/PayPage">
+      <router-link to="/order/OrderList">
         <GradientButton class="m-[2px] px-4 py-2 lg:py-2 xl:px-5">
           <GradientButtonText
             text="儲值"

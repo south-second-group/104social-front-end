@@ -115,7 +115,9 @@ function handleClick(status) {
       @click="handleClick(props.status)"
     >
       <icon-heroicons:lock-closed />
-      <p>{{ btnText }}</p>
+      <UTooltip text="消耗 5 點/次">
+        <p>{{ btnText }}</p>
+      </UTooltip>
     </button>
 
     <!-- 完成約會 -->
