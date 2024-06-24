@@ -23,7 +23,10 @@ export const useMemberStore = defineStore('member', () => {
   })
 
   // 大頭貼
-  const avatar = ref('')
+  const personalPhoto = reactive({
+    photo: '',
+    isShow: false,
+  })
 
   // 自我介紹
   const personalIntro = reactive({
@@ -142,7 +145,8 @@ export const useMemberStore = defineStore('member', () => {
         basicInfo.isMatch = exposureSettings.isMatch
         basicInfo.point = userStatus.point
 
-        avatar.value = photoDetails.photo
+        personalPhoto.photo = photoDetails.photo
+        personalPhoto.isShow = photoDetails.isShow
 
         personalIntro.content = introDetails.intro
         personalIntro.isShow = introDetails.isShow
@@ -180,8 +184,8 @@ export const useMemberStore = defineStore('member', () => {
   async function changeInfo() {
     const updateData = {
       photoDetails: {
-        photo: '',
-        isShow: false,
+        photo: personalPhoto.photo,
+        isShow: personalPhoto.isShow,
       },
       introDetails: {
         intro: personalIntro.content,
@@ -211,17 +215,16 @@ export const useMemberStore = defineStore('member', () => {
       try {
         const uploadRes = await memberAPI.uploadImage(formData)
         updateData.photoDetails.photo = uploadRes.data.user.photo
-        avatar.value = uploadRes.data.user.photo
+        personalPhoto.photo = uploadRes.data.user.photo
         previewImage.value = uploadRes.data.user.photo
       }
       catch (error) {
-        updateData.photoDetails.photo = avatar.value
-        previewImage.value = avatar.value
+        updateData.photoDetails.photo = personalPhoto.photo
+        previewImage.value = personalPhoto.photo
         console.error(error)
         throw new Error('照片上傳失敗')
       }
     }
-
     try {
       const res = await memberAPI.userDataPatch(updateData)
       await matchListApi.updateMatchListSelf(
@@ -257,7 +260,7 @@ export const useMemberStore = defineStore('member', () => {
     matchListSelfSettingData,
     tempMatchListData,
     basicInfo,
-    avatar,
+    personalPhoto,
     personalIntro,
     personalDetails,
     personalMyTags,

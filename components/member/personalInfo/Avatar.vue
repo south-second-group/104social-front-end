@@ -11,9 +11,16 @@ async function submit() {
   <div class="w-full rounded-xl bg-neutral-100 p-4 lg:flex lg:space-x-6 lg:p-6">
     <div class="h-[240px] overflow-hidden rounded-xl lg:h-full lg:w-2/3 xl:w-[400px]">
       <NuxtImg
-        :src="memberStore.previewImage || memberStore.avatar"
+        v-if="memberStore.previewImage || memberStore.personalPhoto.photo"
+        :src="memberStore.previewImage || memberStore.personalPhoto.photo"
         alt="UserSticker Image"
         class="size-full object-cover"
+      />
+
+      <USkeleton
+        v-else
+        class="size-full"
+        :ui="{ rounded: 'rounded-xl', background: 'bg-primary-dark' }"
       />
     </div>
 
