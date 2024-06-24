@@ -8,8 +8,13 @@ useHead({
 })
 
 const searchCriteriaStore = useSearchCriteriaStore()
-const { selected, excluded } = storeToRefs(searchCriteriaStore)
-const { removeSelectedTag, removeExcludedHashtag } = searchCriteriaStore
+const { selected, excluded, searchForm, genderOption }
+  = storeToRefs(searchCriteriaStore)
+const {
+  removeSelectedTag,
+  removeExcludedHashtag,
+  resetSearchForm,
+} = searchCriteriaStore
 
 const isDesktop = ref(false)
 function checkScreenSize() {
@@ -31,31 +36,16 @@ const query = reactive({
   sort: '-updatedAt',
   page: pagination.page,
 })
-const searchForm = reactive({
-  keyWord: '',
-  location: 0,
-  gender: 0,
-  tags: selected,
-  notTags: excluded,
-})
-
-function resetSearchForm() {
-  searchForm.keyWord = ''
-  searchForm.location = 0
-  searchForm.gender = 0
-  selected.value = []
-  excluded.value = []
-}
 
 async function keywordSearch() {
   isDataLoading.value = true
   try {
-    const { data } = await searchApi.keywordSearch(query, searchForm)
+    const { data } = await searchApi.keywordSearch(query, searchForm.value)
 
     searchCriteriaStore.searchResultsList = data.resultList
     pagination.totalCount = data?.pagination?.totalCount || 0
 
-    searchHistory.value.push(searchForm.keyWord)
+    searchHistory.value.push(searchForm.value.keyWord)
 
     // resetSearchForm()
   }
@@ -102,7 +92,7 @@ onMounted(async () => {
   checkScreenSize()
   window.addEventListener('resize', checkScreenSize)
 
-  await resetSearchForm()
+  // await resetSearchForm();
   await matchListApi.getMatchListSelf()
   keywordSearch()
 })
@@ -119,14 +109,6 @@ const locationOption = [
   { value: 4, label: '西部' },
   { value: 5, label: '中部' },
   { value: 6, label: '海外' },
-]
-
-const genderOption = [
-  { value: 0, label: '不限' },
-  { value: 1, label: '男性' },
-  { value: 2, label: '女性' },
-  { value: 3, label: '其他' },
-  { value: 4, label: '不透露' },
 ]
 
 const sortOption = ref([
@@ -196,6 +178,7 @@ const sortOption = ref([
               class="h-12 w-full min-w-[120px] rounded-lg border bg-white lg:min-w-[160px]"
             >
               <USelectMenu
+                v-if="!isDataLoading"
                 v-model="searchForm.gender"
                 :options="genderOption"
                 placeholder="性別"

@@ -1,24 +1,17 @@
 <script setup>
+const searchCriteriaStore = useSearchCriteriaStore()
+const { searchForm, genderOption } = storeToRefs(searchCriteriaStore)
+
 const router = useRouter()
+const isDataLoading = ref(true)
 
-const gender = ['男性', '女性', '其他']
-const genderSelected = ref(null)
-
-const searchType = ['男性', '女性', '其他']
-const searchTypeSelected = ref(null)
-
-const keyWord = ref(null)
-
-const userDataStore = useUserDataStore()
-const { userData } = storeToRefs(userDataStore)
-
-/* Submit */
 function submit() {
   router.push('/search-date')
-  // console.log('gender', genderSelected.value)
-  // console.log('searchType', searchTypeSelected.value)
-  // console.log('keyWord', keyWord.value)
 }
+
+onMounted(() => {
+  isDataLoading.value = false
+})
 </script>
 
 <template>
@@ -59,28 +52,6 @@ function submit() {
       <!-- 搜尋元件 -->
       <div class="p-9">
         <div class="h-full space-y-9">
-          <!-- 我是 -->
-          <div
-            v-show="!userData"
-            class=""
-          >
-            <p class="text-left text-xl font-bold">
-              我是
-            </p>
-
-            <!-- 搜尋欄位 -->
-            <div class="mt-2 h-12 w-full rounded-lg border bg-white">
-              <USelectMenu
-                v-model="genderSelected"
-                :options="gender"
-                placeholder="請選擇性別"
-                class="text-gray-400"
-                size="xl"
-                variant="none"
-              />
-            </div>
-          </div>
-
           <!-- 我想尋找 -->
           <div class="">
             <p class="text-left text-xl font-bold">
@@ -90,12 +61,15 @@ function submit() {
             <!-- 搜尋欄位 -->
             <div class="mt-2 h-12 w-full rounded-lg border bg-white">
               <USelectMenu
-                v-model="searchTypeSelected"
-                :options="searchType"
+                v-if="!isDataLoading"
+                v-model="searchForm.gender"
+                :options="genderOption"
                 placeholder="請選擇性別"
                 class="text-gray-400"
                 size="xl"
                 variant="none"
+                value-attribute="value"
+                option-attribute="label"
               />
             </div>
           </div>
@@ -109,7 +83,7 @@ function submit() {
             <!-- 搜尋欄位 -->
             <div class="mt-2 h-12 w-full rounded-lg border bg-white">
               <UInput
-                v-model="keyWord"
+                v-model="searchForm.keyWord"
                 color="primary"
                 variant="none"
                 size="xl"
@@ -119,7 +93,6 @@ function submit() {
           </div>
 
           <!-- 搜尋按鈕 -->
-
           <GradientButton
             class="m-[2px] w-full"
             @click="submit"
@@ -224,28 +197,6 @@ function submit() {
 
         <div class="p-[60px]">
           <div class="h-full space-y-[60px]">
-            <!-- 我是 -->
-            <div
-              v-show="!userData"
-              class=""
-            >
-              <p class="text-left text-xl font-bold">
-                我是
-              </p>
-
-              <!-- 搜尋欄位 -->
-              <div class="mt-2 h-12 w-full rounded-lg border bg-white">
-                <USelectMenu
-                  v-model="genderSelected"
-                  :options="gender"
-                  placeholder="請選擇性別"
-                  class="text-gray-400"
-                  size="xl"
-                  variant="none"
-                />
-              </div>
-            </div>
-
             <!-- 我想尋找 -->
             <div class="">
               <p class="text-left text-xl font-bold">
@@ -255,12 +206,15 @@ function submit() {
               <!-- 搜尋欄位 -->
               <div class="mt-2 h-12 w-full rounded-lg border bg-white">
                 <USelectMenu
-                  v-model="searchTypeSelected"
-                  :options="searchType"
+                  v-if="!isDataLoading"
+                  v-model="searchForm.gender"
+                  :options="genderOption"
                   placeholder="請選擇性別"
                   class="text-gray-400"
                   size="xl"
                   variant="none"
+                  value-attribute="value"
+                  option-attribute="label"
                 />
               </div>
             </div>
@@ -274,7 +228,7 @@ function submit() {
               <!-- 搜尋欄位 -->
               <div class="mt-2 h-12 w-full rounded-lg border bg-white">
                 <UInput
-                  v-model="keyWord"
+                  v-model="searchForm.keyWord"
                   color="primary"
                   variant="none"
                   size="xl"
