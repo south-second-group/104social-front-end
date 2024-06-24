@@ -1,20 +1,5 @@
 <script setup>
-import { computed, defineEmits, ref } from 'vue'
-
-const emits = defineEmits(['updatePrice', 'updatePoints'])
-// 點數選單
-const pointsType = ['100點', '200點', '300點', '400點', '500點', '600點', '700點', '800點', '900點', '1000點']
-const pointsSelected = ref('100點')
-const pricePerPoint = 1.5
-
-// 計算價格，基於選中的點數
-const totalPrice = computed(() => {
-  const points = Number.parseInt(pointsSelected.value.match(/\d+/)[0])
-  const total = points * pricePerPoint
-  emits('updatePrice', total)
-  emits('updatePoints', pointsSelected.value)
-  return total
-})
+const orderStore = useOrderStore()
 </script>
 
 <template>
@@ -24,19 +9,18 @@ const totalPrice = computed(() => {
         儲值方案
       </p>
       <div class="mb-4 lg:mb-6">
-        <span class="text-H3 md:text-H4 font-bold">{{ pointsSelected }}</span>
-        <span class="text-B1 sm:text-B2 text-neutral-400"> / NTD$ {{ totalPrice }}</span>
+        <span class="text-H3 md:text-H4 font-bold">{{ orderStore.pointsSelected }}</span>
+        <span class="text-B1 sm:text-B2 text-neutral-400"> / NTD$ {{ orderStore.totalPrice }}</span>
       </div>
 
       <div class="mb-4 h-12 w-full rounded-lg border bg-white lg:mb-6">
         <USelectMenu
-          v-model="pointsSelected"
-          :options="pointsType"
+          v-model="orderStore.pointsSelected"
+          :options="orderStore.pointsType"
           placeholder="請選擇要儲值的點數"
           class="text-gray-400"
           size="xl"
           variant="none"
-          @change="() => { emits('updatePoints', pointsSelected.value); emits('updatePrice', totalPrice.value); }"
         />
       </div>
       <div

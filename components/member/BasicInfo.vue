@@ -87,7 +87,7 @@ const functionButtonsList = [
         </li>
       </ul>
 
-      <router-link to="/order/PayPage">
+      <router-link to="/order/OrderList">
         <GradientButton class="m-[2px] px-4 py-2 lg:py-2 xl:px-5">
           <GradientButtonText
             text="儲值"
