@@ -47,7 +47,7 @@ async function keywordSearch() {
 
     searchHistory.value.push(searchForm.value.keyWord)
 
-    // resetSearchForm()
+    resetSearchForm()
   }
   catch (error) {
     console.error(error)
@@ -56,7 +56,6 @@ async function keywordSearch() {
     toastType.value = 'error'
   }
   finally {
-    // await new Promise(resolve => setTimeout(resolve, 2000))
     isDataLoading.value = false
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }

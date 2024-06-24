@@ -83,6 +83,7 @@ onMounted(() => {
             <!-- 搜尋欄位 -->
             <div class="mt-2 h-12 w-full rounded-lg border bg-white">
               <UInput
+                v-if="!isDataLoading"
                 v-model="searchForm.keyWord"
                 color="primary"
                 variant="none"
@@ -228,6 +229,7 @@ onMounted(() => {
               <!-- 搜尋欄位 -->
               <div class="mt-2 h-12 w-full rounded-lg border bg-white">
                 <UInput
+                  v-if="!isDataLoading"
                   v-model="searchForm.keyWord"
                   color="primary"
                   variant="none"
