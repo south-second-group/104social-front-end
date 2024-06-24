@@ -168,8 +168,7 @@ function renderValue(key, value) {
 <template>
   <div class="container p-3 text-start md:px-12">
     <!-- {{ apiData }} -->
-
-    {{ renderData }}
+    <!-- {{ renderData }} -->
 
     <Toast
       :toast-message="toastMessage"
