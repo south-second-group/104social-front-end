@@ -54,7 +54,7 @@ function renderValue(key, value) {
         memberStore.matchListSelfSettingData.searchDataBase.push(item)
     })
 
-        // 將名稱加入搜尋資料庫
+    // 將名稱加入搜尋資料庫
     if (
       !memberStore.matchListSelfSettingData.searchDataBase.includes(
         memberStore.basicInfo.name,
