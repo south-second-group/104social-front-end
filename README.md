@@ -2,22 +2,30 @@
 
 # 104 緣來如此 ( 專業人才媒合網站 ) - 前端
 
-![專案封面圖](https://img.onl/Hk6k7n)
+![專案封面圖](https://firebasestorage.googleapis.com/v0/b/my-first-project-1110913.appspot.com/o/104social%2F104%E7%B7%A3%E4%BE%86%E5%A6%82%E6%AD%A4-%E5%B0%81%E9%9D%A2.png?alt=media&token=3f17c7e4-a691-46f5-9943-5b953ccef2af)
 
-<!-- ![專案封面圖](https://img.onl/CEe8DT) -->
 
-- [swagger 文件](https://104-dev.zeabur.app/api-doc/#/)
+- [前端 DEMO ](https://104social-front-end.vercel.app/)
+- [後端 swagger 文件](https://104-dev.zeabur.app/api-doc/#/)
+- [後端專案 GitHub ](https://github.com/roceil/104_Backend/tree/main/)
 
 ## 功能
 
-測試帳號密碼
+- 測試帳號密碼
+- [測試流程 (Notion)](https://www.notion.so/7bad45f87c9c40ba986bb7a85fc90164?pvs=4)
 
 ```bash
+邀約方
+帳號： snowman12320@gmail.com
+密碼： a1234567
+```
+```bash
+被邀約方
 帳號： 56asdf@hotmail.com
 密碼： a1234567
 ```
 
-### 登出入
+### 登出登入
 
 - [x] 一般登入
 - [x] 第三方登入
@@ -58,7 +66,7 @@
 ### 點數儲值
 
 - [x] 儲值點數
-- [x] 藍星金流付款
+- [x] 藍新金流付款
 
 ### 聊天室
 
@@ -75,15 +83,19 @@
 
 > 搜尋對象
 
-![搜尋對象](https://img.onl/ZizRdM)
+![搜尋對象](https://firebasestorage.googleapis.com/v0/b/my-first-project-1110913.appspot.com/o/104social%2F%E5%B0%8B%E6%89%BE%E5%B0%8D%E8%B1%A1.png?alt=media&token=e1433dd9-8d0f-49bd-ba03-11ca3a4df530)
 
 <!-- ![搜尋對象](https://img.onl/Zdoym2) -->
 
 > 我的邀約列表
+...
+<!-- ![我的邀約列表](https://img.onl/vJidF) -->
 
-![我的邀約列表](https://img.onl/vJidF)
+<!-- ![我的邀約列表](https://img.onl/n1QIjJ) -->
 
-![會員資料](https://img.onl/hb48Ft)
+> 會員資料
+...
+<!-- ![會員資料](https://img.onl/hb48Ft) -->
 
 <!-- ![會員資料](https://img.onl/cUkZYl) -->
 
