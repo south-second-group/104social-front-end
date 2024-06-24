@@ -215,7 +215,7 @@ function toast(message, type) {
                       </li>
                       <li class="text-B2 py-4 text-center">
                         <NuxtLink
-                          to="/about"
+                          to="/about/"
                           class="nav-items"
                           @click="isOpenSlide = false"
                         >

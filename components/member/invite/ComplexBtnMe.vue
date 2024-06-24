@@ -10,6 +10,9 @@ const props = defineProps({
   resultItem: Object,
 })
 
+// 通知渲染列表資料
+// const emit = defineEmits(['refreshWhoList'])
+
 const router = useRouter()
 
 const btnText = computed(() => {
@@ -22,8 +25,6 @@ const btnText = computed(() => {
       return '完成約會'
     case 'status4':
       return '邀約'
-    case 'status5':
-      return '收回邀約'
     case 'status6':
       return '拒絕往來'
     case 'status7':
@@ -50,7 +51,6 @@ const modalStatuses = [
   'status2',
   'status3',
   'status4',
-  'status5',
   'status6',
   'status7',
   'status10',
@@ -142,7 +142,7 @@ function handleClick(status) {
       v-if="
         props.status === 'status8'
           && !hasComment
-          && invitationStatus === 'accepted'
+          && invitationStatus === 'accept'
       "
       class="btn-withIcon-fill mx-[1px] my-[3px] w-[132px] scale-90 md:mx-[6px] md:scale-100"
       @click="handleClick(props.status)"
@@ -171,7 +171,7 @@ function handleClick(status) {
       v-if="
         props.status === 'status10'
           && hasComment
-          && invitationStatus === 'accept'
+          && invitationStatus === 'accepted'
       "
       class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
       @click="handleClick(props.status)"
@@ -182,7 +182,7 @@ function handleClick(status) {
 
     <!-- 接受 -->
     <button
-      v-if="props.status === 'status11' && invitationStatus === 'pending'"
+      v-if="props.status === 'status11' && props.invitationStatus === 'pending'"
       class="btn-withIcon-fill mx-[1px] my-[3px] w-[72px] scale-90 md:mx-[6px] md:scale-100"
       @click="handleClick(props.status)"
     >
@@ -191,7 +191,7 @@ function handleClick(status) {
 
     <!-- 拒絕 -->
     <button
-      v-if="props.status === 'status12' && invitationStatus === 'pending'"
+      v-if="props.status === 'status12' && props.invitationStatus === 'pending'"
       class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
       @click="handleClick(props.status)"
     >
@@ -202,12 +202,22 @@ function handleClick(status) {
       v-model="isOpenModal"
       :status="modalStatus"
       v-bind="{
-        createRenderResult: props.createRenderResult,
-        cardUserName: props.cardUserName,
-        userId: props.invitedUserId,
-        Id: props._id,
+        userId: props.resultItem.userId,
+        id: props.resultItem._id,
         resultItem: props.resultItem,
       }"
     />
+    <!-- <MemberInviteConfirmModal
+      v-model="isOpenModal"
+      :status="modalStatus"
+      v-bind="{
+        createRenderResult: props.createRenderResult,
+        cardUserName: props.resultItem.profileByInvitedUser[0].nickNameDetails.nickName,
+        userId: props.resultItem.userId,
+        id: props.resultItem._id,
+        resultItem: props.resultItem,
+        @refresh-who-list="$emit('refreshWhoList')"
+      }"
+    /> -->
   </div>
 </template>

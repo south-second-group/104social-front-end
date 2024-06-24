@@ -25,7 +25,7 @@ useHead({
       children: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'WebSite',
-        'name': appName,
+        'name': '104緣來如此',
         'alternateName': appKeywordArray,
         'url': process.env.BASE_API_URL,
       }),
@@ -40,8 +40,9 @@ useHead({
   <h1 class="sr-only">
     104緣來如此
   </h1>
+  <!-- SEO搜尋結果大圖 -->
   <NuxtImg
-    src="/banner/bg-sm.png"
+    src="https://console.firebase.google.com/u/0/project/my-first-project-1110913/storage/my-first-project-1110913.appspot.com/files/~2F104social"
     alt="Banner_sm"
     class="sr-only size-full max-w-[300px]"
   />

@@ -1,4 +1,6 @@
 <script setup>
+import { useStorage } from '@vueuse/core'
+
 import { commentApi } from '~/apis/repositories/comment'
 import { matchListApi } from '~/apis/repositories/matchList'
 
@@ -16,8 +18,11 @@ const renderData = ref([])
 
 const toastMessage = ref('')
 const toastType = ref('')
-const beforeRoute = ref(window.history.state.back)
 
+const beforeRoute = useStorage('beforeRoute', '')
+onMounted(() => {
+  beforeRoute.value = window.history.state.back
+})
 // 判斷進入哪一個用戶的已給評價
 if (beforeRoute.value.includes('MatchResult')) {
   matchResult.result.map((item) => {
@@ -148,7 +153,9 @@ function getKeyLabel(key) {
 function renderValue(key, value) {
   if (Array.isArray(value)) {
     return value
-      .map(v => matchListOptionData.value[0][key][v].label)
+      .map(v => matchListOptionData.value[0][key][v].label !== '請選擇'
+        ? matchListOptionData.value[0][key][v].label
+        : '對方保留')
       .join('、')
   }
 

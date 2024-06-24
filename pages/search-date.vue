@@ -1,13 +1,20 @@
 <script setup>
+import { useStorage } from '@vueuse/core'
 import { searchApi } from '../apis/repositories/search'
+import { matchListApi } from '~/apis/repositories/matchList'
 
 useHead({
   title: '尋找對象',
 })
 
 const searchCriteriaStore = useSearchCriteriaStore()
-const { selected, excluded } = storeToRefs(searchCriteriaStore)
-const { removeSelectedTag, removeExcludedHashtag } = searchCriteriaStore
+const { selected, excluded, searchForm, genderOption }
+  = storeToRefs(searchCriteriaStore)
+const {
+  removeSelectedTag,
+  removeExcludedHashtag,
+  resetSearchForm,
+} = searchCriteriaStore
 
 const isDesktop = ref(false)
 function checkScreenSize() {
@@ -23,34 +30,22 @@ const toastMessage = ref('')
 const toastType = ref('')
 const isDataLoading = ref(true)
 
+const searchHistory = useStorage('searchHistory', [])
 const pagination = reactive({ page: 1, totalCount: 10 })
 const query = reactive({
   sort: '-updatedAt',
   page: pagination.page,
 })
-const searchForm = reactive({
-  keyWord: '',
-  location: 0,
-  gender: 0,
-  tags: selected,
-  notTags: excluded,
-})
-
-function resetSearchForm() {
-  searchForm.keyWord = ''
-  searchForm.location = 0
-  searchForm.gender = 0
-  selected.value = []
-  excluded.value = []
-}
 
 async function keywordSearch() {
   isDataLoading.value = true
   try {
-    const { data } = await searchApi.keywordSearch(query, searchForm)
+    const { data } = await searchApi.keywordSearch(query, searchForm.value)
 
     searchCriteriaStore.searchResultsList = data.resultList
     pagination.totalCount = data?.pagination?.totalCount || 0
+
+    searchHistory.value.push(searchForm.value.keyWord)
 
     resetSearchForm()
   }
@@ -61,8 +56,19 @@ async function keywordSearch() {
     toastType.value = 'error'
   }
   finally {
-    // await new Promise(resolve => setTimeout(resolve, 2000))
     isDataLoading.value = false
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+}
+
+const lastEnterTime = ref(0)
+function handleKeyup(event) {
+  if (event.key === 'Enter') {
+    const now = Date.now()
+    if (now - lastEnterTime.value < 500)
+      keywordSearch()
+
+    lastEnterTime.value = now
   }
 }
 
@@ -85,7 +91,8 @@ onMounted(async () => {
   checkScreenSize()
   window.addEventListener('resize', checkScreenSize)
 
-  await resetSearchForm()
+  // await resetSearchForm();
+  await matchListApi.getMatchListSelf()
   keywordSearch()
 })
 
@@ -103,36 +110,36 @@ const locationOption = [
   { value: 6, label: '海外' },
 ]
 
-const genderOption = [
-  { value: 0, label: '不限' },
-  { value: 1, label: '男性' },
-  { value: 2, label: '女性' },
-  { value: 3, label: '其他' },
-  { value: 4, label: '不透露' },
-]
-
 const sortOption = ref([
   { label: '最近更新', value: '-updatedAt' },
   { label: '最久更新', value: 'updatedAt' },
-  { label: '最高評分', value: '-score' },
-  { label: '最低評分', value: 'score' },
+  {
+    label: '最高評分',
+    value: '{ "scoreByProfile.userStatus.commentScore": -1 }',
+  },
+  {
+    label: '最低評分',
+    value: '{ "scoreByProfile.userStatus.commentScore": 1 }',
+  },
 ])
 </script>
 
 <template>
   <div class="container">
+    <h1 class="sr-only">
+      尋找對象
+    </h1>
     <Toast
       :toast-message="toastMessage"
       :toast-type="toastType"
     />
 
-    <h1 class="sr-only">
-      尋找對象
-    </h1>
-    <div v-if="searchCriteriaStore.searchResultsList.length > 0 && !isDataLoading">
-      {{ searchCriteriaStore.searchResultsList[0] }}
+    <div
+      v-if="searchCriteriaStore.searchResultsList.length > 0 && !isDataLoading"
+    >
+      <!-- {{ searchCriteriaStore.searchResultsList[0] }} -->
+      <!-- {{ searchForm }} -->
     </div>
-    <!-- {{ searchForm }} -->
 
     <div class="grid grid-cols-12 gap-6 py-5 lg:py-20">
       <div class="col-span-12 mt-4 lg:col-span-9">
@@ -145,10 +152,10 @@ const sortOption = ref([
               color="primary"
               variant="none"
               size="xl"
-              placeholder="輸入理想對象的職業、興趣、星座..."
+              placeholder="輸入理想對象的職業、興趣"
               value-attribute="value"
               option-attribute="label"
-              @keydown.enter="($event) => !$event.shiftKey && keywordSearch()"
+              @keydown="handleKeyup"
             />
           </div>
           <div class="flex gap-2 lg:gap-4">
@@ -170,6 +177,7 @@ const sortOption = ref([
               class="h-12 w-full min-w-[120px] rounded-lg border bg-white lg:min-w-[160px]"
             >
               <USelectMenu
+                v-if="!isDataLoading"
                 v-model="searchForm.gender"
                 :options="genderOption"
                 placeholder="性別"
@@ -195,16 +203,30 @@ const sortOption = ref([
                   </template>
                 </UPopover>
               </div>
-              <div class="lg:w-full">
+              <div class="flex lg:w-full">
                 <UButton
                   :ui="{ rounded: 'rounded-full' }"
-                  class="ms-2 border-2 border-primary-dark bg-primary-dark p-2 text-base font-bold transition delay-150 ease-in-out hover:text-primary-dark lg:ms-4 lg:w-full lg:px-5 lg:py-2"
+                  class="ms-2 border-2 border-primary-dark bg-primary-dark p-2 text-base font-bold transition delay-150 ease-in-out hover:text-primary-dark lg:ms-4 lg:px-3 lg:py-2"
+                  :disabled="isDataLoading"
+                  :class="{ ' pointer-events-none': isDataLoading }"
                   @click="keywordSearch"
                 >
                   <p class="hidden lg:block">
                     搜尋
                   </p>
                   <icon-heroicons-magnifying-glass class="size-6 lg:hidden" />
+                </UButton>
+                <UButton
+                  :ui="{ rounded: 'rounded-full' }"
+                  class="ms-2 border-2 border-neutral-300 bg-neutral-300 p-2 text-base font-bold transition delay-150 ease-in-out hover:text-neutral-300 lg:ms-4 lg:px-3 lg:py-2"
+                  :disabled="isDataLoading"
+                  :class="{ ' pointer-events-none': isDataLoading }"
+                  @click="resetSearchForm"
+                >
+                  <p class="hidden lg:block">
+                    清空
+                  </p>
+                  <icon-heroicons-archive-box class="size-6 lg:hidden" />
                 </UButton>
               </div>
             </div>
