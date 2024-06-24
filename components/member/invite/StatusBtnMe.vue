@@ -9,6 +9,7 @@ const props = defineProps({
 function getBtnClass(status) {
   switch (status) {
     case 'pending':
+      return ''
     case 'finishDating':
       return 'bg-special-info'
     case 'cancel':
@@ -25,6 +26,7 @@ function getBtnClass(status) {
 function getBtnText(status) {
   switch (status) {
     case 'pending':
+      return ''
     case 'finishDating':
       return '已完成約會'
     case 'cancel':

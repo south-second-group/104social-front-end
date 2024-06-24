@@ -15,16 +15,13 @@ const selectedItem = ref('我邀約誰')
 
 function onChange(index) {
   selectedItem.value = tabItems[index].label
-  // page.value = 1
   loadData()
 }
 
 // 分頁
-const page = ref(1)
-const itemsPerPage = 6
-const totalItems = ref(0)
+const pagination = reactive({ page: 1, totalCount: 1 })
 
-// 狀態
+// loading 狀態
 const isDataLoading = ref(true)
 
 // 我的邀約列表
@@ -32,8 +29,14 @@ const inviteWhoListData = ref([])
 async function getInviteWhoList() {
   try {
     const res = await inviteListApi.getInviteWhoList()
-    inviteWhoListData.value = res.data.invitations
-    totalItems.value = inviteWhoListData.value.length
+    inviteWhoListData.value = res.data.invitations || []
+
+    pagination.page = res.data.pagination?.page || 1
+    pagination.totalCount = res.data.pagination?.totalCount || 0
+
+    // inviteWhoListData.value.resultTotal = inviteWhoListData.value.pagination.totalCount || 0
+    // pagination.page = inviteWhoListData.value.pagination.page
+    // pagination.totalCount = inviteWhoListData.value.pagination.totalCount
   }
   catch (error) {
     console.error(error)
@@ -45,21 +48,27 @@ const inviteMeListData = ref([])
 async function getInviteMeList() {
   try {
     const res = await inviteListApi.getInviteMeList()
-    inviteMeListData.value = res.data.beInvitations
-    totalItems.value = inviteMeListData.value.length
+    inviteMeListData.value = res.data.beInvitations || []
+
+    pagination.page = res.data.pagination?.page || 1
+    pagination.totalCount = res.data.pagination?.totalCount || 0
+
+    // inviteMeListData.value.resultTotal = inviteMeListData.value.pagination.totalCount || 0
+    // pagination.page = inviteMeListData.value.pagination.page
+    // pagination.totalCount = inviteMeListData.value.pagination.totalCount
   }
   catch (error) {
     console.error(error)
   }
 }
 
+// 切換 tab 載入資料
 async function loadData() {
   isDataLoading.value = true
   if (selectedItem.value === '誰邀約我')
     await getInviteMeList()
   else
     await getInviteWhoList()
-
   isDataLoading.value = false
 }
 
@@ -109,17 +118,9 @@ function handleRefreshList() {
         v-if="selectedItem === '我邀約誰'"
         class="space-y-3"
       >
+        <!-- card -->
         <div
-          v-if="isDataLoading"
-          class="space-y-3"
-        >
-          <utilsUserCardSkeleton
-            v-for="i in itemsPerPage"
-            :key="i"
-          />
-        </div>
-        <div
-          v-else
+          v-if="!isDataLoading && inviteWhoListData.length !== 0"
           class="space-y-3"
         >
           <MemberInviteUserCardListWho
@@ -129,6 +130,36 @@ function handleRefreshList() {
             :is-trash-icon="false"
             @refresh-who-list="handleRefreshList"
           />
+          <!--  -->
+        </div>
+
+        <!-- loading -->
+        <div
+          v-else-if="isDataLoading"
+          class="space-y-3"
+        >
+          <utilsUserCardSkeleton
+            v-for="i in 6"
+            :key="i"
+          />
+        </div>
+
+        <!-- 無資料 -->
+        <div
+          v-else
+          class="space-y-3 rounded-lg bg-neutral-100 p-6 text-center"
+        >
+          尚無邀約資料，快去邀約心儀的對象吧!
+        </div>
+
+        <!-- 分頁 -->
+        <div
+          v-if="inviteWhoListData.length !== 0"
+        >
+          <utilsPaginationComp
+            v-model="pagination.page"
+            :items="Array(pagination.totalCount)"
+          />
         </div>
       </section>
 
@@ -137,17 +168,9 @@ function handleRefreshList() {
         v-else
         class="space-y-3"
       >
+        <!-- card -->
         <div
-          v-if="isDataLoading"
-          class="space-y-3"
-        >
-          <utilsUserCardSkeleton
-            v-for="i in itemsPerPage"
-            :key="i"
-          />
-        </div>
-        <div
-          v-else
+          v-if="!isDataLoading && inviteMeListData.length !== 0"
           class="space-y-3"
         >
           <MemberInviteUserCardListMe
@@ -156,6 +179,35 @@ function handleRefreshList() {
             :result-item="value"
             :is-trash-icon="false"
             @refresh-me-list="handleRefreshList"
+          />
+        </div>
+
+        <!-- loading -->
+        <div
+          v-else-if="isDataLoading"
+          class="space-y-3"
+        >
+          <utilsUserCardSkeleton
+            v-for="i in 6"
+            :key="i"
+          />
+        </div>
+
+        <!-- 無資料 -->
+        <div
+          v-else
+          class="space-y-3 rounded-lg bg-neutral-100 p-6 text-center"
+        >
+          尚無被邀約資料，趕緊主動出擊吧!
+        </div>
+
+        <!-- 分頁 -->
+        <div
+          v-if="inviteMeListData.length !== 0"
+        >
+          <utilsPaginationComp
+            v-model="pagination.page"
+            :items="Array(pagination.totalCount)"
           />
         </div>
       </section>
