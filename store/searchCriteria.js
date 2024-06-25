@@ -15,16 +15,18 @@ export const useSearchCriteriaStore = defineStore(
       keyWord: '',
       location: 0,
       gender: 0,
-      tags: selected.value,
-      notTags: excluded.value,
+      tags: [],
+      notTags: [],
     })
     const searchResultsList = ref([])
 
     function setSelectedList(data) {
       selected.value = data
+      searchForm.tags = data
     }
     function setExcludedList(data) {
       excluded.value = data
+      searchForm.notTags = data
     }
 
     function removeSelectedTag(tag) {
@@ -43,6 +45,8 @@ export const useSearchCriteriaStore = defineStore(
       searchForm.keyWord = ''
       searchForm.location = 0
       searchForm.gender = 0
+      searchForm.tags = []
+      searchForm.notTags = []
       selected.value = []
       excluded.value = []
     }

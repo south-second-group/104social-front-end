@@ -7,6 +7,12 @@ useHead({
   title: '尋找對象',
 })
 
+definePageMeta({
+  middleware: [
+    'auth',
+  ],
+})
+
 const searchCriteriaStore = useSearchCriteriaStore()
 const { selected, excluded, searchForm, genderOption }
   = storeToRefs(searchCriteriaStore)
