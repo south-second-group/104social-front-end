@@ -4,13 +4,18 @@ const { searchForm, genderOption } = storeToRefs(searchCriteriaStore)
 
 const router = useRouter()
 const isDataLoading = ref(true)
+const isGifLoading = ref(true)
 
 function submit() {
   router.push('/search-date')
 }
 
-onMounted(() => {
+onMounted(async () => {
   isDataLoading.value = false
+
+  setTimeout(() => {
+    isGifLoading.value = false
+  }, 1000)
 })
 </script>
 
@@ -151,7 +156,7 @@ onMounted(() => {
           </div>
           <!-- 定位圖片 2 -->
           <div
-            v-if="isDataLoading"
+            v-if="isGifLoading"
             class="absolute right-[-70px] top-1/2 w-[300px] -translate-y-1/2 translate-x-full xl:right-[-122px]"
           >
             <NuxtImg
@@ -172,7 +177,7 @@ onMounted(() => {
           </div>
           <!-- 定位圖片 3 -->
           <div
-            v-if="isDataLoading"
+            v-if="isGifLoading"
             class="absolute right-[-502px] top-1/2 w-[300px] -translate-y-1/2 translate-x-full"
           >
             <NuxtImg
