@@ -53,7 +53,7 @@ async function keywordSearch() {
 
     searchHistory.value.push(searchForm.value.keyWord)
 
-    resetSearchForm()
+    // resetSearchForm()
   }
   catch (error) {
     console.error(error)
@@ -121,11 +121,11 @@ const sortOption = ref([
   { label: '最久更新', value: 'updatedAt' },
   {
     label: '最高評分',
-    value: '{ "scoreByProfile.userStatus.commentScore": -1 }',
+    value: '-score',
   },
   {
     label: '最低評分',
-    value: '{ "scoreByProfile.userStatus.commentScore": 1 }',
+    value: 'score',
   },
 ])
 </script>

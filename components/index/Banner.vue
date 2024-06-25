@@ -4,7 +4,7 @@ const { searchForm, genderOption } = storeToRefs(searchCriteriaStore)
 
 const router = useRouter()
 const isDataLoading = ref(true)
-const isGifLoading = ref(true)
+const isGifLoading = ref(false)
 
 function submit() {
   router.push('/search-date')
@@ -14,8 +14,8 @@ onMounted(async () => {
   isDataLoading.value = false
 
   setTimeout(() => {
-    isGifLoading.value = false
-  }, 1000)
+    // isGifLoading.value = false
+  }, 100)
 })
 </script>
 
