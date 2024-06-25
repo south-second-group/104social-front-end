@@ -10,19 +10,23 @@ export const useUserDataStore = defineStore('userData', () => {
   }
 
   const name = ref(null)
-  const email = ref(null)
-  const userId = ref(null)
-
   const setName = (newName) => {
     name.value = newName
   }
 
+  const email = ref(null)
   const setEmail = (newEmail) => {
     email.value = newEmail
   }
 
+  const userId = ref(null)
   const setUserId = (newUserId) => {
     userId.value = newUserId
+  }
+
+  const userToken = ref(null)
+  const setUserToken = (newUserToken) => {
+    userToken.value = newUserToken
   }
 
   return {
@@ -35,6 +39,8 @@ export const useUserDataStore = defineStore('userData', () => {
     setEmail,
     userId,
     setUserId,
+    userToken,
+    setUserToken,
   }
 }, {
   persist: {

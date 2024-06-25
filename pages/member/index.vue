@@ -1,4 +1,6 @@
 <script setup>
+import { memberAPI } from '@/apis/repositories/member'
+
 definePageMeta({
   middleware: 'auth',
 })
@@ -14,15 +16,24 @@ function toast(message, type) {
   }, 3000)
 }
 
-const memberStore = useMemberStore()
+// const memberStore = useMemberStore()
 
-// const { data, error } = await useAsyncData('userBasicInfo', () => {
-//   return memberStore.getMemberData()
-// })
+// const event = useRequestEvent()
 
-onMounted(() => {
-  memberStore.getMemberData()
+// const { data: result } = await useAsyncData(() => fetchWithCookie(event, '/api/with-cookie'))
+
+// onMounted(() => console.log(document.cookie))
+
+const { data, error } = await useAsyncData('userBasicInfo', () => {
+  return memberAPI.getUserData()
 })
+
+// console.log('data', data)
+// console.log('error', error)
+
+// onMounted(() => {
+//   memberStore.getMemberData()
+// })
 </script>
 
 <template>
