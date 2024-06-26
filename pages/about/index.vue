@@ -10,16 +10,17 @@ function hoverHandler(tab) {
     <div class="wrap">
       <div
         class="item"
-        data-order="里程碑七 william"
-        style="
-          background-image: url('https://104social-front-end.vercel.app/_vercel/image?url=%2Fmember%2Fmember-lg-03.png&w=1536&q=100');
-        "
+        data-order="里程碑七 角色端建置 william"
+        :class="{ 'item-hover': hoveredTab === 'william' }"
         @mouseenter="hoverHandler('william')"
+        style="
+          background-image: url('https://firebasestorage.googleapis.com/v0/b/my-first-project-1110913.appspot.com/o/104social%2FIMG_5026.jpg?alt=media&token=3b6a7749-3065-4179-8ac9-6a93446307ae"
       ></div>
       <div
         class="item"
         data-order="2"
         @mouseenter="hoverHandler('2')"
+        :class="{ 'item-hover': hoveredTab === '2' }"
       ></div>
       <div
         class="item"
@@ -287,7 +288,6 @@ function hoverHandler(tab) {
   border: 1px solid lighten(#fe839a, 10);
   display: flex;
   align-items: center;
-
   border-radius: 20px;
   overflow: hidden;
 }
@@ -297,30 +297,34 @@ function hoverHandler(tab) {
   height: 100%;
   background: linear-gradient(to bottom, #fe839a, #4a72ff);
   position: relative;
-  // border: 1px solid lighten(black, 10);
   transition: all 500ms ease-in-out;
   background-position: center;
   background-size: cover;
-
   border-image: fill 0 linear-gradient(#0003, #fff);
 
-  &:hover {
+  &.item-hover {
     flex-grow: 2.3;
     background-color: lighten(darkred, 20);
 
     border-image: fill 0 linear-gradient(#0003, #0003);
+    &::before {
+      color: white;
+          backdrop-filter: blur(5px);
+    background: rgb(255, 255, 255,.3);
+    }
   }
 
   &:before {
     content: attr(data-order);
     position: absolute;
-    top: 50%;
+    top: 80%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: white;
-    word-break: break-all;
+    color: black;
     overflow-wrap: normal;
-    word-break: normal;
+    border-radius: 10px;
+    padding: 10px 5px;
+    width: 90px;
   }
 }
 

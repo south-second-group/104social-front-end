@@ -4,7 +4,8 @@ const { searchForm, genderOption } = storeToRefs(searchCriteriaStore)
 
 const router = useRouter()
 const isDataLoading = ref(true)
-const isGifLoading = ref(false)
+const isOneGifLoading = ref(true)
+const isTwoGifLoading = ref(true)
 
 function submit() {
   router.push('/search-date')
@@ -14,8 +15,11 @@ onMounted(async () => {
   isDataLoading.value = false
 
   setTimeout(() => {
-    // isGifLoading.value = false
-  }, 100)
+    isOneGifLoading.value = false
+  }, 2000)
+  setTimeout(() => {
+    isTwoGifLoading.value = false
+  }, 4000)
 })
 </script>
 
@@ -156,7 +160,7 @@ onMounted(async () => {
           </div>
           <!-- 定位圖片 2 -->
           <div
-            v-if="isGifLoading"
+            v-if="isOneGifLoading"
             class="absolute right-[-70px] top-1/2 w-[300px] -translate-y-1/2 translate-x-full xl:right-[-122px]"
           >
             <NuxtImg
@@ -166,7 +170,7 @@ onMounted(async () => {
             />
           </div>
           <div
-            v-else
+            v-show="!isOneGifLoading"
             class="absolute right-[-70px] top-1/2 h-[500px] w-[300px] -translate-y-1/2 translate-x-full overflow-hidden rounded-full border-[3px] border-[#f4d6e4] xl:right-[-122px]"
           >
             <NuxtImg
@@ -177,7 +181,7 @@ onMounted(async () => {
           </div>
           <!-- 定位圖片 3 -->
           <div
-            v-if="isGifLoading"
+            v-if="isTwoGifLoading"
             class="absolute right-[-502px] top-1/2 w-[300px] -translate-y-1/2 translate-x-full"
           >
             <NuxtImg
@@ -187,7 +191,7 @@ onMounted(async () => {
             />
           </div>
           <div
-            v-else
+            v-show="!isTwoGifLoading"
             class="absolute right-[-502px] top-1/2 h-[500px] w-[300px] -translate-y-1/2 translate-x-full overflow-hidden rounded-full border-[3px] border-[#f4d6e4]"
           >
             <NuxtImg
