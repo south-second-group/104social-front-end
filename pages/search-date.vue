@@ -336,11 +336,11 @@ const sortOption = ref([
                 'active-tab': currentTab === 'newest',
                 'inactive-tab': currentTab !== 'newest',
               }"
-              class="cursor-pointer whitespace-nowrap p-2 transition duration-300 ease-in-out"
+              class="pointer-events-none cursor-pointer whitespace-nowrap p-2 transition duration-300 ease-in-out"
               @click="changeTab('newest')"
             >
               <p class="text-base font-bold md:text-xl">
-                近期刊登（487）
+                近期刊登（0）
               </p>
             </div>
           </div>
