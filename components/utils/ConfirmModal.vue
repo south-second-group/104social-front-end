@@ -23,6 +23,7 @@ const {
   updateSearchResultsList,
   updateSearchResultsListCommentsCount,
 } = useSearchCriteriaStore()
+const commentList = useCommentStore()
 
 const toastMessage = ref('')
 const toastType = ref('')
@@ -111,6 +112,8 @@ async function unlockComment() {
       updateSearchResultsList(props.userId, { isUnlock: true })
     else if (route.path.includes('MatchResult'))
       matchResult.updateMatchResultList(props.userId, { isUnlock: true })
+    else if (route.path.includes('comment'))
+      commentList.updateCommentList(props.userId, { isUnlock: true })
   }
   catch (error) {
     console.error({ error })
@@ -139,6 +142,9 @@ async function deleteComment() {
       updateSearchResultsListCommentsCount(props.userId)
     else if (route.path.includes('MatchResult'))
       matchResult.updateMatchResultListCommentsCount(props.userId)
+    else if (route.path.includes('comment'))
+      commentList.updateCommentListCommentsCount(props.userId)
+    commentList.deleteCommentList(props.userId)
   }
   catch (error) {
     console.error({ error })
@@ -165,6 +171,8 @@ async function deleteBlackListById() {
       updateSearchResultsList(props.userId, { isLocked: false })
     else if (route.path.includes('MatchResult'))
       matchResult.updateMatchResultList(props.userId, { isLocked: false })
+    else if (route.path.includes('comment'))
+      commentList.updateCommentList(props.userId, { isLocked: false })
   }
   catch (error) {
     console.error({ error })
@@ -191,6 +199,8 @@ async function postBlackList() {
       updateSearchResultsList(props.userId, { isLocked: true })
     else if (route.path.includes('MatchResult'))
       matchResult.updateMatchResultList(props.userId, { isLocked: true })
+    else if (route.path.includes('comment'))
+      commentList.updateCommentList(props.userId, { isLocked: true })
   }
   catch (error) {
     console.error({ error })
@@ -345,6 +355,11 @@ async function finishInvitationDating() {
     }
     else if (route.path.includes('MatchResult')) {
       matchResult.updateMatchResultList(props.userId, {
+        invitationStatus: 'finishDating',
+      })
+    }
+    else if (route.path.includes('comment')) {
+      commentList.updateCommentList(props.userId, {
         invitationStatus: 'finishDating',
       })
     }

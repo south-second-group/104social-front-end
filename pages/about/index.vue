@@ -12,15 +12,15 @@ function hoverHandler(tab) {
         class="item"
         data-order="里程碑七 角色端建置 william"
         :class="{ 'item-hover': hoveredTab === 'william' }"
-        @mouseenter="hoverHandler('william')"
         style="
           background-image: url('https://firebasestorage.googleapis.com/v0/b/my-first-project-1110913.appspot.com/o/104social%2FIMG_5026.jpg?alt=media&token=3b6a7749-3065-4179-8ac9-6a93446307ae"
+        @mouseenter="hoverHandler('william')"
       ></div>
       <div
         class="item"
         data-order="2"
-        @mouseenter="hoverHandler('2')"
         :class="{ 'item-hover': hoveredTab === '2' }"
+        @mouseenter="hoverHandler('2')"
       ></div>
       <div
         class="item"
