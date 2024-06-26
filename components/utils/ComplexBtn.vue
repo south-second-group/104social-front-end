@@ -105,20 +105,22 @@ function handleClick(status) {
     </button>
 
     <!-- 解鎖評價 -->
-    <button
+    <UTooltip
       v-if="
         props.status === 'status2'
           && !props.isUnlock
           && props.beCommentCount > 0
       "
-      class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
-      @click="handleClick(props.status)"
+      text="消耗 5 點/次"
     >
-      <icon-heroicons:lock-closed />
-      <UTooltip text="消耗 5 點/次">
+      <button
+        class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
+        @click="handleClick(props.status)"
+      >
+        <icon-heroicons:lock-closed />
         <p>{{ btnText }}</p>
-      </UTooltip>
-    </button>
+      </button>
+    </UTooltip>
 
     <!-- 完成約會 -->
     <button

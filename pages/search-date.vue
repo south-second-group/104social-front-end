@@ -1,5 +1,4 @@
 <script setup>
-import { useStorage } from '@vueuse/core'
 import { searchApi } from '../apis/repositories/search'
 import { matchListApi } from '~/apis/repositories/matchList'
 
@@ -36,10 +35,10 @@ const toastMessage = ref('')
 const toastType = ref('')
 const isDataLoading = ref(true)
 
-const searchHistory = useStorage('searchHistory', [])
+// const searchHistory = useStorage('searchHistory', [])
 const pagination = reactive({ page: 1, totalCount: 10 })
 const query = reactive({
-  sort: '-updatedAt',
+  sort: '-score',
   page: pagination.page,
 })
 
@@ -51,7 +50,7 @@ async function keywordSearch() {
     searchCriteriaStore.searchResultsList = data.resultList
     pagination.totalCount = data?.pagination?.totalCount || 0
 
-    searchHistory.value.push(searchForm.value.keyWord)
+    // searchHistory.value.push(searchForm.value.keyWord)
 
     // resetSearchForm()
   }
