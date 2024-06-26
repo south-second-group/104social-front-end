@@ -1,47 +1,34 @@
 <script setup>
+import { socket } from '../apis/socket-io.js'
+
+const props = defineProps(['roomId'])
+const userDataStore = useUserDataStore()
+const { userData } = storeToRefs(userDataStore)
+const user = userData.value.userId
 const text = ref('')
+const { roomId } = props
+const messages = ref([])
 
-const chatData = ref([
-  {
-    isUser: true,
-    message: 'Hi~',
-    timestamp: '下午 06:03',
-  },
-  {
-    isUser: true,
-    message: '我住台北，你是哪裡人?我住台北，你是哪裡人?',
-    timestamp: '下午 06:04',
-  },
-  {
-    isUser: true,
-    message: '在嗎?',
-    timestamp: '下午 06:10',
-  },
-  {
-    isUser: false,
-    message: '我也住台北',
-    timestamp: '下午 08:10',
-  },
-  {
-    isUser: true,
-    message: '喔喔!',
-    timestamp: '下午 08:10',
-  },
-  {
-    isUser: false,
-    message: '我要去洗澡了',
-    timestamp: '下午 08:12',
-  },
-])
+function useFormattedTime(data) {
+  const date = new Date(data)
+  const now = new Date()
 
-function formatTime(date) {
-  let hours = date.getHours()
-  const minutes = (`0${date.getMinutes()}`).slice(-2)
-  const period = hours >= 12 ? '下午' : '上午'
-  hours = hours % 12
-  hours = hours || 12
-  hours = (`0${hours}`).slice(-2)
-  return `${period} ${hours}:${minutes}`
+  // Check if the date is today
+  const isToday = date.toDateString() === now.toDateString()
+
+  if (isToday) {
+    let hours = date.getHours()
+    const minutes = `0${date.getMinutes()}`.slice(-2)
+    const period = hours >= 12 ? '下午' : '上午'
+    hours = hours % 12
+    hours = hours || 12
+    return `${period} ${hours}:${minutes}`
+  }
+  else {
+    const month = date.getMonth() + 1
+    const day = date.getDate()
+    return `${month}/${day}`
+  }
 }
 
 function scrollToBottom() {
@@ -50,21 +37,6 @@ function scrollToBottom() {
     if (chatContainer)
       chatContainer.scrollTop = chatContainer.scrollHeight
   })
-}
-
-function sendMessage() {
-  if (text.value === '')
-    return
-
-  const currentDate = new Date()
-  const message = {
-    isUser: true,
-    message: text.value,
-    timestamp: formatTime(currentDate),
-  }
-  chatData.value = [...chatData.value, message]
-  text.value = ''
-  scrollToBottom()
 }
 
 // 計算畫面高度與聊天畫高度
@@ -80,13 +52,66 @@ function getChatViewHeight() {
   if (headerElement)
     chatRoomHeaderHeight.value = headerElement.offsetHeight
 
-  contentHeight.value = `${window.innerHeight - inputHeight.value - chatRoomHeaderHeight.value
-    }px`
+  contentHeight.value = `${
+    window.innerHeight - inputHeight.value - chatRoomHeaderHeight.value
+  }px`
 }
+
+// 處理 socket.io
+// 推送新訊息
+function sendMessage() {
+  if (text.value.trim()) {
+    socket.value.emit('chat', { message: text.value, roomId })
+    text.value = ''
+    scrollToBottom()
+  }
+}
+
+// 收到新訊息的處理函數
+function handleMessage(data) {
+  data.senderId = data.sender
+  const now = new Date()
+  data.createdAt = useFormattedTime(now)
+  messages.value.push(data)
+  scrollToBottom()
+}
+
+// 收到聊天歷史的處理函數
+function handleChatHistory(data) {
+  messages.value = data.messages
+  scrollToBottom()
+}
+
+// 收到新訊息
+// socket.value.on('message', (data) => {
+//   console.log(data)
+//   data.senderId = data.sender
+//   const now = new Date()
+//   data.createdAt = useFormattedTime(now)
+//   messages.value.push(data);
+//   scrollToBottom()
+// });
+
+// socket.value.on('chatHistory', (data) => {
+//   console.log(data)
+//   // chatHistoryList.value.push(data)
+//   messages.value = data.messages
+//   scrollToBottom()
+// });
 
 onMounted(() => {
   getChatViewHeight()
   scrollToBottom()
+  socket.value.emit('join', { roomId })
+  socket.value.on('message', handleMessage)
+  socket.value.on('chatHistory', handleChatHistory)
+  // messages.value = chatHistoryList.value.find(i => i.roomId === roomId).messages
+})
+
+onUnmounted(() => {
+  // socket.value.emit('leaveRoom', roomId)
+  socket.value.off('message', handleMessage)
+  socket.value.off('chatHistory', handleChatHistory)
 })
 </script>
 
@@ -95,33 +120,49 @@ onMounted(() => {
     class="mt-5 rounded-xl bg-white p-3 md:px-5 md:py-4"
     :style="{ height: contentHeight }"
   >
-    <!-- 對話內容 -->
     <div class="flex h-full flex-col">
       <div class="chat-container h-full overflow-y-auto">
-        <!-- 這是一則訊息 -->
+        <!-- {{ roomId }} -->
         <div
-          v-for="message in chatData"
-          :key="message.message"
-          class="mb-6 flex  items-center gap-2"
-          :class="{ 'flex-row-reverse': message.isUser }"
+          v-for="message in messages"
+          :key="message._id"
+          class="mb-6 flex items-center gap-2"
+          :class="{ 'flex-row-reverse': message.senderId === user }"
         >
           <UAvatar
             size="md"
             src="https://avatars.githubusercontent.com/u/739984?v=4"
             alt="Avatar"
           />
+          <div
+            class="max-w-[190px] rounded-lg bg-neutral-200 px-3 py-2 sm:max-w-[65%]"
+          >
+            <p
+              class="mb-text-base text-wrap break-all text-start text-sm text-zinc-950"
+            >
+              {{ message.message }}
+            </p>
+          </div>
+          <p class="self-end text-xs text-zinc-400 md:text-sm">
+            {{ useFormattedTime(message.createdAt) }}
+          </p>
+        </div>
+        <!-- 這是一則訊息 -->
+        <!-- <div v-for="message in messages" :key="message" class="mb-6 flex  items-center gap-2"
+          :class="{ 'flex-row-reverse': message.sender === user }">
+          <UAvatar size="md" src="https://avatars.githubusercontent.com/u/739984?v=4" alt="Avatar" />
           <div class="max-w-[190px] rounded-lg bg-neutral-200 px-3 py-2 sm:max-w-[65%]">
             <p class="mb-text-base text-wrap break-all text-start text-sm text-zinc-950">
               {{ message.message }}
             </p>
           </div>
-          <p class="self-end text-xs text-zinc-400 md:text-sm">
-            {{ message.timestamp }}
+          <p class="self-end text-xs text-zinc-400 md:text-sm"> -->
+        <!-- {{ useFormattedTime(new Date()) }}
           </p>
-        </div>
+        </div> -->
         <!-- 一則訊息結束 -->
         <div
-          class="mb-6 flex  items-center gap-2"
+          class="mb-6 flex items-center gap-2"
           :class="{ 'flex-row-reverse': false }"
         >
           <UAvatar
@@ -129,7 +170,9 @@ onMounted(() => {
             src="https://avatars.githubusercontent.com/u/739984?v=4"
             alt="Avatar"
           />
-          <div class="max-w-[190px] rounded-lg bg-neutral-200 px-3 py-2 sm:max-w-[65%]">
+          <div
+            class="max-w-[190px] rounded-lg bg-neutral-200 px-3 py-2 sm:max-w-[65%]"
+          >
             <utilsTypingIndicator />
           </div>
         </div>
@@ -143,6 +186,7 @@ onMounted(() => {
           variant="none"
           size="xl"
           placeholder="請輸入訊息"
+          @keyup.enter="sendMessage"
         />
         <transition name="slide">
           <button
@@ -177,6 +221,7 @@ onMounted(() => {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
 }
+
 .no-border-no-shadow {
   border: none;
   box-shadow: none;

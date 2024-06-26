@@ -1,10 +1,14 @@
 import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
 import Components from 'unplugin-vue-components/vite'
-import { appDescription } from './constants/index'
+import {
+  appDescription,
+} from './constants/index'
 
 export default defineNuxtConfig({
-  devtools: { enabled: true },
+  devtools: {
+    enabled: true,
+  },
 
   modules: [
     'nuxt-icon',
@@ -68,7 +72,10 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      meta: [{ name: 'description', content: appDescription }],
+      meta: [{
+        name: 'description',
+        content: appDescription,
+      }],
     },
   },
 
@@ -80,6 +87,11 @@ export default defineNuxtConfig({
   //     },
   //   },
   // },
+  nitro: {
+    experimental: {
+      websocket: true,
+    },
+  },
 
   vite: {
     define: {

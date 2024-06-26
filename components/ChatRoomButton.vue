@@ -1,16 +1,19 @@
 <script setup>
+const roomId = ref('')
 const isOpen = ref(false)
 const isShowChat = ref(false)
 const isShowChatList = ref(true)
 const slideOverHeight = ref('auto')
 
 function backToChatList() {
-  isShowChat.value = !isShowChat.value
+  isShowChat.value = false
   setTimeout(() => {
-    isShowChatList.value = !isShowChat.value
+    isShowChatList.value = true
   }, 600)
 }
-function handleOpenChat(n) {
+
+function handleOpenChat(id) {
+  roomId.value = id
   isShowChatList.value = false
   isShowChat.value = true
 }
@@ -21,13 +24,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="fixed bottom-4 right-4  z-[4000] md:bottom-[60px] md:right-[60px]">
+  <div class="fixed bottom-4 right-4 z-[3000] md:bottom-[60px] md:right-[60px]">
     <UButton
       color="white"
-      class=" no-border-no-shadow rounded-full bg-primary-dark p-2.5 hover:bg-primary-dark md:p-3"
+      class="no-border-no-shadow rounded-full bg-primary-dark p-2.5 hover:bg-primary-dark md:p-3"
       @click="isOpen = true"
     >
-      <icon-heroicons-chat-bubble-left-ellipsis class="size-5 text-white md:size-9" />
+      <icon-heroicons-chat-bubble-left-ellipsis
+        class="size-5 text-white md:size-9"
+      />
     </UButton>
 
     <USlideover
@@ -36,7 +41,7 @@ onMounted(() => {
       class="z-[5000]"
     >
       <div
-        class=" flex flex-1 flex-col bg-[#FFF5F5] p-4"
+        class="flex flex-1 flex-col bg-[#FFF5F5] p-4"
         :style="{ height: slideOverHeight }"
       >
         <div class="chat-room-header flex items-center justify-between">
@@ -61,7 +66,6 @@ onMounted(() => {
             @click="isOpen = false"
           />
         </div>
-
         <chat-roomChatListPreview
           v-if="isShowChatList"
           @open-chat="handleOpenChat"
@@ -69,6 +73,7 @@ onMounted(() => {
         <transition name="slide">
           <chat-roomChat
             v-if="isShowChat"
+            :room-id="roomId"
           />
         </transition>
       </div>

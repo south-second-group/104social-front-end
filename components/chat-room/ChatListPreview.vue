@@ -1,8 +1,9 @@
 <script setup>
 const emit = defineEmits(['openChat'])
+const roomId = ref(['667915e9d837a875701fc2d3', '667a6c3ef04c405b02b2151e'])
 const q = ref('')
-function openChat(n) {
-  emit('openChat', n)
+function openChat(roomId) {
+  emit('openChat', roomId)
 }
 </script>
 
@@ -35,15 +36,9 @@ function openChat(n) {
       v-if="true"
       class="rounded-xl bg-white"
     >
-      <chat-roomChatPreview @click="openChat('01')" />
-      <!-- <chat-roomChatPreview @click="openChat('02')" />
-      <chat-roomChatPreview @click="openChat('03')" />
-      <chat-roomChatPreview @click="openChat('04')" />
-      <chat-roomChatPreview @click="openChat('04')" />
-      <chat-roomChatPreview @click="openChat('04')" />
-      <chat-roomChatPreview @click="openChat('04')" />
-      <chat-roomChatPreview @click="openChat('04')" />
-      <chat-roomChatPreview @click="openChat('04')" /> -->
+      <chat-roomChatPreview @click="openChat(roomId[0])" />
+      <chat-roomChatPreview @click="openChat(roomId[1])" />
+      <!-- <chat-roomChatPreview @click="openChat(roomId)" /> -->
     </ul>
     <div
       v-if="false"

@@ -1,4 +1,6 @@
 <script setup>
+// const props = defineProps(["chat"]);
+// const { chat } = props;
 const openSetting = ref(false)
 const items = [
   [
@@ -19,6 +21,58 @@ const items = [
     },
   ],
 ]
+
+// const chatInfo = ref({
+//   roomId: "",
+//   latestMessage:
+//     chat.length > 0 ? chat.messages[chat.messages.length - 1].message : "",
+//   unreadCount: calculateUnreadCount(chat.messages),
+//   createdAt: "",
+// });
+
+// function calculateUnreadCount(messages) {
+//   return messages.filter((message) => !message.isRead).length;
+// }
+
+// function setLatestMessage() {
+//   if (chat.messages.length > 0) {
+//     chatInfo.value.latestMessage = chat.messages[chat.messages.length - 1].message
+//     chatInfo.value.createdAt = useFormattedTime(chat.messages[chat.messages.length - 1].createdAt)
+//   } else {
+//     chatInfo.value.latestMessage = ''
+//     chatInfo.value.createdAt = ''
+//   }
+// }
+
+// watch(
+//   () => chat.messages,
+//   (newMessages) => {
+//     chatInfo.value.unreadCount = calculateUnreadCount(newMessages);
+//   },
+//   { immediate: true }
+// );
+
+function useFormattedTime(data) {
+  const date = new Date(data)
+  const now = new Date()
+
+  // Check if the date is today
+  const isToday = date.toDateString() === now.toDateString()
+
+  if (isToday) {
+    let hours = date.getHours()
+    const minutes = `0${date.getMinutes()}`.slice(-2)
+    const period = hours >= 12 ? '下午' : '上午'
+    hours = hours % 12
+    hours = hours || 12
+    return `${period} ${hours}:${minutes}`
+  }
+  else {
+    const month = date.getMonth() + 1 // Months are zero-based
+    const day = date.getDate()
+    return `${month}/${day}`
+  }
+}
 
 function handleClickSetting(event) {
   openSetting.value = !openSetting.value
@@ -47,7 +101,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <li class="flex justify-between gap-5 border-b-[1px] border-zinc-200 p-4 md:p-5">
+  <li
+    class="flex justify-between gap-5 border-b-[1px] border-zinc-200 p-4 md:p-5"
+  >
     <div class="flex gap-5 self-start md:self-center">
       <UAvatar
         :size="isDesktop ? '3xl' : 'lg'"
@@ -59,7 +115,7 @@ onUnmounted(() => {
           Fatima
         </p>
         <p class="line-clamp-2 text-sm text-zinc-600 md:text-base">
-          我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了
+          這是最後一則訊息
         </p>
       </div>
     </div>
@@ -102,7 +158,7 @@ onUnmounted(() => {
         </p>
       </div>
       <p class="text-B3 mt-1 text-end text-zinc-400 md:mt-0">
-        下午 18:12
+        8:20
       </p>
     </div>
   </li>
