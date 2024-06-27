@@ -10,17 +10,13 @@ function hoverHandler(tab) {
     <div class="wrap">
       <div
         class="item"
-        data-order="里程碑七 角色端建置 william"
-        :class="{ 'item-hover': hoveredTab === 'william' }"
-        style="
-          background-image: url('https://firebasestorage.googleapis.com/v0/b/my-first-project-1110913.appspot.com/o/104social%2FIMG_5026.jpg?alt=media&token=3b6a7749-3065-4179-8ac9-6a93446307ae"
-        @mouseenter="hoverHandler('william')"
+        data-order="1"
+        :class="{ 'item-hover': hoveredTab === '1' }"
+        @mouseenter="hoverHandler('1')"
       ></div>
       <div
         class="item"
         data-order="2"
-        :class="{ 'item-hover': hoveredTab === '2' }"
-        @mouseenter="hoverHandler('2')"
       ></div>
       <div
         class="item"
@@ -36,55 +32,59 @@ function hoverHandler(tab) {
       ></div>
       <div
         class="item"
-        data-order="6"
+        data-order="里程碑七 角色端建置 william"
+        :class="{ 'item-hover': hoveredTab === 'william' }"
+        style="
+          background-image: url('https://firebasestorage.googleapis.com/v0/b/my-first-project-1110913.appspot.com/o/104social%2FIMG_5026.jpg?alt=media&token=3b6a7749-3065-4179-8ac9-6a93446307ae"
+        @mouseenter="hoverHandler('william')"
       ></div>
     </div>
 
     <transition name="slide">
       <article
-        v-if="hoveredTab === 'william'"
+        v-if="hoveredTab === '1'"
         class="article container mt-6"
       >
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem
-        laudantium delectus qui veritatis? Aperiam magnam nesciunt reiciendis
-        incidunt impedit ad accusantium velit quaerat, expedita nulla eum sint
-        blanditiis nihil neque. Vel tempore reiciendis officia quidem atque eos,
-        asperiores qui tempora ad ducimus, inventore adipisci quae quibusdam
-        dicta maxime hic incidunt recusandae, fugiat officiis minima
-        voluptatibus. Voluptatibus repellendus quisquam fuga sint dignissimos
-        excepturi perspiciatis nostrum modi, doloremque commodi consequatur
-        eveniet. Voluptates consectetur, libero incidunt doloribus aliquid iusto
-        corporis vitae eligendi, quod iste sunt distinctio nobis necessitatibus
-        nostrum sequi rerum non velit repudiandae repellendus fuga eius
-        expedita. Reprehenderit accusamus aspernatur adipisci voluptates
-        asperiores sed nesciunt quidem nulla earum, sapiente excepturi cumque
-        fugiat tempora, velit, odio blanditiis qui? At, mollitia veritatis.
-        Animi iusto temporibus dolore quasi ratione voluptates eum nihil, nobis
-        sit quae non iste aut molestias dicta aliquid nisi inventore eius
-        quibusdam qui, sapiente nesciunt repellendus nulla! Ipsum voluptas enim
-        tempora odio repudiandae tempore fugiat adipisci commodi obcaecati
-        repellat ratione culpa sequi totam assumenda deserunt, repellendus illum
-        quibusdam? Quam, dicta minus. Dolores autem molestias error tenetur!
-        Fuga asperiores illum recusandae sit provident. Veniam odit maiores nisi
-        asperiores, assumenda aspernatur alias nemo suscipit modi molestias
-        sapiente quos quisquam non, voluptas quo sit voluptate beatae. Dolores,
-        doloremque mollitia quis asperiores nemo consequuntur perspiciatis
-        voluptate officiis esse excepturi amet quaerat! Aliquid nulla ipsa
-        facere iusto quis voluptates molestias corrupti tenetur voluptatum
-        beatae explicabo reiciendis sed aliquam vitae eius quaerat quasi, autem
-        commodi nostrum amet nesciunt fuga dicta vel pariatur! Perspiciatis,
-        reiciendis aperiam rerum animi ut a debitis consequuntur distinctio quos
-        velit voluptas laboriosam doloribus qui sequi temporibus adipisci
-        delectus eveniet officia quas magni odit. Fugiat, velit quos eum
-        voluptas animi, ullam veniam, ex labore blanditiis quidem iure aut
-        incidunt ipsam dolor doloremque deserunt reprehenderit alias fuga minima
-        molestias beatae asperiores accusantium voluptates mollitia. Incidunt
-        laborum temporibus ratione eius at delectus minus quas cumque non
-        perferendis nulla deserunt, consequatur, assumenda quibusdam rerum ea
-        voluptatem! Quae tenetur quas quaerat. Fuga unde quas ducimus sed qui
-        cupiditate quibusdam, nostrum error voluptate repudiandae labore alias
-        laborum libero placeat, sint illo consequatur dolores officiis. Ratione,
-        a nam at aut temporibus aliquam culpa veritatis ea sed doloremque quasi,
+        222222222222 ctetur adipisicing elit. Voluptatem laudantium delectus qui
+        veritatis? Aperiam magnam nesciunt reiciendis incidunt impedit ad
+        accusantium velit quaerat, expedita nulla eum sint blanditiis nihil
+        neque. Vel tempore reiciendis officia quidem atque eos, asperiores qui
+        tempora ad ducimus, inventore adipisci quae quibusdam dicta maxime hic
+        incidunt recusandae, fugiat officiis minima voluptatibus. Voluptatibus
+        repellendus quisquam fuga sint dignissimos excepturi perspiciatis
+        nostrum modi, doloremque commodi consequatur eveniet. Voluptates
+        consectetur, libero incidunt doloribus aliquid iusto corporis vitae
+        eligendi, quod iste sunt distinctio nobis necessitatibus nostrum sequi
+        rerum non velit repudiandae repellendus fuga eius expedita.
+        Reprehenderit accusamus aspernatur adipisci voluptates asperiores sed
+        nesciunt quidem nulla earum, sapiente excepturi cumque fugiat tempora,
+        velit, odio blanditiis qui? At, mollitia veritatis. Animi iusto
+        temporibus dolore quasi ratione voluptates eum nihil, nobis sit quae non
+        iste aut molestias dicta aliquid nisi inventore eius quibusdam qui,
+        sapiente nesciunt repellendus nulla! Ipsum voluptas enim tempora odio
+        repudiandae tempore fugiat adipisci commodi obcaecati repellat ratione
+        culpa sequi totam assumenda deserunt, repellendus illum quibusdam? Quam,
+        dicta minus. Dolores autem molestias error tenetur! Fuga asperiores
+        illum recusandae sit provident. Veniam odit maiores nisi asperiores,
+        assumenda aspernatur alias nemo suscipit modi molestias sapiente quos
+        quisquam non, voluptas quo sit voluptate beatae. Dolores, doloremque
+        mollitia quis asperiores nemo consequuntur perspiciatis voluptate
+        officiis esse excepturi amet quaerat! Aliquid nulla ipsa facere iusto
+        quis voluptates molestias corrupti tenetur voluptatum beatae explicabo
+        reiciendis sed aliquam vitae eius quaerat quasi, autem commodi nostrum
+        amet nesciunt fuga dicta vel pariatur! Perspiciatis, reiciendis aperiam
+        rerum animi ut a debitis consequuntur distinctio quos velit voluptas
+        laboriosam doloribus qui sequi temporibus adipisci delectus eveniet
+        officia quas magni odit. Fugiat, velit quos eum voluptas animi, ullam
+        veniam, ex labore blanditiis quidem iure aut incidunt ipsam dolor
+        doloremque deserunt reprehenderit alias fuga minima molestias beatae
+        asperiores accusantium voluptates mollitia. Incidunt laborum temporibus
+        ratione eius at delectus minus quas cumque non perferendis nulla
+        deserunt, consequatur, assumenda quibusdam rerum ea voluptatem! Quae
+        tenetur quas quaerat. Fuga unde quas ducimus sed qui cupiditate
+        quibusdam, nostrum error voluptate repudiandae labore alias laborum
+        libero placeat, sint illo consequatur dolores officiis. Ratione, a nam
+        at aut temporibus aliquam culpa veritatis ea sed doloremque quasi,
         perspiciatis, repudiandae cupiditate corporis eos! Commodi quisquam
         sequi quidem incidunt, asperiores voluptatum rem sit velit ut
         repellendus! Iste ea cumque, eveniet quod aliquid cum alias aut dolores
@@ -158,51 +158,52 @@ function hoverHandler(tab) {
         laboriosam accusamus numquam expedita iusto alias at vel?
       </article>
     </transition>
+
     <transition name="slide">
       <article
-        v-if="hoveredTab === '2'"
+        v-if="hoveredTab === 'william'"
         class="article container mt-6"
       >
-        222222222222 ctetur adipisicing elit. Voluptatem laudantium delectus qui
-        veritatis? Aperiam magnam nesciunt reiciendis incidunt impedit ad
-        accusantium velit quaerat, expedita nulla eum sint blanditiis nihil
-        neque. Vel tempore reiciendis officia quidem atque eos, asperiores qui
-        tempora ad ducimus, inventore adipisci quae quibusdam dicta maxime hic
-        incidunt recusandae, fugiat officiis minima voluptatibus. Voluptatibus
-        repellendus quisquam fuga sint dignissimos excepturi perspiciatis
-        nostrum modi, doloremque commodi consequatur eveniet. Voluptates
-        consectetur, libero incidunt doloribus aliquid iusto corporis vitae
-        eligendi, quod iste sunt distinctio nobis necessitatibus nostrum sequi
-        rerum non velit repudiandae repellendus fuga eius expedita.
-        Reprehenderit accusamus aspernatur adipisci voluptates asperiores sed
-        nesciunt quidem nulla earum, sapiente excepturi cumque fugiat tempora,
-        velit, odio blanditiis qui? At, mollitia veritatis. Animi iusto
-        temporibus dolore quasi ratione voluptates eum nihil, nobis sit quae non
-        iste aut molestias dicta aliquid nisi inventore eius quibusdam qui,
-        sapiente nesciunt repellendus nulla! Ipsum voluptas enim tempora odio
-        repudiandae tempore fugiat adipisci commodi obcaecati repellat ratione
-        culpa sequi totam assumenda deserunt, repellendus illum quibusdam? Quam,
-        dicta minus. Dolores autem molestias error tenetur! Fuga asperiores
-        illum recusandae sit provident. Veniam odit maiores nisi asperiores,
-        assumenda aspernatur alias nemo suscipit modi molestias sapiente quos
-        quisquam non, voluptas quo sit voluptate beatae. Dolores, doloremque
-        mollitia quis asperiores nemo consequuntur perspiciatis voluptate
-        officiis esse excepturi amet quaerat! Aliquid nulla ipsa facere iusto
-        quis voluptates molestias corrupti tenetur voluptatum beatae explicabo
-        reiciendis sed aliquam vitae eius quaerat quasi, autem commodi nostrum
-        amet nesciunt fuga dicta vel pariatur! Perspiciatis, reiciendis aperiam
-        rerum animi ut a debitis consequuntur distinctio quos velit voluptas
-        laboriosam doloribus qui sequi temporibus adipisci delectus eveniet
-        officia quas magni odit. Fugiat, velit quos eum voluptas animi, ullam
-        veniam, ex labore blanditiis quidem iure aut incidunt ipsam dolor
-        doloremque deserunt reprehenderit alias fuga minima molestias beatae
-        asperiores accusantium voluptates mollitia. Incidunt laborum temporibus
-        ratione eius at delectus minus quas cumque non perferendis nulla
-        deserunt, consequatur, assumenda quibusdam rerum ea voluptatem! Quae
-        tenetur quas quaerat. Fuga unde quas ducimus sed qui cupiditate
-        quibusdam, nostrum error voluptate repudiandae labore alias laborum
-        libero placeat, sint illo consequatur dolores officiis. Ratione, a nam
-        at aut temporibus aliquam culpa veritatis ea sed doloremque quasi,
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem
+        laudantium delectus qui veritatis? Aperiam magnam nesciunt reiciendis
+        incidunt impedit ad accusantium velit quaerat, expedita nulla eum sint
+        blanditiis nihil neque. Vel tempore reiciendis officia quidem atque eos,
+        asperiores qui tempora ad ducimus, inventore adipisci quae quibusdam
+        dicta maxime hic incidunt recusandae, fugiat officiis minima
+        voluptatibus. Voluptatibus repellendus quisquam fuga sint dignissimos
+        excepturi perspiciatis nostrum modi, doloremque commodi consequatur
+        eveniet. Voluptates consectetur, libero incidunt doloribus aliquid iusto
+        corporis vitae eligendi, quod iste sunt distinctio nobis necessitatibus
+        nostrum sequi rerum non velit repudiandae repellendus fuga eius
+        expedita. Reprehenderit accusamus aspernatur adipisci voluptates
+        asperiores sed nesciunt quidem nulla earum, sapiente excepturi cumque
+        fugiat tempora, velit, odio blanditiis qui? At, mollitia veritatis.
+        Animi iusto temporibus dolore quasi ratione voluptates eum nihil, nobis
+        sit quae non iste aut molestias dicta aliquid nisi inventore eius
+        quibusdam qui, sapiente nesciunt repellendus nulla! Ipsum voluptas enim
+        tempora odio repudiandae tempore fugiat adipisci commodi obcaecati
+        repellat ratione culpa sequi totam assumenda deserunt, repellendus illum
+        quibusdam? Quam, dicta minus. Dolores autem molestias error tenetur!
+        Fuga asperiores illum recusandae sit provident. Veniam odit maiores nisi
+        asperiores, assumenda aspernatur alias nemo suscipit modi molestias
+        sapiente quos quisquam non, voluptas quo sit voluptate beatae. Dolores,
+        doloremque mollitia quis asperiores nemo consequuntur perspiciatis
+        voluptate officiis esse excepturi amet quaerat! Aliquid nulla ipsa
+        facere iusto quis voluptates molestias corrupti tenetur voluptatum
+        beatae explicabo reiciendis sed aliquam vitae eius quaerat quasi, autem
+        commodi nostrum amet nesciunt fuga dicta vel pariatur! Perspiciatis,
+        reiciendis aperiam rerum animi ut a debitis consequuntur distinctio quos
+        velit voluptas laboriosam doloribus qui sequi temporibus adipisci
+        delectus eveniet officia quas magni odit. Fugiat, velit quos eum
+        voluptas animi, ullam veniam, ex labore blanditiis quidem iure aut
+        incidunt ipsam dolor doloremque deserunt reprehenderit alias fuga minima
+        molestias beatae asperiores accusantium voluptates mollitia. Incidunt
+        laborum temporibus ratione eius at delectus minus quas cumque non
+        perferendis nulla deserunt, consequatur, assumenda quibusdam rerum ea
+        voluptatem! Quae tenetur quas quaerat. Fuga unde quas ducimus sed qui
+        cupiditate quibusdam, nostrum error voluptate repudiandae labore alias
+        laborum libero placeat, sint illo consequatur dolores officiis. Ratione,
+        a nam at aut temporibus aliquam culpa veritatis ea sed doloremque quasi,
         perspiciatis, repudiandae cupiditate corporis eos! Commodi quisquam
         sequi quidem incidunt, asperiores voluptatum rem sit velit ut
         repellendus! Iste ea cumque, eveniet quod aliquid cum alias aut dolores

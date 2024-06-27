@@ -68,7 +68,7 @@ function createRenderValue(key, value) {
       <div class="flex w-full flex-col justify-between  p-5">
         <div class="flex justify-between">
           <p
-            class="text-start text-xl font-bold  leading-7 text-zinc-950 md:text-2xl"
+            class="line-clamp-1 w-[200px] text-start  text-xl font-bold leading-7 text-zinc-950 md:w-full md:text-2xl"
             :class="{
               'font-montserrat': !useIsChineseFunc(
                 member.userInfo.personalInfo.username,
@@ -100,7 +100,7 @@ function createRenderValue(key, value) {
             </span>
           </div>
         </div>
-        <div class=" space-y-6">
+        <div class=" space-y-3">
           <div class="flex gap-3 text-zinc-600">
             <div
               v-if="
@@ -163,7 +163,7 @@ function createRenderValue(key, value) {
             </p>
           </div>
 
-          <ul class="flex gap-3 text-primary-dark">
+          <ul class="flex flex-wrap gap-3 text-primary-dark">
             <li
               v-for="(desc, index) in member.profile.tags"
               :key="index"

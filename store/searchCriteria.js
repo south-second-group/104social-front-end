@@ -31,10 +31,12 @@ export const useSearchCriteriaStore = defineStore(
 
     function removeSelectedTag(tag) {
       selected.value = selected.value.filter(item => item !== tag)
+      searchForm.tags = searchForm.tags.filter(item => item !== tag)
     }
 
     function removeExcludedHashtag(tag) {
       excluded.value = excluded.value.filter(item => item !== tag)
+      searchForm.notTags = searchForm.notTags.filter(item => item !== tag)
     }
 
     function setSearchForm(data) {
