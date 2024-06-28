@@ -118,9 +118,11 @@ function getKeyLabel(key) {
 function renderValue(key, value) {
   if (Array.isArray(value)) {
     return value
-      .map(v => matchListOptionData.value[0][key][v].label !== '請選擇'
-        ? matchListOptionData.value[0][key][v].label
-        : '對方保留')
+      .map(v =>
+        matchListOptionData.value[0][key][v].label !== '請選擇'
+          ? matchListOptionData.value[0][key][v].label
+          : '對方保留',
+      )
       .join('、')
   }
 
@@ -314,9 +316,11 @@ watchEffect(() => {
               ),
             }"
           >
-            {{ i.commentUserProfile[0].nickNameDetails.nickName !== ''
-              ? i.commentUserProfile[0].nickNameDetails.nickName
-              : i.commentUserUsername[0].personalInfo.username }}
+            {{
+              i.commentUserProfile[0].nickNameDetails.nickName !== ''
+                ? i.commentUserProfile[0].nickNameDetails.nickName
+                : i.commentUserUsername[0].personalInfo.username
+            }}
             留下的評價</label>
           <p
             v-if="renderData.isUnlock === true"
@@ -372,7 +376,7 @@ watchEffect(() => {
 
     <!-- 裝飾球_Large -->
     <div
-      class="animate-scale-up-loop decoration-ball-1 absolute left-[-355px] top-[145px] w-[684px]"
+      class="animate-scale-up-loop decoration-ball-1 absolute top-[145px] z-[-1] w-[184px] md:left-[-255px] md:w-[684px]"
     >
       <NuxtImg
         src="/banner/bg-ball-large-lg.png"
@@ -381,7 +385,7 @@ watchEffect(() => {
       />
     </div>
     <div
-      class="animate-scale-up-loop decoration-ball-1 absolute right-[-355px] top-[545px] w-[684px]"
+      class="animate-scale-up-loop decoration-ball-1 absolute top-[545px] z-[-1] w-[184px] md:right-[-155px] md:w-[684px]"
     >
       <NuxtImg
         src="/banner/bg-ball-large-lg.png"
@@ -391,7 +395,7 @@ watchEffect(() => {
     </div>
     <!-- 裝飾球_Medium -->
     <div
-      class="animate-scale-up-loop decoration-ball-2 absolute left-[381px] top-[-30px] w-[305px]"
+      class="animate-scale-up-loop decoration-ball-2 absolute top-[-30px] z-[-1] w-[90px] md:left-[381px] md:w-[305px]"
     >
       <NuxtImg
         src="/banner/bg-ball-medium-lg.png"
@@ -401,7 +405,7 @@ watchEffect(() => {
     </div>
     <!-- 裝飾球_Medium -->
     <div
-      class="animate-scale-up-loop decoration-ball-3 absolute right-[-406px] top-[-55px] w-[305px]"
+      class="animate-scale-up-loop decoration-ball-3 absolute top-[-55px] z-[-1] w-[90px] md:right-[-206px] md:w-[305px]"
     >
       <NuxtImg
         src="/banner/bg-ball-medium-lg.png"

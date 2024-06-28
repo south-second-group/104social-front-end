@@ -91,7 +91,7 @@ onMounted(async () => {
                   color="primary"
                   variant="none"
                   size="xl"
-                  placeholder="職業、興趣、星座..."
+                  placeholder="職業、興趣..."
                 />
               </div>
             </div>
@@ -245,7 +245,7 @@ onMounted(async () => {
                     color="primary"
                     variant="none"
                     size="xl"
-                    placeholder="職業、興趣、星座..."
+                    placeholder="職業、興趣..."
                   />
                 </div>
               </div>

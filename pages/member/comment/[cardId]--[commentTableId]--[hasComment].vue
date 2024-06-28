@@ -361,7 +361,7 @@ function renderValue(key, value) {
 
     <!-- 裝飾球_Large -->
     <div
-      class="animate-scale-up-loop decoration-ball-1 absolute left-[-355px] top-[145px] w-[684px]"
+      class="animate-scale-up-loop decoration-ball-1 absolute top-[145px] z-[-1] w-[184px] md:left-[-255px] md:w-[684px]"
     >
       <NuxtImg
         src="/banner/bg-ball-large-lg.png"
@@ -370,7 +370,7 @@ function renderValue(key, value) {
       />
     </div>
     <div
-      class="animate-scale-up-loop decoration-ball-1 absolute right-[-355px] top-[545px] w-[684px]"
+      class="animate-scale-up-loop decoration-ball-1 absolute top-[545px] z-[-1] w-[184px] md:right-[-155px] md:w-[684px]"
     >
       <NuxtImg
         src="/banner/bg-ball-large-lg.png"
@@ -380,7 +380,7 @@ function renderValue(key, value) {
     </div>
     <!-- 裝飾球_Medium -->
     <div
-      class="animate-scale-up-loop decoration-ball-2 absolute left-[381px] top-[-30px] w-[305px]"
+      class="animate-scale-up-loop decoration-ball-2 absolute top-[-30px] z-[-1] w-[90px] md:left-[381px] md:w-[305px]"
     >
       <NuxtImg
         src="/banner/bg-ball-medium-lg.png"
@@ -390,7 +390,7 @@ function renderValue(key, value) {
     </div>
     <!-- 裝飾球_Medium -->
     <div
-      class="animate-scale-up-loop decoration-ball-3 absolute right-[-406px] top-[-55px] w-[305px]"
+      class="animate-scale-up-loop decoration-ball-3 absolute top-[-55px] z-[-1] w-[90px] md:right-[-206px] md:w-[305px]"
     >
       <NuxtImg
         src="/banner/bg-ball-medium-lg.png"
