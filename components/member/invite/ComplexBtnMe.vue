@@ -7,11 +7,10 @@ const props = defineProps({
   cardUserName: String,
   userId: String,
   isUnlock: Boolean,
+  invitationTableId: String,
   resultItem: Object,
+  commentTableId: String,
 })
-
-// 通知渲染列表資料
-// const emit = defineEmits(['refreshWhoList'])
 
 const router = useRouter()
 
@@ -25,6 +24,8 @@ const btnText = computed(() => {
       return '完成約會'
     case 'status4':
       return '邀約'
+    case 'status5':
+      return '取消邀約'
     case 'status6':
       return '拒絕往來'
     case 'status7':
@@ -51,6 +52,7 @@ const modalStatuses = [
   'status2',
   'status3',
   'status4',
+  'status5',
   'status6',
   'status7',
   'status10',
@@ -66,13 +68,17 @@ function handleClick(status) {
   else {
     switch (status) {
       case 'status1':
-        router.push(`/member/card/${props.userId}--${'true'}`)
+        router.push(`/member/card/${props.userId}`)
         break
       case 'status8':
-        router.push(`/member/Comment/${props.userId}--${'false'}`)
+        router.push(
+          `/member/Comment/${props.userId}--${props.commentTableId}--${'false'}`,
+        )
         break
       case 'status9':
-        router.push(`/member/Comment/${props.userId}--${'true'}`)
+        router.push(
+          `/member/Comment/${props.userId}--${props.commentTableId}--${'true'}`,
+        )
         break
       default:
         console.warn('Unknown status')
@@ -85,7 +91,7 @@ function handleClick(status) {
   <div>
     <!-- 已解鎖評價 -->
     <button
-      v-if="props.status === 'status1' && isUnlock"
+      v-if="props.status === 'status1' && props.isUnlock"
       class="mx-[1px] my-[3px] flex scale-90 gap-3 rounded-full border-2 border-neutral-400 px-[20px] py-[6px] text-[16px] leading-[24px] text-neutral-400 md:mx-[6px] md:scale-100"
       @click="handleClick(props.status)"
     >
@@ -96,24 +102,36 @@ function handleClick(status) {
     <!-- 解鎖評價 -->
     <button
       v-if="
-        props.status === 'status2' && !isUnlock
+        props.status === 'status2' && !props.isUnlock
       "
       class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
       @click="handleClick(props.status)"
     >
       <icon-heroicons:lock-closed />
-      <p>{{ btnText }}</p>
+      <UTooltip text="消耗 5 點/次">
+        <p>{{ btnText }}</p>
+      </UTooltip>
     </button>
 
     <!-- 完成約會 -->
     <button
       v-if="
         props.status === 'status3'
-          && isFinishDating
+          && props.invitationStatus === 'accept'
       "
       class="mx-[1px] my-[3px] scale-90 rounded-full bg-primary-dark px-[20px] py-[8px] text-[16px] leading-[24px] text-white md:mx-[6px] md:scale-100"
       @click="handleClick(props.status)"
     >
+      <p>{{ btnText }}</p>
+    </button>
+
+    <!-- 取消邀約 -->
+    <button
+      v-if="props.status === 'status5' && props.invitationStatus === 'accept'"
+      class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
+      @click="handleClick(props.status)"
+    >
+      <icon-heroicons:heart />
       <p>{{ btnText }}</p>
     </button>
 
@@ -141,8 +159,8 @@ function handleClick(status) {
     <button
       v-if="
         props.status === 'status8'
-          && !hasComment
-          && invitationStatus === 'accept'
+          && props.isUnlock
+          && props.invitationStatus === 'accept'
       "
       class="btn-withIcon-fill mx-[1px] my-[3px] w-[132px] scale-90 md:mx-[6px] md:scale-100"
       @click="handleClick(props.status)"
@@ -155,9 +173,9 @@ function handleClick(status) {
     <button
       v-if="
         props.status === 'status9'
-          && hasComment
-          && (invitationStatus === 'accepted'
-            || invitationStatus === 'finishDating')
+          && props.isUnlock
+          && (props.invitationStatus === 'accept'
+            || props.invitationStatus === 'finishDating')
       "
       class="mx-[1px] my-[3px] flex scale-90 gap-1 rounded-full border-2 border-neutral-400 px-[20px] py-[6px] text-[16px] leading-[24px] text-neutral-400 md:mx-[6px] md:scale-100"
       @click="handleClick(props.status)"
@@ -170,8 +188,8 @@ function handleClick(status) {
     <button
       v-if="
         props.status === 'status10'
-          && hasComment
-          && invitationStatus === 'accepted'
+          && props.isUnlock
+          && (props.invitationStatus === 'accept' || props.invitationStatus === 'finishDating')
       "
       class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
       @click="handleClick(props.status)"
@@ -202,22 +220,12 @@ function handleClick(status) {
       v-model="isOpenModal"
       :status="modalStatus"
       v-bind="{
-        userId: props.resultItem.userId,
-        id: props.resultItem._id,
-        resultItem: props.resultItem,
+        createRenderResult,
+        cardUserName,
+        userId: props.userId,
+        invitationTableId: props.invitationTableId,
+        commentTableId,
       }"
     />
-    <!-- <MemberInviteConfirmModal
-      v-model="isOpenModal"
-      :status="modalStatus"
-      v-bind="{
-        createRenderResult: props.createRenderResult,
-        cardUserName: props.resultItem.profileByInvitedUser[0].nickNameDetails.nickName,
-        userId: props.resultItem.userId,
-        id: props.resultItem._id,
-        resultItem: props.resultItem,
-        @refresh-who-list="$emit('refreshWhoList')"
-      }"
-    /> -->
   </div>
 </template>

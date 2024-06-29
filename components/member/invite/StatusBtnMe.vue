@@ -1,9 +1,6 @@
 <script setup>
 const props = defineProps({
-  status: {
-    type: String,
-    required: true,
-  },
+  status: String,
 })
 
 function getBtnClass(status) {
@@ -16,7 +13,7 @@ function getBtnClass(status) {
       return 'bg-neutral-400'
     case 'accept':
       return 'bg-special-success'
-    case 'rejected':
+    case 'reject':
       return 'bg-special-danger'
     default:
       return 'bg-social-gradient-default'
@@ -31,9 +28,9 @@ function getBtnText(status) {
       return '已完成約會'
     case 'cancel':
       return '對方取消邀約'
-    case 'accepted':
+    case 'accept':
       return '已接受邀約'
-    case 'rejected':
+    case 'reject':
       return '已拒絕邀約'
     default:
       return '尚未邀約'
