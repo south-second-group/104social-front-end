@@ -4,25 +4,25 @@ import { unlockCommentApi } from '~/apis/repositories/unlockComment' // 解鎖�
 import { commentApi } from '~/apis/repositories/comment' // 評價
 import { beInviteApi } from '~/apis/repositories/beInvite' // 被邀約
 
+import { useBeInviteResultStore } from '~/store/beInviteResult'
+
 const props = defineProps({
   status: String,
   createRenderResult: Set,
-  cardUserName: String,
   userId: String,
-  id: String,
   resultItem: Object,
+  invitationTableId: String,
+  commentTableId: String,
 })
 
-// 通知渲染列表資料
-// const emit = defineEmits(['refreshWhoList'])
-
-const matchResult = useMatchResultStore()
+const beInviteResult = useBeInviteResultStore()
 
 const toastMessage = ref('')
 const toastType = ref('')
 const isLoading = ref(false)
+const isCheer = ref(false)
 
-const tempInvitationTableId = ref(props.resultItem._id)
+const tempInvitationTableId = ref(props.invitationTableId)
 
 // 彈窗邏輯
 const isOpenModal = defineModel()
@@ -34,10 +34,8 @@ const modalText = computed(() => {
       return '確認使用點數 5 點，解鎖評價'
     case 'status3':
       return '確認完成約會'
-    case 'status4':
-      return '傳送邀約訊息，並確認邀約？'
     case 'status5':
-      return '確認收回邀約'
+      return '確認取消邀約'
     case 'status6':
       return '確認拒絕往來'
     case 'status7':
@@ -65,8 +63,6 @@ const modalClick = computed(() => {
       return unlockComment
     case 'status3':
       return finishInvitationDating
-    case 'status4':
-      return tempfunc
     case 'status5':
       return cancelInvitation
     case 'status6':
@@ -97,15 +93,11 @@ function tempfunc() {
 async function unlockComment() {
   isLoading.value = true
   try {
-    await unlockCommentApi.unlockComment(props.resultItem.invitationId)
-    // emit('refreshWhoList')
-    matchResult.result = matchResult.result.map((item) => {
-      if (item.userId === props.resultItem.invitationId)
-        return { ...item, isUnlock: true }
-      return item
-    })
+    await unlockCommentApi.unlockComment(props.userId)
     toastMessage.value = '解鎖評價成功'
     toastType.value = 'success'
+
+    beInviteResult.updateInviteResultList(props.userId, { isUnlock: true })
   }
   catch (error) {
     console.error({ error })
@@ -123,15 +115,14 @@ async function unlockComment() {
 async function deleteComment() {
   isLoading.value = true
   try {
-    await commentApi.deleteComment(props.resultItem.invitationId)
-    matchResult.result = matchResult.result.map((item) => {
-      if (item.userId === props.resultItem.invitationId)
-        return { ...item, hasComment: false }
-      return item
+    await commentApi.deleteComment(props.commentTableId, {
+      commentedUserId: props.userId,
     })
 
     toastMessage.value = '刪除評價成功'
     toastType.value = 'success'
+
+    beInviteResult.updateInviteResultListCommentsCount(props.userId)
   }
   catch (error) {
     console.error({ error })
@@ -150,14 +141,10 @@ async function deleteBlackListById() {
   isLoading.value = true
   try {
     await blackListApi.deleteBlackListById(props.userId)
-    matchResult.result = matchResult.result.map((item) => {
-      if (item.userId === tempInvitationTableId.value)
-        return { ...item, isLocked: false }
-      return item
-    })
-
     toastMessage.value = '恢復往來成功'
     toastType.value = 'success'
+
+    beInviteResult.updateInviteResultList(props.userId, { isLocked: false })
   }
   catch (error) {
     console.error({ error })
@@ -175,14 +162,11 @@ async function deleteBlackListById() {
 async function postBlackList() {
   isLoading.value = true
   try {
-    await blackListApi.postBlackList({ lockedUserId: props.resultItem.invitationId })
-    matchResult.result = matchResult.result.map((item) => {
-      if (item.userId === props.resultItem.invitationId)
-        return { ...item, isLocked: true }
-      return item
-    })
+    await blackListApi.postBlackList({ lockedUserId: props.userId })
     toastMessage.value = '拒絕往來成功'
     toastType.value = 'success'
+
+    beInviteResult.updateInviteResultList(props.userId, { isLocked: true })
   }
   catch (error) {
     console.error({ error })
@@ -200,15 +184,11 @@ async function postBlackList() {
 async function finishInvitationDating() {
   isLoading.value = true
   try {
-    await beInviteApi.finishInvitationDating(tempInvitationTableId.value)
-    matchResult.result = matchResult.result.map((item) => {
-      if (item.userId === props.resultItem.invitationId)
-        return { ...item, status: 'finishDating' }
-      return item
-    })
-
+    await beInviteApi.finishInvitationDating(props.invitationTableId)
     toastMessage.value = '完成約會成功'
     toastType.value = 'success'
+
+    beInviteResult.updateInviteResultList(props.userId, { status: 'finishDating' })
   }
   catch (error) {
     console.error({ error })
@@ -228,15 +208,11 @@ async function finishInvitationDating() {
 async function acceptInvitation() {
   isLoading.value = true
   try {
-    await beInviteApi.acceptInvitation(tempInvitationTableId.value)
-    matchResult.result = matchResult.result.map((item) => {
-      if (item.userId === props.resultItem.invitationId)
-        return { ...item, beInvitationStatus: 'accept' }
-      return item
-    })
-
+    await beInviteApi.acceptInvitation(props.invitationTableId)
     toastMessage.value = '接受邀約成功'
     toastType.value = 'success'
+
+    beInviteResult.updateInviteResultList(props.userId, { Status: 'accept' })
   }
   catch (error) {
     console.error({ error })
@@ -254,16 +230,11 @@ async function acceptInvitation() {
 async function cancelInvitation() {
   isLoading.value = true
   try {
-    const res = await beInviteApi.cancelInvitation(tempInvitationTableId.value)
-    matchResult.result = matchResult.result.map((item) => {
-      if (item.userId === props.resultItem.invitationId)
-        return { ...item, status: 'cancel' }
-
-      return item
-    })
-
+    await beInviteApi.cancelInvitation(tempInvitationTableId.value)
     toastMessage.value = '取消邀約成功'
     toastType.value = 'success'
+
+    beInviteResult.updateInviteResultList(props.userId, { status: 'cancel' })
   }
   catch (error) {
     console.error({ error })
@@ -281,14 +252,11 @@ async function cancelInvitation() {
 async function rejectInvitation() {
   isLoading.value = true
   try {
-    await beInviteApi.rejectInvitation(tempInvitationTableId.value)
-    matchResult.result = matchResult.result.map((item) => {
-      if (item.userId === props.resultItem.invitationId)
-        return { ...item, beInvitationStatus: 'reject' }
-      return item
-    })
+    await beInviteApi.rejectInvitation(props.invitationTableId)
     toastMessage.value = '拒絕邀約成功'
     toastType.value = 'success'
+
+    beInviteResult.updateInviteResultList(props.userId, { status: 'reject' })
   }
   catch (error) {
     console.error({ error })
@@ -305,7 +273,10 @@ async function rejectInvitation() {
 
 <template>
   <div>
-    <utilsFireWork :is-fire-work="isLoading" />
+    <utilsFireWork
+      class="z-[99999]"
+      :is-fire-work="isCheer"
+    />
 
     <UModal
       v-model="isOpenModal"
@@ -313,7 +284,6 @@ async function rejectInvitation() {
       :ui="{ width: 'max-w-[350px] md:max-w-[666px]' }"
     >
       <UCard
-        v-if="props.status !== 'status4'"
         :ui="{ ring: '', divide: 'divide-y divide-white dark:divide-gray-800' }"
       >
         <template #header>
@@ -348,101 +318,6 @@ async function rejectInvitation() {
             @click="modalClick"
           >
             <p>確定</p>
-          </button>
-        </section>
-      </UCard>
-
-      <!-- 邀約彈窗 -->
-      <UCard
-        v-else
-        :ui="{ ring: '', divide: 'divide-y divide-white dark:divide-gray-800' }"
-      >
-        <template #header>
-          <div class="flex items-center justify-center">
-            <h3
-              class="text-B1 text-base font-bold leading-6 text-gray-900 dark:text-white"
-            >
-              {{ modalText }}
-            </h3>
-
-            <UButton
-              color="gray"
-              variant="ghost"
-              icon="i-heroicons-x-mark-20-solid"
-              class="absolute right-3 top-5 -my-1"
-              @click="isOpenModal = false"
-            />
-          </div>
-        </template>
-
-        <section class="space-y-3">
-          <div class="relative">
-            <UTextarea
-              v-model="inviteForm.message.content"
-              :ui="{ base: ' focus:!ring-primary-dark focus:!ring-1' }"
-              :rows="10"
-              :placeholder="
-                isLoading
-                  ? ''
-                  : '請填寫邀約訊息，推薦主題：電影、音樂會、餐廳、運動、旅行等...'
-              "
-              :disabled="
-                isLoading || inviteForm.message.content.length === 1000
-              "
-            />
-
-            <div
-              v-show="isLoading"
-              class="absolute left-2 top-2 space-y-3"
-            >
-              <USkeleton
-                class="h-4 w-[250px] bg-social-gradient-default md:w-[550px]"
-              />
-              <USkeleton
-                class="h-4 w-[240px] bg-social-gradient-default md:w-[450px]"
-              />
-              <USkeleton
-                class="h-4 w-[220px] bg-social-gradient-default md:w-[200px]"
-              />
-              <USkeleton
-                class="h-4 w-[240px] bg-social-gradient-default md:w-[450px]"
-              />
-              <USkeleton
-                class="h-4 w-[220px] bg-social-gradient-default md:w-[200px]"
-              />
-            </div>
-
-            <button
-              type="button"
-              class="btn-linear-sm absolute bottom-2 right-2 !p-0"
-              :disabled="isLoading"
-              @click.prevent="fetchAnswer"
-            >
-              <p>AI 提示</p>
-            </button>
-          </div>
-
-          <p class="text-B4 text-end text-neutral-400">
-            上限 {{ MAX_CHARACTERS }} 字（剩餘 {{ remainingCharacters }} 字）
-          </p>
-          <div class="flex justify-end">
-          </div>
-        </section>
-
-        <section class="mt-4 flex justify-center">
-          <button
-            class="px-[20px] py-[8px] text-[16px] leading-[24px] text-primary-dark"
-            :disabled="isLoading"
-            @click="isOpenModal = false"
-          >
-            <p>取消</p>
-          </button>
-          <button
-            class="rounded-full bg-primary-dark px-[20px] py-[8px] text-[16px] leading-[24px] text-white"
-            :disabled="isLoading"
-            @click="postInvitation"
-          >
-            <p>發送邀約</p>
           </button>
         </section>
       </UCard>

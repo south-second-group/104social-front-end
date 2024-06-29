@@ -1,41 +1,41 @@
 <script setup>
-import { useNavigation } from '~/components/utils/navigation'
+import { useInviteResultStore } from '~/store/inviteResult'
+import { inviteApi } from '~/apis/repositories/invite'
 
-defineProps({
-  resultItem: {
-    type: Object,
-    required: true,
-  },
-  isTrashIcon: {
-    type: Boolean,
-    default: false,
-  },
+const props = defineProps({
+  resultItem: Object,
+  isTrashIcon: Boolean,
 })
 
-// 通知渲染列表資料
-const emit = defineEmits(['refreshWhoList'])
-
-// 彈窗
+const inviteResultStore = useInviteResultStore()
 const isOpenModal = ref(false)
-const modalStatus = ref('')
-const { goToDetail } = useNavigation()
+const toastMessage = ref('')
+const toastType = ref('')
 
-function handleClick(status) {
-  if (['rejected', 'cancel', 'finishDating', 'pending'].includes(status)) {
-    isOpenModal.value = true
-    modalStatus.value = status
-  }
+function handleDeleteClick() {
+  isOpenModal.value = true
 }
 
-function handleClose() {
+function handleModalClose() {
   isOpenModal.value = false
 }
 
-// 監聽 isOpenModal 變化
-watch(isOpenModal, (newVal) => {
-  if (!newVal)
-    modalStatus.value = ''
-})
+async function handleDelete(resultItemId) {
+  isOpenModal.value = false
+  try {
+    await inviteApi.deleteInvitation(resultItemId)
+    toastMessage.value = '刪除邀約成功'
+    toastType.value = 'success'
+
+    inviteResultStore.deleteInviteResult(resultItemId)
+  }
+  catch (error) {
+    console.error(error)
+
+    toastMessage.value = '刪除邀約失敗，請通知開發者'
+    toastType.value = 'error'
+  }
+}
 
 const buttonList = ref([
   { status: 'status1' },
@@ -49,14 +49,11 @@ const buttonList = ref([
   { status: 'status9' },
   { status: 'status10' },
 ])
-
-// 懸停狀態
-const isHovered = ref(false)
 </script>
 
 <template>
   <section
-    v-if="resultItem"
+    v-if="resultItem.userId"
     class="w-full space-y-4 rounded-[10px] border-2 border-neutral-300 bg-white p-4 md:p-6"
   >
     <!-- 上 -->
@@ -65,16 +62,16 @@ const isHovered = ref(false)
       <div class="flex gap-3">
         <!-- 聊天 -->
         <div
-          v-if="resultItem.status === 'accepted' || resultItem.status === 'finishDating'"
+          v-if="resultItem.status === 'accept' || resultItem.status === 'finishDating'"
           class="rounded-full bg-neutral-100 p-[10px]"
         >
           <utilsChatBtn />
         </div>
         <!-- 刪除 -->
         <div
-          v-if="resultItem.status === 'rejected' || resultItem.status === 'cancel' || resultItem.status === 'finishDating'"
+          v-if="resultItem.status === 'reject' || resultItem.status === 'cancel' || resultItem.status === 'finishDating'"
           class="rounded-full bg-neutral-100 p-[10px]"
-          @click="handleClick(resultItem.status)"
+          @click="handleDeleteClick"
         >
           <utilsTrashBtn />
         </div>
@@ -82,7 +79,8 @@ const isHovered = ref(false)
         <div class="rounded-full bg-neutral-100 p-[10px]">
           <utilsCollectionBtn
             :is-collected="resultItem.isCollected"
-            :user-id="resultItem.userId"
+            :user-id="resultItem.invitedUserId"
+            :collection-table-id="resultItem._id"
           />
         </div>
       </div>
@@ -90,23 +88,25 @@ const isHovered = ref(false)
 
     <!-- 中 -->
     <div
-      class="flex cursor-pointer flex-col gap-6 rounded-xl bg-neutral-100 p-6 md:flex-row"
-      @click="() => goToDetail(resultItem._id, 'who')"
-      @mouseenter="isHovered = true"
-      @mouseleave="isHovered = false"
+      class="flex flex-col gap-6 rounded-xl bg-neutral-100 p-6 md:flex-row"
     >
-      <!-- 圖片 -->
-      <div class="group relative">
-        <img
-          :src="resultItem?.profileByInvitedUser?.photoDetails?.photo"
-          alt="s3-alpha-sig"
-          class="mx-auto size-[150px] rounded-full border-2 border-neutral-300 object-contain object-center group-hover:blur-sm"
+      <div class="shrink-0">
+        <!-- 圖片 -->
+        <NuxtLink
+          :to="`/member/invite/${resultItem._id}`"
         >
-        <span
-          class="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 text-white group-hover:block "
-        >查看資訊</span>
+          <div class="group relative">
+            <img
+              :src="resultItem.profileByInvitedUser.photoDetails.photo"
+              alt="s3-alpha-sig"
+              class="mx-auto size-[150px] rounded-full border-2 border-neutral-300 object-contain object-center group-hover:blur-sm"
+            >
+            <span
+              class="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 text-white group-hover:block"
+            >查看資訊</span>
+          </div>
+        </NuxtLink>
       </div>
-
       <div class="w-full shrink-0 space-y-6 text-start md:w-[586px]">
         <div class="space-y-1">
           <!-- 姓名 -->
@@ -160,7 +160,7 @@ const isHovered = ref(false)
               v-if="resultItem?.profileByInvitedUser?.userStatus?.commentCount"
               class="text-B3 text-neutral-400"
             >
-              評分 {{ resultItem?.profileByInvitedUser?.userStatus?.commentScore }} ({{ resultItem?.profileByInvitedUser?.[0]?.userStatus?.commentCount }})
+              評分 {{ resultItem?.profileByInvitedUser?.userStatus?.commentScore }} ({{ resultItem?.profileByInvitedUser?.userStatus?.commentCount }})
             </span>
             <span
               v-else
@@ -179,29 +179,34 @@ const isHovered = ref(false)
         :key="index"
         v-bind="{
           status: btn.status,
-          invitationStatus: resultItem.status,
-          isLocked: resultItem.isLocked,
+          invitationStatus: props.resultItem.status,
+          isLocked: props.resultItem.isLocked,
           createRenderResult,
-          cardUserName: resultItem?.profileByInvitedUser?.nickNameDetails?.nickName,
-          userId: resultItem.userId,
-          isUnlock: resultItem.isUnlock,
-          resultItem,
+          cardUserName: props.resultItem.profileByInvitedUser.nickNameDetails.nickName,
+          userId: props.resultItem.invitedUserId,
+          isUnlock: props.resultItem.isUnlock,
+          invitationTableId: props.resultItem._id,
+          resultItem: props.resultItem,
+          commentTableId: props.resultItem._id,
         }"
       />
-      <!-- @refresh-who-list="$emit('refreshWhoList')" -->
     </div>
 
     <!-- 刪除彈窗 -->
-    <MemberInviteDeleteConfirmModalWho
+    <MemberInviteDeleteConfirmModal
       :show-modal="isOpenModal"
-      :status="modalStatus"
-      :result-item="resultItem"
-      :on-close="handleClose"
-      @refresh-who-list="$emit('refreshWhoList')"
+      :result-item-id="props.resultItem._id"
+      :on-close="handleModalClose"
+      :on-delete="handleDelete"
+    />
+
+    <Toast
+      v-if="toastMessage"
+      :toast-message="toastMessage"
+      :toast-type="toastType"
     />
   </section>
 </template>
 
 <style scoped>
-
 </style>

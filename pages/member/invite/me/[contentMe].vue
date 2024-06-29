@@ -10,15 +10,14 @@ const router = useRouter()
 const isLoaded = ref(false)
 
 // 取得路由id
-const inviteId = route.params.inviteId
+const inviteId = route.params.contentMe
 
-// 邀約會員詳細資料
-const invitationDetails = ref({})
-
+// 被邀約會員詳細資料
+const invitationDetails = ref([])
 async function getInviteDetail() {
   isLoaded.value = true
   try {
-    const response = await inviteListApi.getInviteWho(inviteId)
+    const response = await inviteListApi.getInviteMe(inviteId)
 
     invitationDetails.value = response.data || {}
   }
@@ -31,13 +30,22 @@ async function getInviteDetail() {
 }
 
 // 取得評價分數
-function getRating() {
-  return invitationDetails.value.profileByInvitedUser.userStatus.rating || 0
-}
+// function getRating() {
+//   return invitationDetails.value.profileByUser.userStatus.rating || 0
+// }
 
 watchEffect(() => {
   getInviteDetail()
 })
+
+// 获取评分
+// function getRating() {
+//   const userStatus = type === 'who'
+//     ? invitationDetails.value.profileByInvitedUser.userStatus
+//     : invitationDetails.value.profileByUser.userStatus
+//   return userStatus.rating || 0computed(() => {
+//   return type === 'who'
+//     ? invitationDetails.value.profileByInvitedUtInviteDetail()
 </script>
 
 <template>
@@ -50,7 +58,7 @@ watchEffect(() => {
       />
       <img
         v-else
-        :src="invitationDetails.profileByInvitedUser.photoDetails.photo"
+        :src="invitationDetails.profileByUser.photoDetails.photo"
         class="mx-auto size-[150px] rounded-full object-cover object-top"
       >
 
@@ -69,37 +77,37 @@ watchEffect(() => {
             <span
               :class="{
                 'font-montserrat': !useIsChineseFunc(
-                  invitationDetails.profileByInvitedUser.nickNameDetails.nickName,
+                  invitationDetails.profileByUser.nickNameDetails.nickName,
                 ),
               }"
             >
               {{
-                invitationDetails.profileByInvitedUser.nickNameDetails.nickName
+                invitationDetails.profileByUser.nickNameDetails.nickName
               }}
             </span>
           </div>
 
           <!-- 年收入 -->
-          <div class="mb-2 flex h-[35px] items-center">
+          <!-- <div class="mb-2 flex h-[35px] items-center">
             <label class="w-24 align-middle">年收入：</label>
             <span>{{
-              invitationDetails.profileByInvitedUser.incomeDetails.income || 不透露
+              invitationDetails.profileByUser.incomeDetails.income || 不透露
             }}</span>
-          </div>
+          </div> -->
 
           <!-- 工作 -->
-          <div class="items中心 mb-2 flex h-[35px]">
+          <!-- <div class="items中心 mb-2 flex h-[35px]">
             <label class="w-24 align-middle">工作：</label>
             <span>{{
-              invitationDetails.profileByInvitedUser.jobDetails.job || 不透露
+              invitationDetails.profileByUser.jobDetails.job || 不透露
             }}</span>
-          </div>
+          </div> -->
 
           <!-- Line ID -->
           <div class="items中心 mb-2 flex h-[35px] font-montserrat">
             <label class="w-24 align-middle">Line ID：</label>
             <span>{{
-              invitationDetails.profileByInvitedUser.lineDetails.lineId || 不透露
+              invitationDetails.profileByUser.lineDetails.lineId || 不透露
             }}</span>
           </div>
 
@@ -108,27 +116,29 @@ watchEffect(() => {
             <label
               :class="{
                 'font-montserrat': !useIsChineseFunc(
-                  invitationDetails.profileByInvitedUser.nickNameDetails.nickName,
+                  invitationDetails.profileByUser.nickNameDetails.nickName,
                 ),
               }"
             >
               {{
-                invitationDetails.profileByInvitedUser.nickNameDetails.nickName
+                invitationDetails.profileByUser.nickNameDetails.nickName
               }} 的標籤：
             </label>
             <div class="mt-3 flex flex-wrap items-center justify-start gap-2 rounded-md">
               <UBadge
-                v-for="tag in invitationDetails.profileByInvitedUser.tags || []"
-                :key="tag"
+                v-for="i in (
+                    invitationDetails.profileByUser.tags
+                )"
+                :key="i"
                 class="btn-withIcon-outline-rwd pointer-events-none !rounded-lg !px-1 !py-[2px]"
               >
                 <p
                   class="!text-[10px]"
                   :class="{
-                    'font-montserrat': !useIsChineseFunc(tag),
+                    'font-montserrat': !useIsChineseFunc(i),
                   }"
                 >
-                  {{ tag }}
+                  {{ i }}
                 </p>
               </UBadge>
             </div>
@@ -140,16 +150,17 @@ watchEffect(() => {
           <label
             class="text-H4"
             for=""
-          >邀請人簡介</label>
+          >被邀請人簡介</label>
           <p class="rounded-md border-2 p-3">
             {{
-              invitationDetails.profileByInvitedUser.introDetails.intro || 不透露
+
+              invitationDetails.profileByUser.introDetails.intro || 不透露
             }}
           </p>
         </div>
 
         <!-- 整體評價 -->
-        <div class="mt-12 w-full space-y-3">
+        <!-- <div class="mt-12 w-full space-y-3">
           <label class="text-H4">整體評價</label>
           <div class="flex">
             <icon-heroicons:heart-solid
@@ -162,7 +173,7 @@ watchEffect(() => {
               }"
             />
           </div>
-        </div>
+        </div> -->
 
         <!-- 返回上一頁 -->
         <section class="mt-12 flex justify-center">

@@ -34,8 +34,18 @@ async function finishInvitationDating(params) {
   })
 }
 
+async function deleteInvitation(params) {
+  return useBaseFetch(`/api/v1/i-invite-who/${params}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+}
+
 export const inviteApi = {
   postInvitation,
   cancelInvitation,
   finishInvitationDating,
+  deleteInvitation,
 }
