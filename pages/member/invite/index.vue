@@ -1,5 +1,7 @@
 <script setup>
 import { inviteListApi } from '~/apis/repositories/inviteList'
+import { useInviteResultStore } from '~/store/inviteResult'
+import { useBeInviteResultStore } from '~/store/beInviteResult'
 
 // 處理 tab 切換
 useHead({
@@ -15,62 +17,65 @@ const selectedItem = ref('我邀約誰')
 
 function onChange(index) {
   selectedItem.value = tabItems[index].label
-  loadData()
 }
 
+// toast
+const toastMessage = ref('')
+const toastType = ref('')
+
 // 分頁
-const pagination = reactive({ page: 1, totalCount: 1 })
+const pagination = reactive({ page: 1, totalCount: 10 })
+const query = reactive({
+  sort: '-updatedAt',
+  page: pagination.page,
+})
 
 // loading 狀態
 const isDataLoading = ref(true)
 
 // 我的邀約列表
 const inviteWhoListData = ref([])
-async function getInviteWhoList() {
-  try {
-    const res = await inviteListApi.getInviteWhoList()
-    inviteWhoListData.value = res.data.invitations || []
-
-    pagination.page = res.data.pagination?.page || 1
-    pagination.totalCount = res.data.pagination?.totalCount || 0
-
-    // inviteWhoListData.value.resultTotal = inviteWhoListData.value.pagination.totalCount || 0
-    // pagination.page = inviteWhoListData.value.pagination.page
-    // pagination.totalCount = inviteWhoListData.value.pagination.totalCount
-  }
-  catch (error) {
-    console.error(error)
-  }
-}
-
 // 誰邀約我列表
 const inviteMeListData = ref([])
-async function getInviteMeList() {
+
+const inviteResultStore = useInviteResultStore()
+const beInviteResultStore = useBeInviteResultStore()
+
+async function loadData() {
+  isDataLoading.value = true
   try {
-    const res = await inviteListApi.getInviteMeList()
-    inviteMeListData.value = res.data.beInvitations || []
+    if (selectedItem.value === '我邀約誰') {
+      const { data } = await inviteListApi.getInviteWhoList(query)
+      inviteWhoListData.value = data.invitations || []
+      pagination.page = data.pagination.page || 1
+      pagination.totalCount = data.pagination.totalCount || 0
 
-    pagination.page = res.data.pagination?.page || 1
-    pagination.totalCount = res.data.pagination?.totalCount || 0
+      // 初始化 store 中的數據
+      inviteResultStore.result = inviteWhoListData.value
+    }
+    else {
+      const { data } = await inviteListApi.getInviteMeList(query)
+      inviteMeListData.value = data.beInvitations || []
+      pagination.page = data.pagination.page || 1
+      pagination.totalCount = data.pagination.totalCount || 0
 
-    // inviteMeListData.value.resultTotal = inviteMeListData.value.pagination.totalCount || 0
-    // pagination.page = inviteMeListData.value.pagination.page
-    // pagination.totalCount = inviteMeListData.value.pagination.totalCount
+      // 初始化 store 中的數據
+      beInviteResultStore.result = inviteMeListData.value
+    }
   }
   catch (error) {
     console.error(error)
+    toastMessage.value = '加載資料失敗，請稍後再試'
+    toastType.value = 'error'
+  }
+  finally {
+    isDataLoading.value = false
   }
 }
 
-// 切換 tab 載入資料
-async function loadData() {
-  isDataLoading.value = true
-  if (selectedItem.value === '誰邀約我')
-    await getInviteMeList()
-  else
-    await getInviteWhoList()
-  isDataLoading.value = false
-}
+watchEffect(() => {
+  query.page = pagination.page
+})
 
 // 頁面載入時顯示我的邀約列表
 onMounted(loadData)
@@ -78,10 +83,24 @@ onMounted(loadData)
 // 監聽 tab 變化，根據選擇顯示相應的 API
 watch(selectedItem, loadData)
 
-// 監聽子組件的 refreshList 事件
-function handleRefreshList() {
-  loadData()
-}
+// 監聽 store 中 result 的變化
+watch(
+  () => inviteResultStore.result,
+  (newResult) => {
+    if (selectedItem.value === '我邀約誰')
+      inviteWhoListData.value = newResult
+  },
+  { deep: true },
+)
+
+watch(
+  () => beInviteResultStore.result,
+  (newResult) => {
+    if (selectedItem.value === '誰邀約我')
+      inviteMeListData.value = newResult
+  },
+  { deep: true },
+)
 </script>
 
 <template>
@@ -120,17 +139,15 @@ function handleRefreshList() {
       >
         <!-- card -->
         <div
-          v-if="!isDataLoading && inviteWhoListData.length !== 0"
+          v-if="!isDataLoading && inviteWhoListData.length > 0"
           class="space-y-3"
         >
           <MemberInviteUserCardListWho
-            v-for="(value, key) in inviteWhoListData"
-            :key="key"
-            :result-item="value"
+            v-for="item in inviteWhoListData"
+            :key="item._id"
+            :result-item="item"
             :is-trash-icon="false"
-            @refresh-who-list="handleRefreshList"
           />
-          <!--  -->
         </div>
 
         <!-- loading -->
@@ -145,22 +162,23 @@ function handleRefreshList() {
         </div>
 
         <!-- 無資料 -->
-        <div
-          v-else
-          class="space-y-3 rounded-lg bg-neutral-100 p-6 text-center"
-        >
-          尚無邀約資料，快去邀約心儀的對象吧!
+        <div v-else>
+          <NuxtImg
+            src="/chatRoom/No-Result-Found.png"
+            alt=""
+            class="mx-auto w-[250px]"
+          />
+          <p class="font-bold text-zinc-400">
+            尚無邀約資料，快去邀約心儀的對象吧!
+          </p>
         </div>
 
         <!-- 分頁 -->
-        <div
-          v-if="inviteWhoListData.length !== 0"
-        >
-          <utilsPaginationComp
-            v-model="pagination.page"
-            :items="Array(pagination.totalCount)"
-          />
-        </div>
+        <utilsPaginationComp
+          v-if="inviteWhoListData.length > 0"
+          v-model="pagination.page"
+          :items="Array(pagination.totalCount)"
+        />
       </section>
 
       <!-- 誰邀約我 -->
@@ -170,15 +188,14 @@ function handleRefreshList() {
       >
         <!-- card -->
         <div
-          v-if="!isDataLoading && inviteMeListData.length !== 0"
+          v-if="!isDataLoading && inviteMeListData.length > 0"
           class="space-y-3"
         >
           <MemberInviteUserCardListMe
-            v-for="(value, key) in inviteMeListData"
-            :key="key"
-            :result-item="value"
+            v-for="item in inviteMeListData"
+            :key="item._id"
+            :result-item="item"
             :is-trash-icon="false"
-            @refresh-me-list="handleRefreshList"
           />
         </div>
 
@@ -194,22 +211,23 @@ function handleRefreshList() {
         </div>
 
         <!-- 無資料 -->
-        <div
-          v-else
-          class="space-y-3 rounded-lg bg-neutral-100 p-6 text-center"
-        >
-          尚無被邀約資料，趕緊主動出擊吧!
+        <div v-else>
+          <NuxtImg
+            src="/chatRoom/No-Result-Found.png"
+            alt=""
+            class="mx-auto w-[250px]"
+          />
+          <p class="font-bold text-zinc-400">
+            尚無被邀約資料，趕緊主動出擊吧!
+          </p>
         </div>
 
         <!-- 分頁 -->
-        <div
-          v-if="inviteMeListData.length !== 0"
-        >
-          <utilsPaginationComp
-            v-model="pagination.page"
-            :items="Array(pagination.totalCount)"
-          />
-        </div>
+        <utilsPaginationComp
+          v-if="inviteMeListData.length > 0"
+          v-model="pagination.page"
+          :items="Array(pagination.totalCount)"
+        />
       </section>
     </div>
   </div>
