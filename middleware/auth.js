@@ -1,8 +1,12 @@
-import { useStorage } from '@vueuse/core'
+import { memberAPI } from '../apis/repositories/member'
 
-export default defineNuxtRouteMiddleware(async (_to, _from) => {
-  const isUserLoggedIn = useStorage('name')
-
-  if (!isUserLoggedIn)
-    navigateTo('/login')
+export default defineNuxtRouteMiddleware((_to, _from) => {
+  (async () => {
+    try {
+      await memberAPI.getUserData()
+    }
+    catch (error) {
+      return navigateTo('/login')
+    }
+  })()
 })

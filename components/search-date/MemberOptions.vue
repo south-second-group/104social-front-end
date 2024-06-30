@@ -1,5 +1,5 @@
 <script setup>
-const popularTag = ['水瓶座']
+const popularTag = ['水瓶座', '雙魚座', '登山', '射手座', '游泳', '獅子座', '巨蟹座', '健談', '冷靜', '害羞']
 
 // const userGenderOptions = [{
 //   value: 'male',

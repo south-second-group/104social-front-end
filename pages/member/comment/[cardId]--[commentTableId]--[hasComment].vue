@@ -8,6 +8,7 @@ const route = useRoute()
 const router = useRouter()
 const matchResult = useMatchResultStore()
 const searchCriteriaStore = useSearchCriteriaStore()
+const commentList = useCommentStore()
 
 const apiData = ref({})
 const rating = ref(5)
@@ -20,9 +21,11 @@ const toastMessage = ref('')
 const toastType = ref('')
 
 const beforeRoute = useStorage('beforeRoute', '')
-onMounted(() => {
+if (!window.history && window.history.length === 0)
+  window.history.go(-1)
+else
   beforeRoute.value = window.history.state.back
-})
+
 // 判斷進入哪一個用戶的已給評價
 if (beforeRoute.value.includes('MatchResult')) {
   matchResult.result.map((item) => {
@@ -35,6 +38,15 @@ if (beforeRoute.value.includes('MatchResult')) {
 }
 else if (beforeRoute.value.includes('search-date')) {
   searchCriteriaStore.searchResultsList.map((item) => {
+    if (item.userInfo._id === route.params.cardId) {
+      renderData.value = item
+      return item
+    }
+    return item
+  })
+}
+else if (beforeRoute.value.includes('comment')) {
+  commentList.result.map((item) => {
     if (item.userInfo._id === route.params.cardId) {
       renderData.value = item
       return item
@@ -166,7 +178,7 @@ function renderValue(key, value) {
 </script>
 
 <template>
-  <div class="container p-3 text-start md:px-12">
+  <div class="container relative p-3 text-start md:px-12">
     <!-- {{ apiData }} -->
     <!-- {{ renderData }} -->
 
@@ -183,6 +195,7 @@ function renderValue(key, value) {
       <utilsPhotoCaroucel
         v-else
         :photo-details="renderData.profile.photoDetails"
+        class="z-10"
       />
 
       <h1 class="text-H4 mt-24">
@@ -345,7 +358,91 @@ function renderValue(key, value) {
         />
       </div>
     </div>
+
+    <!-- 裝飾球_Large -->
+    <div
+      class="animate-scale-up-loop decoration-ball-1 absolute top-[145px] z-[-1] w-[184px] md:left-[-255px] md:w-[684px]"
+    >
+      <NuxtImg
+        src="/banner/bg-ball-large-lg.png"
+        alt="Banner_ball"
+        class="size-full"
+      />
+    </div>
+    <div
+      class="animate-scale-up-loop decoration-ball-1 absolute top-[545px] z-[-1] w-[184px] md:right-[-155px] md:w-[684px]"
+    >
+      <NuxtImg
+        src="/banner/bg-ball-large-lg.png"
+        alt="Banner_ball"
+        class="size-full"
+      />
+    </div>
+    <!-- 裝飾球_Medium -->
+    <div
+      class="animate-scale-up-loop decoration-ball-2 absolute top-[-30px] z-[-1] w-[90px] md:left-[381px] md:w-[305px]"
+    >
+      <NuxtImg
+        src="/banner/bg-ball-medium-lg.png"
+        alt="Banner_ball"
+        class="size-full"
+      />
+    </div>
+    <!-- 裝飾球_Medium -->
+    <div
+      class="animate-scale-up-loop decoration-ball-3 absolute top-[-55px] z-[-1] w-[90px] md:right-[-206px] md:w-[305px]"
+    >
+      <NuxtImg
+        src="/banner/bg-ball-medium-lg.png"
+        alt="Banner_ball"
+        class="size-full"
+      />
+    </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+@keyframes scaleUp {
+  0% {
+    transform: scale(0.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleUpLoop {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.4;
+    filter: blur(5px);
+  }
+}
+
+.animate-scale-up-loop {
+  animation: scaleUp 1s ease-out forwards,
+    scaleUpLoop 5s ease-in-out infinite 3s;
+}
+
+.animate-scale-up {
+  animation: scaleUp 0.4s ease-in-out forwards;
+}
+
+.decoration-ball-1 {
+  animation-delay: 0ms;
+}
+
+.decoration-ball-2 {
+  animation-delay: 1300ms;
+}
+
+.decoration-ball-3 {
+  animation-delay: 2100ms;
+}
+</style>

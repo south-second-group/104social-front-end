@@ -1,68 +1,179 @@
 <script setup>
+import { matchListApi } from '~/apis/repositories/matchList'
+
 const props = defineProps(['member'])
 const { member } = props
+
+const userDataStore = useUserDataStore()
+
+const isDataLoading = ref(true)
+
+// 取得配對選項
+const matchListOptionData = ref([])
+async function getMatchListOption() {
+  try {
+    const res = await matchListApi.matchListOptions()
+    const { data } = res
+    matchListOptionData.value = data
+  }
+  catch (error) {
+    console.error(error)
+  }
+}
+
+Promise.all([getMatchListOption()]).then(() => {
+  isDataLoading.value = false
+})
+
+// 渲染詳細資料邏輯
+function renderValue(key, value) {
+  if (Array.isArray(value) && value.length >= 1)
+    return value.map(v => matchListOptionData.value[0][key][v].label)
+
+  if (matchListOptionData.value[0][key][value].label !== '請選擇')
+    return matchListOptionData.value[0][key][value].label
+}
+
+const createRenderResult = new Set()
+function createRenderValue(key, value) {
+  if (Array.isArray(value)) {
+    value.forEach((v) => {
+      if (matchListOptionData.value[0][key][v].label !== '請選擇')
+        createRenderResult.add(matchListOptionData.value[0][key][v].label)
+    })
+  }
+  else if (matchListOptionData.value[0][key][value].label !== '請選擇') {
+    createRenderResult.add(matchListOptionData.value[0][key][value].label)
+  }
+}
 </script>
 
 <template>
-  <div class="me-6 text-center md:me-0">
+  <div
+
+    v-if="!isDataLoading"
+    class="me-6 text-center md:me-0"
+  >
     <div
       class="shadow-primary-light-800/10 border-real-transparent card-border mx-auto w-[300px] rounded-lg border-2 bg-white shadow transition duration-150 ease-in-out lg:flex lg:w-full"
     >
       <div class="shrink-0">
         <NuxtImg
-          :src="member.avatar.src"
+          :src="member.profile.photoDetails.photo"
           alt="member_image"
-          class="h-[200px] w-[300px] rounded-t-lg object-cover object-top lg:h-[265px] lg:w-[200px] lg:rounded-l-lg lg:rounded-tr-none"
+          class="h-[200px] w-[300px] rounded-t-lg object-cover object-center lg:h-[265px] lg:w-[200px] lg:rounded-l-lg lg:rounded-tr-none"
         />
       </div>
-      <div class="flex w-full flex-col justify-between p-5">
-        <div class="mb-3">
-          <div class="mb-2 flex justify-between">
-            <p class="text-start text-xl font-bold  leading-7 text-zinc-950 md:text-2xl">
-              {{ member.name }}
-            </p>
-            <div class="">
-              <span class="text-xl">
-                <utilsCollectionBtn />
-              </span>
-            </div>
-          </div>
-          <div class="">
-            <div class="mb-1 flex gap-3 text-zinc-600">
-              <p
-                v-for="(desc, index) in member.describe_1"
-                :key="index"
+
+      <div class="flex w-full flex-col justify-between  p-5">
+        <div class="flex justify-between">
+          <p
+            class="line-clamp-1 w-[200px] text-start  text-xl font-bold leading-7 text-zinc-950 md:w-full md:text-2xl"
+            :class="{
+              'font-montserrat': !useIsChineseFunc(
+                member.userInfo.personalInfo.username,
+              ),
+            }"
+          >
+            {{ member.userInfo.personalInfo.username }}
+          </p>
+          <div>
+            <span class="text-xl">
+
+              <utilsCollectionBtn
+                v-if="
+                  userDataStore.userData
+                    && userDataStore.userData.userId
+                "
+                :is-collected="member.isCollected"
+                :user-id="member.matchListSelfSetting.userId"
+                :collection-table-id="member.collectionTableId"
+              />
+              <UTooltip
+                v-else
+                text="登入後收藏"
               >
-                {{ desc }}
-              </p>
-            </div>
-            <div class="flex gap-3 text-zinc-600">
-              <p
-                v-for="(desc, index) in member.describe_2"
-                :key="index"
-              >
-                {{ desc }}
-              </p>
-            </div>
-            <div class="my-3 flex items-center">
-              <span class="text-xl text-amber-400">
-                <icon-heroicons-star-solid />
-              </span>
-              <p class="ms-2 text-sm text-zinc-400">
-                評分 {{ member.rating }} ({{ member.ratingCount }})
-              </p>
-            </div>
-            <ul class="flex gap-3 text-primary-dark">
-              <li
-                v-for="(desc, index) in member.hashtag"
-                :key="index"
-              >
-                #{{ desc }}
-              </li>
-            </ul>
+                <utilsCollectionBtn
+                  class="pointer-events-none"
+                />
+              </UTooltip>
+            </span>
           </div>
         </div>
-        <div class="flex justify-center gap-3 lg:justify-end">
+        <div class=" space-y-3">
+          <div class="flex gap-3 text-zinc-600">
+            <div
+              v-if="
+                !isDataLoading
+                  && member.matchListSelfSetting
+                  && member.matchListSelfSetting.personalInfo
+              "
+            >
+              <!-- 將個人條件全部加入顯示陣列 -->
+              <span
+                v-for="(value, key) in member.matchListSelfSetting
+                  .personalInfo"
+                :key="key"
+                class="hidden"
+              >
+                {{ createRenderValue(key, value) }}
+              </span>
+              <!-- 將工作條件的產業 加入 顯示陣列 -->
+              <span class="hidden">
+                {{
+                  createRenderValue(
+                    'industry',
+                    member.matchListSelfSetting.workInfo.industry,
+                  )
+                }}
+              </span>
+              <!-- 顯示陣列 -->
+              <span class="text-B2 text-neutral-600">{{
+                Array.from(createRenderResult).join('、')
+              }}</span>
+            </div>
+          </div>
+
+          <div
+
+            v-if="
+              member.matchListSelfSetting
+                && member.matchListSelfSetting.workInfo
+            "
+            class="mb-1 flex gap-3 text-zinc-600"
+          >
+            <p>
+              {{
+                renderValue(
+                  'occupation',
+                  member.matchListSelfSetting.workInfo.occupation === '請選擇'
+                    ? '保留職業資訊'
+                    : member.matchListSelfSetting.workInfo.occupation,
+                )
+              }}
+            </p>
+          </div>
+
+          <div class="my-3 flex items-center">
+            <span class="text-xl text-amber-400">
+              <icon-heroicons-star-solid />
+            </span>
+            <p class="ms-2 text-sm text-zinc-400">
+              評分 {{ member.profile.userStatus.commentScore }} ({{ member.profile.userStatus.commentCount }})
+            </p>
+          </div>
+
+          <ul class="flex flex-wrap gap-3 text-primary-dark">
+            <li
+              v-for="(desc, index) in member.profile.tags"
+              :key="index"
+            >
+              #{{ desc }}
+            </li>
+          </ul>
+        </div>
+
+        <!-- <div class="flex justify-center gap-3 lg:justify-end">
           <button class="btn-withIcon-outline">
             <icon-heroicons:lock-open />
             <p>解鎖評價</p>
@@ -71,7 +182,7 @@ const { member } = props
             <icon-heroicons:heart />
             <p>邀約</p>
           </button>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

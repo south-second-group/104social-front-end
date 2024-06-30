@@ -1,10 +1,15 @@
 <script setup>
-import { useStorage } from '@vueuse/core'
 import { searchApi } from '../apis/repositories/search'
 import { matchListApi } from '~/apis/repositories/matchList'
 
 useHead({
   title: '尋找對象',
+})
+
+definePageMeta({
+  middleware: [
+    'auth',
+  ],
 })
 
 const searchCriteriaStore = useSearchCriteriaStore()
@@ -30,10 +35,10 @@ const toastMessage = ref('')
 const toastType = ref('')
 const isDataLoading = ref(true)
 
-const searchHistory = useStorage('searchHistory', [])
+// const searchHistory = useStorage('searchHistory', [])
 const pagination = reactive({ page: 1, totalCount: 10 })
 const query = reactive({
-  sort: '-updatedAt',
+  sort: '-score',
   page: pagination.page,
 })
 
@@ -45,9 +50,9 @@ async function keywordSearch() {
     searchCriteriaStore.searchResultsList = data.resultList
     pagination.totalCount = data?.pagination?.totalCount || 0
 
-    searchHistory.value.push(searchForm.value.keyWord)
+    // searchHistory.value.push(searchForm.value.keyWord)
 
-    resetSearchForm()
+    // resetSearchForm()
   }
   catch (error) {
     console.error(error)
@@ -115,11 +120,11 @@ const sortOption = ref([
   { label: '最久更新', value: 'updatedAt' },
   {
     label: '最高評分',
-    value: '{ "scoreByProfile.userStatus.commentScore": -1 }',
+    value: '-score',
   },
   {
     label: '最低評分',
-    value: '{ "scoreByProfile.userStatus.commentScore": 1 }',
+    value: 'score',
   },
 ])
 </script>
@@ -330,11 +335,11 @@ const sortOption = ref([
                 'active-tab': currentTab === 'newest',
                 'inactive-tab': currentTab !== 'newest',
               }"
-              class="cursor-pointer whitespace-nowrap p-2 transition duration-300 ease-in-out"
+              class="pointer-events-none cursor-pointer whitespace-nowrap p-2 transition duration-300 ease-in-out"
               @click="changeTab('newest')"
             >
               <p class="text-base font-bold md:text-xl">
-                近期刊登（487）
+                近期刊登（0）
               </p>
             </div>
           </div>

@@ -1,6 +1,13 @@
 <script setup>
 const userDataStore = useUserDataStore()
 const { userData } = storeToRefs(userDataStore)
+
+const isGifLoading = ref(true)
+
+onMounted(async () => {
+  await new Promise(resolve => setTimeout(resolve, 5000))
+  isGifLoading.value = false
+})
 </script>
 
 <template>
@@ -64,15 +71,30 @@ const { userData } = storeToRefs(userDataStore)
               </button>
             </div>
           </div>
-          <div class="ms-3 flex lg:w-full xl:ms-6">
+          <div class="ms-3 flex lg:h-[550px] lg:w-full xl:ms-6">
             <img
+              v-if="isGifLoading"
               class="submit_story-inner-shadow-white size-full w-[50%] rounded-l-3xl object-cover lg:w-full"
               src="../../assets/img/SubmitStory/img01.png"
               alt=""
             >
             <img
+              v-else
+              class="submit_story-inner-shadow-white size-full w-[50%] rounded-l-3xl object-cover lg:w-full "
+              src="../../assets/img/SubmitStory/img01-animate.gif"
+              alt=""
+            >
+
+            <img
+              v-if="isGifLoading"
               class="submit_story-inner-shadow-primary size-full w-[50%] object-cover lg:hidden lg:w-full xl:block"
               src="../../assets/img/SubmitStory/img02.png"
+              alt=""
+            >
+            <img
+              v-else
+              class="submit_story-inner-shadow-primary size-full w-[50%] object-cover lg:hidden lg:w-full  xl:block"
+              src="../../assets/img/SubmitStory/img02-animate.gif"
               alt=""
             >
           </div>

@@ -13,6 +13,15 @@ async function keywordSearch(query, body) {
   })
 }
 
+async function getEliteList() {
+  const url = `/api/v1/elite-list/`
+
+  return useBaseFetch(url, {
+    method: 'GET',
+  })
+}
+
 export const searchApi = {
   keywordSearch,
+  getEliteList,
 }

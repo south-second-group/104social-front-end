@@ -1,4 +1,25 @@
 <script setup>
+import { searchApi } from '../apis/repositories/search'
+
+const isDataLoading = ref(true)
+const eliteList = ref([])
+
+async function getEliteList() {
+  try {
+    const { data } = await searchApi.getEliteList()
+    eliteList.value = data.resultList
+  }
+  catch (error) {
+    console.error(error)
+
+    isDataLoading.value = false
+  }
+}
+
+onMounted(() => {
+  getEliteList()
+})
+
 const items = [{
   name: 'Lisa',
   describe_1: ['28 歲', '167 cm'],
@@ -94,7 +115,7 @@ onUnmounted(() => {
         class="my-[60px] grid grid-cols-2 gap-6 "
       >
         <div
-          v-for="(item, index) in items"
+          v-for="(item, index) in eliteList"
           :key="index"
         >
           <indexMemberCard :member="item" />
@@ -104,7 +125,7 @@ onUnmounted(() => {
       <UCarousel
         v-else
         v-slot="{ item }"
-        :items="items"
+        :items="eliteList"
       >
         <div class="mx-auto text-center">
           <indexMemberCard :member="item" />
@@ -112,16 +133,22 @@ onUnmounted(() => {
       </UCarousel>
     </div>
     <div class="lg:hidden">
-      <button class="btn-textOrIcon-sm mx-auto mt-6">
+      <NuxtLink
+        to="/search-date"
+        class="btn-textOrIcon-sm mx-auto mt-6"
+      >
         <p>查看更多</p>
         <icon-heroicons:arrow-right />
-      </button>
+      </NuxtLink>
     </div>
     <div class="hidden lg:block">
-      <button class="btn-textOrIcon-lg mx-auto mt-6">
+      <NuxtLink
+        to="/search-date"
+        class="btn-textOrIcon-lg mx-auto mt-6"
+      >
         <p>查看更多</p>
         <icon-heroicons:arrow-right />
-      </button>
+      </NuxtLink>
     </div>
   </div>
 </template>

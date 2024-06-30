@@ -15,14 +15,14 @@ const pagination = reactive({ page: 1, totalCount: 1 })
 const sortOption = ref([
   { label: '最近更新', value: '-updatedAt' },
   { label: '最久更新', value: 'updatedAt' },
-  {
-    label: '最高評分',
-    value: '{ "scoreByProfile.userStatus.commentScore": -1 }',
-  },
-  {
-    label: '最低評分',
-    value: '{ "scoreByProfile.userStatus.commentScore": 1 }',
-  },
+  // {
+  //   label: '最高評分',
+  //   value: '{ "scoreByProfile.userStatus.commentScore": -1 }',
+  // },
+  // {
+  //   label: '最低評分',
+  //   value: '{ "scoreByProfile.userStatus.commentScore": 1 }',
+  // },
 ])
 const sortSelected = ref('-updatedAt')
 

@@ -7,6 +7,7 @@ const route = useRoute()
 const router = useRouter()
 const matchResult = useMatchResultStore()
 const searchCriteriaStore = useSearchCriteriaStore()
+const commentList = useCommentStore()
 
 const apiData = ref({})
 const isLoaded = ref(false)
@@ -27,6 +28,15 @@ if (beforeRoute.value.includes('MatchResult')) {
 }
 else if (beforeRoute.value.includes('search-date')) {
   searchCriteriaStore.searchResultsList.forEach((item) => {
+    if (item.userInfo._id === route.params.cardId) {
+      renderData.value = item
+      return item
+    }
+    return item
+  })
+}
+else if (beforeRoute.value.includes('comment')) {
+  commentList.result.map((item) => {
     if (item.userInfo._id === route.params.cardId) {
       renderData.value = item
       return item
@@ -108,9 +118,11 @@ function getKeyLabel(key) {
 function renderValue(key, value) {
   if (Array.isArray(value)) {
     return value
-      .map(v => matchListOptionData.value[0][key][v].label !== '請選擇'
-        ? matchListOptionData.value[0][key][v].label
-        : '對方保留')
+      .map(v =>
+        matchListOptionData.value[0][key][v].label !== '請選擇'
+          ? matchListOptionData.value[0][key][v].label
+          : '對方保留',
+      )
       .join('、')
   }
 
@@ -160,7 +172,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="container p-3 text-start md:px-12">
+  <div class="container relative p-3 text-start md:px-12">
     <Toast
       :toast-message="toastMessage"
       :toast-type="toastType"
@@ -174,6 +186,7 @@ watchEffect(() => {
       <utilsPhotoCaroucel
         v-else
         :photo-details="renderData.profile.photoDetails"
+        class="z-10"
       />
 
       <h1 class="text-H4 mt-24">
@@ -266,8 +279,8 @@ watchEffect(() => {
             }}
           </span>
         </div>
-        <div class="flex flex-wrap justify-center pb-6 pt-3">
-          <!-- <utilsComplexBtn
+        <!-- <div class="flex flex-wrap justify-center py-6">
+          <utilsComplexBtn
             v-for="(btn, index) in buttonList"
             :key="index"
             v-bind="{
@@ -282,9 +295,10 @@ watchEffect(() => {
               hasComment: renderData.hasComment,
               beInvitationStatus: renderData.beInvitationStatus,
               beInvitationTableId: renderData.beInvitationTableId,
+              commentTableId: renderData.commentTableId,
             }"
-          /> -->
-        </div>
+          />
+        </div> -->
 
         <!-- 大家的評價 -->
         <div
@@ -296,11 +310,17 @@ watchEffect(() => {
             class="text-H4"
             :class="{
               'font-montserrat': !useIsChineseFunc(
-                i.commentUserProfile[0].nickNameDetails.nickName,
+                i.commentUserProfile[0].nickNameDetails.nickName !== ''
+                  ? i.commentUserProfile[0].nickNameDetails.nickName
+                  : i.commentUserUsername[0].personalInfo.username,
               ),
             }"
           >
-            {{ i.commentUserProfile[0].nickNameDetails.nickName }}
+            {{
+              i.commentUserProfile[0].nickNameDetails.nickName !== ''
+                ? i.commentUserProfile[0].nickNameDetails.nickName
+                : i.commentUserUsername[0].personalInfo.username
+            }}
             留下的評價</label>
           <p
             v-if="renderData.isUnlock === true"
@@ -353,7 +373,91 @@ watchEffect(() => {
         />
       </div>
     </div>
+
+    <!-- 裝飾球_Large -->
+    <div
+      class="animate-scale-up-loop decoration-ball-1 absolute top-[145px] z-[-1] w-[184px] md:left-[-255px] md:w-[684px]"
+    >
+      <NuxtImg
+        src="/banner/bg-ball-large-lg.png"
+        alt="Banner_ball"
+        class="size-full"
+      />
+    </div>
+    <div
+      class="animate-scale-up-loop decoration-ball-1 absolute top-[545px] z-[-1] w-[184px] md:right-[-155px] md:w-[684px]"
+    >
+      <NuxtImg
+        src="/banner/bg-ball-large-lg.png"
+        alt="Banner_ball"
+        class="size-full"
+      />
+    </div>
+    <!-- 裝飾球_Medium -->
+    <div
+      class="animate-scale-up-loop decoration-ball-2 absolute top-[-30px] z-[-1] w-[90px] md:left-[381px] md:w-[305px]"
+    >
+      <NuxtImg
+        src="/banner/bg-ball-medium-lg.png"
+        alt="Banner_ball"
+        class="size-full"
+      />
+    </div>
+    <!-- 裝飾球_Medium -->
+    <div
+      class="animate-scale-up-loop decoration-ball-3 absolute top-[-55px] z-[-1] w-[90px] md:right-[-206px] md:w-[305px]"
+    >
+      <NuxtImg
+        src="/banner/bg-ball-medium-lg.png"
+        alt="Banner_ball"
+        class="size-full"
+      />
+    </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+@keyframes scaleUp {
+  0% {
+    transform: scale(0.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleUpLoop {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.4;
+    filter: blur(5px);
+  }
+}
+
+.animate-scale-up-loop {
+  animation: scaleUp 1s ease-out forwards,
+    scaleUpLoop 5s ease-in-out infinite 3s;
+}
+
+.animate-scale-up {
+  animation: scaleUp 0.4s ease-in-out forwards;
+}
+
+.decoration-ball-1 {
+  animation-delay: 0ms;
+}
+
+.decoration-ball-2 {
+  animation-delay: 1300ms;
+}
+
+.decoration-ball-3 {
+  animation-delay: 2100ms;
+}
+</style>
