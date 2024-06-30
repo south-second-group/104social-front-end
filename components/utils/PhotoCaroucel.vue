@@ -5,10 +5,10 @@ const props = defineProps({
 
 const items = ref([
   props.photoDetails.photo,
-  'https://firebasestorage.googleapis.com/v0/b/my-first-project-1110913.appspot.com/o/104social%2F1716519560969.jpg?alt=media&token=eb42f638-6328-48a8-a151-ef0d55970ffc',
-  'https://picsum.photos/600/800?random=3',
-  'https://picsum.photos/600/800?random=4',
-  'https://picsum.photos/600/800?random=5',
+  'https://plus.unsplash.com/premium_photo-1682091872078-46c5ed6a006d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  'https://images.unsplash.com/photo-1586810724476-c294fb7ac01b?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  'https://images.unsplash.com/photo-1617243876873-6cea4ea0b4eb?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  'https://plus.unsplash.com/premium_photo-1672418281793-050e1028ba69?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
 ])
 </script>
 

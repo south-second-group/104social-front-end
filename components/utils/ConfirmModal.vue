@@ -273,7 +273,7 @@ async function fetchAnswer() {
   }
 }
 
-const tempInvitationTableId = ref(props.invitationTableId)
+let tempInvitationTableId = props.invitationTableId
 async function postInvitation() {
   isLoading.value = true
 
@@ -284,8 +284,9 @@ async function postInvitation() {
     return
   }
   try {
+    // or const res = await inviteApi.postInvitation(inviteForm)
     await inviteApi.postInvitation(inviteForm).then((res) => {
-      tempInvitationTableId.value = res.data.id
+      tempInvitationTableId = res.data.id
     })
 
     toastMessage.value = '邀約成功'
@@ -315,7 +316,7 @@ async function postInvitation() {
 async function cancelInvitation() {
   isLoading.value = true
   try {
-    await inviteApi.cancelInvitation(tempInvitationTableId.value)
+    await inviteApi.cancelInvitation(tempInvitationTableId)
 
     toastMessage.value = '取消邀約成功'
     toastType.value = 'success'
