@@ -6,7 +6,7 @@ function hoverHandler(tab) {
 </script>
 
 <template>
-  <main>
+  <main class="!px-3">
     <div class="wrap">
       <div
         class="item"
@@ -55,6 +55,9 @@ function hoverHandler(tab) {
   align-items: center;
   border-radius: 20px;
   overflow: hidden;
+  @media (max-width: 768px) {
+    height: 200px;
+  }
 }
 
 .item {
@@ -90,6 +93,11 @@ function hoverHandler(tab) {
     border-radius: 10px;
     padding: 10px 5px;
     width: 90px;
+    @media (max-width: 768px) {
+      font-size: 0.5em;
+      width: 60px;
+      padding: 0;
+    }
   }
 }
 </style>
