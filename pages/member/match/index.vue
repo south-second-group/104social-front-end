@@ -68,21 +68,6 @@ async function getMatchList() {
     const res = await matchListApi.matchList()
     const { data } = res
 
-    // 若選兩個就清除請選擇 （暫時，之後直接改選項 為禁用請選擇 0輸入保留）
-    if (data.personalInfo.activities.length > 1) {
-      data.personalInfo.activities = data.personalInfo.activities.filter(
-        i => i !== 0,
-      )
-    }
-    if (data.workInfo.industry.length > 1)
-      data.workInfo.industry = data.workInfo.industry.filter(i => i !== 0)
-
-    if (data.blacklist.banIndustry.length > 1) {
-      data.blacklist.banIndustry = data.blacklist.banIndustry.filter(
-        i => i !== 0,
-      )
-    }
-
     matchListData.value = data
     tempMatchListData.value = JSON.parse(JSON.stringify(data))
   }
@@ -119,6 +104,21 @@ function cancelEdit() {
 
 async function saveMatchList() {
   try {
+    // 若選兩個就清除請選擇 （暫時，之後直接改選項 為禁用請選擇 0輸入保留）
+    if (matchListData.value.personalInfo.activities.length > 1) {
+      matchListData.value.personalInfo.activities = matchListData.value.personalInfo.activities.filter(
+        i => i !== 0,
+      )
+    }
+    if (matchListData.value.workInfo.industry.length > 1)
+      matchListData.value.workInfo.industry = matchListData.value.workInfo.industry.filter(i => i !== 0)
+
+    if (matchListData.value.blacklist.banIndustry.length > 1) {
+      matchListData.value.blacklist.banIndustry = matchListData.value.blacklist.banIndustry.filter(
+        i => i !== 0,
+      )
+    }
+
     const res = await matchListApi.updateMatchList(matchListData.value)
     const { message } = res
 

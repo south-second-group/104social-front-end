@@ -121,15 +121,6 @@ export const useMemberStore = defineStore('member', () => {
       if (matchRes) {
         const { data } = matchRes
 
-        // 若選兩個就清除請選擇 （暫時，之後直接改選項）
-        if (data.personalInfo.activities.length > 1) {
-          data.personalInfo.activities = data.personalInfo.activities.filter(
-            i => i !== 0,
-          )
-        }
-        if (data.workInfo.industry.length > 1)
-          data.workInfo.industry = data.workInfo.industry.filter(i => i !== 0)
-
         matchListSelfSettingData.value = data
         matchListSelfSettingData.value.searchDataBase = []
 
@@ -236,6 +227,21 @@ export const useMemberStore = defineStore('member', () => {
     }
     try {
       const res = await memberAPI.userDataPatch(updateData)
+
+      // 若選兩個就清除請選擇 （暫時，之後直接改選項 為禁用請選擇 0輸入保留）
+      if (matchListSelfSettingData.value.personalInfo.activities.length > 1) {
+        matchListSelfSettingData.value.personalInfo.activities = matchListSelfSettingData.value.personalInfo.activities.filter(
+          i => i !== 0,
+        )
+      }
+      if (matchListSelfSettingData.value.workInfo.industry.length > 1)
+        matchListSelfSettingData.value.workInfo.industry = matchListSelfSettingData.value.workInfo.industry.filter(i => i !== 0)
+
+      if (matchListSelfSettingData.value.blacklist.banIndustry.length > 1) {
+        matchListSelfSettingData.value.blacklist.banIndustry = matchListSelfSettingData.value.blacklist.banIndustry.filter(
+          i => i !== 0,
+        )
+      }
       await matchListApi.updateMatchListSelf(
         matchListSelfSettingData.value,
       )

@@ -141,6 +141,7 @@ const accordionItems = [
 
 <template>
   <div>
+    <!-- {{ memberStore.matchListSelfSettingData }} -->
     <UAccordion
       :items="accordionItems"
       color="gray"
