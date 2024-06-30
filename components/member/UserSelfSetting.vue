@@ -66,15 +66,10 @@ function renderValue(key, value) {
     }
 
     // 將標籤加入搜尋資料庫
-    if (
-      !memberStore.matchListSelfSettingData.searchDataBase.includes(
-        memberStore.personalMyTags,
-      )
-    ) {
-      memberStore.matchListSelfSettingData.searchDataBase.push(
-        memberStore.personalMyTags,
-      )
-    }
+    memberStore.personalMyTags.forEach((tag) => {
+      if (!memberStore.matchListSelfSettingData.searchDataBase.includes(tag))
+        memberStore.matchListSelfSettingData.searchDataBase.push(tag)
+    })
 
     return arrayLabel.join('、')
   }
