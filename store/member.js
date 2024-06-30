@@ -237,11 +237,6 @@ export const useMemberStore = defineStore('member', () => {
       if (matchListSelfSettingData.value.workInfo.industry.length > 1)
         matchListSelfSettingData.value.workInfo.industry = matchListSelfSettingData.value.workInfo.industry.filter(i => i !== 0)
 
-      if (matchListSelfSettingData.value.blacklist.banIndustry.length > 1) {
-        matchListSelfSettingData.value.blacklist.banIndustry = matchListSelfSettingData.value.blacklist.banIndustry.filter(
-          i => i !== 0,
-        )
-      }
       await matchListApi.updateMatchListSelf(
         matchListSelfSettingData.value,
       )
