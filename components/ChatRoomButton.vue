@@ -1,9 +1,13 @@
 <script setup>
+import { chatHistoryList } from '../apis/socket-io.js'
+
 const roomId = ref('')
+const roomIdList = ref([])
 const isOpen = ref(false)
 const isShowChat = ref(false)
 const isShowChatList = ref(true)
 const slideOverHeight = ref('auto')
+const memberList = ref([])
 
 function backToChatList() {
   isShowChat.value = false
@@ -12,14 +16,25 @@ function backToChatList() {
   }, 600)
 }
 
-function handleOpenChat(id) {
-  roomId.value = id
+function handleOpenChat(chat) {
+  memberList.value = chat.members
+  roomId.value = chat.roomId
+  chatHistoryList.value.forEach((i) => {
+    if (i.roomId === chat.roomId)
+      i.unreadCount = 0
+  })
   isShowChatList.value = false
   isShowChat.value = true
 }
 
 onMounted(() => {
   slideOverHeight.value = `${window.innerHeight}px`
+})
+
+// 監視 chatHistoryList 的變化
+watch(chatHistoryList, (newValue, oldValue) => {
+  if (newValue.length > 0)
+    roomIdList.value = chatHistoryList.value.map(i => i.roomId)
 })
 </script>
 
@@ -56,7 +71,7 @@ onMounted(() => {
             />
           </div>
           <p class="text-xl font-bold text-primary-dark">
-            聊天
+            {{ isShowChat ? memberList.length === 1 ? memberList[0] : `${memberList[0]}、${memberList[1]}...` : '聊天' }}
           </p>
           <UButton
             color="gray"

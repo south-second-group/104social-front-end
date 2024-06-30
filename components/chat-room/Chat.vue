@@ -1,5 +1,5 @@
 <script setup>
-import { socket } from '../apis/socket-io.js'
+import { chatHistoryList, socket } from '../apis/socket-io.js'
 
 const props = defineProps(['roomId'])
 const userDataStore = useUserDataStore()
@@ -67,51 +67,16 @@ function sendMessage() {
   }
 }
 
-// 收到新訊息的處理函數
-function handleMessage(data) {
-  data.senderId = data.sender
-  const now = new Date()
-  data.createdAt = useFormattedTime(now)
-  messages.value.push(data)
-  scrollToBottom()
-}
-
-// 收到聊天歷史的處理函數
-function handleChatHistory(data) {
-  messages.value = data.messages
-  scrollToBottom()
-}
-
-// 收到新訊息
-// socket.value.on('message', (data) => {
-//   console.log(data)
-//   data.senderId = data.sender
-//   const now = new Date()
-//   data.createdAt = useFormattedTime(now)
-//   messages.value.push(data);
-//   scrollToBottom()
-// });
-
-// socket.value.on('chatHistory', (data) => {
-//   console.log(data)
-//   // chatHistoryList.value.push(data)
-//   messages.value = data.messages
-//   scrollToBottom()
-// });
+watch(chatHistoryList, (newValue) => {
+  if (roomId) {
+    const room = newValue.find(i => i.roomId === roomId)
+    messages.value = room ? room.messages : []
+  }
+}, { deep: true, immediate: true })
 
 onMounted(() => {
   getChatViewHeight()
   scrollToBottom()
-  socket.value.emit('join', { roomId })
-  socket.value.on('message', handleMessage)
-  socket.value.on('chatHistory', handleChatHistory)
-  // messages.value = chatHistoryList.value.find(i => i.roomId === roomId).messages
-})
-
-onUnmounted(() => {
-  // socket.value.emit('leaveRoom', roomId)
-  socket.value.off('message', handleMessage)
-  socket.value.off('chatHistory', handleChatHistory)
 })
 </script>
 
@@ -122,7 +87,6 @@ onUnmounted(() => {
   >
     <div class="flex h-full flex-col">
       <div class="chat-container h-full overflow-y-auto">
-        <!-- {{ roomId }} -->
         <div
           v-for="message in messages"
           :key="message._id"

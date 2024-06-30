@@ -1,9 +1,31 @@
 <script setup>
+import { chatHistoryList } from '../apis/socket-io.js'
+
 const emit = defineEmits(['openChat'])
-const roomId = ref(['667915e9d837a875701fc2d3', '667a6c3ef04c405b02b2151e'])
 const q = ref('')
 function openChat(roomId) {
   emit('openChat', roomId)
+}
+
+const chatList = ref(null)
+
+watch(chatHistoryList, (newValue) => {
+  chatList.value = newValue
+}, { deep: true, immediate: true })
+
+watch(q, (newValue) => {
+  chatList.value = q.value === '' ? chatHistoryList.value : useFilter(newValue)
+})
+
+function useFilter(keyword) {
+  const search = []
+  chatHistoryList.value.forEach((i) => {
+    i.members.forEach((n) => {
+      if (n.includes(keyword))
+        search.push(i)
+    })
+  })
+  return search
 }
 </script>
 
@@ -33,26 +55,27 @@ function openChat(roomId) {
   </div>
   <div class="overflow-y-auto">
     <ul
-      v-if="true"
+      v-if="chatList?.length !== 0"
       class="rounded-xl bg-white"
     >
-      <chat-roomChatPreview @click="openChat(roomId[0])" />
-      <chat-roomChatPreview @click="openChat(roomId[1])" />
-      <!-- <chat-roomChatPreview @click="openChat(roomId)" /> -->
+      <chat-roomChatPreview
+        v-for="chat in chatList"
+        :key="chat.roomId"
+        :chat="chat"
+        @click="openChat(chat)"
+      />
     </ul>
     <div
-      v-if="false"
+      v-if="chatList?.length === 0 && q !== ''"
       class="flex size-full items-center justify-center"
     >
-      <p
-        class="text-xl font-bold text-primary-dark"
-      >
+      <p class="text-xl font-bold text-primary-dark">
         Oops！查無此人
       </p>
     </div>
     <div
-      v-if="false"
-      class="flex h-full flex-col items-center justify-center rounded-xl bg-white"
+      v-if="chatList?.length === 0 && q === ''"
+      class="flex h-full flex-col items-center justify-center rounded-xl"
     >
       <NuxtImg
         src="/chatRoom/No-Result-Found.png"

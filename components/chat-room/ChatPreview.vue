@@ -1,6 +1,6 @@
 <script setup>
-// const props = defineProps(["chat"]);
-// const { chat } = props;
+const props = defineProps(['chat'])
+const { chat } = props
 const openSetting = ref(false)
 const items = [
   [
@@ -22,36 +22,6 @@ const items = [
   ],
 ]
 
-// const chatInfo = ref({
-//   roomId: "",
-//   latestMessage:
-//     chat.length > 0 ? chat.messages[chat.messages.length - 1].message : "",
-//   unreadCount: calculateUnreadCount(chat.messages),
-//   createdAt: "",
-// });
-
-// function calculateUnreadCount(messages) {
-//   return messages.filter((message) => !message.isRead).length;
-// }
-
-// function setLatestMessage() {
-//   if (chat.messages.length > 0) {
-//     chatInfo.value.latestMessage = chat.messages[chat.messages.length - 1].message
-//     chatInfo.value.createdAt = useFormattedTime(chat.messages[chat.messages.length - 1].createdAt)
-//   } else {
-//     chatInfo.value.latestMessage = ''
-//     chatInfo.value.createdAt = ''
-//   }
-// }
-
-// watch(
-//   () => chat.messages,
-//   (newMessages) => {
-//     chatInfo.value.unreadCount = calculateUnreadCount(newMessages);
-//   },
-//   { immediate: true }
-// );
-
 function useFormattedTime(data) {
   const date = new Date(data)
   const now = new Date()
@@ -68,7 +38,7 @@ function useFormattedTime(data) {
     return `${period} ${hours}:${minutes}`
   }
   else {
-    const month = date.getMonth() + 1 // Months are zero-based
+    const month = date.getMonth() + 1
     const day = date.getDate()
     return `${month}/${day}`
   }
@@ -112,10 +82,10 @@ onUnmounted(() => {
       />
       <div class="text-start">
         <p class="mb-1 text-base font-bold text-zinc-950 md:text-xl">
-          Fatima
+          {{ chat?.members?.length === 1 ? chat.members[0] : `${chat.members[0]}、${chat.members[1]}...` }}
         </p>
         <p class="line-clamp-2 text-sm text-zinc-600 md:text-base">
-          這是最後一則訊息
+          {{ chat.messages[chat.messages.length - 1].message }}
         </p>
       </div>
     </div>
@@ -151,15 +121,23 @@ onUnmounted(() => {
         </template>
       </UDropdown>
       <div
+        :class="{ 'opacity-0': chat.unreadCount < 1 }"
         class="flex size-6 justify-center self-end rounded-full bg-primary-dark md:size-9"
       >
         <p class="text-B2 self-center text-white">
-          3
+          {{ chat.unreadCount }}
         </p>
       </div>
       <p class="text-B3 mt-1 text-end text-zinc-400 md:mt-0">
-        8:20
+        {{ useFormattedTime(chat.messages[chat.messages.length - 1].createdAt) }}
       </p>
     </div>
   </li>
 </template>
+
+<style scoped>
+.no-border-no-shadow {
+  border: none;
+  box-shadow: none;
+}
+</style>
