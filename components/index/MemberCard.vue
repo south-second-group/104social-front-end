@@ -135,7 +135,6 @@ function createRenderValue(key, value) {
           </div>
 
           <div
-
             v-if="
               member.matchListSelfSetting
                 && member.matchListSelfSetting.workInfo

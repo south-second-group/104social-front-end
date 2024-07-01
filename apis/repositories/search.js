@@ -21,7 +21,17 @@ async function getEliteList() {
   })
 }
 
+async function maybeYouLikeSearch(query) {
+  const { page, sort } = query
+  const url = `/api/v1/maybe-you-like/?page=${page}&sort=${sort}`
+
+  return useBaseFetch(url, {
+    method: 'GET',
+  })
+}
+
 export const searchApi = {
   keywordSearch,
   getEliteList,
+  maybeYouLikeSearch,
 }

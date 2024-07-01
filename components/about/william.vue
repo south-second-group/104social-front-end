@@ -49,7 +49,7 @@ const props = defineProps({
               Google、GitHub、Mongo atlas、Vercel、Render
             </li>
             <li>
-              環境建置：
+              專案建置：
               <ul>
                 <li>前端專案 (Nuxt / Tailwind / Nuxt UI / Pinia)</li>
                 <li>
@@ -58,7 +58,7 @@ const props = defineProps({
               </ul>
             </li>
             <li>
-              環境部署：
+              專案部署：
               <ul>
                 <li>前端專案部署 Vercel</li>
                 <li>
@@ -68,8 +68,8 @@ const props = defineProps({
             </li>
             <li>
               搜尋優化：
-              <ul>
-                <li>提交 Google search console</li>
+              <ul class="list-decimal space-y-2 pl-5">
+                <li>提交 Google search console / Microsoft Webmaster Tools</li>
                 <li>使用 HTML 標記驗證</li>
                 <li>產生 sitemap</li>
                 <li>設定首頁 Meta 參數</li>
@@ -81,7 +81,7 @@ const props = defineProps({
               各種元件（按鈕、彈窗、卡片）
             </li>
             <li>
-              前端串接：<br>Gemini
+              前端串接 API：<br>Gemini
               API、首頁搜尋、首頁精選、搜尋對象頁、條件設定、配對設定、配對結果、評價列表
             </li>
             <li>
@@ -103,6 +103,22 @@ const props = defineProps({
             TypeScript | JWT | Github Action | Eslint | Swagger | NewebPay |
             FireBase Storage
           </p>
+        </div>
+
+        <div>
+          <h2>優化目標</h2>
+          <h3>前端</h3>
+          <ul class="list-decimal space-y-2 pl-5">
+            <li>效能優化</li>
+            <li>Vitest 單元測試</li>
+            <li>Playwright E2E測試</li>
+          </ul>
+          <h3>後端</h3>
+          <ul class="list-decimal space-y-2 pl-5">
+            <li>JEST 單元測試</li>
+            <li>Docker 容器化技術</li>
+            <li>GCP 雲端部署</li>
+          </ul>
         </div>
 
         <div>

@@ -4,6 +4,7 @@ import { unlockCommentApi } from '~/apis/repositories/unlockComment'
 import { commentApi } from '~/apis/repositories/comment'
 import { inviteApi } from '~/apis/repositories/invite'
 import { beInviteApi } from '~/apis/repositories/beInvite'
+import { reducePointApi } from '~/apis/repositories/reducePoint'
 
 const props = defineProps({
   status: String,
@@ -104,6 +105,8 @@ function tempfunc() {
 async function unlockComment() {
   isLoading.value = true
   try {
+    await reducePointApi.reducePoint(5)
+
     await unlockCommentApi.unlockComment(props.userId)
     toastMessage.value = '解鎖評價成功'
     toastType.value = 'success'
@@ -118,7 +121,7 @@ async function unlockComment() {
   catch (error) {
     console.error({ error })
 
-    toastMessage.value = '解鎖評價失敗，請通知開發者'
+    toastMessage.value = error.response._data.message === '點數不足' ? error.response._data.message : '解鎖評價失敗，請通知開發者'
     toastType.value = 'error'
   }
   finally {
@@ -242,6 +245,8 @@ async function fetchAnswer() {
   inviteForm.message.content = ''
 
   try {
+    await reducePointApi.reducePoint(50)
+
     // inviteForm.message.content = await useGetGenerativeModelGP(
     //   JSON.stringify(theme),
     // )
@@ -260,9 +265,9 @@ async function fetchAnswer() {
     isCheer.value = true
   }
   catch (error) {
-    console.error({ error })
+    console.error(error.response._data.message)
 
-    toastMessage.value = 'AI 提示發生錯誤，請通知開發者'
+    toastMessage.value = error.response._data.message === '點數不足' ? error.response._data.message : '解鎖評價失敗，請通知開發者'
     toastType.value = 'error'
   }
   finally {
@@ -273,7 +278,7 @@ async function fetchAnswer() {
   }
 }
 
-const tempInvitationTableId = ref(props.invitationTableId)
+let tempInvitationTableId = props.invitationTableId
 async function postInvitation() {
   isLoading.value = true
 
@@ -284,8 +289,9 @@ async function postInvitation() {
     return
   }
   try {
+    // or const res = await inviteApi.postInvitation(inviteForm)
     await inviteApi.postInvitation(inviteForm).then((res) => {
-      tempInvitationTableId.value = res.data.id
+      tempInvitationTableId = res.data.id
     })
 
     toastMessage.value = '邀約成功'
@@ -315,7 +321,7 @@ async function postInvitation() {
 async function cancelInvitation() {
   isLoading.value = true
   try {
-    await inviteApi.cancelInvitation(tempInvitationTableId.value)
+    await inviteApi.cancelInvitation(tempInvitationTableId)
 
     toastMessage.value = '取消邀約成功'
     toastType.value = 'success'
