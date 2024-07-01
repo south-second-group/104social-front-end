@@ -24,7 +24,7 @@ const { userData } = storeToRefs(userDataStore)
           <p>查看儲值方案</p>
         </button>
         <button
-          class="btn-linear-nav mx-auto mt-6 block min-w-[303px] md:mt-20 md:hidden"
+          class="btn-linear-nav mx-auto mt-6 block h-[40px] min-w-[303px] md:mt-20 md:hidden"
         >
           <p>查看儲值方案</p>
         </button>
