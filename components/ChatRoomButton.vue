@@ -1,16 +1,28 @@
 <script setup>
+import { chatHistoryList } from '../apis/socket-io.js'
+
+const roomId = ref('')
+const roomIdList = ref([])
 const isOpen = ref(false)
 const isShowChat = ref(false)
 const isShowChatList = ref(true)
 const slideOverHeight = ref('auto')
+const memberList = ref([])
 
 function backToChatList() {
-  isShowChat.value = !isShowChat.value
+  isShowChat.value = false
   setTimeout(() => {
-    isShowChatList.value = !isShowChat.value
+    isShowChatList.value = true
   }, 600)
 }
-function handleOpenChat(n) {
+
+function handleOpenChat(chat) {
+  memberList.value = chat.members
+  roomId.value = chat.roomId
+  chatHistoryList.value.forEach((i) => {
+    if (i.roomId === chat.roomId)
+      i.unreadCount = 0
+  })
   isShowChatList.value = false
   isShowChat.value = true
 }
@@ -18,16 +30,24 @@ function handleOpenChat(n) {
 onMounted(() => {
   slideOverHeight.value = `${window.innerHeight}px`
 })
+
+// 監視 chatHistoryList 的變化
+watch(chatHistoryList, (newValue, oldValue) => {
+  if (newValue.length > 0)
+    roomIdList.value = chatHistoryList.value.map(i => i.roomId)
+})
 </script>
 
 <template>
-  <div class="fixed bottom-4 right-4  z-[4000] md:bottom-[60px] md:right-[60px]">
+  <div class="fixed bottom-4 right-4 z-[3000] md:bottom-[60px] md:right-[60px]">
     <UButton
       color="white"
-      class=" no-border-no-shadow rounded-full bg-primary-dark p-2.5 hover:bg-primary-dark md:p-3"
+      class="no-border-no-shadow rounded-full bg-primary-dark p-2.5 hover:bg-primary-dark md:p-3"
       @click="isOpen = true"
     >
-      <icon-heroicons-chat-bubble-left-ellipsis class="size-5 text-white md:size-9" />
+      <icon-heroicons-chat-bubble-left-ellipsis
+        class="size-5 text-white md:size-9"
+      />
     </UButton>
 
     <USlideover
@@ -36,7 +56,7 @@ onMounted(() => {
       class="z-[5000]"
     >
       <div
-        class=" flex flex-1 flex-col bg-[#FFF5F5] p-4"
+        class="flex flex-1 flex-col bg-[#FFF5F5] p-4"
         :style="{ height: slideOverHeight }"
       >
         <div class="chat-room-header flex items-center justify-between">
@@ -51,7 +71,7 @@ onMounted(() => {
             />
           </div>
           <p class="text-xl font-bold text-primary-dark">
-            聊天
+            {{ isShowChat ? memberList.length === 1 ? memberList[0].username : '聊天' : '聊天' }}
           </p>
           <UButton
             color="gray"
@@ -61,7 +81,6 @@ onMounted(() => {
             @click="isOpen = false"
           />
         </div>
-
         <chat-roomChatListPreview
           v-if="isShowChatList"
           @open-chat="handleOpenChat"
@@ -69,6 +88,7 @@ onMounted(() => {
         <transition name="slide">
           <chat-roomChat
             v-if="isShowChat"
+            :room-id="roomId"
           />
         </transition>
       </div>

@@ -1,6 +1,7 @@
 <script setup>
 import { useRoute } from 'vue-router'
 import { auth } from '../apis/repositories/auth'
+import { initializeSocket } from '../apis/socket-io'
 
 const userDataStore = useUserDataStore()
 const { userData } = storeToRefs(userDataStore)
@@ -22,6 +23,7 @@ async function verify() {
     if (response.status === true) {
       setUserData(response.data)
       isLoggedIn.value = true
+      initializeSocket(response.data.userId)
     }
     else {
       isLoggedIn.value = false
@@ -164,7 +166,7 @@ function toast(message, type) {
             </UButton>
             <USlideover
               v-model="isOpenSlide"
-              class="h-screen"
+              class="z-[4000] h-screen"
             >
               <div
                 class="w-full flex-1 bg-[url('~/public/nav/phone-bg.png')] bg-cover p-4"
@@ -416,6 +418,7 @@ function toast(message, type) {
       {{ toastMessage }}
     </div>
   </div>
+  <ChatRoomButton v-show="isLoggedIn" />
 </template>
 
 <style lang="scss" scoped>

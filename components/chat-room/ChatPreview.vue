@@ -1,4 +1,6 @@
 <script setup>
+const props = defineProps(['chat'])
+const { chat } = props
 const openSetting = ref(false)
 const items = [
   [
@@ -19,6 +21,28 @@ const items = [
     },
   ],
 ]
+
+function useFormattedTime(data) {
+  const date = new Date(data)
+  const now = new Date()
+
+  // Check if the date is today
+  const isToday = date.toDateString() === now.toDateString()
+
+  if (isToday) {
+    let hours = date.getHours()
+    const minutes = `0${date.getMinutes()}`.slice(-2)
+    const period = hours >= 12 ? '下午' : '上午'
+    hours = hours % 12
+    hours = hours || 12
+    return `${period} ${hours}:${minutes}`
+  }
+  else {
+    const month = date.getMonth() + 1
+    const day = date.getDate()
+    return `${month}/${day}`
+  }
+}
 
 function handleClickSetting(event) {
   openSetting.value = !openSetting.value
@@ -49,17 +73,20 @@ onUnmounted(() => {
 <template>
   <li class="flex justify-between gap-5 border-b-[1px] border-zinc-200 p-4 md:p-5">
     <div class="flex gap-5 self-start md:self-center">
-      <UAvatar
-        :size="isDesktop ? '3xl' : 'lg'"
-        src="https://avatars.githubusercontent.com/u/739984?v=4"
+      <!-- <UAvatar :size="isDesktop ? '3xl' : 'lg'" -->
+      <!-- :src="chat.members[0].photo ? chat.members[0].photo : '../../public/chatRoom/default.jpg'" alt="Avatar" /> -->
+      <NuxtImg
+        src="/chatRoom/default.png"
         alt="Avatar"
+        class="size-[80px] rounded-full"
       />
+      <!-- <img src="../../public/chatRoom/default.jpg" alt=""> -->
       <div class="text-start">
         <p class="mb-1 text-base font-bold text-zinc-950 md:text-xl">
-          Fatima
+          {{ chat?.members?.length > 0 ? chat.members[0].username : 'someOne' }}
         </p>
         <p class="line-clamp-2 text-sm text-zinc-600 md:text-base">
-          我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了我要去洗澡了
+          {{ chat.messages.length > 0 ? chat.messages[chat.messages.length - 1].message : '' }}
         </p>
       </div>
     </div>
@@ -95,15 +122,23 @@ onUnmounted(() => {
         </template>
       </UDropdown>
       <div
+        :class="{ 'opacity-0': chat.unreadCount < 1 }"
         class="flex size-6 justify-center self-end rounded-full bg-primary-dark md:size-9"
       >
         <p class="text-B2 self-center text-white">
-          3
+          {{ chat.unreadCount }}
         </p>
       </div>
       <p class="text-B3 mt-1 text-end text-zinc-400 md:mt-0">
-        下午 18:12
+        {{ chat.messages.length > 0 ? useFormattedTime(chat.messages[chat.messages.length - 1].createdAt) : '' }}
       </p>
     </div>
   </li>
 </template>
+
+<style scoped>
+.no-border-no-shadow {
+  border: none;
+  box-shadow: none;
+}
+</style>

@@ -1,8 +1,31 @@
 <script setup>
+import { chatHistoryList } from '../apis/socket-io.js'
+
 const emit = defineEmits(['openChat'])
 const q = ref('')
-function openChat(n) {
-  emit('openChat', n)
+function openChat(roomId) {
+  emit('openChat', roomId)
+}
+
+const chatList = ref(null)
+
+watch(chatHistoryList, (newValue) => {
+  chatList.value = newValue
+}, { deep: true, immediate: true })
+
+watch(q, (newValue) => {
+  chatList.value = q.value === '' ? chatHistoryList.value : useFilter(newValue)
+})
+
+function useFilter(keyword) {
+  const search = []
+  chatHistoryList.value.forEach((i) => {
+    i.members.forEach((n) => {
+      if (n.includes(keyword))
+        search.push(i)
+    })
+  })
+  return search
 }
 </script>
 
@@ -32,32 +55,27 @@ function openChat(n) {
   </div>
   <div class="overflow-y-auto">
     <ul
-      v-if="true"
+      v-if="chatList?.length !== 0"
       class="rounded-xl bg-white"
     >
-      <chat-roomChatPreview @click="openChat('01')" />
-      <!-- <chat-roomChatPreview @click="openChat('02')" />
-      <chat-roomChatPreview @click="openChat('03')" />
-      <chat-roomChatPreview @click="openChat('04')" />
-      <chat-roomChatPreview @click="openChat('04')" />
-      <chat-roomChatPreview @click="openChat('04')" />
-      <chat-roomChatPreview @click="openChat('04')" />
-      <chat-roomChatPreview @click="openChat('04')" />
-      <chat-roomChatPreview @click="openChat('04')" /> -->
+      <chat-roomChatPreview
+        v-for="chat in chatList"
+        :key="chat.roomId"
+        :chat="chat"
+        @click="openChat(chat)"
+      />
     </ul>
     <div
-      v-if="false"
+      v-if="chatList?.length === 0 && q !== ''"
       class="flex size-full items-center justify-center"
     >
-      <p
-        class="text-xl font-bold text-primary-dark"
-      >
+      <p class="text-xl font-bold text-primary-dark">
         Oops！查無此人
       </p>
     </div>
     <div
-      v-if="false"
-      class="flex h-full flex-col items-center justify-center rounded-xl bg-white"
+      v-if="chatList?.length === 0 && q === ''"
+      class="flex h-full flex-col items-center justify-center rounded-xl"
     >
       <NuxtImg
         src="/chatRoom/No-Result-Found.png"
