@@ -119,7 +119,7 @@ function createRenderValue(key, value) {
               class="mx-auto size-[150px] rounded-full border-2 border-neutral-300 object-contain object-center group-hover:blur-sm"
             >
             <span
-              class="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 text-white group-hover:block"
+              class="text-shadow absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 text-white group-hover:block"
             >查看資訊</span>
           </div>
         </NuxtLink>
@@ -291,4 +291,8 @@ function createRenderValue(key, value) {
   </section>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.text-shadow {
+  text-shadow: 0px 0px 5px rgba(0, 0, 0,.8);
+}
+</style>
