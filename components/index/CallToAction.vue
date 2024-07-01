@@ -19,14 +19,16 @@ const { userData } = storeToRefs(userDataStore)
         alt=""
         class="mx-auto w-[300px] md:w-[300px]"
       />
-      <button class="btn-linear-lg mx-auto mt-6 hidden md:mt-20 md:block">
-        <p>查看儲值方案</p>
-      </button>
-      <button
-        class="btn-linear-nav mx-auto mt-6 block min-w-[303px] md:mt-20 md:hidden"
-      >
-        <p>查看儲值方案</p>
-      </button>
+      <NuxtLink to="/order/OrderList">
+        <button class="btn-linear-lg mx-auto mt-6 hidden md:mt-20 md:block">
+          <p>查看儲值方案</p>
+        </button>
+        <button
+          class="btn-linear-nav mx-auto mt-6 block min-w-[303px] md:mt-20 md:hidden"
+        >
+          <p>查看儲值方案</p>
+        </button>
+      </NuxtLink>
     </div>
   </div>
   <div
