@@ -395,6 +395,7 @@ function toast(message, type) {
           </ul>
           <button
             class="btn-linear-nav"
+            :class="isLoggedIn ? 'w-[72px]' : 'w-[123px]'"
             @click="isLoggedIn ? logout() : $router.push('/login')"
           >
             <p v-if="isLoggedIn">
