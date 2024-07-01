@@ -157,8 +157,17 @@ function createRenderValue(key, value) {
             <span class="text-xl text-amber-400">
               <icon-heroicons-star-solid />
             </span>
-            <p class="ms-2 text-sm text-zinc-400">
+            <p
+              v-if="member.profile.userStatus.commentCount"
+              class="ms-2 pt-1 text-sm text-zinc-400"
+            >
               評分 {{ member.profile.userStatus.commentScore }} ({{ member.profile.userStatus.commentCount }})
+            </p>
+            <p
+              v-else
+              class="text-B3 ms-2 pt-1 align-middle text-neutral-400"
+            >
+              無評分
             </p>
           </div>
 
