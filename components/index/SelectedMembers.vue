@@ -20,62 +20,6 @@ onMounted(() => {
   getEliteList()
 })
 
-const items = [{
-  name: 'Lisa',
-  describe_1: ['28 歲', '167 cm'],
-  describe_2: ['房仲業'],
-  rating: 4.6,
-  ratingCount: 12,
-  collect: false,
-  hashtag: ['婚後自住', '不生小孩'],
-  avatar: { src: '/member/member-lg-01.png' },
-}, {
-  name: 'Mike',
-  describe_1: ['31 歲'],
-  describe_2: ['台南', '工程師'],
-  rating: 4.3,
-  ratingCount: 12,
-  collect: false,
-  hashtag: ['年薪百萬'],
-  avatar: { src: '/member/member-lg-02.png' },
-}, {
-  name: 'Joshua',
-  describe_1: ['30 歲', '185 cm'],
-  describe_2: ['桃園機場地勤'],
-  rating: 4.1,
-  ratingCount: 15,
-  collect: false,
-  hashtag: ['開放關係', '水瓶座'],
-  avatar: { src: '/member/member-lg-03.png' },
-}, {
-  name: 'Liam',
-  describe_1: ['45 歲', '173 cm'],
-  describe_2: ['台中'],
-  rating: 4.6,
-  ratingCount: 30,
-  collect: false,
-  hashtag: ['BDSM', '主'],
-  avatar: { src: '/member/member-lg-04.png' },
-}, {
-  name: 'Linda',
-  describe_1: ['38 歲', '160 cm'],
-  describe_2: ['業務員'],
-  rating: 4.6,
-  ratingCount: 12,
-  collect: false,
-  hashtag: ['無孝親壓力', '台北有房'],
-  avatar: { src: '/member/member-lg-05.png' },
-}, {
-  name: 'Emily',
-  describe_1: ['19 歲', '155 cm'],
-  describe_2: ['新竹'],
-  rating: 4.6,
-  ratingCount: 12,
-  collect: false,
-  hashtag: ['Sugar baby', '射手座'],
-  avatar: { src: '/member/member-lg-06.png' },
-}]
-
 const isDesktop = ref(false)
 
 function checkScreenSize() {

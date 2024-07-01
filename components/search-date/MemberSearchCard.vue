@@ -1,62 +1,54 @@
 <script setup>
-import { searchApi } from '~/apis/repositories/search'
+import { matchListApi } from '~/apis/repositories/matchList'
 
 defineProps({
   resultItem: Object,
 })
 
-const buttonList = ref([
-  { status: 'status1' },
-  { status: 'status2' },
-  // { status: 'status3' },
-  { status: 'status4' },
-  { status: 'status5' },
-  // { status: 'status6' },
-  // { status: 'status7' },
-  // { status: 'status8' },
-  // { status: 'status9' },
-  // { status: 'status10' },
-  // { status: 'status11' },
-  // { status: 'status12' },
-])
+const isDataLoading = ref(true)
 
-// 取得搜尋結果
-const searchListOptionData = ref([])
-async function getSearchListOption() {
+// 取得配對選項
+const matchListOptionData = ref([])
+async function getMatchListOption() {
   try {
-    const res = await searchApi.getSearchResultList()
+    const res = await matchListApi.matchListOptions()
     const { data } = res
-    searchListOptionData.value = data
+    matchListOptionData.value = data
   }
   catch (error) {
     console.error(error)
   }
 }
 
+Promise.all([getMatchListOption()]).then(() => {
+  isDataLoading.value = false
+})
+
 // 渲染詳細資料邏輯
 function renderValue(key, value) {
-  if (Array.isArray(value) && value.length > 1)
-    return value.map(v => searchListOptionData.value[0][key][v].label)
+  if (Array.isArray(value) && value.length >= 1)
+    return value.map(v => matchListOptionData.value[0][key][v].label)
 
-  if (searchListOptionData.value[0][key][value].label !== '請選擇')
-    return searchListOptionData.value[0][key][value].label
+  if (matchListOptionData.value[0][key][value].label !== '請選擇')
+    return matchListOptionData.value[0][key][value].label
 }
 
 const createRenderResult = new Set()
 function createRenderValue(key, value) {
   if (Array.isArray(value)) {
     value.forEach((v) => {
-      if (searchListOptionData.value[0][key][v].label !== '請選擇')
-        createRenderResult.add(searchListOptionData.value[0][key][v].label)
+      if (matchListOptionData.value[0][key][v].label !== '請選擇')
+        createRenderResult.add(matchListOptionData.value[0][key][v].label)
     })
   }
-  else if (searchListOptionData.value[0][key][value].label !== '請選擇') {
-    createRenderResult.add(searchListOptionData.value[0][key][value].label)
+  else if (matchListOptionData.value[0][key][value].label !== '請選擇') {
+    createRenderResult.add(matchListOptionData.value[0][key][value].label)
   }
 }
 </script>
 
 <template>
+  <!-- {{ resultItem?.matchListSelfSetting.workInfo.occupation }} -->
   <div
     class="relative mb-3 me-6 max-w-[312px] rounded-[10px] bg-[#FAFAFA] p-4 lg:me-0 lg:max-w-full lg:p-6"
   >
@@ -64,48 +56,102 @@ function createRenderValue(key, value) {
       <span class="text-xl">
         <utilsCollectionBtn
           :is-collected="resultItem?.isCollected"
-          :user-id="resultItem?.userId"
+          :user-id="resultItem?.matchListSelfSetting?.userId"
+          :collection-table-id="resultItem?.collectionTableId"
         />
       </span>
     </div>
     <div class="flex w-full flex-col lg:flex-row">
       <div class="mb-4 shrink-0 self-center lg:mb-0 lg:me-6">
         <NuxtImg
-          src="/notifications/member01.png"
+          :src="resultItem.profile.photoDetails.photo"
           alt=""
-          class="w-[150px]"
+          class="size-[150px] rounded-full object-contain"
         />
       </div>
       <div class="w-full text-start">
         <p class="text-H4 mb-1 text-zinc-900">
           {{ resultItem?.userInfo?.personalInfo?.username }}
         </p>
-        <p class="text-B2 mb-3 text-zinc-400">
-          日月光
+        <p
+          v-if="
+            !isDataLoading && resultItem.matchListSelfSetting
+              && resultItem.matchListSelfSetting.workInfo
+              && resultItem.matchListSelfSetting.workInfo.occupation
+          "
+          class="text-B2 mb-3 text-zinc-400"
+        >
+          {{
+            renderValue(
+              'occupation',
+              resultItem?.matchListSelfSetting.workInfo.occupation === '請選擇'
+                ? '保留職業資訊'
+                : resultItem?.matchListSelfSetting.workInfo.occupation,
+            )
+          }}
         </p>
-        <p class="text-B2 mb-3 text-zinc-900">
-          生理女、身高172cm、體重87kg、有車有房、基督教、籃球、未婚、育有一女
-          ...
+        <p
+          v-if="
+            !isDataLoading
+              && resultItem.matchListSelfSetting
+              && resultItem.matchListSelfSetting.personalInfo
+          "
+          class="text-B2 mb-3 text-zinc-900"
+        >
+          <!-- 將個人條件全部加入顯示陣列 -->
+          <span
+            v-for="(value, key) in resultItem.matchListSelfSetting
+              .personalInfo"
+            :key="key"
+            class="hidden"
+          >
+            {{ createRenderValue(key, value) }}
+          </span>
+          <!-- 將工作條件的產業 加入 顯示陣列 -->
+          <span class="hidden">
+            {{
+              createRenderValue(
+                'industry',
+                resultItem.matchListSelfSetting.workInfo.industry,
+              )
+            }}
+          </span>
+          <!-- 顯示陣列 -->
+          <span class="text-B2 text-neutral-600">{{
+            Array.from(createRenderResult).join('、')
+          }}</span>
         </p>
-        <ul class="text-B2 flex gap-3 text-special-info">
-          <li>科技業</li>
-          <li>主管</li>
-          <li>年薪 100K</li>
-        </ul>
+
+        <p
+          v-if="
+            !isDataLoading
+              && resultItem.matchListSelfSetting
+              && resultItem.matchListSelfSetting.personalInfo
+          "
+        >
+          <span
+            v-for="(item, idx) in renderValue(
+              'activities',
+              resultItem.matchListSelfSetting.personalInfo.activities,
+            )"
+            :key="idx"
+          >
+            <a
+              :href="`https://www.google.com/search?q=${item}`"
+              class="text-special-info"
+              target="_blank"
+              :class="{
+                'pointer-events-none !text-neutral-300': item === '請選擇',
+              }"
+            >
+              {{ item === '請選擇' ? '無興趣嗜好' : item }}{{ ' ' }}</a>
+          </span>
+        </p>
       </div>
     </div>
-    <!-- <div class="mt-6 flex gap-3 lg:justify-end">
-      <button class="btn-withIcon-outline">
-        <icon-heroicons:lock-open />
-        <p>解鎖評價</p>
-      </button>
-      <button class="btn-withIcon-outline">
-        <icon-heroicons:heart />
-        <p>收回邀約</p>
-      </button>
-    </div> -->
+
     <div class="flex flex-wrap justify-end">
-      <utilsComplexBtn
+      <!-- <utilsComplexBtn
         v-for="(btn, index) in buttonList"
         :key="index"
         v-bind="{
@@ -115,7 +161,7 @@ function createRenderValue(key, value) {
           createRenderResult,
           cardUserName: resultItem?.userInfo?.personalInfo?.username,
         }"
-      />
+      /> -->
     </div>
   </div>
 </template>

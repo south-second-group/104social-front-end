@@ -34,6 +34,7 @@ function changeTab(tab) {
 const toastMessage = ref('')
 const toastType = ref('')
 const isDataLoading = ref(true)
+const maybeYouLikeList = ref([])
 
 // const searchHistory = useStorage('searchHistory', [])
 const pagination = reactive({ page: 1, totalCount: 10 })
@@ -43,7 +44,6 @@ const query = reactive({
 })
 
 async function keywordSearch() {
-  isDataLoading.value = true
   try {
     const { data } = await searchApi.keywordSearch(query, searchForm.value)
 
@@ -61,8 +61,17 @@ async function keywordSearch() {
     toastType.value = 'error'
   }
   finally {
-    isDataLoading.value = false
     window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+}
+
+async function maybeYouLikeSearch() {
+  try {
+    const { data } = await searchApi.maybeYouLikeSearch(query)
+    maybeYouLikeList.value = data.resultList
+  }
+  catch (error) {
+    console.error(error)
   }
 }
 
@@ -97,8 +106,10 @@ onMounted(async () => {
   window.addEventListener('resize', checkScreenSize)
 
   // await resetSearchForm();
-  await matchListApi.getMatchListSelf()
-  keywordSearch()
+
+  Promise.all([matchListApi.getMatchListSelf(), keywordSearch(), maybeYouLikeSearch()]).then(() => {
+    isDataLoading.value = false
+  })
 })
 
 onUnmounted(() => {
@@ -410,24 +421,33 @@ const sortOption = ref([
         也許你也喜歡...
       </p>
       <div
-        v-if="isDesktop"
+        v-if="isDesktop && !isDataLoading && maybeYouLikeList.length > 0"
         class="grid grid-cols-2 gap-6"
       >
         <search-dateMemberSearchCard
-          v-for="result in searchCriteriaStore.searchResultsList"
+          v-for="result in maybeYouLikeList"
           :key="result"
           :result-item="result"
         />
       </div>
       <UCarousel
-        v-if="!isDesktop && !isDataLoading"
+        v-if="!isDesktop && !isDataLoading && maybeYouLikeList.length > 0"
         v-slot="{ item }"
-        :items="searchCriteriaStore.searchResultsList"
+        :items="maybeYouLikeList"
       >
         <div class="mx-auto text-center">
-          <search-dateMemberSearchCard :member="item" />
+          <search-dateMemberSearchCard :result-item="item" />
         </div>
       </UCarousel>
+
+      <div
+        v-if="!isDataLoading && maybeYouLikeList.length === 0"
+        class="flex justify-center italic text-neutral-400"
+      >
+        <p>
+          目前無資料
+        </p>
+      </div>
     </div>
   </div>
 </template>
