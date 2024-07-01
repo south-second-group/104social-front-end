@@ -43,9 +43,14 @@ useHead({
   <!-- SEO搜尋結果大圖 -->
   <NuxtImg
     src="https://firebasestorage.googleapis.com/v0/b/my-first-project-1110913.appspot.com/o/104social%2F104%E7%B7%A3%E4%BE%86%E5%A6%82%E6%AD%A4-%E5%B0%81%E9%9D%A2.png?alt=media&token=3f17c7e4-a691-46f5-9943-5b953ccef2af"
-    alt="Banner_sm"
-    class="sr-only size-full max-w-[300px]"
+    alt="104緣來如此首頁"
+    class=" absolute left-0 top-0 w-[300px] -translate-x-full"
   />
+  <img
+    src="https://firebasestorage.googleapis.com/v0/b/my-first-project-1110913.appspot.com/o/104social%2F104%E7%B7%A3%E4%BE%86%E5%A6%82%E6%AD%A4-%E5%B0%81%E9%9D%A2.png?alt=media&token=3f17c7e4-a691-46f5-9943-5b953ccef2af"
+    alt="104緣來如此首頁"
+    class=" absolute left-0 top-0 w-[300px] -translate-x-full"
+  >
   <indexBanner />
   <indexSelectedMembers />
   <indexArticles />

@@ -69,7 +69,7 @@ const props = defineProps({
             <li>
               搜尋優化：
               <ul class="list-decimal space-y-2 pl-5">
-                <li>提交 Google search console</li>
+                <li>提交 Google search console / Microsoft Webmaster Tools</li>
                 <li>使用 HTML 標記驗證</li>
                 <li>產生 sitemap</li>
                 <li>設定首頁 Meta 參數</li>
