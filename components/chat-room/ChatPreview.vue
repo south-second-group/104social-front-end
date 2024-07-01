@@ -71,21 +71,22 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <li
-    class="flex justify-between gap-5 border-b-[1px] border-zinc-200 p-4 md:p-5"
-  >
+  <li class="flex justify-between gap-5 border-b-[1px] border-zinc-200 p-4 md:p-5">
     <div class="flex gap-5 self-start md:self-center">
-      <UAvatar
-        :size="isDesktop ? '3xl' : 'lg'"
-        src="https://avatars.githubusercontent.com/u/739984?v=4"
+      <!-- <UAvatar :size="isDesktop ? '3xl' : 'lg'" -->
+      <!-- :src="chat.members[0].photo ? chat.members[0].photo : '../../public/chatRoom/default.jpg'" alt="Avatar" /> -->
+      <NuxtImg
+        src="/chatRoom/default.png"
         alt="Avatar"
+        class="size-[80px] rounded-full"
       />
+      <!-- <img src="../../public/chatRoom/default.jpg" alt=""> -->
       <div class="text-start">
         <p class="mb-1 text-base font-bold text-zinc-950 md:text-xl">
-          {{ chat?.members?.length === 1 ? chat.members[0] : `${chat.members[0]}、${chat.members[1]}...` }}
+          {{ chat?.members?.length > 0 ? chat.members[0].username : 'someOne' }}
         </p>
         <p class="line-clamp-2 text-sm text-zinc-600 md:text-base">
-          {{ chat.messages[chat.messages.length - 1].message }}
+          {{ chat.messages.length > 0 ? chat.messages[chat.messages.length - 1].message : '' }}
         </p>
       </div>
     </div>
@@ -129,7 +130,7 @@ onUnmounted(() => {
         </p>
       </div>
       <p class="text-B3 mt-1 text-end text-zinc-400 md:mt-0">
-        {{ useFormattedTime(chat.messages[chat.messages.length - 1].createdAt) }}
+        {{ chat.messages.length > 0 ? useFormattedTime(chat.messages[chat.messages.length - 1].createdAt) : '' }}
       </p>
     </div>
   </li>

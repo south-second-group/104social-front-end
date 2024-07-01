@@ -71,7 +71,7 @@ watch(chatHistoryList, (newValue, oldValue) => {
             />
           </div>
           <p class="text-xl font-bold text-primary-dark">
-            {{ isShowChat ? memberList.length === 1 ? memberList[0] : `${memberList[0]}、${memberList[1]}...` : '聊天' }}
+            {{ isShowChat ? memberList.length === 1 ? memberList[0].username : '聊天' : '聊天' }}
           </p>
           <UButton
             color="gray"

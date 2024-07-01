@@ -8,6 +8,29 @@ const user = userData.value.userId
 const text = ref('')
 const { roomId } = props
 const messages = ref([])
+let typingTimeout
+const typingAnimate = ref(false)
+
+// 監視輸入中狀態
+watch(text, (newValue) => {
+  if (newValue) {
+    if (typingTimeout)
+      clearTimeout(typingTimeout)
+    socket.value.emit('typing', { roomId, userId: user })
+
+    typingTimeout = setTimeout(() => {
+      socket.value.emit('stopTyping', { roomId, userId: user })
+    }, 5000)
+  }
+  else {
+    socket.value.emit('stopTyping', { roomId, userId: user })
+    typingAnimate.value = false
+  }
+})
+
+socket.value.on('showTyping', (data) => {
+  typingAnimate.value = data
+})
 
 function useFormattedTime(data) {
   const date = new Date(data)
@@ -36,6 +59,8 @@ function scrollToBottom() {
     const chatContainer = document.querySelector('.chat-container')
     if (chatContainer)
       chatContainer.scrollTop = chatContainer.scrollHeight
+
+    socket.value.emit('isRead', { roomId })
   })
 }
 
@@ -62,15 +87,27 @@ function getChatViewHeight() {
 function sendMessage() {
   if (text.value.trim()) {
     socket.value.emit('chat', { message: text.value, roomId })
+    handlePushMessage(text.value)
     text.value = ''
     scrollToBottom()
   }
+}
+
+function handlePushMessage(text) {
+  const date = new Date()
+  const newMessage = {
+    message: text,
+    senderId: user,
+    createdAt: date.toISOString(),
+  }
+  messages.value.push(newMessage)
 }
 
 watch(chatHistoryList, (newValue) => {
   if (roomId) {
     const room = newValue.find(i => i.roomId === roomId)
     messages.value = room ? room.messages : []
+    scrollToBottom()
   }
 }, { deep: true, immediate: true })
 
@@ -93,10 +130,15 @@ onMounted(() => {
           class="mb-6 flex items-center gap-2"
           :class="{ 'flex-row-reverse': message.senderId === user }"
         >
-          <UAvatar
+          <!-- <UAvatar
             size="md"
             src="https://avatars.githubusercontent.com/u/739984?v=4"
             alt="Avatar"
+          /> -->
+          <NuxtImg
+            src="/chatRoom/default.png"
+            alt="Avatar"
+            class="size-9 rounded-full"
           />
           <div
             class="max-w-[190px] rounded-lg bg-neutral-200 px-3 py-2 sm:max-w-[65%]"
@@ -126,13 +168,19 @@ onMounted(() => {
         </div> -->
         <!-- 一則訊息結束 -->
         <div
+          v-if="typingAnimate"
           class="mb-6 flex items-center gap-2"
           :class="{ 'flex-row-reverse': false }"
         >
-          <UAvatar
+          <!-- <UAvatar
             size="md"
             src="https://avatars.githubusercontent.com/u/739984?v=4"
             alt="Avatar"
+          /> -->
+          <NuxtImg
+            src="/chatRoom/default.png"
+            alt="Avatar"
+            class="size-9 rounded-full"
           />
           <div
             class="max-w-[190px] rounded-lg bg-neutral-200 px-3 py-2 sm:max-w-[65%]"

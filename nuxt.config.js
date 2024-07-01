@@ -94,6 +94,9 @@ export default defineNuxtConfig({
   },
 
   vite: {
+    optimizeDeps: {
+      include: ['socket.io-client'],
+    },
     define: {
       'process.env': process.env,
     },
