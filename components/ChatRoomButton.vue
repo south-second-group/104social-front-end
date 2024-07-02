@@ -89,6 +89,7 @@ watch(chatHistoryList, (newValue, oldValue) => {
           <chat-roomChat
             v-if="isShowChat"
             :room-id="roomId"
+            :member-list="memberList"
           />
         </transition>
       </div>
