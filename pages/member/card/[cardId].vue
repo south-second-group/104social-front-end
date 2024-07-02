@@ -177,6 +177,7 @@ watchEffect(() => {
       :toast-message="toastMessage"
       :toast-type="toastType"
     />
+    <!-- {{ renderData.profile.nickNameDetails.nickName }} -->
 
     <div class="mx-auto max-w-[700px]">
       <USkeleton
@@ -202,10 +203,21 @@ watchEffect(() => {
             <span
               :class="{
                 'font-montserrat': !useIsChineseFunc(
-                  renderData.userInfo.personalInfo.username,
+                  renderData.profile.nickNameDetails.nickName,
                 ),
               }"
-            >{{ renderData.userInfo.personalInfo.username }}</span>
+            >{{ renderData.profile.nickNameDetails.nickName || '對方保留' }}</span>
+          </div>
+
+          <div class="flex h-[35px] items-center">
+            <label class="mr-4 w-24 align-middle"> LINE ID：</label>
+            <span
+              :class="{
+                'font-montserrat': !useIsChineseFunc(
+                  renderData.profile.lineDetails.lineId,
+                ),
+              }"
+            >{{ renderData.profile.lineDetails.lineId || '對方保留' }}</span>
           </div>
 
           <div
@@ -228,6 +240,15 @@ watchEffect(() => {
               {{ `${getKeyLabel(key)}：` }}
             </label>
             <span>{{ renderValue(key, value) }}</span>
+          </div>
+
+          <div class="col-span-2">
+            <label>自我介紹：</label>
+            <div
+              class="mt-3 flex flex-wrap items-center justify-start gap-2 rounded-md"
+            >
+              {{ renderData.profile.introDetails.intro || '對方保留' }}
+            </div>
           </div>
 
           <div class="col-span-2">

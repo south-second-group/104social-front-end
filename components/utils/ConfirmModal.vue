@@ -289,10 +289,8 @@ async function postInvitation() {
     return
   }
   try {
-    // or const res = await inviteApi.postInvitation(inviteForm)
-    await inviteApi.postInvitation(inviteForm).then((res) => {
-      tempInvitationTableId = res.data.id
-    })
+    const res = await inviteApi.postInvitation(inviteForm)
+    tempInvitationTableId = res.data.id
 
     toastMessage.value = '邀約成功'
     toastType.value = 'success'
