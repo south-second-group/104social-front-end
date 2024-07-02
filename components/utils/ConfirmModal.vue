@@ -278,7 +278,7 @@ async function fetchAnswer() {
   }
 }
 
-let tempInvitationTableId = props.invitationTableId
+// 再不能正常收回邀約，就用 emit 觸發父元件
 async function postInvitation() {
   isLoading.value = true
 
@@ -290,7 +290,8 @@ async function postInvitation() {
   }
   try {
     const res = await inviteApi.postInvitation(inviteForm)
-    tempInvitationTableId = res.data.id
+    matchResult.tempInvitationTableId = res.data.id
+    // console.log(matchResult.tempInvitationTableId);
 
     toastMessage.value = '邀約成功'
     toastType.value = 'success'
@@ -318,8 +319,10 @@ async function postInvitation() {
 
 async function cancelInvitation() {
   isLoading.value = true
+
+  // console.log('tempInvitationTableId', matchResult.tempInvitationTableId);
   try {
-    await inviteApi.cancelInvitation(tempInvitationTableId)
+    await inviteApi.cancelInvitation(matchResult.tempInvitationTableId || props.invitationTableId)
 
     toastMessage.value = '取消邀約成功'
     toastType.value = 'success'
