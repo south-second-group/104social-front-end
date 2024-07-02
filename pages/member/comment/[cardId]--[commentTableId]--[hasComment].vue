@@ -213,6 +213,7 @@ function renderValue(key, value) {
                 'font-montserrat': !useIsChineseFunc(
                   renderData.profile.nickNameDetails.nickName,
                 ),
+                'italic text-neutral-400': renderData.profile.nickNameDetails.nickName === '',
               }"
             >{{ renderData.profile.nickNameDetails.nickName || '對方保留' }}</span>
           </div>
@@ -224,6 +225,7 @@ function renderValue(key, value) {
                 'font-montserrat': !useIsChineseFunc(
                   renderData.profile.lineDetails.lineId,
                 ),
+                'italic text-neutral-400': renderData.profile.lineDetails.lineId === '',
               }"
             >{{ renderData.profile.lineDetails.lineId || '對方保留' }}</span>
           </div>
@@ -236,7 +238,11 @@ function renderValue(key, value) {
             <label class="mr-4 w-24 align-middle">
               {{ `${getKeyLabel(key)}：` }}
             </label>
-            <span>{{ renderValue(key, value) }}</span>
+            <span
+              :class="{
+                'italic text-neutral-400': renderValue(key, value) === '對方保留',
+              }"
+            >{{ renderValue(key, value) }}</span>
           </div>
 
           <div
@@ -247,13 +253,20 @@ function renderValue(key, value) {
             <label class="mr-4 w-24 align-middle">
               {{ `${getKeyLabel(key)}：` }}
             </label>
-            <span>{{ renderValue(key, value) }}</span>
+            <span
+              :class="{
+                'italic text-neutral-400': renderValue(key, value) === '對方保留',
+              }"
+            >{{ renderValue(key, value) }}</span>
           </div>
 
           <div class="col-span-2">
             <label>自我介紹：</label>
             <div
               class="mt-3 flex flex-wrap items-center justify-start gap-2 rounded-md"
+              :class="{
+                'italic text-neutral-400': renderData.profile.introDetails.intro === '',
+              }"
             >
               {{ renderData.profile.introDetails.intro || '對方保留' }}
             </div>
@@ -269,6 +282,9 @@ function renderValue(key, value) {
             >{{ renderData.userInfo.personalInfo.username }} 的標籤：</label>
             <div
               class="mt-3 flex flex-wrap items-center justify-start gap-2 rounded-md"
+              :class="{
+                'italic text-neutral-400': renderData.profile.tags.length === 0,
+              }"
             >
               <UBadge
                 v-for="i in renderData.profile.tags"

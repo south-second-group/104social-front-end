@@ -69,7 +69,12 @@ function createRenderValue(key, value) {
   <!-- {{ resultItem.commentTableId }} -->
   <!-- 無userId就隱藏，可能原因帳號不完全 -->
   <section
-    v-if="!isDataLoading && Object.keys(resultItem).length > 0 && resultItem.matchListSelfSetting && resultItem.matchListSelfSetting.userId"
+    v-if="
+      !isDataLoading
+        && Object.keys(resultItem).length > 0
+        && resultItem.matchListSelfSetting
+        && resultItem.matchListSelfSetting.userId
+    "
     class="w-full space-y-4 rounded-[10px] border-2 border-neutral-300 bg-white p-4 md:p-6"
   >
     <!-- 上 -->
@@ -105,6 +110,8 @@ function createRenderValue(key, value) {
         v-if="
           resultItem.matchListSelfSetting
             && resultItem.matchListSelfSetting.userId
+            && resultItem.profile
+            && resultItem.profile.photoDetails
         "
         class="shrink-0"
       >
@@ -124,18 +131,22 @@ function createRenderValue(key, value) {
           </div>
         </NuxtLink>
       </div>
+
       <div class="shrink-1 w-full space-y-6 text-start">
         <div class="space-y-1">
           <h2
-            v-if="resultItem.matchListSelfSetting && resultItem.matchListSelfSetting.userId"
+            v-if="
+              resultItem.profile.nickNameDetails
+                && resultItem.profile.nickNameDetails.nickName
+            "
             class="text-H4 text-neutral-600"
             :class="{
               'font-montserrat': !useIsChineseFunc(
-                resultItem.userInfo.personalInfo.username,
+                resultItem.profile.nickNameDetails.nickName,
               ),
             }"
           >
-            {{ resultItem.userInfo.personalInfo.username }}
+            {{ resultItem.profile.nickNameDetails.nickName }}
           </h2>
           <div
             v-if="
@@ -245,7 +256,9 @@ function createRenderValue(key, value) {
           <div class="flex justify-end space-x-2">
             <icon-heroicons:star-solid class="text-special-warning" />
             <span
-              v-if="resultItem.profile.userStatus.commentCount"
+              v-if="
+                resultItem.profile && resultItem.profile.userStatus.commentCount
+              "
               class="text-B3 text-neutral-400"
             >
               評分 {{ resultItem.profile.userStatus.commentScore }} ({{
@@ -263,7 +276,7 @@ function createRenderValue(key, value) {
 
     <!-- 下 -->
     <div
-      v-if="resultItem.profile.userStatus"
+      v-if="resultItem.profile && resultItem.profile.userStatus"
       class="flex flex-wrap justify-end"
     >
       <ClientOnly>
@@ -293,6 +306,6 @@ function createRenderValue(key, value) {
 
 <style lang="scss" scoped>
 .text-shadow {
-  text-shadow: 0px 0px 5px rgba(0, 0, 0,.8);
+  text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.8);
 }
 </style>
