@@ -284,6 +284,7 @@ function renderValue(key, value) {
                   {{ i }}
                 </p>
               </UBadge>
+              {{ renderData.profile.tags.length === 0 ? '對方保留' : '' }}
             </div>
           </div>
         </div>
