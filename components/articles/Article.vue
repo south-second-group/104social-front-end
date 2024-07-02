@@ -19,7 +19,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div
+  <NuxtLink to="/articles/article"
     class="px-4 pb-4"
     :class="{ 'linear-border-bottom': !isDesktop }"
   >
@@ -38,5 +38,5 @@ onUnmounted(() => {
         {{ sub }}
       </p>
     </div>
-  </div>
+  </NuxtLink>
 </template>

@@ -35,17 +35,14 @@ const articles = [
 
 <template>
   <div class="container my-[80px] md:my-12">
-    <!-- <p class="text-H3 mb-[40px] text-start md:mb-10">
-      精選文章
-    </p> -->
     <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-      <articlesArticle
-        v-for="article in articles"
-        :key="article.title"
-        :cover="article.cover"
-        :title="article.title"
-        :sub="article.sub"
-      />
+        <articlesArticle
+          v-for="article in articles"
+          :key="article.title"
+          :cover="article.cover"
+          :title="article.title"
+          :sub="article.sub"
+        />
     </div>
   </div>
 </template>
