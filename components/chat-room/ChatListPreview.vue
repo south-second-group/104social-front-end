@@ -10,18 +10,33 @@ function openChat(roomId) {
 const chatList = ref(null)
 
 watch(chatHistoryList, (newValue) => {
-  chatList.value = newValue
+  chatList.value = useSort(newValue)
 }, { deep: true, immediate: true })
 
 watch(q, (newValue) => {
   chatList.value = q.value === '' ? chatHistoryList.value : useFilter(newValue)
 })
 
+function useSort(list) {
+  list.forEach((chat) => {
+    const now = new Date()
+    chat.latestUpDate = chat.messages.length > 1
+      ? chat.messages[chat.messages.length - 1].createdAt
+      : now
+  })
+  const sortList = list.sort((a, b) => {
+    const aDate = new Date(a.latestUpDate)
+    const bDate = new Date(b.latestUpDate)
+    return bDate - aDate
+  })
+  return sortList
+}
+
 function useFilter(keyword) {
   const search = []
   chatHistoryList.value.forEach((i) => {
     i.members.forEach((n) => {
-      if (n.includes(keyword))
+      if (n.username.includes(keyword))
         search.push(i)
     })
   })

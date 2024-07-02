@@ -1,12 +1,13 @@
 <script setup>
 import { chatHistoryList, socket } from '../apis/socket-io.js'
 
-const props = defineProps(['roomId'])
+const props = defineProps(['roomId', 'memberList'])
+const memberStore = useMemberStore()
 const userDataStore = useUserDataStore()
 const { userData } = storeToRefs(userDataStore)
 const user = userData.value.userId
 const text = ref('')
-const { roomId } = props
+const { roomId, memberList } = props
 const messages = ref([])
 let typingTimeout
 const typingAnimate = ref(false)
@@ -136,9 +137,9 @@ onMounted(() => {
             alt="Avatar"
           /> -->
           <NuxtImg
-            src="/chatRoom/default.png"
+            :src="message.senderId === user ? memberStore.personalPhoto.photo || '/chatRoom/default.png' : memberList[0].photo || '/chatRoom/default.png'"
             alt="Avatar"
-            class="size-9 rounded-full"
+            class="size-9 rounded-full object-cover"
           />
           <div
             class="max-w-[190px] rounded-lg bg-neutral-200 px-3 py-2 sm:max-w-[65%]"
@@ -178,7 +179,7 @@ onMounted(() => {
             alt="Avatar"
           /> -->
           <NuxtImg
-            src="/chatRoom/default.png"
+            :src="memberList[0].photo || '/chatRoom/default.png'"
             alt="Avatar"
             class="size-9 rounded-full"
           />

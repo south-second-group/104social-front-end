@@ -76,9 +76,9 @@ onUnmounted(() => {
       <!-- <UAvatar :size="isDesktop ? '3xl' : 'lg'" -->
       <!-- :src="chat.members[0].photo ? chat.members[0].photo : '../../public/chatRoom/default.jpg'" alt="Avatar" /> -->
       <NuxtImg
-        src="/chatRoom/default.png"
+        :src="chat.members[0].photo !== '' ? chat.members[0].photo : '/chatRoom/default.png'"
         alt="Avatar"
-        class="size-[80px] rounded-full"
+        class="size-[80px] rounded-full object-cover"
       />
       <!-- <img src="../../public/chatRoom/default.jpg" alt=""> -->
       <div class="text-start">

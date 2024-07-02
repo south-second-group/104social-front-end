@@ -22,7 +22,6 @@ export function initializeSocket(userId) {
   // })
 
   socket.value.on('chatHistory', (data) => {
-    // console.log(data)
     chatHistoryList.value = data
     chatHistoryList.value.forEach((i) => {
       socket.value.emit('join', {
