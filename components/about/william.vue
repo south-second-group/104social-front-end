@@ -15,7 +15,7 @@ const props = defineProps({
           陳威良 William
         </h1>
 
-        <div class="">
+        <div>
           <h2>專案角色</h2>
           <p>里程碑七 角色端建置負責人</p>
         </div>
@@ -159,13 +159,46 @@ const props = defineProps({
               href="https://github.com/south-second-group/104social-back-end/blob/main/routes/auth.ts"
             >GitHub</a>
           </p>
-          <h3 class=" mt-20 text-center">
-            聯絡信箱
-          </h3>
-          <p class="text-center">
-            <a href="mailto:snowman12320@gmail.com">snowman12320@gmail.com</a>
-          </p>
         </div>
+
+        <div>
+          <h2>Contributions to main, excluding merge commits（Apr 14, 2024 – Jul 2, 2024）</h2>
+          <div class=" flex justify-center gap-3">
+            <div class="w-1/2 ">
+              <p>
+                <a
+                  class=" !underline"
+                  href="https://github.com/south-second-group/104social-front-end/graphs/contributors"
+                >front-end</a>
+              </p>
+              <img
+                class=" h-64 w-full rounded-md"
+                src="public/about/william-frontend.jpg"
+                alt="william-frontend"
+              >
+            </div>
+            <div class="w-1/2 ">
+              <p>
+                <a
+                  class=" !underline"
+                  href="https://github.com/roceil/104_Backend/graphs/contributors"
+                >back-end</a>
+              </p>
+              <img
+                class=" h-64 w-full rounded-md"
+                src="public/about/william-backend.jpg"
+                alt="william-backend"
+              >
+            </div>
+          </div>
+        </div>
+
+        <h3 class=" mt-20 text-center">
+          聯絡信箱
+        </h3>
+        <p class="text-center">
+          <a href="mailto:snowman12320@gmail.com">snowman12320@gmail.com</a>
+        </p>
       </main>
     </article>
   </transition>
