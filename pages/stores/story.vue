@@ -1,12 +1,36 @@
+<script setup>
+const visibleRef = ref(false);
+const indexRef = ref(0);
+
+const imgs = [
+  "https://via.placeholder.com/450.png/",
+  "https://via.placeholder.com/300.png/",
+  "https://via.placeholder.com/150.png/",
+  { src: "https://via.placeholder.com/450.png/", title: "this is title" },
+];
+
+const showImg = (index) => {
+  indexRef.value = index;
+  visibleRef.value = true;
+};
+const onHide = () => (visibleRef.value = false);
+</script>
 <template>
   <div class="container mt-12 md:mt-20">
     <div class="block gap-x-6 md:grid md:grid-cols-6">
       <article class="col-span-4 col-start-2 mb-6 text-start">
-        <p class="mb-1  text-xl font-bold bg-gradient-to-r from-[#FE839A] to-[#4A72FF] bg-clip-text text-transparent md:mb-2 md:text-2xl text-center">
+        <p
+          class="mb-1  text-xl font-bold bg-gradient-to-r from-[#FE839A] to-[#4A72FF] bg-clip-text text-transparent md:mb-2 md:text-2xl text-center">
           Justin & Sophia
         </p>
         <NuxtImg src="/article/cover01-lg.png" alt=""
           class="h-[160px] w-full my-5 rounded-xl object-cover md:h-[450px]" />
+        <div class="grid grid-cols-3 gap-3">
+          <div v-for="(src, index) in imgs" :key="index" class="pic w-full" @click="() => showImg(index)">
+            <img :src="src" class="w-full rounded-xl"  />
+          </div>
+          <VueEasyLightbox :visible="visibleRef" :imgs="imgs" :index="indexRef" @hide="onHide" />
+        </div>
         <p class="text-justify mt-2 text-xl md:mt-4">每天在生活和職場的雙重壓力下掙扎。 在社會和文化的框架中，年過 40 的職場單身女性 Rina
           感受到了來自於年齡的無形壓迫，尤其在婚戀方面的焦慮更是她難以言說的心病。
           這樣的壓力不僅來自於外界的刻板印象，更來自於她內心深處的不安。
