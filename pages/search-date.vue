@@ -442,10 +442,14 @@ const sortOption = ref([
 
       <div
         v-if="!isDataLoading && maybeYouLikeList.length === 0"
-        class="flex justify-center italic text-neutral-400"
       >
-        <p>
-          目前無資料
+        <NuxtImg
+          src="/chatRoom/No-Result-Found.png"
+          alt=""
+          class="mx-auto w-[250px]"
+        />
+        <p class="font-bold text-zinc-400">
+          Oops! 沒有找到符合條件的對象
         </p>
       </div>
     </div>
