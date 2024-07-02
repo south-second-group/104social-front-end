@@ -406,7 +406,7 @@ watchEffect(() => {
       />
     </div>
     <div
-      class="animate-scale-up-loop decoration-ball-1 absolute top-[545px] z-[-1] w-[184px] md:right-[-155px] md:w-[684px]"
+      class="animate-scale-up-loop decoration-ball-1 absolute right-[200px] top-[545px] z-[-1] w-[184px]   md:right-[-155px] md:w-[684px]"
     >
       <NuxtImg
         src="/banner/bg-ball-large-lg.png"
@@ -426,7 +426,7 @@ watchEffect(() => {
     </div>
     <!-- 裝飾球_Medium -->
     <div
-      class="animate-scale-up-loop decoration-ball-3 absolute top-[-55px] z-[-1] w-[90px] md:right-[-206px] md:w-[305px]"
+      class="animate-scale-up-loop decoration-ball-3 absolute right-[200px] top-[-55px] z-[-1] w-[90px] md:right-[-206px] md:w-[305px]"
     >
       <NuxtImg
         src="/banner/bg-ball-medium-lg.png"

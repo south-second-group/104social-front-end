@@ -21,7 +21,7 @@
 ```
 ```bash
 被邀約方
-帳號： 56asdf@hotmail.com
+帳號： 56asdf01@hotmail.com
 密碼： a1234567
 ```
 
