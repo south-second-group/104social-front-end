@@ -98,12 +98,12 @@ export const useOrderStore = defineStore('orders', () => {
       userId: userDataStore.userId,
       email: 'a09078006326@gmail.com',
       periodAmt: 99, // 每月 99 元
-      ProdDesc: `104 會員訂閱方案`,
+      ProdDesc: '104 會員訂閱方案',
       periodType: 'M', // 每月
-      periodPoint: '02', // 每月的某一天
+      periodPoint: '05', // 每月的某一天
       PeriodStartType: 2, // 立即執行授權
-      periodTimes: '12', // 訂閱次數
-      notifyURL: 'https://2d57-122-121-80-127.ngrok-free.app/api/v1/notify', // 替換成你的通知 URL
+      periodTimes: '99', // 訂閱次數
+      notifyURL: process.env.SUBSCRIPTION_NOTIFY_URL,
     }
 
     try {
