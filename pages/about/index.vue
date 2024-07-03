@@ -40,7 +40,7 @@ function hoverHandler(tab) {
       ></div>
     </div>
 
-    <aboutWilliam :hovered-tab="hoveredTab" />
+    <aboutWilliamComp :hovered-tab="hoveredTab" />
   </main>
 </template>
 

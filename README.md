@@ -6,13 +6,13 @@
 
 
 - [前端 DEMO ](https://104social-front-end.vercel.app/)
-- [後端 swagger 文件](https://104-dev.zeabur.app/api-doc/#/)
-- [後端專案 GitHub ](https://github.com/roceil/104_Backend/tree/main/)
+- [後端 Swagger](https://104-dev.zeabur.app/api-doc/#/)
+- [後端 GitHub ](https://github.com/roceil/104_Backend/tree/main/)
 
 ## 功能
 
-- 測試帳號密碼
 - [測試流程 (Notion)](https://www.notion.so/7bad45f87c9c40ba986bb7a85fc90164?pvs=4)
+- 測試帳號密碼
 
 ```bash
 邀約方
@@ -171,6 +171,7 @@ http://localhost:3000/
 
 - Gemini AI
 - Google OAuth
+- Firebase Storage
 - 藍新金流
 
 ## CI/CD 說明
