@@ -1,3 +1,18 @@
+<script setup>
+const orderStore = useOrderStore()
+
+async function createSubscriptionOrder() {
+  await orderStore.subscriptionCheckout()
+}
+
+// const shaCode = ref('')
+
+// onMounted(async () => {
+//   const data = await orderStore.createSubscriptionOrder()
+//   shaCode.value = data
+// })
+</script>
+
 <template>
   <div class="col-span-12 md:col-span-4 lg:col-span-3">
     <div class="relative mb-4 rounded-xl bg-primary-light p-4 lg:mb-6 lg:p-6">
@@ -12,7 +27,7 @@
       <button
         class="btn-withIcon-outline mb-4 h-12 w-full lg:mb-6"
         type="button"
-        @click="navigateToPayPage"
+        @click="createSubscriptionOrder"
       >
         <p>立即訂閱</p>
       </button>

@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import * as zod from 'zod'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useField } from 'vee-validate'
 import { ordersAPI } from '@/apis/repositories/orders'
+import { useUserDataStore } from '@/store/userData'
 
 export const useOrderStore = defineStore('orders', () => {
   // 點數選單
@@ -70,17 +71,61 @@ export const useOrderStore = defineStore('orders', () => {
     try {
       const res = await ordersAPI.createOrder(orderData)
 
-      cryptoOrderData.tradeSha = res.data.shaEncrypt
-      cryptoOrderData.tradeInfo = res.data.aesEncrypt
-      cryptoOrderData.timeStamp = res.data.TimeStamp
-      cryptoOrderData.MerchantOrderNo = res.data.MerchantOrderNo
-      cryptoOrderData.amt = res.data.amt
-      cryptoOrderData.email = res.data.email
+      if (res.data && res.data.shaEncrypt && res.data.aesEncrypt) {
+        cryptoOrderData.tradeSha = res.data.shaEncrypt
+        cryptoOrderData.tradeInfo = res.data.aesEncrypt
+        cryptoOrderData.timeStamp = res.data.TimeStamp
+        cryptoOrderData.MerchantOrderNo = res.data.MerchantOrderNo
+        cryptoOrderData.amt = res.data.amt
+        cryptoOrderData.email = res.data.email
 
-      return res
+        return res
+      }
+      else {
+        throw new Error('Invalid response data')
+      }
     }
     catch (error) {
       console.error('Order create failed:', error)
+      throw error
+    }
+  }
+
+  /** 建立訂閱訂單 */
+  const createSubscriptionOrder = async () => {
+    const userDataStore = useUserDataStore()
+    const subscriptionData = {
+      userId: userDataStore.userId,
+      email: 'a09078006326@gmail.com',
+      periodAmt: 99, // 每月 99 元
+      ProdDesc: '104 會員訂閱方案',
+      periodType: 'M', // 每月
+      periodPoint: '05', // 每月的某一天
+      PeriodStartType: 2, // 立即執行授權
+      periodTimes: '99', // 訂閱次數
+      notifyURL: process.env.SUBSCRIPTION_NOTIFY_URL,
+    }
+
+    try {
+      const res = await ordersAPI.createSubscriptionOrder(subscriptionData)
+
+      if (res.data) {
+        cryptoOrderData.tradeSha = res.data.shaEncrypt
+        cryptoOrderData.tradeInfo = res.data.aesEncrypt
+        cryptoOrderData.timeStamp = res.data.TimeStamp
+        cryptoOrderData.MerchantOrderNo = res.data.MerchantOrderNo
+        cryptoOrderData.amt = res.data.amt
+        cryptoOrderData.email = res.data.email
+
+        return res.data
+      }
+      else {
+        throw new Error('Invalid response data')
+      }
+    }
+    catch (error) {
+      console.error('Subscription order create failed:', error)
+      throw error
     }
   }
 
@@ -91,29 +136,61 @@ export const useOrderStore = defineStore('orders', () => {
     if (errorMessage.value)
       return
 
-    const createOrderRes = await createOrder()
+    try {
+      const createOrderRes = await createOrder()
 
-    if (createOrderRes.status) {
-      const form = document.createElement('form')
-      form.action = 'https://ccore.newebpay.com/MPG/mpg_gateway'
-      form.method = 'post'
+      if (createOrderRes.status) {
+        const form = document.createElement('form')
+        form.action = 'https://ccore.newebpay.com/MPG/mpg_gateway'
+        form.method = 'post'
 
-      form.innerHTML = `
-        <input type="hidden" name="MerchantID" value="MS152894244">
-        <input type="hidden" name="TradeSha" value="${cryptoOrderData.tradeSha}">
-        <input type="hidden" name="TradeInfo" value="${cryptoOrderData.tradeInfo}">
-        <input type="hidden" name="TimeStamp" value="${cryptoOrderData.timeStamp}">
-        <input type="hidden" name="Version" value="2.0">
-        <input type="hidden" name="MerchantOrderNo" value="${cryptoOrderData.MerchantOrderNo}">
-        <input type="hidden" name="Amt" value="${cryptoOrderData.amt}">
-        <input type="hidden" name="Email" value="${cryptoOrderData.email}">
-      `
+        form.innerHTML = `
+          <input type="hidden" name="MerchantID" value="MS152894244">
+          <input type="hidden" name="TradeSha" value="${cryptoOrderData.tradeSha}">
+          <input type="hidden" name="TradeInfo" value="${cryptoOrderData.tradeInfo}">
+          <input type="hidden" name="TimeStamp" value="${cryptoOrderData.timeStamp}">
+          <input type="hidden" name="Version" value="2.0">
+          <input type="hidden" name="MerchantOrderNo" value="${cryptoOrderData.MerchantOrderNo}">
+          <input type="hidden" name="Amt" value="${cryptoOrderData.amt}">
+          <input type="hidden" name="Email" value="${cryptoOrderData.email}">
+        `
 
-      document.body.appendChild(form)
-      form.submit()
+        document.body.appendChild(form)
+        form.submit()
+      }
+      else {
+        console.error('Order create failed:', createOrderRes)
+      }
     }
-    else {
-      console.error('Order create failed:', createOrderRes)
+    catch (error) {
+      console.error('Checkout failed:', error)
+    }
+  }
+
+  // 訂閱結帳
+  const subscriptionCheckout = async () => {
+    try {
+      const createSubscriptionRes = await createSubscriptionOrder()
+
+      if (createSubscriptionRes.MerchantID && createSubscriptionRes.aesEncrypt) {
+        const form = document.createElement('form')
+        form.action = 'https://ccore.newebpay.com/MPG/period'
+        form.method = 'post'
+
+        form.innerHTML = `
+          <input type="hidden" name="MerchantID_" value="MS152894244">
+          <input type="hidden" name="PostData_" value="${createSubscriptionRes.aesEncrypt}">
+        `
+
+        document.body.appendChild(form)
+        form.submit()
+      }
+      else {
+        console.error('Subscription order create failed:', createSubscriptionRes)
+      }
+    }
+    catch (error) {
+      console.error('Subscription checkout failed:', error)
     }
   }
 
@@ -128,9 +205,11 @@ export const useOrderStore = defineStore('orders', () => {
     paymentOptions,
     selectedPayment,
     checkout,
+    subscriptionCheckout,
     paymentEmail,
     errorMessage,
     createOrder,
+    createSubscriptionOrder,
     cryptoOrderData,
   }
 })
