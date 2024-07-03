@@ -15,7 +15,7 @@ const props = defineProps({
           陳威良 William
         </h1>
 
-        <div class="">
+        <div>
           <h2>專案角色</h2>
           <p>里程碑七 角色端建置負責人</p>
         </div>
@@ -50,7 +50,7 @@ const props = defineProps({
             </li>
             <li>
               專案建置：
-              <ul>
+              <ul class="list-disc space-y-2 pl-5">
                 <li>前端專案 (Nuxt / Tailwind / Nuxt UI / Pinia)</li>
                 <li>
                   後端專案 (Express / TypeScript / MongoDB / Mongoose / Swagger)
@@ -59,7 +59,7 @@ const props = defineProps({
             </li>
             <li>
               專案部署：
-              <ul>
+              <ul class="list-disc space-y-2 pl-5">
                 <li>前端專案部署 Vercel</li>
                 <li>
                   後端專案部署 Zeabur (原為 Render，因休眠問題改用 Zeabur)
@@ -68,7 +68,7 @@ const props = defineProps({
             </li>
             <li>
               搜尋優化：
-              <ul class="list-decimal space-y-2 pl-5">
+              <ul class="list-disc space-y-2 pl-5">
                 <li>提交 Google search console / Microsoft Webmaster Tools</li>
                 <li>使用 HTML 標記驗證</li>
                 <li>產生 sitemap</li>
@@ -87,6 +87,9 @@ const props = defineProps({
             <li>
               後端開發 API：<br>關鍵字和標籤搜尋、會員條件設定、配對設定、配對結果、評價列表、精選會員、扣除點數、可能也喜歡推薦
             </li>
+            <li>
+              QA測試：<br>全站功能測試，若有問題，回報問題後，提供想法、解決方案、嘗試協助解決
+            </li>
           </ul>
         </div>
 
@@ -95,13 +98,13 @@ const props = defineProps({
           <h3>前端</h3>
           <p>
             Nuxt 3 | Tailwind 3 | Pinia | Nuxt UI | Github Action | Eslint |
-            vee-validate | Gemini API | SEO
+            vee-validate | Gemini API | SEO | Git
           </p>
           <h3>後端</h3>
           <p>
             Express 4 | MongoDB / mongoose | Socket.io | Google Login |
             TypeScript | JWT | Github Action | Eslint | Swagger | NewebPay |
-            FireBase Storage
+            FireBase Storage | Git
           </p>
         </div>
 
@@ -112,12 +115,14 @@ const props = defineProps({
             <li>效能優化</li>
             <li>Vitest 單元測試</li>
             <li>Playwright E2E測試</li>
+            <li>細節：搜尋頁無需登入、卡片內頁細節、精選文章功能、幸福案例功能、統一管理載入或提示狀態</li>
           </ul>
           <h3>後端</h3>
           <ul class="list-decimal space-y-2 pl-5">
-            <li>JEST 單元測試</li>
+            <li>Jest 單元測試</li>
             <li>Docker 容器化技術</li>
             <li>GCP 雲端部署</li>
+            <li>細節：熱門標籤統計、配對/刊登/資料揭露邏輯、搜尋/配對資料邏輯、卡片內頁取得各列表單筆資料、近期刊登列表</li>
           </ul>
         </div>
 
@@ -125,40 +130,75 @@ const props = defineProps({
           <h2>技術支援分享</h2>
           <h3>Websocket (通知、聊天)</h3>
           <p>
-            前端：<a
-              href="https://github.com/south-second-group/104social-back-end/blob/main/service/ws.ts"
-            >https://github.com/south-second-group/104social-back-end/blob/main/service/ws.ts</a>
+            前端：
+            <a
+              href="https://github.com/south-second-group/104social-front-end/blob/main/pages/demo/WsDemoPage.vue"
+            >GitHub</a>
           </p>
           <p>
-            後端：<a
-              href="https://github.com/south-second-group/104social-front-end/blob/main/pages/demo/WsDemoPage.vue"
-            >https://github.com/south-second-group/104social-front-end/blob/main/pages/demo/WsDemoPage.vue</a>
+            後端：
+            <a
+              href="https://github.com/south-second-group/104social-back-end/blob/main/service/ws.ts"
+            >GitHub</a>
           </p>
           <h3>藍新金流</h3>
           <p>
             <a
               href="https://github.com/south-second-group/104social-back-end/blob/main/routes/payment.ts"
-            >https://github.com/south-second-group/104social-back-end/blob/main/routes/payment.ts</a>
+            >GitHub</a>
           </p>
           <h3>FireBase Storage 圖庫</h3>
           <p>
             <a
               href="https://github.com/south-second-group/104social-back-end/blob/main/service/firebase.ts"
-            >https://github.com/south-second-group/104social-back-end/blob/main/service/firebase.ts</a>
+            >GitHub</a>
           </p>
           <h3>Google 第三方登入</h3>
           <p>
             <a
               href="https://github.com/south-second-group/104social-back-end/blob/main/routes/auth.ts"
-            >https://github.com/south-second-group/104social-back-end/blob/main/routes/auth.ts</a>
-          </p>
-          <h3 class=" mt-20 text-center">
-            聯絡信箱
-          </h3>
-          <p class=" text-center">
-            snowman12320@gmail.com
+            >GitHub</a>
           </p>
         </div>
+
+        <div>
+          <h2>Contributions to main, excluding merge commits（Apr 14, 2024 – Jul 2, 2024）</h2>
+          <div class=" flex justify-center gap-3">
+            <div class="w-1/2 ">
+              <p>
+                <a
+                  class=" !underline"
+                  href="https://github.com/south-second-group/104social-front-end/graphs/contributors"
+                >front-end</a>
+              </p>
+              <img
+                class=" h-64 w-full rounded-md"
+                src="public/about/william-frontend.jpg"
+                alt="william-frontend"
+              >
+            </div>
+            <div class="w-1/2 ">
+              <p>
+                <a
+                  class=" !underline"
+                  href="https://github.com/roceil/104_Backend/graphs/contributors"
+                >back-end</a>
+              </p>
+              <img
+                class=" h-64 w-full rounded-md"
+                src="public/about/william-backend.jpg"
+                alt="william-backend"
+              >
+            </div>
+          </div>
+        </div>
+
+        <h3 class=" mt-20 text-center">
+          聯絡信箱
+        </h3>
+        <p class="text-center">
+          <a href="mailto:snowman12320@gmail.com">snowman12320@gmail.com</a>
+        </p>
       </main>
     </article>
   </transition>

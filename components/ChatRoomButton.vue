@@ -1,9 +1,12 @@
 <script setup>
 import { chatHistoryList } from '../apis/socket-io.js'
 
+const ChatRoomStatus = useChatRoomStatusStore()
+
 const roomId = ref('')
 const roomIdList = ref([])
 const isOpen = ref(false)
+
 const isShowChat = ref(false)
 const isShowChatList = ref(true)
 const slideOverHeight = ref('auto')
@@ -42,8 +45,8 @@ watch(chatHistoryList, (newValue, oldValue) => {
   <div class="fixed bottom-4 right-4 z-[3000] md:bottom-[60px] md:right-[60px]">
     <UButton
       color="white"
-      class="no-border-no-shadow rounded-full bg-primary-dark p-2.5 hover:bg-primary-dark md:p-3"
-      @click="isOpen = true"
+      class=" no-border-no-shadow rounded-full bg-primary-dark p-2.5 hover:bg-primary-dark md:p-3"
+      @click="ChatRoomStatus.toggleSlideOver()"
     >
       <icon-heroicons-chat-bubble-left-ellipsis
         class="size-5 text-white md:size-9"
@@ -51,7 +54,7 @@ watch(chatHistoryList, (newValue, oldValue) => {
     </UButton>
 
     <USlideover
-      v-model="isOpen"
+      v-model="ChatRoomStatus.isSlideOverOpen"
       prevent-close
       class="z-[5000]"
     >
@@ -78,7 +81,7 @@ watch(chatHistoryList, (newValue, oldValue) => {
             variant="ghost"
             icon="i-heroicons-x-mark-20-solid"
             class="no-border-no-shadow -my-1 bg-[#FFF5F5] hover:bg-[#FFF5F5]"
-            @click="isOpen = false"
+            @click="ChatRoomStatus.toggleSlideOver()"
           />
         </div>
         <chat-roomChatListPreview

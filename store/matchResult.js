@@ -6,6 +6,7 @@ export const useMatchResultStore = defineStore('matchResult', {
       result: [],
       resultTotal: 0,
       isLoading: false,
+      tempInvitationTableId: null, // 邀約後數值更新後，彈窗組件由於重新渲染，導致數值重置 > 存pinia 和 用二元運算 判斷用props
     }
   },
   actions: {

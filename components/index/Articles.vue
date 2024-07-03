@@ -46,7 +46,7 @@ function handleMouseEnter(index) {
               <div class="mb-3 md:mb-6 xxl:hidden">
                 <NuxtImg
                   src="/article/cover01-sm.png"
-                  alt=""
+                  alt="交友軟體 文章 104緣來如此 "
                   class="mx-auto w-full md:w-[60%]"
                 />
               </div>
@@ -80,7 +80,7 @@ function handleMouseEnter(index) {
               <div class="mb-3 md:mb-6 xxl:hidden">
                 <NuxtImg
                   src="/article/cover02-sm.png"
-                  alt=""
+                  alt="交友軟體 文章 104緣來如此 "
                   class="mx-auto w-full md:w-[60%]"
                 />
               </div>
@@ -113,7 +113,7 @@ function handleMouseEnter(index) {
               <div class="mb-3 md:mb-6 xxl:hidden">
                 <NuxtImg
                   src="/article/cover03-sm.png"
-                  alt=""
+                  alt="交友軟體 文章 104緣來如此 "
                   class="mx-auto w-full md:w-[60%]"
                 />
               </div>

@@ -42,7 +42,7 @@ onMounted(async () => {
       <div class="container relative -z-10 flex items-center justify-center">
         <NuxtImg
           src="/banner/bg-sm.png"
-          alt="Banner_sm"
+          alt="裝飾"
           class="size-full max-w-[300px]"
         />
       </div>
@@ -52,7 +52,7 @@ onMounted(async () => {
         <div class="absolute left-14 top-[-72px] -z-10 size-full">
           <NuxtImg
             src="/banner/bg-ball-sm.png"
-            alt="Banner_ball"
+            alt="裝飾"
             class="size-full"
           />
         </div>
@@ -126,7 +126,7 @@ onMounted(async () => {
         >
           <NuxtImg
             src="/banner/bg-ball-large-lg.png"
-            alt="Banner_ball"
+            alt="裝飾"
             class="size-full"
           />
         </div>
@@ -136,7 +136,7 @@ onMounted(async () => {
         >
           <NuxtImg
             src="/banner/bg-ball-medium-lg.png"
-            alt="Banner_ball"
+            alt="裝飾"
             class="size-full"
           />
         </div>
@@ -146,7 +146,7 @@ onMounted(async () => {
         >
           <NuxtImg
             src="/banner/bg-ball-medium-lg.png"
-            alt="Banner_ball"
+            alt="裝飾"
             class="size-full"
           />
         </div>
@@ -159,7 +159,7 @@ onMounted(async () => {
           >
             <NuxtImg
               src="/banner/bg-1-lg.png"
-              alt="Banner_bg_1"
+              alt="交友軟體 104緣來如此 代表圖 首頁圖 示意圖 Banner_sm"
               class="size-full"
             />
           </div>
@@ -170,7 +170,7 @@ onMounted(async () => {
           >
             <NuxtImg
               src="/banner/bg-2-lg.png"
-              alt="Banner_bg_1"
+              alt="裝飾"
               class="size-full"
             />
           </div>
@@ -180,7 +180,7 @@ onMounted(async () => {
           >
             <NuxtImg
               src="/banner/bg-2-lg-animate.gif"
-              alt="Banner_bg_1"
+              alt="裝飾"
               class="size-full"
             />
           </div>
@@ -191,7 +191,7 @@ onMounted(async () => {
           >
             <NuxtImg
               src="/banner/bg-3-lg.png"
-              alt="Banner_bg_1"
+              alt="裝飾"
               class="size-full"
             />
           </div>
@@ -211,7 +211,7 @@ onMounted(async () => {
           >
             <NuxtImg
               src="/banner/bg-4-lg.png"
-              alt="Banner_bg_1"
+              alt="裝飾"
               class="size-full"
             />
           </div>

@@ -65,7 +65,7 @@ onMounted(async () => {
                 <p>分享幸福案例</p>
               </button>
               <button
-                class="btn-linear-nav mx-auto mt-4 block min-w-[303px] md:mt-5 md:hidden"
+                class="btn-linear-nav mx-auto mt-4 block h-[40px] min-w-[303px] md:mt-5 md:hidden"
               >
                 <p>分享幸福案例</p>
               </button>
