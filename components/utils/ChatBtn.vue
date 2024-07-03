@@ -1,3 +1,23 @@
+<script setup>
+import { chatAPI } from '~/apis/repositories/chat'
+
+const { userId } = defineProps({
+  userId: String,
+})
+
+const ChatRoomStatus = useChatRoomStatusStore()
+
+async function addChatList() {
+  ChatRoomStatus.toggleSlideOver()
+  try {
+    const res = await chatAPI.addChatList({ receiverId: userId })
+  }
+  catch (error) {
+    console.error(error)
+  }
+}
+</script>
+
 <template>
   <svg
     class="cursor-pointer"
@@ -5,6 +25,7 @@
     width="1.2em"
     height="1.2em"
     viewBox="0 0 24 24"
+    @click="addChatList"
   >
     <defs>
       <linearGradient

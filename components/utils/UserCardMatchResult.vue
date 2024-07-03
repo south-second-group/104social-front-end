@@ -88,7 +88,13 @@ function createRenderValue(key, value) {
           v-if="isTrashIcon"
           class="rounded-full bg-neutral-100 p-[10px]"
         >
-          <utilsTrashBtn />
+          <utilsTrashBtn
+            v-if="
+              resultItem.matchListSelfSetting
+                && resultItem.matchListSelfSetting.userId
+            "
+            :user-id="resultItem.matchListSelfSetting.userId"
+          />
         </div>
         <div class="rounded-full bg-neutral-100 p-[10px]">
           <utilsCollectionBtn

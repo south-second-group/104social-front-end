@@ -1,5 +1,6 @@
 <script setup>
-const isOpen = ref(false)
+const ChatRoomStatus = useChatRoomStatusStore()
+
 const isShowChat = ref(false)
 const isShowChatList = ref(true)
 const slideOverHeight = ref('auto')
@@ -25,13 +26,13 @@ onMounted(() => {
     <UButton
       color="white"
       class=" no-border-no-shadow rounded-full bg-primary-dark p-2.5 hover:bg-primary-dark md:p-3"
-      @click="isOpen = true"
+      @click="ChatRoomStatus.toggleSlideOver()"
     >
       <icon-heroicons-chat-bubble-left-ellipsis class="size-5 text-white md:size-9" />
     </UButton>
 
     <USlideover
-      v-model="isOpen"
+      v-model="ChatRoomStatus.isSlideOverOpen"
       prevent-close
       class="z-[5000]"
     >
@@ -58,7 +59,7 @@ onMounted(() => {
             variant="ghost"
             icon="i-heroicons-x-mark-20-solid"
             class="no-border-no-shadow -my-1 bg-[#FFF5F5] hover:bg-[#FFF5F5]"
-            @click="isOpen = false"
+            @click="ChatRoomStatus.toggleSlideOver()"
           />
         </div>
 
