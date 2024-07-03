@@ -21,7 +21,7 @@ export default defineNuxtConfig({
     '@nuxtjs/google-fonts',
     '@nuxt/image',
     'nuxt-simple-sitemap',
-    'nuxt-easy-lightbox'
+    'nuxt-easy-lightbox',
   ],
   sitemap: {
     xsl: false,

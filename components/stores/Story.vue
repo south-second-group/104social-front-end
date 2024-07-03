@@ -19,7 +19,8 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <NuxtLink to="/stores/story"
+  <NuxtLink
+    to="/stores/story"
     class="rounded-xl bg-neutral-50 p-4 shadow-neutral-L2"
     :class="{ 'linear-border-bottom': !isDesktop }"
   >

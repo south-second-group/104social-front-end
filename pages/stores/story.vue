@@ -1,60 +1,105 @@
 <script setup>
-const visibleRef = ref(false);
-const indexRef = ref(0);
+const visibleRef = ref(false)
+const indexRef = ref(0)
 
 const imgs = [
-  "https://via.placeholder.com/450.png/",
-  "https://via.placeholder.com/300.png/",
-  "https://via.placeholder.com/150.png/",
-  { src: "https://via.placeholder.com/450.png/", title: "this is title" },
-];
+  'https://i.imgur.com/LNQKK3V.jpg',
+  'https://i.imgur.com/GTcHsEL.jpg',
+  'https://i.imgur.com/KOhD3GW.jpg',
+]
 
-const showImg = (index) => {
-  indexRef.value = index;
-  visibleRef.value = true;
-};
-const onHide = () => (visibleRef.value = false);
+function showImg(index) {
+  indexRef.value = index
+  visibleRef.value = true
+}
+const onHide = () => (visibleRef.value = false)
 </script>
+
 <template>
   <div class="container mt-12 md:mt-20">
     <div class="block gap-x-6 md:grid md:grid-cols-6">
       <article class="col-span-4 col-start-2 mb-6 text-start">
         <p
-          class="mb-1  text-xl font-bold bg-gradient-to-r from-[#FE839A] to-[#4A72FF] bg-clip-text text-transparent md:mb-2 md:text-2xl text-center">
+          class="mb-1 bg-gradient-to-r from-[#FE839A] to-[#4A72FF] bg-clip-text text-center text-xl font-bold text-transparent md:mb-2 md:text-2xl"
+        >
           Justin & Sophia
         </p>
-        <NuxtImg src="/article/cover01-lg.png" alt=""
-          class="h-[160px] w-full my-5 rounded-xl object-cover md:h-[450px]" />
+        <NuxtImg
+          src="https://i.imgur.com/vtLN2t8.jpg"
+          alt=""
+          class="my-5 h-[160px] w-full rounded-xl object-cover md:h-[450px]"
+        />
         <div class="grid grid-cols-3 gap-3">
-          <div v-for="(src, index) in imgs" :key="index" class="pic w-full" @click="() => showImg(index)">
-            <img :src="src" class="w-full rounded-xl"  />
+          <div
+            v-for="(src, index) in imgs"
+            :key="index"
+            class="pic cursor-pointer"
+            @click="() => showImg(index)"
+          >
+            <img
+              :src="src"
+              class="size-full rounded-xl object-cover"
+            >
           </div>
-          <VueEasyLightbox :visible="visibleRef" :imgs="imgs" :index="indexRef" @hide="onHide" />
+          <VueEasyLightbox
+            :visible="visibleRef"
+            :imgs="imgs"
+            :index="indexRef"
+            @hide="onHide"
+          />
         </div>
-        <p class="text-justify mt-2 text-xl md:mt-4">每天在生活和職場的雙重壓力下掙扎。 在社會和文化的框架中，年過 40 的職場單身女性 Rina
-          感受到了來自於年齡的無形壓迫，尤其在婚戀方面的焦慮更是她難以言說的心病。
-          這樣的壓力不僅來自於外界的刻板印象，更來自於她內心深處的不安。
-          在職場上，Rina 以她豐富的經驗和卓越的能力贏得了同事和上司的尊重。然而，隨著年齡的增長，她開始擔憂自己的職業生涯是否會因為年齡而遭遇瓶頸。這種擔憂不時浮現在她的心頭，使她在工作中時常感到不安全和焦慮。
+        <p
+          class="mb-1 mt-5 line-clamp-2 text-xl font-bold text-zinc-950 md:mb-2 md:text-2xl"
+        >
+          這個姐姐讓我不想努力了
         </p>
-        <p class="text-justify mt-2 text-xl md:mt-4">在個人生活方面，Rina
-          面臨的困境更加複雜。她長期單身，雖然享受著一定程度的自由和獨立，但隨著時間的推移，社會對於“適婚年齡”的刻板看法和來自親友的無形壓力讓她感到逐漸沉重。她渴望找到一位理解她、支持她的伴侶，但婚戀市場對於“大齡”女性的態度和現實的挑戰，使得她在追求愛情的路上步履維艱。
-        </p>
-        <p class="text-justify mt-2 text-xl md:mt-4">
-          面對這些外界的壓力和內心的困惑，Rina並沒有放棄。她嘗試通過各種方式，包括參加相親活動、加入興趣小組等，來擴大自己的社交圈，希望能遇到志同道合的伴侶。同時，她也開始關注自我成長，通過閱讀、學習新技能來豐富自己的內心世界，以更加積極的態度面對生活的不確定性。
-          Rina
-          的故事反映了許多年過 40
-          的女性在當今社會中的共同處境。她們在尋找愛情和職業發展的道路上，不僅要面對外界的偏見和壓力，更要克服自我懷疑和不安。但正是通過這樣的探索和努力，她們學會了如何更加堅韌地面對人生，找到屬於自己的幸福和成就。
+        <p class="mt-2 text-justify text-xl text-zinc-600">
+          作為一名初創企業家,我的生活幾乎完全被工作所佔據,愛情對我來說,似乎是一件遙遠的事。但是,通過一個相親交友網站,我遇見了
+          Sophia——一位既成功又富有的商業女強人...我被 Sophia
+          的自信和優雅深深吸引。她對我的創業計劃表現出了極大的興趣,並且願意提供資金支持,這讓我感到既驚訝又感激。從那一刻起,我們的關係就不再僅僅是業務上的合作,而是逐漸發展成為了一段深刻的情感聯繫。
         </p>
       </article>
-      <div class="col-span-4 col-start-2 mb-6 text-start mt-20">
+      <div class="col-span-4 col-start-2 mb-6 mt-20 text-start">
         <p class="mb-1 text-lg font-bold text-zinc-950 md:mb-2 md:text-xl">
-          更多文章
+          更多幸福案例
         </p>
-        <ul>
-          <li class="mt-2 text-lg md:mt-3">整天抱怨岳母難相處,父母雙亡在哪裡?</li>
-          <li class="mt-2 text-lg md:mt-3">無經驗可, Sugar daddy / mommy 在找你</li>
-          <li class="mt-2 text-lg md:mt-3">沒想過他真的是魔法師</li>
-          <li class="mt-2 text-lg md:mt-3">愛情世界裡永遠的在野黨</li>
+        <ul class=" grid-cols-3 gap-3 md:grid">
+          <li class="">
+            <NuxtImg
+              src="https://i.imgur.com/DWF7Neo.jpg"
+              alt=""
+              class="mb-2 mt-3 w-full rounded-xl object-cover"
+            />
+            <p
+              class="bg-gradient-to-r from-[#FE839A] to-[#4A72FF] bg-clip-text text-center font-bold text-transparent"
+            >
+              Luna & Robert
+            </p>
+          </li>
+          <li class="">
+            <NuxtImg
+              src="https://i.imgur.com/cnRfcfN.jpg"
+              alt=""
+              class="mb-2 mt-3 w-full rounded-xl object-cover"
+            />
+            <p
+              class="bg-gradient-to-r from-[#FE839A] to-[#4A72FF] bg-clip-text text-center font-bold text-transparent"
+            >
+              Matt & Raphael
+            </p>
+          </li>
+          <li class="">
+            <NuxtImg
+              src="https://i.imgur.com/EYQDtbX.jpg"
+              alt=""
+              class="mb-2 mt-3 w-full rounded-xl object-cover"
+            />
+            <p
+              class="bg-gradient-to-r from-[#FE839A] to-[#4A72FF] bg-clip-text text-center font-bold text-transparent"
+            >
+              Cristina & Owen
+            </p>
+          </li>
         </ul>
       </div>
     </div>
