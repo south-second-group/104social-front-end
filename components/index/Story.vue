@@ -50,7 +50,7 @@
             <div class="shrink-0">
               <div class="mb-4">
                 <NuxtImg
-                  src="/story/story01.png"
+                  src="/story/story02.png"
                   alt=""
                   class="mx-auto w-[100px] md:w-[180px]"
                 />

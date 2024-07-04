@@ -3,6 +3,7 @@ import { useRoute } from 'vue-router'
 import { auth } from '../apis/repositories/auth'
 import { initializeSocket } from '../apis/socket-io'
 
+const memberStore = useMemberStore()
 const userDataStore = useUserDataStore()
 const { userData } = storeToRefs(userDataStore)
 const { setUserData, deleteUserData } = userDataStore
@@ -55,6 +56,7 @@ function closeModalAndPushRouter() {
 
 onMounted(async () => {
   checkLoginStatus()
+  memberStore.getMemberData()
 })
 
 // 登出

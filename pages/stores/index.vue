@@ -35,9 +35,6 @@ const stores = [
 
 <template>
   <div class="container my-20 md:my-12">
-    <!-- <p class="text-H3 mb-[40px] text-start md:mb-10">
-      幸福案例
-    </p> -->
     <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
       <storesStory
         v-for="story in stores"

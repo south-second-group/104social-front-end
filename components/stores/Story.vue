@@ -19,7 +19,8 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div
+  <NuxtLink
+    to="/stores/story"
     class="rounded-xl bg-neutral-50 p-4 shadow-neutral-L2"
     :class="{ 'linear-border-bottom': !isDesktop }"
   >
@@ -38,5 +39,5 @@ onUnmounted(() => {
         {{ sub }}
       </p>
     </div>
-  </div>
+  </NuxtLink>
 </template>
