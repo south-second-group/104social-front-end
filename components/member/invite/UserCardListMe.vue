@@ -1,6 +1,7 @@
 <script setup>
 import { useBeInviteResultStore } from '~/store/beInviteResult'
 import { beInviteApi } from '~/apis/repositories/beInvite'
+import { matchListApi } from '~/apis/repositories/matchList'
 
 const props = defineProps({
   resultItem: Object,
@@ -11,6 +12,7 @@ const beInviteResultStore = useBeInviteResultStore()
 const isOpenModal = ref(false)
 const toastMessage = ref('')
 const toastType = ref('')
+const isDataLoading = ref(true)
 
 function handleDeleteClick() {
   isOpenModal.value = true
@@ -51,6 +53,48 @@ const buttonList = ref([
   { status: 'status11' },
   { status: 'status12' },
 ])
+
+// 取得配對選項
+const matchListOptionData = ref([])
+async function getMatchListOption() {
+  try {
+    const res = await matchListApi.matchListOptions()
+    const { data } = res
+    matchListOptionData.value = data
+  }
+  catch (error) {
+    console.error(error)
+  }
+  finally {
+    isDataLoading.value = false
+  }
+}
+
+Promise.all([getMatchListOption()]).then(() => {
+  isDataLoading.value = false
+})
+
+// 渲染詳細資料邏輯
+function renderValue(key, value) {
+  if (Array.isArray(value) && value.length >= 1)
+    return value.map(v => matchListOptionData.value[0][key] && matchListOptionData.value[0][key][v]?.label)
+
+  if (matchListOptionData.value.length && matchListOptionData.value[0][key] && matchListOptionData.value[0][key][value]?.label !== '請選擇')
+    return matchListOptionData.value[0][key][value]?.label
+}
+
+const createRenderResult = new Set()
+function createRenderValue(key, value) {
+  if (Array.isArray(value)) {
+    value.forEach((v) => {
+      if (matchListOptionData.value.length && matchListOptionData.value[0][key] && matchListOptionData.value[0][key][v]?.label !== '請選擇')
+        createRenderResult.add(matchListOptionData.value[0][key][v].label)
+    })
+  }
+  else if (matchListOptionData.value.length && matchListOptionData.value[0][key] && matchListOptionData.value[0][key][value]?.label !== '請選擇') {
+    createRenderResult.add(matchListOptionData.value[0][key][value].label)
+  }
+}
 </script>
 
 <template>
@@ -110,8 +154,27 @@ const buttonList = ref([
         </NuxtLink>
       </div>
       <div class="w-full space-y-3 text-start">
-        <div class="space-y-1">
+        <div
+          v-if="!isDataLoading"
+          class="space-y-1"
+        >
           <!-- 職稱 -->
+          <p
+            v-if="
+              resultItem.matchListSelfSettingByUser
+                && resultItem.matchListSelfSettingByUser.workInfo
+            "
+            class="text-B2 text-neutral-400"
+          >
+            {{
+              renderValue(
+                'occupation',
+                resultItem.matchListSelfSettingByUser.workInfo.occupation === '請選擇'
+                  ? '保留職業資訊'
+                  : resultItem.matchListSelfSettingByUser.workInfo.occupation,
+              )
+            }}
+          </p>
           <!-- <p class="text-B2 text-neutral-400">
             {{ resultItem.profileByUser.jobDetails.job }}
           </p> -->

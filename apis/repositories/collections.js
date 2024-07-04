@@ -1,7 +1,16 @@
 import { useBaseFetch } from '../instance'
 
 async function getCollections() {
-  return useBaseFetch('/api/v1/collections', {
+  return useBaseFetch('/api/v1/user/collections', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+}
+
+async function getCollectionsDetail(id) {
+  return useBaseFetch(`/api/v1/user/collection/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -30,6 +39,7 @@ async function deleteCollectionById(params) {
 
 export const collectionApi = {
   getCollections,
+  getCollectionsDetail,
   addCollection,
   deleteCollectionById,
 }

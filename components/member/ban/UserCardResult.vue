@@ -1,42 +1,41 @@
 <script setup>
-import { useInviteResultStore } from '~/store/inviteResult'
-import { inviteApi } from '~/apis/repositories/invite'
+import { useBanResultStore } from '~/store/banResult'
 import { matchListApi } from '~/apis/repositories/matchList'
 
-const props = defineProps({
+defineProps({
   resultItem: Object,
   isTrashIcon: Boolean,
 })
 
-const inviteResultStore = useInviteResultStore()
-const isOpenModal = ref(false)
+const banResultStore = useBanResultStore()
+// const isOpenModal = ref(false)
 const toastMessage = ref('')
 const toastType = ref('')
 const isDataLoading = ref(true)
 
-function handleDeleteClick() {
-  isOpenModal.value = true
-}
+// function handleDeleteClick() {
+//   isOpenModal.value = true
+// }
 
-function handleModalClose() {
-  isOpenModal.value = false
-}
+// function handleModalClose() {
+//   isOpenModal.value = false
+// }
 
-async function handleDelete(resultItemId) {
-  isOpenModal.value = false
-  try {
-    await inviteApi.deleteInvitation(resultItemId)
-    toastMessage.value = '刪除邀約成功'
-    toastType.value = 'success'
+// async function handleDelete(resultItemId) {
+//   isOpenModal.value = false
+//   try {
+//     await inviteApi.deleteInvitation(resultItemId)
+//     toastMessage.value = '刪除邀約成功'
+//     toastType.value = 'success'
 
-    inviteResultStore.deleteInviteResult(resultItemId)
-  }
-  catch (error) {
-    console.error(error)
-    toastMessage.value = '刪除邀約失敗，請通知開發者'
-    toastType.value = 'error'
-  }
-}
+//     inviteResultStore.deleteInviteResult(resultItemId)
+//   }
+//   catch (error) {
+//     console.error(error)
+//     toastMessage.value = '刪除邀約失敗，請通知開發者'
+//     toastType.value = 'error'
+//   }
+// }
 
 const buttonList = ref([
   { status: 'status1' },
@@ -92,6 +91,7 @@ function createRenderValue(key, value) {
     createRenderResult.add(matchListOptionData.value[0][key][value].label)
   }
 }
+const isLocked = false
 </script>
 
 <template>
@@ -101,31 +101,31 @@ function createRenderValue(key, value) {
   >
     <!-- 上 -->
     <div class="flex items-center justify-between">
-      <MemberInviteStatusBtnWho :status="resultItem.status" />
+      <!-- <MemberInviteStatusBtnWho :status="resultItem.status" /> -->
       <div class="flex gap-3">
         <!-- 聊天 -->
-        <div
+        <!-- <div
           v-if="resultItem.status === 'accept' || resultItem.status === 'finishDating'"
           class="rounded-full bg-neutral-100 p-[10px]"
         >
           <utilsChatBtn />
-        </div>
+        </div> -->
         <!-- 刪除 -->
-        <div
+        <!-- <div
           v-if="resultItem.status === 'reject' || resultItem.status === 'cancel' || resultItem.status === 'finishDating'"
           class="rounded-full bg-neutral-100 p-[10px]"
           @click="handleDeleteClick"
         >
           <utilsTrashBtn />
-        </div>
+        </div> -->
         <!-- 收藏 -->
-        <div class="rounded-full bg-neutral-100 p-[10px]">
+        <!-- <div class="rounded-full bg-neutral-100 p-[10px]">
           <utilsCollectionBtn
             :is-collected="resultItem.isCollected"
             :user-id="resultItem.invitedUserId"
             :collection-table-id="resultItem._id"
           />
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -133,10 +133,10 @@ function createRenderValue(key, value) {
     <div class="flex flex-col gap-6 rounded-xl bg-neutral-100 p-6 md:flex-row">
       <div class="shrink-0">
         <!-- 圖片 -->
-        <NuxtLink :to="`/member/invite/${resultItem._id}`">
+        <NuxtLink :to="`/member/banlist/${resultItem._id}`">
           <div class="group relative">
             <img
-              :src="resultItem.profileByInvitedUser.photoDetails.photo"
+              :src="resultItem.photoDetails.photo"
               alt="s3-alpha-sig"
               class="mx-auto size-[150px] rounded-full border-2 border-neutral-300 object-contain object-center group-hover:blur-sm"
             >
@@ -152,18 +152,18 @@ function createRenderValue(key, value) {
           <h2
             class="text-H4 text-neutral-600"
             :class="{
-              'font-montserrat': !useIsChineseFunc(resultItem?.profileByInvitedUser?.nickNameDetails?.nickName),
+              'font-montserrat': !useIsChineseFunc(resultItem?.nickNameDetails?.nickName),
               'text-primary-dark': isHovered,
             }"
           >
-            {{ resultItem?.profileByInvitedUser?.nickNameDetails?.nickName }}
+            {{ resultItem?.nickNameDetails?.nickName }}
           </h2>
 
           <!-- 個人說明 -->
           <div v-if="!isDataLoading">
             <!-- 將個人條件全部加入顯示陣列 -->
             <span
-              v-for="(value, key) in resultItem?.matchListSelfSettingByInvitedUser?.personalInfo"
+              v-for="(value, key) in resultItem?.matchListSettings?.personalInfo"
               :key="key"
               class="hidden"
             >
@@ -174,7 +174,7 @@ function createRenderValue(key, value) {
               {{
                 createRenderValue(
                   'industry',
-                  resultItem?.matchListSelfSettingByInvitedUser?.workInfo?.industry,
+                  resultItem?.matchListSettings?.workInfo?.industry,
                 )
               }}
             </span>
@@ -192,24 +192,24 @@ function createRenderValue(key, value) {
         >
           <p
             v-if="
-              resultItem.matchListSelfSettingByInvitedUser
-                && resultItem.matchListSelfSettingByInvitedUser.workInfo
+              resultItem.matchListSettings
+                && resultItem.matchListSettings.workInfo
             "
             class="text-B2 text-neutral-500"
           >
             {{
               renderValue(
                 'occupation',
-                resultItem.matchListSelfSettingByInvitedUser.workInfo.occupation === '請選擇'
+                resultItem.matchListSettings.workInfo.occupation === '請選擇'
                   ? '保留職業資訊'
-                  : resultItem.matchListSelfSettingByInvitedUser.workInfo.occupation,
+                  : resultItem.matchListSettings.workInfo.occupation,
               )
             }}
           </p>
           <p
             v-if="
-              resultItem.matchListSelfSettingByInvitedUser
-                && resultItem.matchListSelfSettingByInvitedUser.workInfo
+              resultItem.matchListSettings
+                && resultItem.matchListSettings.workInfo
             "
             class="text-B2 text-neutral-400"
           >
@@ -217,14 +217,14 @@ function createRenderValue(key, value) {
               {{
                 renderValue(
                   'expectedSalary',
-                  resultItem.matchListSelfSettingByInvitedUser.workInfo.expectedSalary,
+                  resultItem.matchListSettings.workInfo.expectedSalary,
                 )
               }}
             </span>
             <span
               v-for="i in renderValue(
                 'industry',
-                resultItem.matchListSelfSettingByInvitedUser.workInfo?.industry || [],
+                resultItem.matchListSettings.workInfo?.industry || [],
               )"
               :key="i"
             >
@@ -234,10 +234,7 @@ function createRenderValue(key, value) {
         </div>
 
         <div
-          v-if="
-            !isDataLoading
-
-          "
+          v-if="!isDataLoading"
           class="flex flex-col items-start justify-between gap-3 md:flex-row"
         >
           <!-- 嗜好 -->
@@ -245,7 +242,7 @@ function createRenderValue(key, value) {
             <span
               v-for="(item, idx) in renderValue(
                 'activities',
-                resultItem.matchListSelfSettingByInvitedUser.personalInfo?.activities || [],
+                resultItem.matchListSettings.personalInfo?.activities || [],
               )"
               :key="idx"
             >
@@ -265,10 +262,10 @@ function createRenderValue(key, value) {
           <div class="flex justify-end space-x-2">
             <icon-heroicons:star-solid class="text-special-warning" />
             <span
-              v-if="resultItem?.profileByInvitedUser?.userStatus?.commentCount"
+              v-if="resultItem?.userStatus?.commentCount"
               class="text-B3 text-neutral-400"
             >
-              評分 {{ resultItem?.profileByInvitedUser?.userStatus?.commentScore }} ({{ resultItem?.profileByInvitedUser?.userStatus?.commentCount }})
+              評分 {{ resultItem?.userStatus?.commentScore }} ({{ resultItem?.userStatus?.commentCount }})
             </span>
             <span
               v-else
@@ -282,31 +279,31 @@ function createRenderValue(key, value) {
 
     <!-- 下-按鈕 -->
     <div class="flex flex-wrap justify-end">
-      <MemberInviteComplexBtnWho
+      <MemberBanComplexBtn
         v-for="(btn, index) in buttonList"
         :key="index"
         v-bind="{
           status: btn.status,
-          invitationStatus: props.resultItem.status,
-          isLocked: props.resultItem.isLocked,
+          //invitationStatus: resultItem.status,
+          isLocked,
           createRenderResult,
-          cardUserName: props.resultItem.profileByInvitedUser.nickNameDetails.nickName,
-          userId: props.resultItem.invitedUserId,
-          isUnlock: props.resultItem.isUnlock,
-          invitationTableId: props.resultItem._id,
-          resultItem: props.resultItem,
-          commentTableId: props.resultItem._id,
+          cardUserName: resultItem.nickNameDetails.nickName,
+          userId: resultItem.userId,
+          //isUnlock: resultItem.isUnlock,
+          invitationTableId: resultItem._id,
+          resultItem,
+          commentTableId: resultItem._id,
         }"
       />
     </div>
 
     <!-- 刪除彈窗 -->
-    <MemberInviteDeleteConfirmModal
+    <!-- <MemberInviteDeleteConfirmModal
       :show-modal="isOpenModal"
       :result-item-id="props.resultItem._id"
       @close="handleModalClose"
       @delete="handleDelete"
-    />
+    /> -->
 
     <Toast
       v-if="toastMessage"

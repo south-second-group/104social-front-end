@@ -1,5 +1,23 @@
 import { useBaseFetch } from '../instance'
 
+async function getBlackList() {
+  return useBaseFetch('/api/v1/black-list', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+}
+
+async function getBlackListDetail(id) {
+  return useBaseFetch(`/api/v1/black-list/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+}
+
 async function postBlackList(body) {
   return useBaseFetch('/api/v1/black-list', {
     method: 'POST',
@@ -20,6 +38,8 @@ async function deleteBlackListById(params) {
 }
 
 export const blackListApi = {
+  getBlackList,
+  getBlackListDetail,
   postBlackList,
   deleteBlackListById,
 }

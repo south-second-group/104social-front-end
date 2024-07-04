@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { inviteListApi } from '~/apis/repositories/inviteList'
+import { collectionApi } from '~/apis/repositories/collections'
 import { matchListApi } from '~/apis/repositories/matchList'
 
 const route = useRoute()
@@ -13,16 +13,16 @@ const toastType = ref('')
 const isLoaded = ref(false)
 
 // 取得路由id
-const inviteId = route.params.contentMe
+const inviteId = route.params.collectedUserId
 
-// 被邀約會員詳細資料
-const invitationDetails = ref({})
+// 收藏詳細資料
+const collectionDetails = ref({})
 
-async function getInviteDetail() {
+async function getCollectionDetail() {
   isLoaded.value = true
   try {
-    const response = await inviteListApi.getInviteMe(inviteId)
-    invitationDetails.value = response.data || {}
+    const response = await collectionApi.getCollectionsDetail(inviteId)
+    collectionDetails.value = response.data || {}
   }
   catch (error) {
     console.error(error)
@@ -34,7 +34,7 @@ async function getInviteDetail() {
 
 // 取得評價分數
 function getRating() {
-  return invitationDetails.value.profileByUser.userStatus.rating || 0
+  return collectionDetails.value.collectedUsers.userStatus.rating || 0
 }
 
 // 取得配對選項
@@ -86,26 +86,13 @@ function renderValue(key, value) {
   else return '對方保留'
 }
 
-// const createRenderResult = new Set()
-// function createRenderValue(key, value) {
-//   if (Array.isArray(value)) {
-//     value.forEach((v) => {
-//       if (matchListOptionData.value[0][key][v].label !== '請選擇')
-//         createRenderResult.add(matchListOptionData.value[0][key][v].label)
-//     })
-//   }
-//   else if (matchListOptionData.value[0][key][value].label !== '請選擇') {
-//     createRenderResult.add(matchListOptionData.value[0][key][value].label)
-//   }
-// }
-
 const promises = [getMatchListOption()]
 Promise.all(promises).then(() => {
-  isLoaded.value = false
+  isLoaded.value = true
 })
 
 watchEffect(() => {
-  getInviteDetail()
+  getCollectionDetail()
 })
 </script>
 
@@ -124,7 +111,7 @@ watchEffect(() => {
       />
       <img
         v-else
-        :src="invitationDetails.profileByUser.photoDetails.photo"
+        :src="collectionDetails.collectedUsers.photoDetails.photo"
         class="mx-auto size-[150px] rounded-full object-cover object-top"
       >
 
@@ -143,19 +130,19 @@ watchEffect(() => {
             <span
               :class="{
                 'font-montserrat': !useIsChineseFunc(
-                  invitationDetails.profileByUser.nickNameDetails.nickName,
+                  collectionDetails.collectedUsers.nickNameDetails.nickName,
                 ),
               }"
             >
               {{
-                invitationDetails.profileByUser.nickNameDetails.nickName
+                collectionDetails.collectedUsers.nickNameDetails.nickName
               }}
             </span>
           </div>
 
           <!-- 一般資訊 -->
           <div
-            v-for="(value, key) in invitationDetails.matchListSelfSettingByUser.personalInfo"
+            v-for="(value, key) in collectionDetails.matchListSelfSettingByUser.personalInfo"
             :key="key"
             class="mb-2 flex h-[35px] items-center"
           >
@@ -167,7 +154,7 @@ watchEffect(() => {
 
           <!-- 工作 -->
           <div
-            v-for="(value, key) in invitationDetails.matchListSelfSettingByUser.workInfo"
+            v-for="(value, key) in collectionDetails.matchListSelfSettingByUser.workInfo"
             :key="key"
             class="mb-2 flex h-[35px] items-center"
           >
@@ -182,29 +169,27 @@ watchEffect(() => {
             <label
               :class="{
                 'font-montserrat': !useIsChineseFunc(
-                  invitationDetails.profileByUser.nickNameDetails.nickName,
+                  collectionDetails.collectedUsers.nickNameDetails.nickName,
                 ),
               }"
             >
               {{
-                invitationDetails.profileByUser.nickNameDetails.nickName
+                collectionDetails.collectedUsers.nickNameDetails.nickName
               }} 的標籤：
             </label>
             <div class="mt-3 flex flex-wrap items-center justify-start gap-2 rounded-md">
               <UBadge
-                v-for="i in (
-                    invitationDetails.profileByUser.tags
-                )"
-                :key="i"
+                v-for="tag in collectionDetails.collectedUsers.tags || []"
+                :key="tag"
                 class="btn-withIcon-outline-rwd pointer-events-none !rounded-lg !px-1 !py-[2px]"
               >
                 <p
                   class="!text-[10px]"
                   :class="{
-                    'font-montserrat': !useIsChineseFunc(i),
+                    'font-montserrat': !useIsChineseFunc(tag),
                   }"
                 >
-                  {{ i }}
+                  {{ tag }}
                 </p>
               </UBadge>
             </div>
@@ -219,8 +204,7 @@ watchEffect(() => {
           >自我介紹</label>
           <p class="rounded-md border-2 p-3">
             {{
-
-              invitationDetails.profileByUser.introDetails.intro || 不透露
+              collectionDetails.collectedUsers.introDetails.intro || 不透露
             }}
           </p>
         </div>
@@ -247,7 +231,7 @@ watchEffect(() => {
             class="px-[20px] py-[8px] text-[16px] leading-[24px] text-primary-dark"
             @click="router.go(-1)"
           >
-            <p>返回我的邀约</p>
+            <p>返回我的收藏</p>
           </button>
         </section>
       </div>

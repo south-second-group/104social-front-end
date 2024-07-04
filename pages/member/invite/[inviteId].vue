@@ -2,9 +2,12 @@
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { inviteListApi } from '~/apis/repositories/inviteList'
+import { matchListApi } from '~/apis/repositories/matchList'
 
 const route = useRoute()
 const router = useRouter()
+const toastMessage = ref('')
+const toastType = ref('')
 
 // Loading 狀態
 const isLoaded = ref(false)
@@ -35,6 +38,73 @@ function getRating() {
   return invitationDetails.value.profileByInvitedUser.userStatus.rating || 0
 }
 
+// 取得配對選項
+const matchListOptionData = ref([])
+async function getMatchListOption() {
+  try {
+    const res = await matchListApi.matchListOptions()
+    const { data } = res
+    matchListOptionData.value = data
+  }
+  catch (error) {
+    console.error(error)
+  }
+}
+
+// 配對設定標頭
+function getKeyLabel(key) {
+  const labels = {
+    age: '年齡',
+    gender: '尋找性別',
+    height: '身高',
+    weight: '體重',
+    isMarried: '婚姻狀況',
+    location: '居住地',
+    education: '學歷',
+    liveWithParents: '與父母同住',
+    religion: '宗教信仰',
+    smoking: '抽菸習慣',
+    socialCircle: '社交圈',
+    activities: '興趣嗜好',
+    occupation: '職業',
+    industry: '產業',
+    expectedSalary: '薪資',
+  }
+  return labels[key] || key
+}
+
+function renderValue(key, value) {
+  if (Array.isArray(value) && value.length >= 1) {
+    return value
+      .map(v => matchListOptionData.value[0][key][v].label !== '請選擇'
+        ? matchListOptionData.value[0][key][v].label
+        : '對方保留')
+      .join('、')
+  }
+
+  if (matchListOptionData.value[0][key][value].label !== '請選擇')
+    return matchListOptionData.value[0][key][value].label
+  else return '對方保留'
+}
+
+// const createRenderResult = new Set()
+// function createRenderValue(key, value) {
+//   if (Array.isArray(value)) {
+//     value.forEach((v) => {
+//       if (matchListOptionData.value[0][key][v].label !== '請選擇')
+//         createRenderResult.add(matchListOptionData.value[0][key][v].label)
+//     })
+//   }
+//   else if (matchListOptionData.value[0][key][value].label !== '請選擇') {
+//     createRenderResult.add(matchListOptionData.value[0][key][value].label)
+//   }
+// }
+
+const promises = [getMatchListOption()]
+Promise.all(promises).then(() => {
+  isLoaded.value = true
+})
+
 watchEffect(() => {
   getInviteDetail()
 })
@@ -42,6 +112,11 @@ watchEffect(() => {
 
 <template>
   <div class="container p-3 text-start md:p-12">
+    <Toast
+      :toast-message="toastMessage"
+      :toast-type="toastType"
+    />
+
     <div class="mx-auto max-w-[700px]">
       <!-- 圖片 -->
       <USkeleton
@@ -79,28 +154,28 @@ watchEffect(() => {
             </span>
           </div>
 
-          <!-- 年收入 -->
-          <div class="mb-2 flex h-[35px] items-center">
-            <label class="w-24 align-middle">年收入：</label>
-            <span>{{
-              invitationDetails.profileByInvitedUser.incomeDetails.income || 不透露
-            }}</span>
+          <!-- 一般資訊 -->
+          <div
+            v-for="(value, key) in invitationDetails.matchListSelfSettingByInvitedUser.personalInfo"
+            :key="key"
+            class="mb-2 flex h-[35px] items-center"
+          >
+            <label class="mr-4 w-24 align-middle">
+              {{ `${getKeyLabel(key)}：` }}
+            </label>
+            <span>{{ renderValue(key, value) }}</span>
           </div>
 
           <!-- 工作 -->
-          <div class="items中心 mb-2 flex h-[35px]">
-            <label class="w-24 align-middle">工作：</label>
-            <span>{{
-              invitationDetails.profileByInvitedUser.jobDetails.job || 不透露
-            }}</span>
-          </div>
-
-          <!-- Line ID -->
-          <div class="items中心 mb-2 flex h-[35px] font-montserrat">
-            <label class="w-24 align-middle">Line ID：</label>
-            <span>{{
-              invitationDetails.profileByInvitedUser.lineDetails.lineId || 不透露
-            }}</span>
+          <div
+            v-for="(value, key) in invitationDetails.matchListSelfSettingByInvitedUser.workInfo"
+            :key="key"
+            class="mb-2 flex h-[35px] items-center"
+          >
+            <label class="mr-4 w-24 align-middle">
+              {{ `${getKeyLabel(key)}：` }}
+            </label>
+            <span>{{ renderValue(key, value) }}</span>
           </div>
 
           <!-- 標籤 -->
@@ -135,12 +210,12 @@ watchEffect(() => {
           </div>
         </div>
 
-        <!-- 簡介 -->
+        <!-- 自我介紹 -->
         <div class="mt-12 w-full space-y-3">
           <label
             class="text-H4"
             for=""
-          >邀請人簡介</label>
+          >自我介紹</label>
           <p class="rounded-md border-2 p-3">
             {{
               invitationDetails.profileByInvitedUser.introDetails.intro || 不透露
