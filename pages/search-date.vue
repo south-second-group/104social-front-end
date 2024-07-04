@@ -174,9 +174,9 @@ const sortOption = ref([
               @keydown="handleKeyup"
             />
           </div>
-          <div class="flex gap-2 lg:gap-4">
+          <div class="flex gap-1 lg:gap-4">
             <div
-              class="h-12 w-full min-w-[120px] rounded-lg border bg-white lg:min-w-[160px]"
+              class="h-12 w-full min-w-[90px] rounded-lg border bg-white lg:min-w-[160px]"
             >
               <USelectMenu
                 v-model="searchForm.location"
@@ -190,7 +190,7 @@ const sortOption = ref([
               />
             </div>
             <div
-              class="h-12 w-full min-w-[120px] rounded-lg border bg-white lg:min-w-[160px]"
+              class="h-12 w-full min-w-[90px] rounded-lg border bg-white lg:min-w-[160px]"
             >
               <USelectMenu
                 v-if="!isDataLoading"
@@ -219,7 +219,7 @@ const sortOption = ref([
                   </template>
                 </UPopover>
               </div>
-              <div class="flex lg:w-full">
+              <div class="flex w-full">
                 <UButton
                   :ui="{ rounded: 'rounded-full' }"
                   class="ms-2 border-2 border-primary-dark bg-primary-dark p-2 text-base font-bold transition delay-150 ease-in-out hover:text-primary-dark lg:ms-4 lg:px-3 lg:py-2"

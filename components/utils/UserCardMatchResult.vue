@@ -66,7 +66,7 @@ function createRenderValue(key, value) {
 </script>
 
 <template>
-  <!-- {{ resultItem.commentTableId }} -->
+  <!-- {{ resultItem.matchListSelfSetting.userId }} -->
   <!-- 無userId就隱藏，可能原因帳號不完全 -->
   <section
     v-if="
@@ -82,19 +82,19 @@ function createRenderValue(key, value) {
       <utilsInviteStatusBtn :status="resultItem.invitationStatus" />
       <div class="flex gap-3">
         <div class="rounded-full bg-neutral-100 p-[10px]">
-          <utilsChatBtn />
-        </div>
-        <div
-          v-if="isTrashIcon"
-          class="rounded-full bg-neutral-100 p-[10px]"
-        >
-          <utilsTrashBtn
+          <utilsChatBtn
             v-if="
               resultItem.matchListSelfSetting
                 && resultItem.matchListSelfSetting.userId
             "
             :user-id="resultItem.matchListSelfSetting.userId"
           />
+        </div>
+        <div
+          v-if="isTrashIcon"
+          class="rounded-full bg-neutral-100 p-[10px]"
+        >
+          <utilsTrashBtn />
         </div>
         <div class="rounded-full bg-neutral-100 p-[10px]">
           <utilsCollectionBtn

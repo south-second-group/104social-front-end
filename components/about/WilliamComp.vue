@@ -172,7 +172,7 @@ const props = defineProps({
                 >front-end</a>
               </p>
               <img
-                class=" h-64 w-full rounded-md"
+                class=" h-44 w-full rounded-md md:h-64"
                 src="public/about/william-frontend.jpg"
                 alt="william-frontend"
               >
@@ -185,7 +185,7 @@ const props = defineProps({
                 >back-end</a>
               </p>
               <img
-                class=" h-64 w-full rounded-md"
+                class=" h-44 w-full rounded-md md:h-64"
                 src="public/about/william-backend.jpg"
                 alt="william-backend"
               >
