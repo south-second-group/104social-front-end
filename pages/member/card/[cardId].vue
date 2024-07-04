@@ -271,10 +271,10 @@ watchEffect(() => {
             <label
               :class="{
                 'font-montserrat': !useIsChineseFunc(
-                  renderData.userInfo.personalInfo.username,
+                  renderData.profile.nickNameDetails.nickName,
                 ),
               }"
-            >{{ renderData.userInfo.personalInfo.username }} 的標籤：</label>
+            >{{ renderData.profile.nickNameDetails.nickName }} 的標籤：</label>
             <div
               class="mt-3 flex flex-wrap items-center justify-start gap-2 rounded-md"
               :class="{
@@ -365,7 +365,7 @@ watchEffect(() => {
             }}
             留下的評價</label>
           <p
-            v-if="renderData.isUnlock === true"
+            v-if="renderData.isUnlock === true || renderData.isSubscribe === true"
             class="break-words rounded-md border-2 p-3"
           >
             {{ i.content }}

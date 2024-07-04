@@ -153,7 +153,7 @@ const sortOption = ref([
     <div
       v-if="searchCriteriaStore.searchResultsList.length > 0 && !isDataLoading"
     >
-      <!-- {{ searchCriteriaStore.searchResultsList[0] }} -->
+      <!-- {{ searchCriteriaStore.searchResultsList[0].userInfo.isSubscribe }} -->
       <!-- {{ searchForm }} -->
     </div>
 

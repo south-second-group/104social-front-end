@@ -13,6 +13,7 @@ const props = defineProps({
   invitationTableId: String,
   beInvitationTableId: String,
   commentTableId: String,
+  isSubscribe: Boolean,
 })
 
 const router = useRouter()
@@ -95,7 +96,7 @@ function handleClick(status) {
     <!-- 已解鎖評價 -->
     <button
       v-if="
-        props.status === 'status1' && props.isUnlock && props.beCommentCount > 0
+        props.status === 'status1' && (props.isUnlock || props.isSubscribe) && props.beCommentCount > 0
       "
       class="mx-[1px] my-[3px] flex scale-90 gap-3 rounded-full border-2 border-neutral-400 px-[20px] py-[6px] text-[16px] leading-[24px] text-neutral-400 md:mx-[6px] md:scale-100"
       @click="handleClick(props.status)"
@@ -127,7 +128,6 @@ function handleClick(status) {
       v-if="
         props.status === 'status3'
           && props.invitationStatus === 'accept'
-          && props.hasComment
       "
       class="mx-[1px] my-[3px] scale-90 rounded-full bg-primary-dark px-[20px] py-[8px] text-[16px] leading-[24px] text-white md:mx-[6px] md:scale-100"
       @click="handleClick(props.status)"
@@ -182,7 +182,7 @@ function handleClick(status) {
       v-if="
         props.status === 'status8'
           && !props.hasComment
-          && props.invitationStatus === 'accept'
+          && props.invitationStatus === 'finishDating'
       "
       class="btn-withIcon-fill mx-[1px] my-[3px] w-[132px] scale-90 md:mx-[6px] md:scale-100"
       @click="handleClick(props.status)"
