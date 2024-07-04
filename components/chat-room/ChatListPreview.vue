@@ -11,7 +11,7 @@ const chatList = ref(null)
 
 watch(chatHistoryList, (newValue) => {
   chatList.value = useSort(newValue)
-}, { deep: true, immediate: true })
+}, { immediate: true })
 
 watch(q, (newValue) => {
   chatList.value = q.value === '' ? chatHistoryList.value : useFilter(newValue)
