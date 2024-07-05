@@ -24,6 +24,11 @@
 帳號： 56asdf01@hotmail.com
 密碼： a1234567
 ```
+```bash
+金流卡號
+卡號： xxxx xxxx xxxx xxxx
+請通知管理員索取
+```
 
 ### 登出登入
 
