@@ -1,4 +1,5 @@
 <script setup>
+import { chatHistoryList } from '../apis/socket-io.js'
 import { chatAPI } from '~/apis/repositories/chat'
 
 const { userId } = defineProps({
@@ -11,6 +12,21 @@ async function addChatList() {
   ChatRoomStatus.toggleSlideOver()
   try {
     const res = await chatAPI.addChatList({ receiverId: userId })
+    if (res.status) {
+      const { data } = res
+      const newChat = {
+        members: [{
+          username: data.members?.username || data.receiverId,
+          photo: data.members?.photo || '',
+          id: data.receiverId,
+        }],
+        messages: [],
+        roomId: data.roomId,
+        unreadCount: 0,
+      }
+      chatHistoryList.value.unshift(newChat)
+    }
+    // console.log(res)
   }
   catch (error) {
     console.error(error)
