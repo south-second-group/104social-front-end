@@ -1,3 +1,11 @@
+<script setup>
+const userNotificationsStore = useNotificationsStore()
+const { notifications } = storeToRefs(userNotificationsStore)
+onMounted(() => {
+  // console.log(notifications.value)
+})
+</script>
+
 <template>
   <ul class="flex flex-col gap-3">
     <li class="flex rounded-md bg-[#F5F5F5] p-3 pe-[28px] md:p-0 md:pe-0">
@@ -21,7 +29,7 @@
         </p>
       </div>
     </li>
-    <li class="flex rounded-md bg-[#F5F5F5] p-3 pe-[28px] md:p-0 md:pe-0">
+    <!-- <li class="flex rounded-md bg-[#F5F5F5] p-3 pe-[28px] md:p-0 md:pe-0">
       <div class="hidden px-[25.5px] py-[15px] md:block">
         <UBadge
           :ui="{ rounded: 'rounded-full' }"
@@ -83,6 +91,6 @@
           3/10
         </p>
       </div>
-    </li>
+    </li> -->
   </ul>
 </template>

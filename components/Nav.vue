@@ -1,12 +1,17 @@
 <script setup>
 import { useRoute } from 'vue-router'
 import { auth } from '../apis/repositories/auth'
+import { notificationsAPI } from '../apis/repositories/notifications'
 import { initializeSocket } from '../apis/socket-io'
 
 const memberStore = useMemberStore()
 const userDataStore = useUserDataStore()
 const { userData } = storeToRefs(userDataStore)
 const { setUserData, deleteUserData } = userDataStore
+
+const userNotificationsStore = useNotificationsStore()
+const { notifications } = storeToRefs(userNotificationsStore)
+const { setNotifications, deleteNotifications } = userNotificationsStore
 
 const router = useRouter()
 const route = useRoute()
@@ -24,7 +29,12 @@ async function verify() {
     if (response.status === true) {
       setUserData(response.data)
       isLoggedIn.value = true
-      initializeSocket(response.data.userId)
+      if (isLoggedIn.value) {
+        memberStore.getMemberData()
+        initializeSocket(response.data.userId)
+        getNotifications()
+      }
+      // console.log('notifications', notifications.value)
     }
     else {
       isLoggedIn.value = false
@@ -54,9 +64,25 @@ function closeModalAndPushRouter() {
   router.push('/notifications')
 }
 
+async function getNotifications() {
+  try {
+    const response = await notificationsAPI.getUserNotifications()
+    if (response.status) {
+      deleteNotifications()
+      setNotifications(response.data)
+    }
+    // console.log(notifications.value)
+  }
+  catch (error) {
+    if (notifications.value !== null)
+      deleteNotifications()
+
+    const errorMessage = error.response
+  }
+}
+
 onMounted(async () => {
   checkLoginStatus()
-  memberStore.getMemberData()
 })
 
 // 登出
@@ -66,6 +92,7 @@ async function logout() {
     if (response.status === true) {
       isLoggedIn.value = false
       isOpenSlide.value = false // 手機版收起漢堡選單
+      deleteNotifications() // 清空通知訊息
       deleteUserData() // 清空 userData
       toast('登出成功！', 'success')
       setTimeout(() => {
@@ -91,9 +118,7 @@ function toast(message, type) {
 <template>
   <div class="h-[60px] w-full lg:h-[120px]">
     <div class="container mx-auto mt-0 rounded-full lg:mt-5 lg:bg-zinc-50/80">
-      <div
-        class="flex w-full items-center justify-between p-3 lg:px-10 lg:py-4"
-      >
+      <div class="flex w-full items-center justify-between p-3 lg:px-10 lg:py-4">
         <NuxtLink to="/">
           <h2 class="shrink-0">
             104緣來如此
@@ -127,9 +152,7 @@ function toast(message, type) {
                   class="linear-border rounded-md"
                 >
                   <NotificationCard />
-                  <div
-                    class="flex justify-between px-2 py-4 font-bold text-primary-dark"
-                  >
+                  <div class="flex justify-between px-2 py-4 font-bold text-primary-dark">
                     <div class="">
                       <NuxtLink
                         to="/notifications"
@@ -170,9 +193,7 @@ function toast(message, type) {
               v-model="isOpenSlide"
               class="z-[4000] h-screen"
             >
-              <div
-                class="w-full flex-1 bg-[url('~/public/nav/phone-bg.png')] bg-cover p-4"
-              >
+              <div class="w-full flex-1 bg-[url('~/public/nav/phone-bg.png')] bg-cover p-4">
                 <div class="flex justify-end">
                   <UButton
                     color="gray"
@@ -341,24 +362,24 @@ function toast(message, type) {
               class="nav-items p-2"
             >
               <UPopover :popper="{ placement: 'bottom-end' }">
-                <UChip
-                  text="3"
-                  size="2xl"
+                <UButton
+                  :class="[
+                    buttonClass('/notifications'),
+                    { active: isActive('/notifications') },
+                  ]"
+                  color="white"
+                  class="no-border-no-shadow text-B2 p-0"
                 >
-                  <UButton
-                    :class="[
-                      buttonClass('/notifications'),
-                      { active: isActive('/notifications') },
-                    ]"
-                    color="white"
-                    class="no-border-no-shadow text-B2 p-0"
-                  >
-                    <icon-heroicons:sparkles-solid />
-                    <p class="font-bold">
-                      站內通知
-                    </p>
-                  </UButton>
-                </UChip>
+                  <icon-heroicons:sparkles-solid />
+                  <p class="font-bold">
+                    站內通知
+                  </p>
+                </UButton>
+                <UChip
+                  :text="notifications.length"
+                  :show="notifications.length > 0"
+                  size="2xl"
+                />
                 <template #panel="{ close }">
                   <div class="linear-border rounded-md p-4">
                     <NotificationCard />
