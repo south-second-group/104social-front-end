@@ -34,7 +34,6 @@ async function verify() {
         initializeSocket(response.data.userId)
         getNotifications()
       }
-      // console.log('notifications', notifications.value)
     }
     else {
       isLoggedIn.value = false
@@ -71,7 +70,6 @@ async function getNotifications() {
       deleteNotifications()
       setNotifications(response.data)
     }
-    // console.log(notifications.value)
   }
   catch (error) {
     if (notifications.value !== null)
@@ -164,7 +162,9 @@ function toast(message, type) {
                       </NuxtLink>
                     </div>
                     <div class="flex gap-[22px]">
-                      <p>全部已讀</p>
+                      <p v-if="notifications.length > 0">
+                        全部已讀
+                      </p>
                       <UButton
                         color="gray"
                         variant="ghost"

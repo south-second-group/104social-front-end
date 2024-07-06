@@ -7,7 +7,24 @@ onMounted(() => {
 </script>
 
 <template>
-  <ul class="flex flex-col gap-3">
+  <div
+    v-if="notifications.length === 0"
+    class=""
+  >
+    <NuxtImg
+      src="/SubmitStory/img-sm.png"
+      alt=""
+      class="mx-auto w-[150px]"
+    />
+    <p class="mb-2 text-center text-xl font-bold text-zinc-400">
+      目前尚未收到任何通知
+    </p>
+  </div>
+
+  <ul
+    v-if="notifications.length > 0"
+    class="flex flex-col gap-3"
+  >
     <li class="flex rounded-md bg-[#F5F5F5] p-3 pe-[28px] md:p-0 md:pe-0">
       <div class="hidden px-[25.5px] py-[15px] md:block">
         <UBadge
