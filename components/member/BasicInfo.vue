@@ -1,5 +1,6 @@
 <script setup>
 const memberStore = useMemberStore()
+const userDataStore = useUserDataStore()
 
 // 功能按鈕
 const functionButtonsList = [
@@ -33,8 +34,8 @@ const functionButtonsList = [
 <template>
   <section class="container mt-12 space-y-4 lg:flex lg:space-x-6 lg:space-y-0">
     <!-- 基本資料 -->
-    <div class="flex w-full space-x-6 rounded-[10px] bg-[#FFF5F5] p-4 lg:p-6">
-      <div class="size-[100px] overflow-hidden rounded-full lg:size-[120px]">
+    <div class="flex w-full items-center space-x-6 rounded-[10px] bg-[#FFF5F5] p-4 lg:p-6">
+      <div class="size-[100px] shrink-0 overflow-hidden rounded-full lg:size-[120px]">
         <NuxtImg
           v-if="memberStore.previewImage || memberStore.personalPhoto.photo"
           :src="memberStore.previewImage || memberStore.personalPhoto.photo"
@@ -85,6 +86,13 @@ const functionButtonsList = [
           </h4>
           <b>{{ memberStore.basicInfo.point }} 點</b>
         </li>
+
+        <li class="flex">
+          <h4 class="text-B2 mb-4 text-[#52525B]">
+            訂閱狀態｜
+          </h4>
+          <b>{{ userDataStore.isSubscribe ? "訂閱中" : "尚未訂閱" }}</b>
+        </li>
       </ul>
 
       <router-link to="/order/OrderList">
@@ -103,7 +111,7 @@ const functionButtonsList = [
         v-for="(button) in functionButtonsList"
         :key="button.title"
         :to="button.path"
-        class="rounded-full bg-gray-200 py-3 font-bold duration-300 ease-in-out active:scale-75 lg:hover:opacity-70"
+        class="flex items-center justify-center rounded-full bg-gray-200 py-3 font-bold duration-300 ease-in-out active:scale-75 lg:h-12 lg:hover:opacity-70"
       >
         {{ button.title }}
       </router-link>

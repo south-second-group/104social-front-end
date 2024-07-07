@@ -50,6 +50,16 @@
     "vue-tsc": "^2.0.7"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-basic-styles": "^42.0.0",
+    "@ckeditor/ckeditor5-build-classic": "^42.0.0",
+    "@ckeditor/ckeditor5-editor-classic": "^42.0.0",
+    "@ckeditor/ckeditor5-essentials": "^42.0.0",
+    "@ckeditor/ckeditor5-font": "^42.0.0",
+    "@ckeditor/ckeditor5-link": "^42.0.0",
+    "@ckeditor/ckeditor5-paragraph": "^42.0.0",
+    "@ckeditor/ckeditor5-theme-lark": "^42.0.0",
+    "@ckeditor/ckeditor5-vue": "^6.0.0",
+    "@ckeditor/vite-plugin-ckeditor5": "^0.1.3",
     "@google/generative-ai": "^0.11.4",
     "@iconify-json/heroicons": "^1.1.20",
     "@iconify-json/svg-spinners": "^1.1.2",
