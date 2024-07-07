@@ -20,7 +20,6 @@ const route = useRoute()
 
 const matchResult = useMatchResultStore()
 const {
-  searchResultsList,
   updateSearchResultsList,
   updateSearchResultsListCommentsCount,
 } = useSearchCriteriaStore()

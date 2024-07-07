@@ -30,9 +30,9 @@ export async function useGetGenerativeModelGP(prompt) {
 *  尊重她的選擇，如果她拒絕了，請不要勉強。
 `
 
-  const rule2 = `
-依照對方資訊和興趣和職業：${prompt}，產生約三百字繁體中文的單獨約會的邀約訊息
-`
+  //   const rule2 = `
+  // 依照對方資訊和興趣和職業：${prompt}，產生約三百字繁體中文的單獨約會的邀約訊息
+  // `
 
   const model = await useGenAi('gemini-1.5-flash') // 'gemini-1.5-flash' 'gemini-pro'
   const result = await model.generateContent(rule1)

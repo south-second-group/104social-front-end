@@ -62,6 +62,7 @@ function createRenderValue(key, value) {
           :src="member.profile.photoDetails.photo"
           alt="member_image"
           class="h-[200px] w-[300px] rounded-t-lg object-cover object-center lg:h-[265px] lg:w-[200px] lg:rounded-l-lg lg:rounded-tr-none"
+          :class="{ 'blur-md': member.profile.photoDetails.isShow === false }"
         />
       </div>
 
@@ -71,11 +72,11 @@ function createRenderValue(key, value) {
             class="line-clamp-1 w-[200px] text-start  text-xl font-bold leading-7 text-zinc-950 md:w-full md:text-2xl"
             :class="{
               'font-montserrat': !useIsChineseFunc(
-                member.userInfo.personalInfo.username,
+                member.profile.nickNameDetails.nickName,
               ),
             }"
           >
-            {{ member.userInfo.personalInfo.username }}
+            {{ member.profile.nickNameDetails.isShow ? member.profile.nickNameDetails.nickName : '對方保留' }}
           </p>
           <div>
             <span class="text-xl">
@@ -143,12 +144,12 @@ function createRenderValue(key, value) {
           >
             <p>
               {{
-                renderValue(
-                  'occupation',
-                  member.matchListSelfSetting.workInfo.occupation === '請選擇'
-                    ? '保留職業資訊'
-                    : member.matchListSelfSetting.workInfo.occupation,
-                )
+                member.matchListSelfSetting.workInfo.occupation === 0
+                  ? '保留職業資訊'
+                  : renderValue(
+                    'occupation',
+                    member.matchListSelfSetting.workInfo.occupation,
+                  )
               }}
             </p>
           </div>
@@ -177,6 +178,9 @@ function createRenderValue(key, value) {
               :key="index"
             >
               #{{ desc }}
+            </li>
+            <li v-if="member.profile.tags.length === 0">
+              #{{ member.profile.tags.length === 0 ? '無選擇興趣' : '' }}
             </li>
           </ul>
         </div>
