@@ -20,6 +20,7 @@ export const useMemberStore = defineStore('member', () => {
     rating: 0,
     isMatch: false,
     point: 0,
+    isSubscribe: false,
   })
 
   // 大頭貼
@@ -40,7 +41,7 @@ export const useMemberStore = defineStore('member', () => {
       label: '姓名',
       value: '',
       placeholder: '請輸入姓名',
-      isShow: true,
+      isShow: false,
     },
     {
       label: 'Line ID',
@@ -144,6 +145,7 @@ export const useMemberStore = defineStore('member', () => {
         basicInfo.rating = userStatus.rating
         basicInfo.isMatch = exposureSettings.isMatch
         basicInfo.point = userInfo.points
+        basicInfo.isSubscribe = userInfo.isSubscribe
 
         personalPhoto.photo = photoDetails.photo
         personalPhoto.isShow = photoDetails.isShow

@@ -1,5 +1,25 @@
 <script setup>
-const props = defineProps(['cover', 'title', 'sub'])
+// const props = defineProps(['cover', 'title', 'sub'])
+
+const props = defineProps({
+  cover: {
+    type: String,
+    required: true,
+  },
+  title: {
+    type: String,
+    required: true,
+
+  },
+  sub: {
+    type: String,
+    required: true,
+  },
+  exampleId: {
+    type: String,
+    required: true,
+  },
+})
 const { cover, title, sub } = props
 
 const isDesktop = ref(false)
@@ -20,12 +40,12 @@ onUnmounted(() => {
 
 <template>
   <NuxtLink
-    to="/stores/story"
-    class="rounded-xl bg-neutral-50 p-4 shadow-neutral-L2"
+    :to="`/stores/story/${exampleId}`"
+    class="rounded-xl bg-neutral-50 p-4 shadow-neutral-L2 lg:hover:bg-neutral-200"
     :class="{ 'linear-border-bottom': !isDesktop }"
   >
     <NuxtImg
-      :src="`/story/${cover}.png`"
+      :src="cover"
       alt=""
       class="mx-auto size-[180px] rounded-xl object-cover"
     />
@@ -35,8 +55,10 @@ onUnmounted(() => {
       >
         {{ title }}
       </p>
-      <p class="line-clamp-3 text-start text-base text-zinc-600 md:text-xl">
-        {{ sub }}
+      <p
+        class="line-clamp-3 text-start text-base text-zinc-600 md:text-xl"
+        v-html="sub"
+      >
       </p>
     </div>
   </NuxtLink>

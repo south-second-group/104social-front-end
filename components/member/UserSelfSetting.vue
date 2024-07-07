@@ -85,29 +85,29 @@ function renderValue(key, value) {
 }
 
 // 看起來被 member.js的函式取代了
-async function saveMatchListSelfSetting() {
-  try {
-    const res = await matchListApi.updateMatchListSelf(
-      matchListSelfSettingData.value,
-    )
-    const { message } = res
+// async function saveMatchListSelfSetting() {
+//   try {
+//     const res = await matchListApi.updateMatchListSelf(
+//       matchListSelfSettingData.value,
+//     )
+//     const { message } = res
 
-    toastMessage.value = `${message}`
-    toastType.value = 'success'
-  }
-  catch (error) {
-    console.error(error)
+//     toastMessage.value = `${message}`
+//     toastType.value = 'success'
+//   }
+//   catch (error) {
+//     console.error(error)
 
-    toastMessage.value = `${error}`
-    toastType.value = 'error'
-  }
-  finally {
-    memberStore.tempMatchListData.value = JSON.parse(
-      JSON.stringify(matchListSelfSettingData.value),
-    )
-    getMatchResult()
-  }
-}
+//     toastMessage.value = `${error}`
+//     toastType.value = 'error'
+//   }
+//   finally {
+//     memberStore.tempMatchListData.value = JSON.parse(
+//       JSON.stringify(matchListSelfSettingData.value),
+//     )
+//     getMatchResult()
+//   }
+// }
 
 async function getMatchResult() {
   try {

@@ -8,14 +8,11 @@ useHead({
 const commentList = useCommentStore()
 
 const isDataLoading = ref(true)
-const toastMessage = ref('')
-const toastType = ref('')
-
 const pagination = reactive({ page: 1, totalCount: 1 })
-const sortOption = ref([
-  { label: '最近更新', value: '-updatedAt' },
-  { label: '最久更新', value: 'updatedAt' },
-])
+// const sortOption = ref([
+//   { label: '最近更新', value: '-updatedAt' },
+//   { label: '最久更新', value: 'updatedAt' },
+// ])
 const sortSelected = ref('-updatedAt')
 
 async function getCommentILiftList(page, sort) {

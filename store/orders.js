@@ -96,7 +96,7 @@ export const useOrderStore = defineStore('orders', () => {
     const userDataStore = useUserDataStore()
     const subscriptionData = {
       userId: userDataStore.userId,
-      email: 'a09078006326@gmail.com',
+      email: useUserDataStore.email,
       periodAmt: 99, // 每月 99 元
       ProdDesc: '104 會員訂閱方案',
       periodType: 'M', // 每月

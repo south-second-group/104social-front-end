@@ -12,6 +12,7 @@ export const useUserDataStore = defineStore('userData', () => {
   const name = ref(null)
   const email = ref(null)
   const userId = ref(null)
+  const isSubscribe = ref(null)
 
   const setName = (newName) => {
     name.value = newName
@@ -25,6 +26,10 @@ export const useUserDataStore = defineStore('userData', () => {
     userId.value = newUserId
   }
 
+  const setIsSubscribe = (newIsSubscribe) => {
+    isSubscribe.value = newIsSubscribe
+  }
+
   return {
     userData,
     setUserData,
@@ -35,6 +40,8 @@ export const useUserDataStore = defineStore('userData', () => {
     setEmail,
     userId,
     setUserId,
+    isSubscribe,
+    setIsSubscribe,
   }
 }, {
   persist: {

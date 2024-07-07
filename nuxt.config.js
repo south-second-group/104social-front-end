@@ -1,6 +1,7 @@
 import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
 import Components from 'unplugin-vue-components/vite'
+import ckeditor5 from '@ckeditor/vite-plugin-ckeditor5'
 import {
   appDescription,
 } from './constants/index'
@@ -110,6 +111,7 @@ export default defineNuxtConfig({
         ],
       }),
       Icons({}),
+      ckeditor5({ theme: require.resolve('@ckeditor/ckeditor5-theme-lark') }),
     ],
     // server: {
     //   proxy: {

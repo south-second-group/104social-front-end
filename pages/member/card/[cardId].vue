@@ -132,20 +132,20 @@ function renderValue(key, value) {
 }
 
 // 按鈕元件資料
-const buttonList = ref([
-  { status: 'status1' },
-  { status: 'status2' },
-  { status: 'status3' },
-  { status: 'status4' },
-  { status: 'status5' },
-  { status: 'status6' },
-  { status: 'status7' },
-  { status: 'status8' },
-  { status: 'status9' },
-  { status: 'status10' },
-  { status: 'status11' },
-  { status: 'status12' },
-])
+// const buttonList = ref([
+//   { status: 'status1' },
+//   { status: 'status2' },
+//   { status: 'status3' },
+//   { status: 'status4' },
+//   { status: 'status5' },
+//   { status: 'status6' },
+//   { status: 'status7' },
+//   { status: 'status8' },
+//   { status: 'status9' },
+//   { status: 'status10' },
+//   { status: 'status11' },
+//   { status: 'status12' },
+// ])
 
 const createRenderResult = new Set()
 function createRenderValue(key, value) {
@@ -188,6 +188,9 @@ watchEffect(() => {
         v-else
         :photo-details="renderData.profile.photoDetails"
         class="z-10"
+        :class="{
+          'pointer-events-none blur-md': renderData.profile.photoDetails.isShow === false,
+        }"
       />
 
       <h1 class="text-H4 mt-24">
@@ -205,10 +208,10 @@ watchEffect(() => {
                 'font-montserrat': !useIsChineseFunc(
                   renderData.profile.nickNameDetails.nickName,
                 ),
-                'italic text-neutral-400': renderData.profile.nickNameDetails.nickName === '',
+                'italic text-neutral-400': !renderData.profile.nickNameDetails.nickName || !renderData.profile.nickNameDetails.isShow,
               }"
             >{{
-              renderData.profile.nickNameDetails.nickName || '對方保留'
+              renderData.profile.nickNameDetails.isShow ? renderData.profile.nickNameDetails.nickName : '對方保留'
             }}</span>
           </div>
 
@@ -221,7 +224,7 @@ watchEffect(() => {
                 ),
                 'italic text-neutral-400': renderData.profile.lineDetails.lineId === '',
               }"
-            >{{ renderData.profile.lineDetails.lineId || '對方保留' }}</span>
+            >{{ renderData.profile.lineDetails.isShow ? renderData.profile.lineDetails.lineId : '對方保留' }}</span>
           </div>
 
           <div

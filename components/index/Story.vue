@@ -37,9 +37,9 @@
                   的自信和優雅深深吸引。她對我的創業計劃表現出了極大的興趣,並且願意提供資金支持,這讓我感到既驚訝又感激。從那一刻起,我們的關係就不再僅僅是業務上的合作,而是逐漸發展成為了一段深刻的情感聯繫。
                 </p>
               </div>
-              <button class="btn-textOrIcon-sm mx-auto mt-4 md:mx-0 md:ms-auto">
+              <!-- <button class="btn-textOrIcon-sm mx-auto mt-4 md:mx-0 md:ms-auto">
                 <p>閱讀全文</p>
-              </button>
+              </button> -->
             </div>
           </div>
         </div>
@@ -72,9 +72,9 @@
                   的留言。他的話語中充滿了溫暖與理解,讓我感受到了前所未有的親切。經過幾次線上交流後,我們決定見面。見面那天,我們彷彿已是老朋友,談話中充滿了笑聲和共鳴。Robert是一位體貼、成熟的男士,他對我的生...
                 </p>
               </div>
-              <button class="btn-textOrIcon-sm mx-auto mt-4 md:mx-0 md:ms-auto">
+              <!-- <button class="btn-textOrIcon-sm mx-auto mt-4 md:mx-0 md:ms-auto">
                 <p>閱讀全文</p>
-              </button>
+              </button> -->
             </div>
           </div>
         </div>
