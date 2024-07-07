@@ -12,18 +12,18 @@
 ## 功能
 
 - [測試流程 (Notion)](https://www.notion.so/7bad45f87c9c40ba986bb7a85fc90164?pvs=4)
-- 測試帳號密碼
+- 測試帳號密碼 (成果發表期間，暫不提供)
 
 ```bash
 邀約方
-帳號： snowman12320@gmail.com
-密碼： a1234567
 ```
+<!-- 帳號： snowman12320@gmail.com
+密碼： a1234567 -->
 ```bash
 被邀約方
-帳號： 56asdf01@hotmail.com
-密碼： a1234567
 ```
+<!-- 帳號： 56asdf01@hotmail.com
+密碼： a1234567 -->
 
 ### 登出登入
 
