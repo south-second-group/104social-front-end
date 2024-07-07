@@ -196,6 +196,7 @@ function renderValue(key, value) {
         v-else
         :photo-details="renderData.profile.photoDetails"
         class="z-10"
+        :class="{ 'blur-md': renderData.profile.photoDetails.isShow === false }"
       />
 
       <h1 class="text-H4 mt-24">
@@ -215,7 +216,7 @@ function renderValue(key, value) {
                 ),
                 'italic text-neutral-400': renderData.profile.nickNameDetails.nickName === '',
               }"
-            >{{ renderData.profile.nickNameDetails.nickName || '對方保留' }}</span>
+            >{{ renderData.profile.nickNameDetails.isShow ? renderData.profile.nickNameDetails.nickName : '對方保留' }}</span>
           </div>
 
           <div class="flex h-[35px] items-center">
@@ -227,7 +228,7 @@ function renderValue(key, value) {
                 ),
                 'italic text-neutral-400': renderData.profile.lineDetails.lineId === '',
               }"
-            >{{ renderData.profile.lineDetails.lineId || '對方保留' }}</span>
+            >{{ renderData.profile.lineDetails.isShow ? renderData.profile.lineDetails.lineId : '對方保留' }}</span>
           </div>
 
           <div

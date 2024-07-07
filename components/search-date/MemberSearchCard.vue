@@ -65,13 +65,14 @@ function createRenderValue(key, value) {
       <div class="mb-4 shrink-0 self-center lg:mb-0 lg:me-6">
         <NuxtImg
           :src="resultItem.profile.photoDetails.photo"
-          alt=""
-          class="size-[150px] rounded-full object-contain"
+          :alt="resultItem.profile.photoDetails.photo"
+          class="size-[150px] overflow-hidden rounded-full object-contain"
+          :class="{ 'blur-md': resultItem.profile.photoDetails.isShow === false }"
         />
       </div>
       <div class="w-full text-start">
         <p class="text-H4 mb-1 text-zinc-900">
-          {{ resultItem?.userInfo?.personalInfo?.username }}
+          {{ resultItem.profile.nickNameDetails.isShow ? resultItem.profile.nickNameDetails.nickName : '對方保留' }}
         </p>
         <p
           v-if="
@@ -84,10 +85,11 @@ function createRenderValue(key, value) {
           {{
             renderValue(
               'occupation',
-              resultItem?.matchListSelfSetting.workInfo.occupation === '請選擇'
-                ? '保留職業資訊'
-                : resultItem?.matchListSelfSetting.workInfo.occupation,
-            )
+              resultItem?.matchListSelfSetting.workInfo.occupation) === '請選擇'
+              ? '保留職業資訊'
+              : renderValue(
+                'occupation',
+                resultItem?.matchListSelfSetting.workInfo.occupation)
           }}
         </p>
         <p

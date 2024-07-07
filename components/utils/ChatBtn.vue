@@ -10,7 +10,7 @@ const ChatRoomStatus = useChatRoomStatusStore()
 async function addChatList() {
   ChatRoomStatus.toggleSlideOver()
   try {
-    const res = await chatAPI.addChatList({ receiverId: userId })
+    await chatAPI.addChatList({ receiverId: userId })
   }
   catch (error) {
     console.error(error)
