@@ -108,7 +108,9 @@ function createRenderValue(key, value) {
           v-if="resultItem.status === 'accept' || resultItem.status === 'finishDating'"
           class="rounded-full bg-neutral-100 p-[10px]"
         >
-          <utilsChatBtn />
+          <utilsChatBtn
+            :user-id="resultItem.invitedUserId"
+          />
         </div>
         <!-- 刪除 -->
         <div
@@ -296,6 +298,7 @@ function createRenderValue(key, value) {
           invitationTableId: props.resultItem._id,
           resultItem: props.resultItem,
           commentTableId: props.resultItem._id,
+          beCommentCount: props.resultItem.profileByInvitedUser.userStatus.commentCount,
         }"
       />
     </div>
@@ -304,8 +307,8 @@ function createRenderValue(key, value) {
     <MemberInviteDeleteConfirmModal
       :show-modal="isOpenModal"
       :result-item-id="props.resultItem._id"
-      @close="handleModalClose"
-      @delete="handleDelete"
+      :on-close="handleModalClose"
+      :on-delete="handleDelete"
     />
 
     <Toast

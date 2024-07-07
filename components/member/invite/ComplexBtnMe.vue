@@ -10,6 +10,7 @@ const props = defineProps({
   invitationTableId: String,
   resultItem: Object,
   commentTableId: String,
+  beCommentCount: Number,
 })
 
 const router = useRouter()
@@ -72,12 +73,12 @@ function handleClick(status) {
         break
       case 'status8':
         router.push(
-          `/member/Comment/${props.userId}--${props.commentTableId}--${'false'}`,
+          `/member/Comment/Invite/Me/${props.userId}--${props.commentTableId}--${'false'}`,
         )
         break
       case 'status9':
         router.push(
-          `/member/Comment/${props.userId}--${props.commentTableId}--${'true'}`,
+          `/member/Comment/Invite/Me/${props.userId}--${props.commentTableId}--${'true'}`,
         )
         break
       default:
@@ -91,7 +92,7 @@ function handleClick(status) {
   <div>
     <!-- 已解鎖評價 -->
     <button
-      v-if="props.status === 'status1' && props.isUnlock"
+      v-if="props.status === 'status1' && props.isUnlock && props.beCommentCount > 0"
       class="mx-[1px] my-[3px] flex scale-90 gap-3 rounded-full border-2 border-neutral-400 px-[20px] py-[6px] text-[16px] leading-[24px] text-neutral-400 md:mx-[6px] md:scale-100"
       @click="handleClick(props.status)"
     >
@@ -100,18 +101,20 @@ function handleClick(status) {
     </button>
 
     <!-- 解鎖評價 -->
-    <button
+    <UTooltip
       v-if="
-        props.status === 'status2' && !props.isUnlock
+        props.status === 'status2' && !props.isUnlock && props.beCommentCount > 0
       "
-      class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
-      @click="handleClick(props.status)"
+      text="消耗 5 點/次"
     >
-      <icon-heroicons:lock-closed />
-      <UTooltip text="消耗 5 點/次">
+      <button
+        class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
+        @click="handleClick(props.status)"
+      >
+        <icon-heroicons:lock-closed />
         <p>{{ btnText }}</p>
-      </UTooltip>
-    </button>
+      </button>
+    </UTooltip>
 
     <!-- 完成約會 -->
     <button
@@ -159,8 +162,7 @@ function handleClick(status) {
     <button
       v-if="
         props.status === 'status8'
-          && props.isUnlock
-          && props.invitationStatus === 'accept'
+          && props.invitationStatus === 'finishDating'
       "
       class="btn-withIcon-fill mx-[1px] my-[3px] w-[132px] scale-90 md:mx-[6px] md:scale-100"
       @click="handleClick(props.status)"

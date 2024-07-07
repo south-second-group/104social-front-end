@@ -1,13 +1,11 @@
 <script setup>
-import { useCollectionsResultStore } from '~/store/collectionsResult'
 import { matchListApi } from '~/apis/repositories/matchList'
 
-defineProps({
+const props = defineProps({
   resultItem: Object,
   isTrashIcon: Boolean,
 })
 
-const collectionsResultStore = useCollectionsResultStore()
 const toastMessage = ref('')
 const toastType = ref('')
 const isDataLoading = ref(true)
@@ -105,7 +103,10 @@ const isCollected = true
     </div>
 
     <!-- 中 -->
-    <div class="flex flex-col gap-6 rounded-xl bg-neutral-100 p-6 md:flex-row">
+    <div
+      v-if="resultItem.collectedUsers && Object.keys(resultItem.collectedUsers).length"
+      class="flex flex-col gap-6 rounded-xl bg-neutral-100 p-6 md:flex-row"
+    >
       <div class="shrink-0">
         <!-- 圖片 -->
         <NuxtLink :to="`/member/collection/${resultItem._id}`">
@@ -135,11 +136,6 @@ const isCollected = true
           </h2>
 
           <!-- 個人說明 -->
-          <!-- <div>
-            <span>
-              {{ resultItem?.collectedUsers?.tags?.join('、') }}
-            </span>
-          </div> -->
           <div v-if="!isDataLoading">
             <!-- 將個人條件全部加入顯示陣列 -->
             <span
@@ -166,14 +162,6 @@ const isCollected = true
         </div>
 
         <!-- 職業 -->
-        <!-- <div class="space-y-3 border-l-2 border-x-neutral-300 pl-3">
-          <p class="text-B2 text-neutral-500">
-            {{ resultItem?.collectedUsers?.jobDetails?.job }}
-          </p>
-          <p class="text-B2 text-neutral-400">
-            {{ resultItem?.collectedUsers?.companyDetails?.company }}
-          </p>
-        </div> -->
         <div
           v-if="!isDataLoading"
           class="space-y-3 border-l-2 border-x-neutral-300 pl-3"
@@ -228,19 +216,6 @@ const isCollected = true
           "
           class="flex flex-col items-start justify-between gap-3 md:flex-row"
         >
-          <!-- 職業類別、職位、年收 -->
-          <!-- <div>
-            <span>
-              <a
-                href=""
-                class="text-special-info"
-                target="_blank"
-              >
-                {{ resultItem?.collectedUsers?.incomeDetails?.income }}
-              </a>
-            </span>
-          </div> -->
-          <!-- 嗜好 -->
           <div>
             <span
               v-for="(item, idx) in renderValue(
@@ -280,6 +255,13 @@ const isCollected = true
       </div>
     </div>
 
+    <div
+      v-else
+      class="text-B2 text-center text-neutral-400"
+    >
+      暫無資料
+    </div>
+
     <!-- 下-按鈕 -->
     <div class="flex flex-wrap justify-end">
       <MemberCollectionComplexBtn
@@ -287,15 +269,16 @@ const isCollected = true
         :key="index"
         v-bind="{
           status: btn.status,
-          invitationStatus: resultItem.invitation.status,
+          invitationStatus: props.resultItem.invitation.status,
           //isLocked: resultItem.isLocked,
           createRenderResult,
-          cardUserName: resultItem.collectedUsers.nickNameDetails.nickName,
-          userId: resultItem.collectedUserId,
+          cardUserName: props.resultItem.collectedUsers.nickNameDetails.nickName,
+          userId: props.resultItem.collectedUserId,
           //isUnlock: resultItem.isUnlock,
-          invitationTableId: resultItem._id,
-          resultItem,
-          commentTableId: resultItem._id,
+          invitationTableId: props.resultItem.invitation._id,
+          resultItem: props.resultItem,
+          commentTableId: props.resultItem.invitation._id,
+          beCommentCount: props.resultItem.collectedUsers.userStatus.commentCount,
         }"
       />
     </div>

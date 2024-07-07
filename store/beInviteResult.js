@@ -12,7 +12,7 @@ export const useBeInviteResultStore = defineStore('beInviteResult', {
     updateInviteResultList(userId, updateKey) {
       if (Array.isArray(this.result)) {
         this.result = this.result.map((item) => {
-          if (item.invitationId === userId)
+          if (item.userId === userId)
             return { ...item, ...updateKey }
 
           return item
@@ -22,7 +22,7 @@ export const useBeInviteResultStore = defineStore('beInviteResult', {
     updateInviteResultListCommentsCount(userId) {
       if (Array.isArray(this.result)) {
         this.result = this.result.map((item) => {
-          if (item.invitationId === userId) {
+          if (item.userId === userId) {
             return {
               ...item,
               profileByUser: {
