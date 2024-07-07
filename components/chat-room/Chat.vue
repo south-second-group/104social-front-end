@@ -29,8 +29,14 @@ watch(text, (newValue) => {
   }
 })
 
-socket.value.on('showTyping', (data) => {
-  typingAnimate.value = data
+socket.value.on('typing', (data) => {
+  if (memberList[0].id === data.userId)
+    typingAnimate.value = true
+})
+
+socket.value.on('stopTyping', (data) => {
+  if (memberList[0].id === data.userId)
+    typingAnimate.value = false
 })
 
 function useFormattedTime(data) {
@@ -181,7 +187,7 @@ onMounted(() => {
           <NuxtImg
             :src="memberList[0].photo || '/chatRoom/default.png'"
             alt="Avatar"
-            class="size-9 rounded-full"
+            class="size-9 rounded-full object-cover"
           />
           <div
             class="max-w-[190px] rounded-lg bg-neutral-200 px-3 py-2 sm:max-w-[65%]"
