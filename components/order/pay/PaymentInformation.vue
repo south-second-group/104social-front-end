@@ -39,6 +39,20 @@ const orderStore = useOrderStore()
           </p>
         </template>
       </URadioGroup>
+
+      <template v-if="orderStore.selectedInvoice === 'phone'">
+        <div class="mb-2 h-12 w-full rounded-lg border bg-white lg:max-w-[514px]">
+          <UInput
+            v-model="orderStore.paymentEmail"
+            color="primary"
+            variant="none"
+            size="xl"
+            placeholder="請輸入您的載具編號"
+            name="eInvoice"
+            type="text"
+          />
+        </div>
+      </template>
     </div>
   </div>
 </template>

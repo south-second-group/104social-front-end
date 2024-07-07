@@ -4,6 +4,11 @@ const { userData } = storeToRefs(userDataStore)
 
 const isGifLoading = ref(true)
 
+const router = useRouter()
+function goToCreateStory() {
+  router.push('/stores/create-story')
+}
+
 onMounted(async () => {
   await new Promise(resolve => setTimeout(resolve, 5000))
   isGifLoading.value = false
@@ -61,14 +66,20 @@ onMounted(async () => {
               >
             </div>
             <div v-show="userData">
-              <button class="btn-linear-lg mt-6 hidden md:mt-5 md:block">
-                <p>分享幸福案例</p>
+              <!-- <button class="btn-linear-lg mt-6 hidden md:mt-5 md:block">
+                <p>分享幸福案例1</p>
               </button>
               <button
                 class="btn-linear-nav mx-auto mt-4 block h-[40px] min-w-[303px] md:mt-5 md:hidden"
               >
                 <p>分享幸福案例</p>
-              </button>
+              </button> -->
+              <GradientButton
+                class="m-[2px] w-full"
+                @click="goToCreateStory"
+              >
+                <GradientButtonText text="分享幸福案例" />
+              </GradientButton>
             </div>
           </div>
           <div class="ms-3 flex lg:h-[550px] lg:w-full xl:ms-6">

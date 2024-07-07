@@ -51,7 +51,7 @@ async function submit() {
           @change="memberStore.handleFileChange"
         >
         <UToggle
-          v-model="selected"
+          v-model="memberStore.personalPhoto.isShow"
           color="primary"
           :disabled="!memberStore.editStatus"
         />

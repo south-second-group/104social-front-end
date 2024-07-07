@@ -1,9 +1,16 @@
 <script setup>
+import { memberAPI } from '@/apis/repositories/member'
+
 const router = useRouter()
+const userDataStore = useUserDataStore()
 
 function goSearchDate() {
   router.push('/search-date')
 }
+onMounted(async () => {
+  const { data } = await memberAPI.getUserData()
+  userDataStore.setIsSubscribe(data.userInfo.isSubscribe)
+})
 </script>
 
 <template>
