@@ -1,4 +1,8 @@
 <script setup>
+useHead({
+  title: '關於我們',
+})
+
 const hoveredTab = ref('')
 function hoverHandler(tab) {
   hoveredTab.value = tab

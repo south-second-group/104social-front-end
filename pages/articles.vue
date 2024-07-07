@@ -1,4 +1,8 @@
 <script setup>
+useHead({
+  title: '精選文章',
+})
+
 const articles = [
   {
     cover: 'cover01-lg',

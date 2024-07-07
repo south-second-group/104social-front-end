@@ -1,5 +1,10 @@
 <script setup>
 const props = defineProps(['cover', 'title', 'sub'])
+
+useHead({
+  title: '找案例',
+})
+
 const { cover, title, sub } = props
 
 const isDesktop = ref(false)
