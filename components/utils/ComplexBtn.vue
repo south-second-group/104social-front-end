@@ -13,9 +13,9 @@ const props = defineProps({
   invitationTableId: String,
   beInvitationTableId: String,
   commentTableId: String,
-  isSubscribe: Boolean,
 })
 
+const userDataStore = useUserDataStore()
 const router = useRouter()
 
 const btnText = computed(() => {
@@ -96,7 +96,7 @@ function handleClick(status) {
     <!-- 已解鎖評價 -->
     <button
       v-if="
-        props.status === 'status1' && (props.isUnlock || props.isSubscribe) && props.beCommentCount > 0
+        props.status === 'status1' && (props.isUnlock || userDataStore.isSubscribe) && props.beCommentCount > 0
       "
       class="mx-[1px] my-[3px] flex scale-90 gap-3 rounded-full border-2 border-neutral-400 px-[20px] py-[6px] text-[16px] leading-[24px] text-neutral-400 md:mx-[6px] md:scale-100"
       @click="handleClick(props.status)"
@@ -111,6 +111,7 @@ function handleClick(status) {
         props.status === 'status2'
           && !props.isUnlock
           && props.beCommentCount > 0
+          && !userDataStore.isSubscribe
       "
       text="消耗 5 點/次"
     >

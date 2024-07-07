@@ -309,7 +309,6 @@ function createRenderValue(key, value) {
             invitationTableId: resultItem.invitationTableId,
             beInvitationTableId: resultItem.beInvitationTableId,
             commentTableId: resultItem.commentTableId,
-            isSubscribe: resultItem.userInfo.isSubscribe,
           }"
         />
       </ClientOnly>

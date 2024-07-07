@@ -78,6 +78,7 @@ const postCommentForm = reactive({
   commentedUserId: route.params.cardId,
   content: '',
   score: 0,
+  id: renderData.value.invitationTableId,
 })
 
 watch(

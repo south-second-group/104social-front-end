@@ -8,6 +8,7 @@ const router = useRouter()
 const matchResult = useMatchResultStore()
 const searchCriteriaStore = useSearchCriteriaStore()
 const commentList = useCommentStore()
+const userDataStore = useUserDataStore()
 
 const apiData = ref({})
 const isLoaded = ref(false)
@@ -368,7 +369,7 @@ watchEffect(() => {
             }}
             留下的評價</label>
           <p
-            v-if="renderData.isUnlock === true || renderData.isSubscribe === true"
+            v-if="renderData.isUnlock === true || userDataStore.isSubscribe === true"
             class="break-words rounded-md border-2 p-3"
           >
             {{ i.content }}
