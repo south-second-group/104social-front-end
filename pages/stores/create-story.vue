@@ -1,19 +1,21 @@
 <script setup>
 import { happyStoryAPI } from '@/apis/repositories/happyStory'
 
+const router = useRouter()
 const coverPhoto = ref(null)
 const lifePhotos = ref([
   { id: 1, file: null, preview: null },
   { id: 2, file: null, preview: null },
   { id: 3, file: null, preview: null },
 ])
-const name1 = ref('')
-const name2 = ref('')
+const myName = ref('')
+const partnerName = ref('')
 const storyTitle = ref('')
 const storyContent = ref('')
 const coverImgRef = ref(null)
+const toastMessage = ref('')
+const toastType = ref('')
 
-// 方法
 function uploadCoverPhoto() {
   coverImgRef.value.click()
 }
@@ -47,9 +49,22 @@ function uploadLifePhoto(photo) {
 function removeLifePhoto(photo) {
   photo.file = null
   photo.preview = null
-  // 如果使用了 URL.createObjectURL，應該在這裡釋放
   if (photo.preview)
     URL.revokeObjectURL(photo.preview)
+}
+
+function resetForm() {
+  coverPhoto.value = null
+  lifePhotos.value.forEach((photo) => {
+    photo.file = null
+    if (photo.preview)
+      URL.revokeObjectURL(photo.preview)
+    photo.preview = null
+  })
+  myName.value = ''
+  partnerName.value = ''
+  storyTitle.value = ''
+  storyContent.value = ''
 }
 
 async function submitStory() {
@@ -57,7 +72,8 @@ async function submitStory() {
     // 檢查是否有封面照片
     if (!coverImgRef.value || !coverImgRef.value.files[0]) {
       console.error('請上傳封面照片')
-      // 這裡可以添加一些用戶提示，比如使用 toast 通知
+      toastMessage.value = '請上傳封面照片'
+      toastType.value = 'error'
       return
     }
 
@@ -86,25 +102,32 @@ async function submitStory() {
     const coverPhotoUrl = uploadResults[0].data.coverImage
     const lifePhotosUrls = validLifePhotos.length > 0 ? uploadResults[1].data.images : []
 
-    // 準備故事數據
     const storyData = {
-      names: [name1.value, name2.value],
+      myName: myName.value,
+      partnerName: partnerName.value,
+      coverImage: coverPhotoUrl,
+      imgList: lifePhotosUrls,
       title: storyTitle.value,
       content: storyContent.value,
-      coverPhotoUrl,
-      lifePhotosUrls,
+      title: storyTitle.value,
+      content: storyContent.value,
     }
 
-    // console.log('準備提交的故事數據:', storyData)
+    const { data: storyRes } = await happyStoryAPI.createHappyStory(storyData)
 
-    // const createStoryResult = await happyStoryAPI.createStory(storyData)
-    // console.log('故事創建成功:', createStoryResult)
+    resetForm()
+    toastMessage.value = '故事提交成功'
+    toastType.value = 'success'
 
-    // 這裡可以添加成功提示或者跳轉邏輯
+    // 跳轉到故事列表頁
+    setTimeout(() => {
+      router.push(`/stores/story/${storyRes._id}`)
+    }, 2000)
   }
   catch (error) {
     console.error('提交故事時發生錯誤:', error)
-    // 這裡可以添加錯誤處理邏輯，比如顯示錯誤消息給用戶
+    toastMessage.value = '故事提交失敗，請稍後再試'
+    toastType.value = 'error'
   }
 }
 </script>
@@ -193,13 +216,13 @@ async function submitStory() {
 
           <div class="mt-3 flex items-center justify-center space-x-3 lg:justify-start">
             <UInput
-              v-model="name1"
+              v-model="myName"
               size="lg"
               placeholder="您的名字"
             />
             <span>&</span>
             <UInput
-              v-model="name2"
+              v-model="partnerName"
               size="lg"
               placeholder="伴侶的名字"
             />
@@ -246,4 +269,9 @@ async function submitStory() {
       </div>
     </div>
   </div>
+
+  <Toast
+    :toast-message="toastMessage"
+    :toast-type="toastType"
+  />
 </template>

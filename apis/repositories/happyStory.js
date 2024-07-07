@@ -1,4 +1,4 @@
-import { useBaseFetch } from '../instance'
+import { useBaseFetch, useSSRFetch } from '../instance'
 
 // 上傳封面圖片
 async function uploadCoverImage(data) {
@@ -18,7 +18,39 @@ async function uploadMultipleImage(data) {
   })
 }
 
+// 建立幸福案例
+async function createHappyStory(data) {
+  return useBaseFetch('/api/v1/happiness-example', {
+    method: 'POST',
+    headers: {},
+    body: data,
+  })
+}
+
+// 取得特定幸福案例 By ID
+async function getHappyStoryById(id) {
+  return useSSRFetch(`/api/v1/happiness-example/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+}
+
+// 取得所有幸福案例
+async function getHappyStory() {
+  return useSSRFetch('/api/v1/happiness-example', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+}
+
 export const happyStoryAPI = {
   uploadCoverImage,
   uploadMultipleImage,
+  createHappyStory,
+  getHappyStoryById,
+  getHappyStory,
 }
