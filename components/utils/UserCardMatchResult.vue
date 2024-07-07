@@ -130,6 +130,7 @@ function createRenderValue(key, value) {
               :src="resultItem.profile.photoDetails.photo"
               alt="s3-alpha-sig"
               class="mx-auto size-[150px] rounded-full border-2 border-neutral-300 object-contain object-center group-hover:blur-sm"
+              :class="{ 'blur-md': resultItem.profile.photoDetails.isShow === false }"
             >
             <span
               class="text-shadow absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 text-white group-hover:block"
@@ -152,7 +153,7 @@ function createRenderValue(key, value) {
               ),
             }"
           >
-            {{ resultItem.profile.nickNameDetails.nickName }}
+            {{ resultItem.profile.nickNameDetails.isShow ? resultItem.profile.nickNameDetails.nickName : '對方保留' }}
           </h2>
           <div
             v-if="
@@ -195,14 +196,19 @@ function createRenderValue(key, value) {
                 && resultItem.matchListSelfSetting.workInfo
             "
             class="text-B2 text-neutral-500"
+            :class="{
+              '!text-neutral-300':
+                resultItem.matchListSelfSetting.workInfo.occupation === 0,
+            }"
           >
             {{
-              renderValue(
-                'occupation',
-                resultItem.matchListSelfSetting.workInfo.occupation === '請選擇'
-                  ? '保留職業資訊'
-                  : resultItem.matchListSelfSetting.workInfo.occupation,
-              )
+              resultItem.matchListSelfSetting.workInfo.occupation
+                === 0
+                ? '保留職業資訊'
+                : renderValue(
+                  'occupation',
+                  resultItem.matchListSelfSetting.workInfo.occupation,
+                )
             }}
           </p>
           <div

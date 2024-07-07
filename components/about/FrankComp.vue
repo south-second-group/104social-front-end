@@ -18,8 +18,6 @@ const props = defineProps({
         <div>
           <h2>專案角色</h2>
           <p>里程碑七 角色端建置負責人</p>
-          <p>里程碑八 專題簡報製作人</p>
-          <p>里程碑九 線下專題發表人</p>
         </div>
 
         <div>
@@ -69,6 +67,16 @@ const props = defineProps({
               </ul>
             </li>
             <li>
+              搜尋優化：
+              <ul class="list-disc space-y-2 pl-5">
+                <li>提交 Google search console / Microsoft Webmaster Tools</li>
+                <li>使用 HTML 標記驗證</li>
+                <li>產生 sitemap</li>
+                <li>設定首頁 Meta 參數</li>
+                <li>調整搜尋結果</li>
+              </ul>
+            </li>
+            <li>
               前端切版：<br>邀約/評價/收藏/拒絕往來列表、評價內頁、配對設定、配對結果、登入註冊動畫、Tailwind設定檔、Utils
               各種元件（按鈕、彈窗、卡片）
             </li>
@@ -80,17 +88,7 @@ const props = defineProps({
               後端開發 API：<br>關鍵字和標籤搜尋、會員條件設定、配對設定、配對結果、評價列表、精選會員、扣除點數、可能也喜歡推薦
             </li>
             <li>
-              QA 測試：<br>全站功能測試，若有問題，回報問題後，提供想法、解決方案、嘗試協助解決
-            </li>
-            <li>
-              SEO 優化：
-              <ul class="list-disc space-y-2 pl-5">
-                <li>提交 Google search console / Microsoft Webmaster Tools</li>
-                <li>使用 HTML 標記驗證</li>
-                <li>產生 sitemap</li>
-                <li>設定首頁 Meta 參數</li>
-                <li>調整搜尋結果</li>
-              </ul>
+              QA測試：<br>全站功能測試，若有問題，回報問題後，提供想法、解決方案、嘗試協助解決
             </li>
           </ul>
         </div>
@@ -100,13 +98,13 @@ const props = defineProps({
           <h3>前端</h3>
           <p>
             Nuxt 3 | Tailwind 3 | Pinia | Nuxt UI | Github Action | Eslint |
-            vee-validate | Gemini API | SEO | Husky | Git
+            vee-validate | Gemini API | SEO | Git
           </p>
           <h3>後端</h3>
           <p>
             Express 4 | MongoDB / mongoose | Socket.io | Google Login |
             TypeScript | JWT | Github Action | Eslint | Swagger | NewebPay |
-            FireBase Storage | Docker | Nginx | Husky | Git
+            FireBase Storage | Git
           </p>
         </div>
 
@@ -165,8 +163,8 @@ const props = defineProps({
 
         <div>
           <h2>Contributions to main, excluding merge commits（Apr 14, 2024 – Jul 2, 2024）</h2>
-          <div class=" flex flex-col justify-center gap-3 md:flex-row">
-            <div class="md:w-1/2 ">
+          <div class=" flex justify-center gap-3">
+            <div class="w-1/2 ">
               <p>
                 <a
                   class=" !underline"
@@ -174,12 +172,12 @@ const props = defineProps({
                 >front-end</a>
               </p>
               <img
-                class="  h-64 w-full rounded-md"
+                class=" h-44 w-full rounded-md md:h-64"
                 src="public/about/william-frontend.jpg"
                 alt="william-frontend"
               >
             </div>
-            <div class="md:w-1/2 ">
+            <div class="w-1/2 ">
               <p>
                 <a
                   class=" !underline"
@@ -187,7 +185,7 @@ const props = defineProps({
                 >back-end</a>
               </p>
               <img
-                class="  h-64 w-full rounded-md"
+                class=" h-44 w-full rounded-md md:h-64"
                 src="public/about/william-backend.jpg"
                 alt="william-backend"
               >

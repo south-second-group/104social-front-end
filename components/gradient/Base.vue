@@ -8,7 +8,7 @@ const props = defineProps<{
 
 <template>
   <div
-    :class="cn('GradientButton flex active:scale-75 duration-300 ease-in-out items-center justify-center rounded-full bg-black bg-gradient-to-r from-[#FE839A] to-[#4A72FF]', props.class)"
+    :class="cn('GradientButton flex duration-300 ease-in-out items-center justify-center rounded-full bg-black bg-gradient-to-r from-[#FE839A] to-[#4A72FF]', props.class)"
   >
     <slot></slot>
   </div>

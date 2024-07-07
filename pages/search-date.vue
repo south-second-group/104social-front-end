@@ -1,4 +1,6 @@
 <script setup>
+import { useStorage } from '@vueuse/core'
+
 import { searchApi } from '../apis/repositories/search'
 import { matchListApi } from '~/apis/repositories/matchList'
 
@@ -36,21 +38,27 @@ const toastType = ref('')
 const isDataLoading = ref(true)
 const maybeYouLikeList = ref([])
 
-// const searchHistory = useStorage('searchHistory', [])
+const searchHistory = useStorage('searchHistory', [])
 const pagination = reactive({ page: 1, totalCount: 10 })
-const query = reactive({
+const apiQuery = reactive({
   sort: '-score',
   page: pagination.page,
 })
 
 async function keywordSearch() {
   try {
-    const { data } = await searchApi.keywordSearch(query, searchForm.value)
+    const { data } = await searchApi.keywordSearch(apiQuery, searchForm.value)
 
     searchCriteriaStore.searchResultsList = data.resultList
     pagination.totalCount = data?.pagination?.totalCount || 0
 
-    // searchHistory.value.push(searchForm.value.keyWord)
+    if (
+      searchForm.value.keyWord && !searchHistory.value.includes(searchForm.value.keyWord)
+    )
+      searchHistory.value.push(searchForm.value.keyWord)
+
+    if (searchHistory.value.length > 10)
+      searchHistory.value.shift()
 
     // resetSearchForm()
   }
@@ -67,7 +75,7 @@ async function keywordSearch() {
 
 async function maybeYouLikeSearch() {
   try {
-    const { data } = await searchApi.maybeYouLikeSearch(query)
+    const { data } = await searchApi.maybeYouLikeSearch(apiQuery)
     maybeYouLikeList.value = data.resultList
   }
   catch (error) {
@@ -87,17 +95,17 @@ function handleKeyup(event) {
 }
 
 watchEffect(() => {
-  query.page = pagination.page
+  apiQuery.page = pagination.page
 })
 
-watch(query, () => {
-  keywordSearch(pagination.page, query.sort)
+watch(apiQuery, () => {
+  keywordSearch(pagination.page, apiQuery.sort)
 })
 
 watch(
   () => pagination.page,
   () => {
-    keywordSearch(pagination.page, query.sort)
+    keywordSearch(pagination.page, apiQuery.sort)
   },
 )
 
@@ -163,16 +171,21 @@ const sortOption = ref([
           <div
             class="mb-2 me-4 h-12 w-full rounded-lg border bg-white lg:mb-0 lg:max-w-[380px]"
           >
-            <UInput
+            <UInputMenu
               v-model="searchForm.keyWord"
+              v-model:query="searchForm.keyWord"
               color="primary"
               variant="none"
               size="xl"
               placeholder="輸入理想對象的職業、興趣"
-              value-attribute="value"
-              option-attribute="label"
+              :options="searchHistory"
+              trailing-icon="i-heroicons-magnifying-glass-solid"
               @keydown="handleKeyup"
-            />
+            >
+              <template #option-empty="{ query }">
+                無<q>{{ query }}</q>相關搜尋紀錄
+              </template>
+            </UInputMenu>
           </div>
           <div class="flex gap-1 lg:gap-4">
             <div
@@ -358,7 +371,7 @@ const sortOption = ref([
             class="h-12 w-full max-w-[196px] self-start rounded-lg border bg-white hover:border-primary-dark lg:self-end"
           >
             <USelectMenu
-              v-model="query.sort"
+              v-model="apiQuery.sort"
               :options="sortOption"
               placeholder="預設排序"
               class="text-gray-400"

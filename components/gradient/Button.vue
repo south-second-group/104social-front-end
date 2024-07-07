@@ -10,7 +10,7 @@ const props = defineProps<{
 <template>
   <GradientBase class="group">
     <button
-      :class="cn('relative z-10 block w-full rounded-full bg-gradient-to-r from-[#FE839A] to-[#4A72FF] lg:py-4 py-3 duration-300 ease-in-out lg:group-hover:bg-white lg:group-hover:bg-none group-active:scale-75', props.class)"
+      :class="cn('relative z-10 block w-full rounded-full bg-gradient-to-r from-[#FE839A] to-[#4A72FF] lg:py-4 py-3 lg:group-hover:bg-white lg:group-hover:bg-none ', props.class)"
       @click="props.click"
     >
       <slot></slot>
