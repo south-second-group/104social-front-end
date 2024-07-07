@@ -14,19 +14,29 @@ async function addChatList() {
     const res = await chatAPI.addChatList({ receiverId: userId })
     if (res.status) {
       const { data } = res
-      const newChat = {
-        members: [{
-          username: data.members?.username || data.receiverId,
-          photo: data.members?.photo || '',
-          id: data.receiverId,
-        }],
-        messages: [],
-        roomId: data.roomId,
-        unreadCount: 0,
+      if (!data.roomId) {
+        let username = ''
+        let photo = ''
+        data.members.forEach((i) => {
+          if (i.id === userId) {
+            username = i.username
+            photo = i.photo
+          }
+        })
+        const newChat = {
+          members: [{
+            username,
+            photo,
+            id: userId,
+          }],
+          messages: [],
+          roomId: data._id,
+          unreadCount: 0,
+          latestUpDate: data.updatedAt,
+        }
+        chatHistoryList.value.unshift(newChat)
       }
-      chatHistoryList.value.unshift(newChat)
     }
-    // console.log(res)
   }
   catch (error) {
     console.error(error)
