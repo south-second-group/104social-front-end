@@ -69,7 +69,7 @@ const props = defineProps({
               </ul>
             </li>
             <li>
-              前端切版：<br>邀約/評價/收藏/拒絕往來列表、評價內頁、配對設定、配對結果、登入註冊動畫、Tailwind設定檔、Utils
+              前端切版：<br>邀約/評價/收藏/拒絕往來列表、評價內頁、配對設定、配對結果、登入註冊動畫、關於我們頁、Tailwind設定檔、Utils
               各種元件（按鈕、彈窗、卡片）
             </li>
             <li>
@@ -117,7 +117,8 @@ const props = defineProps({
             <li>效能優化</li>
             <li>Vitest 單元測試</li>
             <li>Playwright E2E測試</li>
-            <li>細節：搜尋頁無需登入、卡片內頁細節、精選文章功能、幸福案例功能、統一管理載入或提示狀態</li>
+            <li>i18n 國際化</li>
+            <li>細節：搜尋頁無需登入、卡片內頁細節、精選文章功能、統一管理載入或提示狀態</li>
           </ul>
           <h3>後端</h3>
           <ul class="list-decimal space-y-2 pl-5">
