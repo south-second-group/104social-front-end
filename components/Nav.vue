@@ -2,16 +2,65 @@
 import { useRoute } from 'vue-router'
 import { auth } from '../apis/repositories/auth'
 import { notificationsAPI } from '../apis/repositories/notifications'
-import { initializeSocket } from '../apis/socket-io'
+import { initializeSocket, newNotification } from '../apis/socket-io'
+
+const userNotificationsStore = useNotificationsStore()
+const { notifications } = storeToRefs(userNotificationsStore)
+const { setNotifications, deleteNotifications, readAllNotificationStore }
+  = userNotificationsStore
+
+watch(
+  newNotification,
+  (newValue) => {
+    const now = new Date()
+    // console.log("notifications", notifications.value);
+    // console.log("newValue", newValue);
+    const newNote = {
+      createdAt: now,
+      id: newValue.id,
+      isRead: false,
+      message: {
+        content: newValue.content,
+        title: newValue.title,
+      },
+      type: 1,
+      updatedAt: now,
+      user: [{
+        id: newValue.userId,
+        personalInfo: {
+          username: newValue.nickNameDetails.nickName,
+        },
+      }],
+    }
+    setNotifications([
+      ...notifications.value,
+      newNote,
+    ])
+    toast(`收到來自 ${newValue.nickNameDetails.nickName} 的邀約訊息`, 'success')
+    // console.log('newNote', newNote)
+  },
+  { deep: true },
+)
 
 const memberStore = useMemberStore()
 const userDataStore = useUserDataStore()
 const { userData } = storeToRefs(userDataStore)
 const { setUserData, deleteUserData } = userDataStore
 
-const userNotificationsStore = useNotificationsStore()
-const { notifications } = storeToRefs(userNotificationsStore)
-const { setNotifications, deleteNotifications } = userNotificationsStore
+async function readAll() {
+  const res = await notificationsAPI.readAllNotifications()
+  if (res.status)
+    readAllNotificationStore()
+}
+
+const newNotificationsCount = ref(0)
+watch(
+  notifications,
+  (newValue) => {
+    newNotificationsCount.value = newValue.filter(e => !e.isRead).length
+  },
+  { immediate: true, deep: true },
+)
 
 const router = useRouter()
 const route = useRoute()
@@ -116,7 +165,9 @@ function toast(message, type) {
 <template>
   <div class="h-[60px] w-full lg:h-[120px]">
     <div class="container mx-auto mt-0 rounded-full lg:mt-5 lg:bg-zinc-50/80">
-      <div class="flex w-full items-center justify-between p-3 lg:px-10 lg:py-4">
+      <div
+        class="flex w-full items-center justify-between p-3 lg:px-10 lg:py-4"
+      >
         <NuxtLink to="/">
           <h2 class="shrink-0">
             104緣來如此
@@ -133,6 +184,12 @@ function toast(message, type) {
                 @click="isOpenModal = true"
               >
                 <icon-heroicons:bell-alert class="size-6" />
+                <UChip
+                  :text="newNotificationsCount"
+                  :show="newNotificationsCount > 0"
+                  class="mb-auto"
+                  size="2xl"
+                />
               </UButton>
               <UModal
                 v-model="isOpenModal"
@@ -150,7 +207,9 @@ function toast(message, type) {
                   class="linear-border rounded-md"
                 >
                   <NotificationCard />
-                  <div class="flex justify-between px-2 py-4 font-bold text-primary-dark">
+                  <div
+                    class="flex justify-between px-2 py-4 font-bold text-primary-dark"
+                  >
                     <div class="">
                       <NuxtLink
                         to="/notifications"
@@ -193,7 +252,9 @@ function toast(message, type) {
               v-model="isOpenSlide"
               class="z-[4000] h-screen"
             >
-              <div class="w-full flex-1 bg-[url('~/public/nav/phone-bg.png')] bg-cover p-4">
+              <div
+                class="w-full flex-1 bg-[url('~/public/nav/phone-bg.png')] bg-cover p-4"
+              >
                 <div class="flex justify-end">
                   <UButton
                     color="gray"
@@ -376,8 +437,8 @@ function toast(message, type) {
                   </p>
                 </UButton>
                 <UChip
-                  :text="notifications.length"
-                  :show="notifications.length > 0"
+                  :text="newNotificationsCount"
+                  :show="newNotificationsCount > 0"
                   size="2xl"
                 />
                 <template #panel="{ close }">
@@ -396,7 +457,10 @@ function toast(message, type) {
                       </div>
                       <div class="flex gap-2">
                         <div class="p-2">
-                          <p class="text-base">
+                          <p
+                            class="cursor-pointer text-base"
+                            @click="readAll"
+                          >
                             全部已讀
                           </p>
                         </div>
@@ -476,7 +540,7 @@ function toast(message, type) {
 }
 
 h2 {
-  background-image: url('../assets/img/logo.png');
+  background-image: url("../assets/img/logo.png");
   background-size: cover;
   background-position: center;
   overflow: hidden;

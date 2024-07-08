@@ -5,6 +5,7 @@ const baseUrl
 export const socket = ref(null)
 
 export const chatHistoryList = ref([])
+export const newNotification = ref({})
 
 export function initializeSocket(userId) {
   socket.value = io(process.env.BASE_API_URL, {
@@ -12,15 +13,6 @@ export function initializeSocket(userId) {
       userid: userId,
     },
   })
-
-  // socket.value.on('connect', () => {
-  //   console.log('Connected to server')
-  // })
-
-  // socket.value.on('disconnect', () => {
-  //   console.log('Disconnected from server')
-  // })
-
   socket.value.on('chatHistory', (data) => {
     // console.log(data)
     chatHistoryList.value = data
@@ -30,7 +22,7 @@ export function initializeSocket(userId) {
       })
     })
   })
-
+  socket.value.on('notification', handelNotification)
   socket.value.on('message', handleMessage)
   // socket.value.on('chatRoomList', handleChatRoomList)
 
@@ -47,12 +39,8 @@ export function initializeSocket(userId) {
       }
     })
   }
-
-  // function handleChatRoomList(data) {
-  //   console.log('handleChatRoomList',data)
-  // }
-
-  // socket.value.on('connect_error', (error) => {
-  //   console.error('Connection error:', error)
-  // })
+  function handelNotification(data) {
+    newNotification.value = data
+    // console.log(newNotification.value)
+  }
 }

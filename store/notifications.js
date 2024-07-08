@@ -5,6 +5,19 @@ export const useNotificationsStore = defineStore('notifications', () => {
     notifications.value = data
   }
 
+  function readNotificationStore(id) {
+    notifications.value.forEach((i) => {
+      if (i.id === id)
+        i.isRead = true
+    })
+  }
+
+  function readAllNotificationStore(id) {
+    notifications.value.forEach((i) => {
+      i.isRead = true
+    })
+  }
+
   function deleteNotifications() {
     notifications.value = []
   }
@@ -13,6 +26,8 @@ export const useNotificationsStore = defineStore('notifications', () => {
     notifications,
     setNotifications,
     deleteNotifications,
+    readNotificationStore,
+    readAllNotificationStore,
   }
 }, {
   persist: {
