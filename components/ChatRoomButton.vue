@@ -1,5 +1,6 @@
 <script setup>
 import { chatHistoryList } from '../apis/socket-io.js'
+import { chatAPI } from '~/apis/repositories/chat'
 
 const ChatRoomStatus = useChatRoomStatusStore()
 
@@ -19,13 +20,14 @@ function backToChatList() {
   }, 600)
 }
 
-function handleOpenChat(chat) {
+async function handleOpenChat(chat) {
   memberList.value = chat.members
   roomId.value = chat.roomId
   chatHistoryList.value.forEach((i) => {
     if (i.roomId === chat.roomId)
       i.unreadCount = 0
   })
+  await chatAPI.markAllRead(chat.roomId)
   isShowChatList.value = false
   isShowChat.value = true
 }
