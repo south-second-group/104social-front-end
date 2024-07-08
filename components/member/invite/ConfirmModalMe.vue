@@ -3,6 +3,7 @@ import { blackListApi } from '~/apis/repositories/blackList' // 黑名單
 import { unlockCommentApi } from '~/apis/repositories/unlockComment' // 解鎖評價
 import { commentApi } from '~/apis/repositories/comment' // 評價
 import { beInviteApi } from '~/apis/repositories/beInvite' // 被邀約
+import { reducePointApi } from '~/apis/repositories/reducePoint'
 
 import { useBeInviteResultStore } from '~/store/beInviteResult'
 
@@ -93,6 +94,8 @@ function tempfunc() {
 async function unlockComment() {
   isLoading.value = true
   try {
+    await reducePointApi.reducePoint(5)
+
     await unlockCommentApi.unlockComment(props.userId)
     toastMessage.value = '解鎖評價成功'
     toastType.value = 'success'
@@ -102,7 +105,7 @@ async function unlockComment() {
   catch (error) {
     console.error({ error })
 
-    toastMessage.value = '解鎖評價失敗，請通知開發者'
+    toastMessage.value = error.response._data.message === '點數不足' ? error.response._data.message : '解鎖評價失敗，請通知開發者'
     toastType.value = 'error'
   }
   finally {
@@ -122,7 +125,8 @@ async function deleteComment() {
     toastMessage.value = '刪除評價成功'
     toastType.value = 'success'
 
-    beInviteResult.updateInviteResultListCommentsCount(props.userId)
+    await beInviteResult.updateInviteResultListCommentsCount(props.userId)
+    await beInviteResult.deleteInviteResult(props.userId)
   }
   catch (error) {
     console.error({ error })
@@ -158,7 +162,7 @@ async function deleteBlackListById() {
   }
 }
 
-// 新增黑名單
+// 拒絕往來
 async function postBlackList() {
   isLoading.value = true
   try {
@@ -183,6 +187,7 @@ async function postBlackList() {
 // 被邀約-完成約會
 async function finishInvitationDating() {
   isLoading.value = true
+  isCheer.value = true
   try {
     await beInviteApi.finishInvitationDating(props.invitationTableId)
     toastMessage.value = '完成約會成功'
@@ -201,6 +206,7 @@ async function finishInvitationDating() {
 
     await new Promise(resolve => setTimeout(resolve, 3000))
     isLoading.value = false
+    isCheer.value = false
   }
 }
 
@@ -212,7 +218,7 @@ async function acceptInvitation() {
     toastMessage.value = '接受邀約成功'
     toastType.value = 'success'
 
-    beInviteResult.updateInviteResultList(props.userId, { Status: 'accept' })
+    beInviteResult.updateInviteResultList(props.userId, { status: 'accept' })
   }
   catch (error) {
     console.error({ error })
@@ -230,7 +236,7 @@ async function acceptInvitation() {
 async function cancelInvitation() {
   isLoading.value = true
   try {
-    await beInviteApi.cancelInvitation(tempInvitationTableId.value)
+    await beInviteApi.cancelInvitation(tempInvitationTableId.value || props.invitationTableId)
     toastMessage.value = '取消邀約成功'
     toastType.value = 'success'
 

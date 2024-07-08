@@ -1,23 +1,49 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { inviteListApi } from '~/apis/repositories/inviteList'
 import { matchListApi } from '~/apis/repositories/matchList'
+import { commentApi } from '~/apis/repositories/comment'// 打霧
 
 const route = useRoute()
 const router = useRouter()
 const toastMessage = ref('')
 const toastType = ref('')
 
+// 評價資料
+const apiData = ref({})
+const renderData = ref([])
+
 // Loading 狀態
 const isLoaded = ref(false)
 
 // 取得路由id
 const inviteId = route.params.contentMe
+const beforeRoute = ref(window.history.state.back)
 
 // 被邀約會員詳細資料
 const invitationDetails = ref({})
 
+// 評價資訊
+async function getCommentList() {
+  isLoaded.value = true
+  try {
+    const res = await commentApi.getCommentList({
+      id: invitationDetails.value.userId,
+      page: 1,
+    })
+    apiData.value = res.data
+  }
+  catch (error) {
+    console.error(error)
+  }
+  finally {
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    isLoaded.value = false
+  }
+}
+
+// 詳細資料
 async function getInviteDetail() {
   isLoaded.value = true
   try {
@@ -32,9 +58,16 @@ async function getInviteDetail() {
   }
 }
 
-// 取得評價分數
-function getRating() {
-  return invitationDetails.value.profileByUser.userStatus.rating || 0
+// 隨機中文字
+function randomChineseText(content) {
+  const baseText = '這是一個示例文本，包含中文字符用於生成隨機長度的字符串。這是一個示例文本，包含中文字符用於生成隨機長度的字符串。'
+  const randomLength = Math.floor(Math.random() * content.length) < 100 ? 100 : Math.floor(Math.random() * content.length)
+  let result = ''
+  for (let i = 0; i < randomLength; i++) {
+    const randomIndex = Math.floor(Math.random() * content.length)
+    result += baseText[randomIndex]
+  }
+  return result
 }
 
 // 取得配對選項
@@ -73,39 +106,37 @@ function getKeyLabel(key) {
 }
 
 function renderValue(key, value) {
-  if (Array.isArray(value) && value.length >= 1) {
-    return value
-      .map(v => matchListOptionData.value[0][key][v].label !== '請選擇'
-        ? matchListOptionData.value[0][key][v].label
-        : '對方保留')
-      .join('、')
-  }
+  if (Array.isArray(value) && value.length >= 1)
+    return value.map(v => matchListOptionData.value[0][key][v].label !== '請選擇' ? matchListOptionData.value[0][key][v].label : '對方保留').join('、')
 
   if (matchListOptionData.value[0][key][value].label !== '請選擇')
     return matchListOptionData.value[0][key][value].label
-  else return '對方保留'
+  else
+    return '對方保留'
 }
 
-// const createRenderResult = new Set()
-// function createRenderValue(key, value) {
-//   if (Array.isArray(value)) {
-//     value.forEach((v) => {
-//       if (matchListOptionData.value[0][key][v].label !== '請選擇')
-//         createRenderResult.add(matchListOptionData.value[0][key][v].label)
-//     })
-//   }
-//   else if (matchListOptionData.value[0][key][value].label !== '請選擇') {
-//     createRenderResult.add(matchListOptionData.value[0][key][value].label)
-//   }
-// }
+const createRenderResult = new Set()
+function createRenderValue(key, value) {
+  if (Array.isArray(value)) {
+    value.forEach((v) => {
+      if (matchListOptionData.value[0][key][v].label !== '請選擇')
+        createRenderResult.add(matchListOptionData.value[0][key][v].label)
+    })
+  }
+  else if (matchListOptionData.value[0][key][value].label !== '請選擇') {
+    createRenderResult.add(matchListOptionData.value[0][key][value].label)
+  }
+}
 
 const promises = [getMatchListOption()]
 Promise.all(promises).then(() => {
   isLoaded.value = false
 })
 
-watchEffect(() => {
-  getInviteDetail()
+watchEffect(async () => {
+  await getInviteDetail()
+  if (invitationDetails.value.profileByUser?.userStatus?.commentCount || renderData.value.profileByUser?.userStatus?.commentCount)
+    await getCommentList()
 })
 </script>
 
@@ -139,105 +170,161 @@ watchEffect(() => {
         <div class="mb-4 grid w-full grid-cols-2 gap-6 gap-y-3">
           <div class="flex h-[35px] items-center">
             <!-- 姓名 -->
-            <label class="w-24 align-middle">姓名：</label>
-            <span
-              :class="{
-                'font-montserrat': !useIsChineseFunc(
-                  invitationDetails.profileByUser.nickNameDetails.nickName,
-                ),
-              }"
-            >
-              {{
-                invitationDetails.profileByUser.nickNameDetails.nickName
-              }}
+            <label class="mr-4 w-24 align-middle">姓名：</label>
+            <span :class="{ 'font-montserrat': !useIsChineseFunc(invitationDetails.profileByUser.nickNameDetails.nickName), 'italic text-neutral-400': invitationDetails.profileByUser.nickNameDetails.nickName === '' }">
+              {{ invitationDetails.profileByUser.nickNameDetails.nickName }}
+            </span>
+          </div>
+
+          <!-- LINE ID -->
+          <div class="flex h-[35px] items-center">
+            <label class="mr-4 w-24 align-middle"> LINE ID：</label>
+            <span :class="{ 'font-montserrat': !useIsChineseFunc(invitationDetails.profileByUser.lineDetails.lineId), 'italic text-neutral-400': invitationDetails.profileByUser.lineDetails.lineId === '' }">
+              {{ invitationDetails.profileByUser.lineDetails.lineId || '對方保留' }}
             </span>
           </div>
 
           <!-- 一般資訊 -->
           <div
-            v-for="(value, key) in invitationDetails.matchListSelfSettingByUser.personalInfo"
+            v-for="(value, key) in invitationDetails.matchListSelfSettingByUser[0].personalInfo"
             :key="key"
             class="mb-2 flex h-[35px] items-center"
           >
-            <label class="mr-4 w-24 align-middle">
-              {{ `${getKeyLabel(key)}：` }}
-            </label>
-            <span>{{ renderValue(key, value) }}</span>
+            <label class="mr-4 w-24 align-middle">{{ `${getKeyLabel(key)}：` }}</label>
+            <span :class="{ 'italic text-neutral-400': renderValue(key, value) === '對方保留' }">{{ renderValue(key, value) }}</span>
           </div>
 
           <!-- 工作 -->
           <div
-            v-for="(value, key) in invitationDetails.matchListSelfSettingByUser.workInfo"
+            v-for="(value, key) in invitationDetails.matchListSelfSettingByUser[0].workInfo"
             :key="key"
             class="mb-2 flex h-[35px] items-center"
           >
             <label class="mr-4 w-24 align-middle">
               {{ `${getKeyLabel(key)}：` }}
             </label>
-            <span>{{ renderValue(key, value) }}</span>
+            <span
+              :class="{
+                'italic text-neutral-400': renderValue(key, value) === '對方保留',
+              }"
+            >{{ renderValue(key, value) }}</span>
           </div>
 
-          <!-- 標籤 -->
+          <!-- 自我介紹 -->
           <div class="col-span-2">
-            <label
+            <label>自我介紹：</label>
+            <div
+              class="mt-3 flex flex-wrap items-center justify-start gap-2 rounded-md"
               :class="{
-                'font-montserrat': !useIsChineseFunc(
-                  invitationDetails.profileByUser.nickNameDetails.nickName,
-                ),
+                'italic text-neutral-400':
+                  invitationDetails.profileByUser.introDetails.intro === '',
               }"
             >
               {{
-                invitationDetails.profileByUser.nickNameDetails.nickName
-              }} 的標籤：
+                invitationDetails.profileByUser.introDetails.intro || '對方保留'
+              }}
+            </div>
+          </div>
+
+          <!-- 標籤 -->
+          <div class="col-span-2 mt-3">
+            <label :class="{ 'font-montserrat': !useIsChineseFunc(invitationDetails.profileByUser.nickNameDetails.nickName) }">
+              {{ invitationDetails.profileByUser.nickNameDetails.nickName }} 的標籤：
             </label>
-            <div class="mt-3 flex flex-wrap items-center justify-start gap-2 rounded-md">
+            <div
+              class="mt-3 flex flex-wrap items-center justify-start gap-2 rounded-md"
+              :class="{
+                'italic text-neutral-400':
+                  invitationDetails.profileByUser.tags.length === 0,
+              }"
+            >
               <UBadge
-                v-for="i in (
-                    invitationDetails.profileByUser.tags
-                )"
+                v-for="i in invitationDetails.profileByUser.tags || []"
                 :key="i"
                 class="btn-withIcon-outline-rwd pointer-events-none !rounded-lg !px-1 !py-[2px]"
               >
                 <p
                   class="!text-[10px]"
-                  :class="{
-                    'font-montserrat': !useIsChineseFunc(i),
-                  }"
+                  :class="{ 'font-montserrat': !useIsChineseFunc(i) }"
                 >
                   {{ i }}
                 </p>
               </UBadge>
+              {{ invitationDetails.profileByUser.tags.length === 0 ? '對方保留' : '' }}
             </div>
           </div>
         </div>
 
-        <!-- 自我介紹 -->
-        <div class="mt-12 w-full space-y-3">
-          <label
-            class="text-H4"
-            for=""
-          >自我介紹</label>
-          <p class="rounded-md border-2 p-3">
+        <!-- 邀約資料需要 -->
+        <div v-if="isLoaded">
+          <!-- 將個人條件全部加入顯示陣列 -->
+          <span
+            v-for="(value, key) in invitationDetails.matchListSelfSettingByUser[0].personalInfo"
+            :key="key"
+            class="hidden"
+          >
+            {{ createRenderValue(key, value) }}
+          </span>
+          <!-- 將工作條件的產業 加入 顯示陣列 -->
+          <span class="hidden">
             {{
-
-              invitationDetails.profileByUser.introDetails.intro || 不透露
+              createRenderValue(
+                'industry',
+                invitationDetails.matchListSelfSettingByUser[0].workInfo.industry,
+              )
             }}
-          </p>
+          </span>
         </div>
 
-        <!-- 整體評價 -->
-        <div class="mt-12 w-full space-y-3">
-          <label class="text-H4">整體評價</label>
-          <div class="flex">
-            <icon-heroicons:heart-solid
-              v-for="heart in 5"
-              :key="heart"
-              class="size-10"
-              :class="{
-                'text-primary-dark': heart <= getRating(),
-                'text-gray-300': heart > getRating(),
-              }"
-            />
+        <!-- 大家的評價 -->
+        <div
+          v-for="i in apiData.comments"
+          :key="i.id"
+          class="mt-12 w-full space-y-3"
+        >
+          <label
+            class="text-H4"
+            :class="{
+              'font-montserrat': !useIsChineseFunc(
+                i.commentUserProfile[0].nickNameDetails.nickName !== ''
+                  ? i.commentUserProfile[0].nickNameDetails.nickName
+                  : i.commentUserUsername[0].personalInfo.username,
+              ),
+            }"
+          >
+            {{
+              i.commentUserProfile[0].nickNameDetails.nickName !== ''
+                ? i.commentUserProfile[0].nickNameDetails.nickName
+                : i.commentUserUsername[0].personalInfo.username
+            }}
+            留下的評價</label>
+          <p
+            v-if="renderData.isUnlock === true || renderData.isSubscribe === true"
+            class="break-words rounded-md border-2 p-3"
+          >
+            {{ i.content }}
+          </p>
+          <p
+            v-else
+            class="break-words rounded-md border-2 p-3"
+          >
+            {{ i.content.substring(0, 20) }} ...解鎖查看更多
+            <span class="block blur-sm">
+              {{ randomChineseText(i.content) }}</span>
+          </p>
+
+          <div class="mt-12 w-full space-y-3">
+            <div class="flex justify-end">
+              <icon-heroicons:heart-solid
+                v-for="heart in 5"
+                :key="heart"
+                class="size-10"
+                :class="{
+                  'text-primary-dark': heart <= i.score,
+                  'text-gray-300': heart > i.score,
+                }"
+              />
+            </div>
           </div>
         </div>
 
@@ -263,9 +350,92 @@ watchEffect(() => {
           class="h-8 w-full bg-neutral-300"
         />
       </div>
+
+      <!-- 裝飾球_Large -->
+      <div
+        class="animate-scale-up-loop decoration-ball-1 absolute top-[145px] z-[-1] w-[184px] md:left-[-255px] md:w-[684px]"
+      >
+        <NuxtImg
+          src="/banner/bg-ball-large-lg.png"
+          alt="Banner_ball"
+          class="size-full"
+        />
+      </div>
+      <div
+        class="animate-scale-up-loop decoration-ball-1 absolute top-[545px] z-[-1] w-[184px] md:right-[-155px] md:w-[684px]"
+      >
+        <NuxtImg
+          src="/banner/bg-ball-large-lg.png"
+          alt="Banner_ball"
+          class="size-full"
+        />
+      </div>
+      <!-- 裝飾球_Medium -->
+      <div
+        class="animate-scale-up-loop decoration-ball-2 absolute top-[-30px] z-[-1] w-[90px] md:left-[381px] md:w-[305px]"
+      >
+        <NuxtImg
+          src="/banner/bg-ball-medium-lg.png"
+          alt="Banner_ball"
+          class="size-full"
+        />
+      </div>
+      <!-- 裝飾球_Medium -->
+      <div
+        class="animate-scale-up-loop decoration-ball-3 absolute top-[-55px] z-[-1] w-[90px] md:right-[-206px] md:w-[305px]"
+      >
+        <NuxtImg
+          src="/banner/bg-ball-medium-lg.png"
+          alt="Banner_ball"
+          class="size-full"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+@keyframes scaleUp {
+  0% {
+    transform: scale(0.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleUpLoop {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.4;
+    filter: blur(5px);
+  }
+}
+
+.animate-scale-up-loop {
+  animation: scaleUp 1s ease-out forwards,
+    scaleUpLoop 5s ease-in-out infinite 3s;
+}
+
+.animate-scale-up {
+  animation: scaleUp 0.4s ease-in-out forwards;
+}
+
+.decoration-ball-1 {
+  animation-delay: 0ms;
+}
+
+.decoration-ball-2 {
+  animation-delay: 1300ms;
+}
+
+.decoration-ball-3 {
+  animation-delay: 2100ms;
+}
 </style>
