@@ -20,9 +20,10 @@ watch(q, (newValue) => {
 function useSort(list) {
   list.forEach((chat) => {
     const now = new Date()
-    chat.latestUpDate = chat.messages.length > 1
-      ? chat.messages[chat.messages.length - 1].createdAt
-      : now
+    if (chat.messages.length > 1)
+      chat.latestUpDate = chat.messages[chat.messages.length - 1].createdAt
+    else if (!Object.prototype.hasOwnProperty.call(chat, 'latestUpDate'))
+      chat.latestUpDate = now
   })
   const sortList = list.sort((a, b) => {
     const aDate = new Date(a.latestUpDate)
@@ -74,7 +75,7 @@ function useFilter(keyword) {
       class="rounded-xl bg-white"
     >
       <chat-roomChatPreview
-        v-for="chat in chatList"
+        v-for="chat in useSort(chatList)"
         :key="chat.roomId"
         :chat="chat"
         @click="openChat(chat)"

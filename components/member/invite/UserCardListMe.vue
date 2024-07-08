@@ -125,7 +125,7 @@ function createRenderValue(key, value) {
         <div class="rounded-full bg-neutral-100 p-[10px]">
           <utilsCollectionBtn
             :is-collected="resultItem.isCollected"
-            :user-id="resultItem.invitationId"
+            :user-id="resultItem.userId"
             :collection-table-id="resultItem._id"
           />
         </div>
@@ -175,15 +175,11 @@ function createRenderValue(key, value) {
               )
             }}
           </p>
-          <!-- <p class="text-B2 text-neutral-400">
-            {{ resultItem.profileByUser.jobDetails.job }}
-          </p> -->
           <!-- 姓名 -->
           <h2
             class="text-H4 text-neutral-600"
             :class="{
               'font-montserrat': !useIsChineseFunc(resultItem.profileByUser.nickNameDetails.nickName),
-              'text-primary-dark': isHovered,
             }"
           >
             {{ resultItem.profileByUser.nickNameDetails.nickName }}
@@ -228,11 +224,12 @@ function createRenderValue(key, value) {
           isLocked: props.resultItem.isLocked,
           createRenderResult,
           cardUserName: props.resultItem.profileByUser.nickNameDetails.nickName,
-          userId: props.resultItem.invitationId,
+          userId: props.resultItem.userId,
           isUnlock: props.resultItem.isUnlock,
           invitationTableId: props.resultItem._id,
           resultItem: props.resultItem,
           commentTableId: props.resultItem._id,
+          beCommentCount: props.resultItem.profileByUser.userStatus.commentCount,
         }"
       />
     </div>

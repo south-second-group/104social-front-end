@@ -10,6 +10,7 @@ const props = defineProps({
   invitationTableId: String,
   resultItem: Object,
   commentTableId: String,
+  beCommentCount: Number,
 })
 
 const router = useRouter()
@@ -167,8 +168,7 @@ function handleClick(status) {
     <button
       v-if="
         props.status === 'status8'
-          && props.isUnlock
-          && props.invitationStatus === 'accept'
+          && props.invitationStatus === 'finishDating'
       "
       class="btn-withIcon-fill mx-[1px] my-[3px] w-[132px] scale-90 md:mx-[6px] md:scale-100"
       @click="handleClick(props.status)"

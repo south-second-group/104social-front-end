@@ -130,7 +130,7 @@ onUnmounted(() => {
         </p>
       </div>
       <p class="text-B3 mt-1 text-end text-zinc-400 md:mt-0">
-        {{ chat.messages.length > 0 ? useFormattedTime(chat.messages[chat.messages.length - 1].createdAt) : '' }}
+        {{ useFormattedTime(chat.latestUpDate) }}
       </p>
     </div>
   </li>

@@ -3,6 +3,7 @@ import { blackListApi } from '~/apis/repositories/blackList' // 黑名單
 import { unlockCommentApi } from '~/apis/repositories/unlockComment' // 解鎖評價
 import { commentApi } from '~/apis/repositories/comment' // 評價
 import { inviteApi } from '~/apis/repositories/invite' // 邀約
+import { reducePointApi } from '~/apis/repositories/reducePoint'
 
 import { useCollectionsResultStore } from '~/store/collectionsResult'
 
@@ -86,10 +87,12 @@ function tempfunc() {
   isOpenModal.value = false
 }
 
-// 解鎖評價 wait
+// 解鎖評價
 async function unlockComment() {
   isLoading.value = true
   try {
+    await reducePointApi.reducePoint(5)
+
     await unlockCommentApi.unlockComment(props.userId)
     toastMessage.value = '解鎖評價成功'
     toastType.value = 'success'
@@ -108,7 +111,7 @@ async function unlockComment() {
   }
 }
 
-// 刪除評價 WAIT
+// 刪除評價
 async function deleteComment() {
   isLoading.value = true
   try {
@@ -118,7 +121,8 @@ async function deleteComment() {
     toastMessage.value = '刪除評價成功'
     toastType.value = 'success'
 
-    collectionsResult.updateInviteResultListCommentsCount(props.userId)
+    await collectionsResult.updateInviteResultListCommentsCount(props.userId)
+    await collectionsResult.deleteInviteResult(props.userId)
   }
   catch (error) {
     console.error({ error })
@@ -132,7 +136,7 @@ async function deleteComment() {
   }
 }
 
-// 刪除黑名單 wait
+// 恢復往來
 async function deleteBlackListById() {
   isLoading.value = true
   try {
@@ -154,7 +158,7 @@ async function deleteBlackListById() {
   }
 }
 
-// 新增黑名單 wait
+// 拒絕往來
 async function postBlackList() {
   isLoading.value = true
   try {
@@ -199,6 +203,7 @@ async function fetchAnswer() {
   inviteForm.message.content = ''
 
   try {
+    await reducePointApi.reducePoint(50)
     // inviteForm.message.content = await useGetGenerativeModelGP(
     //   JSON.stringify(theme),
     // )
@@ -229,7 +234,7 @@ async function fetchAnswer() {
   }
 }
 
-// 邀約-新增邀約 ok
+// 邀約-新增邀約
 async function postInvitation() {
   isLoading.value = true
   if (inviteForm.message.content.length === 0) {
@@ -243,7 +248,7 @@ async function postInvitation() {
     toastMessage.value = '邀約成功'
     toastType.value = 'success'
 
-    collectionsResult.updateInviteResultList(props.userId, { status: 'pending' })
+    collectionsResult.updateInviteResultList(props.userId, { invitation: { status: 'pending' } })
   }
   catch (error) {
     console.error({ error })
@@ -257,17 +262,15 @@ async function postInvitation() {
   }
 }
 
-// 邀約-取消邀約 ok
+// 邀約-取消邀約
 async function cancelInvitation() {
   isLoading.value = true
   try {
-    await inviteApi.cancelInvitation(tempInvitationTableId.value)
+    await inviteApi.cancelInvitation(tempInvitationTableId.value || props.invitationTableId)
     toastMessage.value = '取消邀約成功'
     toastType.value = 'success'
 
-    collectionsResult.updateInviteResultList(props.userId, {
-      status: 'cancel',
-    })
+    collectionsResult.updateInviteResultList(props.userId, { invitation: { status: 'cancel' } })
   }
   catch (error) {
     console.error({ error })
@@ -281,7 +284,7 @@ async function cancelInvitation() {
   }
 }
 
-// 邀約-完成約會 wait
+// 邀約-完成約會
 async function finishInvitationDating() {
   isLoading.value = true
   isCheer.value = true
@@ -290,7 +293,7 @@ async function finishInvitationDating() {
     toastMessage.value = '完成約會成功'
     toastType.value = 'success'
 
-    collectionsResult.updateInviteResultList(props.userId, { status: 'finishDating' })
+    collectionsResult.updateInviteResultList(props.userId, { invitation: { status: 'finishDating' } })
   }
   catch (error) {
     console.error({ error })
