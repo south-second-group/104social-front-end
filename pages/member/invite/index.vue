@@ -38,8 +38,8 @@ const inviteWhoListData = ref([])
 // 誰邀約我列表
 const inviteMeListData = ref([])
 
-const inviteResultStore = useInviteResultStore()
-const beInviteResultStore = useBeInviteResultStore()
+const inviteResult = useInviteResultStore()
+const beInviteResult = useBeInviteResultStore()
 
 async function loadData() {
   isDataLoading.value = true
@@ -51,7 +51,7 @@ async function loadData() {
       pagination.totalCount = data.pagination.totalCount || 0
 
       // 初始化 store 中的數據
-      inviteResultStore.result = inviteWhoListData.value
+      inviteResult.result = inviteWhoListData.value
     }
     else {
       const { data } = await inviteListApi.getInviteMeList(query)
@@ -60,7 +60,7 @@ async function loadData() {
       pagination.totalCount = data.pagination.totalCount || 0
 
       // 初始化 store 中的數據
-      beInviteResultStore.result = inviteMeListData.value
+      beInviteResult.result = inviteMeListData.value
     }
   }
   catch (error) {
@@ -85,7 +85,7 @@ watch(selectedItem, loadData)
 
 // 監聽 store 中 result 的變化
 watch(
-  () => inviteResultStore.result,
+  () => inviteResult.result,
   (newResult) => {
     if (selectedItem.value === '我邀約誰')
       inviteWhoListData.value = newResult
@@ -94,7 +94,7 @@ watch(
 )
 
 watch(
-  () => beInviteResultStore.result,
+  () => beInviteResult.result,
   (newResult) => {
     if (selectedItem.value === '誰邀約我')
       inviteMeListData.value = newResult
