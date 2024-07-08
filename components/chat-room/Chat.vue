@@ -32,6 +32,7 @@ watch(text, (newValue) => {
 socket.value.on('typing', (data) => {
   if (memberList[0].id === data.userId)
     typingAnimate.value = true
+  scrollToBottom()
 })
 
 socket.value.on('stopTyping', (data) => {
