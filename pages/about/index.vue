@@ -10,25 +10,39 @@ function hoverHandler(tab) {
     <div class="wrap">
       <div
         class="item"
-        data-order="1"
-        :class="{ 'item-hover': hoveredTab === '1' }"
-        @mouseenter="hoverHandler('1')"
+        data-order="里程碑二 Otis"
+        :class="{ 'item-hover': hoveredTab === 'otis' }"
+        style="
+          background-image: url('https://firebasestorage.googleapis.com/v0/b/abou-99a8a.appspot.com/o/148-No-Result-Found%201.jpg?alt=media&token=c84029f1-e224-45a8-9d33-5cf1cff2118a');"
+        @mouseenter="hoverHandler('otis')"
       ></div>
       <div
         class="item"
-        data-order="2"
+        data-order="里程碑三 群嘉"
       ></div>
       <div
         class="item"
-        data-order="3"
+        data-order="里程碑四 Eva"
+        :class="{ 'item-hover': hoveredTab === 'eva' }"
+        style="
+          background-image: url('https://firebasestorage.googleapis.com/v0/b/abou-99a8a.appspot.com/o/148-No-Result-Found%201.jpg?alt=media&token=c84029f1-e224-45a8-9d33-5cf1cff2118a');"
+        @mouseenter="hoverHandler('eva')"
       ></div>
       <div
         class="item"
-        data-order="4"
+        data-order="里程碑五 稚庭"
+        :class="{ 'item-hover': hoveredTab === 'eric' }"
+        style="
+          background-image: url('https://firebasestorage.googleapis.com/v0/b/abou-99a8a.appspot.com/o/148-No-Result-Found%201.jpg?alt=media&token=c84029f1-e224-45a8-9d33-5cf1cff2118a');"
+        @mouseenter="hoverHandler('eric')"
       ></div>
       <div
         class="item"
-        data-order="5"
+        data-order="里程碑六 Frank"
+        :class="{ 'item-hover': hoveredTab === 'frank' }"
+        style="
+          background-image: url('https://firebasestorage.googleapis.com/v0/b/abou-99a8a.appspot.com/o/148-No-Result-Found%201.jpg?alt=media&token=c84029f1-e224-45a8-9d33-5cf1cff2118a');"
+        @mouseenter="hoverHandler('frank')"
       ></div>
       <div
         class="item"
@@ -40,6 +54,10 @@ function hoverHandler(tab) {
       ></div>
     </div>
 
+    <aboutOtisComp :hovered-tab="hoveredTab" />
+    <aboutEvaComp :hovered-tab="hoveredTab" />
+    <aboutEricComp :hovered-tab="hoveredTab" />
+    <aboutFrankComp :hovered-tab="hoveredTab" />
     <aboutWilliamComp :hovered-tab="hoveredTab" />
   </main>
 </template>
