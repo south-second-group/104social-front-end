@@ -35,8 +35,8 @@ function hoverHandler(tab) {
         data-order="5"
       ></div>
       <div
-        class="item"
-        data-order="里程碑七 william"
+        class="item font-montserrat"
+        data-order="里程碑七 William"
         :class="{ 'item-hover': hoveredTab === 'william' }"
         style="
           background-image: url('https://firebasestorage.googleapis.com/v0/b/social-e030c.appspot.com/o/about%2FIMG_5026.jpg?alt=media&token=126ed273-0959-44d8-879e-8647c06d335c');"
