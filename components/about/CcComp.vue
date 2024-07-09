@@ -7,27 +7,27 @@ const props = defineProps({
 <template>
   <transition name="slide">
     <article
-      v-if="props.hoveredTab === 'eva'"
+      v-if="props.hoveredTab === 'cc'"
       class="article container mt-6 flex justify-center rounded-md pt-6"
     >
       <main class="main text-left">
         <h1 class="text-H3">
-          龔玉惠 Eva
+          群嘉
         </h1>
 
         <div>
           <h2>專案角色</h2>
-          <p>里程碑四 與設計師核對設計稿負責人</p>
+          <p>里程碑二 線稿進度負責人</p>
         </div>
 
         <div>
           <h2>主要職責</h2>
           <ul class="list-decimal space-y-2 pl-5">
             <li class="text-gray-700">
-              與設計師確認設計稿，確保設計符合需求和標準。
+              線稿分配
             </li>
             <li class="text-gray-700">
-              主持當週會議，準備會議議程,包括設計稿的確認狀況、確保所有議題都得到充分討論。
+              線稿進度追蹤
             </li>
           </ul>
         </div>
@@ -36,35 +36,39 @@ const props = defineProps({
           <h2>開發項目</h2>
           <ul class="list-decimal space-y-2 pl-5">
             <li>
-              撰寫前端專案 README
+              建立個人資料、邀約、被邀約、黑名單、評價model
             </li>
             <li>
-              前端切版：<br>登入、註冊、忘記密碼、重設密碼、儲值/訂閱方案列表、結帳頁
+              建立後端專案的swagger
             </li>
             <li>
-              前端串接 API：<br>登入、登出、註冊、忘記密碼、我的邀約、我的收藏、拒絕往來列表
+              建立邀約與被邀約的即時通知(sokcet.io)
+            </li>
+            <li>
+              建立個人資料、邀約、被邀約、黑名單、評價的後端邏輯
+            </li>
+            <li>
+              調整通知、收藏API
             </li>
           </ul>
         </div>
 
         <div>
           <h2>使用技術</h2>
-          <h3>前端</h3>
+          <h3>後端</h3>
           <p>
-            Nuxt 3 | Tailwind 3 | Pinia | Nuxt UI | Github Action | Eslint |
-            vee-validate | Gemini API | SEO | Git
+            Express 4 | MongoDB / mongoose | Socket.io | Google Login | TypeScript | JWT | Github Action | Eslint | Swagger | NewebPay | FireBase Storage | Docker | Nginx | Husky | Git
           </p>
         </div>
 
         <div>
           <h2>優化目標</h2>
-          <h3>前端</h3>
+          <h3>後端</h3>
           <ul class="list-decimal space-y-2 pl-5">
-            <li>提示視窗添加被邀請者資訊，提高使用者體驗</li>
-            <li>line登入邏輯</li>
-            <li>會員圖片從僅限單張，調整為一次上傳多張，且可指定顯示的大頭照</li>
-            <li>Vitest 單元測試</li>
-            <li>Playwright E2E測試</li>
+            <li>後台管理系統</li>
+            <li>unit test</li>
+            <li>後端專案容器化</li>
+            <li>Kubernetes 與  ELK Stack</li>
           </ul>
         </div>
 
@@ -72,7 +76,13 @@ const props = defineProps({
           聯絡信箱
         </h3>
         <p class="text-center">
-          <a href="mailto:evaevakung33@gmail.com">evaevakung33@gmail.com</a>
+          <a href="mailto:a121515222@gmail.com">a121515222@gmail.com</a>
+        </p>
+        <h3 class=" mt-3 text-center">
+          Github
+        </h3>
+        <p class="text-center">
+          <a href="https://github.com/a121515222">https://github.com/a121515222</a>
         </p>
       </main>
     </article>

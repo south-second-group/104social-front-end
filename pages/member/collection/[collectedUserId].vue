@@ -28,7 +28,7 @@ async function getCommentList() {
   isLoaded.value = true
   try {
     const res = await commentApi.getCommentList({
-      id: collectionDetails.value.userId,
+      id: collectionDetails.value.collectedUserId,
       page: 1,
     })
     apiData.value = res.data
@@ -152,6 +152,7 @@ watchEffect(async () => {
         v-else
         :src="collectionDetails.collectedUsers.photoDetails.photo"
         class="mx-auto size-[150px] rounded-full object-cover object-top"
+        :class="{ 'blur-md': collectionDetails.collectedUsers.photoDetails.isShow === false }"
       >
 
       <h1 class="text-H4 mt-24">
@@ -318,7 +319,7 @@ watchEffect(async () => {
             }}
             留下的評價</label>
           <p
-            v-if="renderData.isUnlock === true || renderData.isSubscribe === true"
+            v-if="collectionDetails.isUnlock === true || collectionDetails.isSubscribe === true"
             class="break-words rounded-md border-2 p-3"
           >
             {{ i.content }}

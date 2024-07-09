@@ -157,6 +157,7 @@ watchEffect(async () => {
         v-else
         :src="invitationDetails.profileByUser.photoDetails.photo"
         class="mx-auto size-[150px] rounded-full object-cover object-top"
+        :class="{ 'blur-md': invitationDetails.profileByUser.photoDetails.isShow === false }"
       >
 
       <h1 class="text-H4 mt-24">
@@ -299,7 +300,7 @@ watchEffect(async () => {
             }}
             留下的評價</label>
           <p
-            v-if="renderData.isUnlock === true || renderData.isSubscribe === true"
+            v-if="invitationDetails.isUnlock === true || invitationDetails.isSubscribe === true"
             class="break-words rounded-md border-2 p-3"
           >
             {{ i.content }}

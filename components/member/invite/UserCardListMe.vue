@@ -146,9 +146,10 @@ function createRenderValue(key, value) {
               :src="resultItem.profileByUser.photoDetails.photo"
               alt="s3-alpha-sig"
               class="mx-auto size-[150px] rounded-full border-2 border-neutral-300 object-contain object-center group-hover:blur-sm"
+              :class="{ 'blur-md': resultItem.profileByUser.photoDetails.isShow === false }"
             >
             <span
-              class="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 text-white group-hover:block "
+              class="text-shadow absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 text-white group-hover:block "
             >查看資訊</span>
           </div>
         </NuxtLink>
@@ -165,14 +166,19 @@ function createRenderValue(key, value) {
                 && resultItem.matchListSelfSettingByUser.workInfo
             "
             class="text-B2 text-neutral-400"
+            :class="{
+              '!text-neutral-300':
+                resultItem.matchListSelfSettingByUser.workInfo.occupation === 0,
+            }"
           >
             {{
-              renderValue(
-                'occupation',
-                resultItem.matchListSelfSettingByUser.workInfo.occupation === '請選擇'
-                  ? '保留職業資訊'
-                  : resultItem.matchListSelfSettingByUser.workInfo.occupation,
-              )
+              resultItem.matchListSelfSettingByUser.workInfo.occupation
+                === 0
+                ? '保留職業資訊'
+                : renderValue(
+                  'occupation',
+                  resultItem.matchListSelfSettingByUser.workInfo.occupation,
+                )
             }}
           </p>
           <!-- 姓名 -->
@@ -182,7 +188,7 @@ function createRenderValue(key, value) {
               'font-montserrat': !useIsChineseFunc(resultItem.profileByUser.nickNameDetails.nickName),
             }"
           >
-            {{ resultItem.profileByUser.nickNameDetails.nickName }}
+            {{ resultItem.profileByUser.nickNameDetails.isShow ? resultItem.profileByUser.nickNameDetails.nickName : '對方保留' }}
           </h2>
         </div>
 
@@ -190,7 +196,7 @@ function createRenderValue(key, value) {
         <p
           class="text-B2 line-clamp-2 text-neutral-600"
         >
-          {{ resultItem.profileByUser.introDetails.intro }}
+          {{ resultItem.profileByUser.introDetails.isShow ? resultItem.profileByUser.introDetails.intro : '對方保留' }}
         </p>
 
         <!-- 評分 -->

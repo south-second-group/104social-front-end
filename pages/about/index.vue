@@ -13,19 +13,23 @@ function hoverHandler(tab) {
         data-order="里程碑二 Otis"
         :class="{ 'item-hover': hoveredTab === 'otis' }"
         style="
-          background-image: url('https://firebasestorage.googleapis.com/v0/b/abou-99a8a.appspot.com/o/148-No-Result-Found%201.jpg?alt=media&token=c84029f1-e224-45a8-9d33-5cf1cff2118a');"
+          background-image: url('https://firebasestorage.googleapis.com/v0/b/social-e030c.appspot.com/o/about%2FOtis.jpg?alt=media&token=891b0cf1-1707-4ab7-8388-991cebbe8cd6');"
         @mouseenter="hoverHandler('otis')"
       ></div>
       <div
         class="item"
         data-order="里程碑三 群嘉"
+        :class="{ 'item-hover': hoveredTab === 'cc' }"
+        style="
+          background-image: url('https://firebasestorage.googleapis.com/v0/b/social-e030c.appspot.com/o/about%2F%E7%BE%A4%E5%98%89.jpg?alt=media&token=ce13a5e3-be84-4372-b60a-47dc4cfb8bd9');"
+        @mouseenter="hoverHandler('cc')"
       ></div>
       <div
         class="item"
         data-order="里程碑四 Eva"
         :class="{ 'item-hover': hoveredTab === 'eva' }"
         style="
-          background-image: url('https://firebasestorage.googleapis.com/v0/b/abou-99a8a.appspot.com/o/148-No-Result-Found%201.jpg?alt=media&token=c84029f1-e224-45a8-9d33-5cf1cff2118a');"
+          background-image: url('https://firebasestorage.googleapis.com/v0/b/social-e030c.appspot.com/o/about%2Feva.jpg?alt=media&token=0b6f178e-046c-4266-a5fd-5cc644fbabeb');"
         @mouseenter="hoverHandler('eva')"
       ></div>
       <div
@@ -55,6 +59,7 @@ function hoverHandler(tab) {
     </div>
 
     <aboutOtisComp :hovered-tab="hoveredTab" />
+    <aboutCcComp :hovered-tab="hoveredTab" />
     <aboutEvaComp :hovered-tab="hoveredTab" />
     <aboutEricComp :hovered-tab="hoveredTab" />
     <aboutFrankComp :hovered-tab="hoveredTab" />

@@ -139,8 +139,9 @@ const isLocked = false
               :src="resultItem.photoDetails.photo"
               alt="s3-alpha-sig"
               class="mx-auto size-[150px] rounded-full border-2 border-neutral-300 object-contain object-center group-hover:blur-sm"
+              :class="{ 'blur-md': resultItem.photoDetails.isShow === false }"
             >
-            <span class="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 text-white group-hover:block">
+            <span class="text-shadow absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 text-white group-hover:block">
               查看資訊
             </span>
           </div>
@@ -153,10 +154,9 @@ const isLocked = false
             class="text-H4 text-neutral-600"
             :class="{
               'font-montserrat': !useIsChineseFunc(resultItem?.nickNameDetails?.nickName),
-              'text-primary-dark': isHovered,
             }"
           >
-            {{ resultItem?.nickNameDetails?.nickName }}
+            {{ resultItem.nickNameDetails.isShow ? resultItem.nickNameDetails.nickName : '對方保留' }}
           </h2>
 
           <!-- 個人說明 -->
@@ -196,14 +196,19 @@ const isLocked = false
                 && resultItem.matchListSettings.workInfo
             "
             class="text-B2 text-neutral-500"
+            :class="{
+              '!text-neutral-300':
+                resultItem.matchListSettings.workInfo.occupation === 0,
+            }"
           >
             {{
-              renderValue(
-                'occupation',
-                resultItem.matchListSettings.workInfo.occupation === '請選擇'
-                  ? '保留職業資訊'
-                  : resultItem.matchListSettings.workInfo.occupation,
-              )
+              resultItem.matchListSettings.workInfo.occupation
+                === 0
+                ? '保留職業資訊'
+                : renderValue(
+                  'occupation',
+                  resultItem.matchListSettings.workInfo.occupation,
+                )
             }}
           </p>
           <p

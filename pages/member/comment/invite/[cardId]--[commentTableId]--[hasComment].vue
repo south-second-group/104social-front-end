@@ -147,15 +147,15 @@ function getKeyLabel(key) {
 function renderValue(key, value) {
   if (Array.isArray(value)) {
     return value
-      .map(v => matchListOptionData.value[0][key][v].label !== '請選擇'
-        ? matchListOptionData.value[0][key][v].label
-        : '對方保留')
+      .map((v) => {
+        const option = matchListOptionData.value[0] && matchListOptionData.value[0][key] && matchListOptionData.value[0][key][v]
+        return option && option.label !== '請選擇' ? option.label : '對方保留'
+      })
       .join('、')
   }
 
-  if (matchListOptionData.value[0][key][value].label !== '請選擇')
-    return matchListOptionData.value[0][key][value].label
-  else return '對方保留'
+  const option = matchListOptionData.value[0] && matchListOptionData.value[0][key] && matchListOptionData.value[0][key][value]
+  return option && option.label !== '請選擇' ? option.label : '對方保留'
 }
 </script>
 
@@ -172,20 +172,21 @@ function renderValue(key, value) {
     <div class="mx-auto max-w-[700px]">
       <!-- 圖片 -->
       <USkeleton
-        v-if="!isLoaded"
+        v-if="isLoaded === true"
         class="mx-auto mt-4 h-[300px] w-[250px]"
       />
       <img
         v-else
-        :src="renderData.profileByInvitedUser.photoDetails.photo"
+        :src="renderData?.profileByInvitedUser?.photoDetails?.photo"
         class="mx-auto size-[150px] rounded-full object-cover object-top"
+        :class="{ 'blur-md': renderData?.profileByInvitedUser?.photoDetails?.isShow === false }"
       >
 
       <h1 class="text-H4 mt-24">
-        被被評價人資訊
+        被評價人資訊
       </h1>
       <div
-        v-if="isLoaded"
+        v-if="!isLoaded && renderData"
         class="mt-6"
       >
         <div class="mb-4 grid w-full grid-cols-2 gap-x-6 gap-y-3">
@@ -195,11 +196,11 @@ function renderValue(key, value) {
             <span
               :class="{
                 'font-montserrat': !useIsChineseFunc(
-                  renderData.profileByInvitedUser.nickNameDetails.nickName,
+                  renderData?.profileByInvitedUser?.nickNameDetails?.nickName,
                 ),
-                'italic text-neutral-400': renderData.profileByInvitedUser.nickNameDetails.nickName === '',
+                'italic text-neutral-400': renderData?.profileByInvitedUser?.nickNameDetails?.nickName === '',
               }"
-            >{{ renderData.profileByInvitedUser.nickNameDetails.nickName || '對方保留' }}</span>
+            >{{ renderData?.profileByInvitedUser?.nickNameDetails?.nickName || '對方保留' }}</span>
           </div>
 
           <!-- LINE ID -->
@@ -208,16 +209,16 @@ function renderValue(key, value) {
             <span
               :class="{
                 'font-montserrat': !useIsChineseFunc(
-                  renderData.profileByInvitedUser.lineDetails.lineId,
+                  renderData?.profileByInvitedUser?.lineDetails?.lineId,
                 ),
-                'italic text-neutral-400': renderData.profileByInvitedUser.lineDetails.lineId === '',
+                'italic text-neutral-400': renderData?.profileByInvitedUser?.lineDetails?.lineId === '',
               }"
-            >{{ renderData.profileByInvitedUser.lineDetails.lineId || '對方保留' }}</span>
+            >{{ renderData?.profileByInvitedUser?.lineDetails?.lineId || '對方保留' }}</span>
           </div>
 
           <!-- 一般資訊 -->
           <div
-            v-for="(value, key) in renderData.matchListSelfSettingByInvitedUser.personalInfo"
+            v-for="(value, key) in renderData?.matchListSelfSettingByInvitedUser?.personalInfo"
             :key="key"
             class="mb-2 flex h-[35px] items-center"
           >
@@ -233,7 +234,7 @@ function renderValue(key, value) {
 
           <!-- 工作 -->
           <div
-            v-for="(value, key) in renderData.matchListSelfSettingByInvitedUser.workInfo"
+            v-for="(value, key) in renderData?.matchListSelfSettingByInvitedUser?.workInfo"
             :key="key"
             class="mb-2 flex h-[35px] items-center"
           >
@@ -253,10 +254,10 @@ function renderValue(key, value) {
             <div
               class="mt-3 flex flex-wrap items-center justify-start gap-2 rounded-md"
               :class="{
-                'italic text-neutral-400': renderData.profileByInvitedUser.introDetails.intro === '',
+                'italic text-neutral-400': renderData?.profileByInvitedUser?.introDetails?.intro === '',
               }"
             >
-              {{ renderData.profileByInvitedUser.introDetails.intro || '對方保留' }}
+              {{ renderData?.profileByInvitedUser?.introDetails?.intro || '對方保留' }}
             </div>
           </div>
 
@@ -265,18 +266,18 @@ function renderValue(key, value) {
             <label
               :class="{
                 'font-montserrat': !useIsChineseFunc(
-                  renderData.profileByInvitedUser.nickNameDetails.nickName,
+                  renderData?.profileByInvitedUser?.nickNameDetails?.nickName,
                 ),
               }"
-            >{{ renderData.profileByInvitedUser.nickNameDetails.nickName }} 的標籤：</label>
+            >{{ renderData?.profileByInvitedUser?.nickNameDetails?.nickName }} 的標籤：</label>
             <div
               class="mt-3 flex flex-wrap items-center justify-start gap-2 rounded-md"
               :class="{
-                'italic text-neutral-400': renderData.profileByInvitedUser.tags.length === 0,
+                'italic text-neutral-400': renderData?.profileByInvitedUser?.tags.length === 0,
               }"
             >
               <UBadge
-                v-for="i in renderData.profileByInvitedUser.tags"
+                v-for="i in renderData?.profileByInvitedUser?.tags"
                 :key="i"
                 class="btn-withIcon-outline-rwd pointer-events-none !rounded-lg !px-1 !py-[2px]"
               >
@@ -289,7 +290,7 @@ function renderValue(key, value) {
                   {{ i }}
                 </p>
               </UBadge>
-              {{ renderData.profileByInvitedUser.tags.length === 0 ? '對方保留' : '' }}
+              {{ renderData?.profileByInvitedUser?.tags?.length === 0 ? '對方保留' : '' }}
             </div>
           </div>
         </div>
@@ -374,12 +375,12 @@ function renderValue(key, value) {
       </div>
 
       <div
-        v-else
+        v-if="isLoaded"
         class="mt-6 space-y-3"
       >
         <USkeleton
-          v-for="item in 4"
-          :key="item.id"
+          v-for="index in 4"
+          :key="index"
           class="h-8 w-full bg-neutral-300"
         />
       </div>

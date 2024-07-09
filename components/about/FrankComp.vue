@@ -135,41 +135,41 @@ const props = defineProps({
           <p>
             JWT 實作 :
             <a
-              href="https://wistful-cod-85c.notion.site/JWT-0ca9525a8a844de5a670938e9131ab79"
+              href="https://wistful-cod-85c.notion.site/JWT-0ca9525a8a844de5a670938e9131ab79?pvs=4"
             >Notion 連結</a>
           </p>
           <p>
             NuxtUI 配置 :
             <a
-              href="https://github.com/south-second-group/104social-back-end/blob/main/service/ws.ts"
-            >GitHub 連結</a>
+              href="https://wistful-cod-85c.notion.site/NuxtUI-Icon-e5598fa99b454cc5a05758f21663ef63s"
+            >Notion 連結</a>
           </p>
           <p>
             GitHub Action 配置 :
             <a
-              href="https://github.com/south-second-group/104social-back-end/blob/main/routes/payment.ts"
-            >GitHub 連結</a>
+              href="https://wistful-cod-85c.notion.site/Github-Action-4ad981c65c854445ad052df9226e8865?pvs=4"
+            >Notion 連結</a>
           </p>
           <p>
             HttpOnly 配置 :
             <a
-              href="https://github.com/south-second-group/104social-back-end/blob/main/service/firebase.ts"
-            >GitHub 連結</a>
+              href="https://wistful-cod-85c.notion.site/HttpOnly-c4d064814e9e4bcab23076b82dd5b8fb?pvs=4"
+            >Notion 連結</a>
           </p>
           <p>
             漸層邊框元件化使用說明 :
             <a
-              href="https://github.com/south-second-group/104social-back-end/blob/main/routes/auth.ts"
-            >GitHub 連結</a>
+              href="https://wistful-cod-85c.notion.site/CSS-f26bb0f8038d41149220ef0e5e60d438?pvs=4"
+            >Notion 連結</a>
           </p>
         </div>
 
-        <h3 class=" mt-20 text-center">
+        <!-- <h3 class=" mt-20 text-center">
           聯絡信箱
         </h3>
         <p class="text-center">
           <a href="">-</a>
-        </p>
+        </p> -->
       </main>
     </article>
   </transition>

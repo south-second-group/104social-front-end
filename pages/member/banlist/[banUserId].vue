@@ -12,7 +12,6 @@ const toastType = ref('')
 
 // 評價資料
 const apiData = ref({})
-const renderData = ref([])
 
 // Loading 狀態
 const isLoaded = ref(false)
@@ -28,7 +27,7 @@ async function getCommentList() {
   isLoaded.value = true
   try {
     const res = await commentApi.getCommentList({
-      id: banDetails.value.userId,
+      id: banDetails.value._id,
       page: 1,
     })
     apiData.value = res.data
@@ -152,6 +151,7 @@ watchEffect(async () => {
         v-else
         :src="banDetails.photoDetails.photo"
         class="mx-auto size-[150px] rounded-full object-cover object-top"
+        :class="{ 'blur-md': banDetails.photoDetails.isShow === false }"
       >
 
       <h1 class="text-H4 mt-24">
@@ -275,7 +275,7 @@ watchEffect(async () => {
         </div>
 
         <!-- 大家的評價 -->
-        <div
+        <!-- <div
           v-for="i in apiData.comments"
           :key="i.id"
           class="mt-12 w-full space-y-3"
@@ -324,7 +324,7 @@ watchEffect(async () => {
               />
             </div>
           </div>
-        </div>
+        </div> -->
 
         <!-- 返回上一頁 -->
         <section class="mt-12 flex justify-center">
