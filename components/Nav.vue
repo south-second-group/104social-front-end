@@ -1,12 +1,66 @@
 <script setup>
 import { useRoute } from 'vue-router'
 import { auth } from '../apis/repositories/auth'
-import { initializeSocket } from '../apis/socket-io'
+import { notificationsAPI } from '../apis/repositories/notifications'
+import { initializeSocket, newNotification } from '../apis/socket-io'
+
+const userNotificationsStore = useNotificationsStore()
+const { notifications } = storeToRefs(userNotificationsStore)
+const { setNotifications, deleteNotifications, readAllNotificationStore }
+  = userNotificationsStore
+
+watch(
+  newNotification,
+  (newValue) => {
+    const now = new Date()
+    // console.log("notifications", notifications.value);
+    // console.log("newValue", newValue);
+    const newNote = {
+      createdAt: now,
+      id: newValue.id,
+      isRead: false,
+      message: {
+        content: newValue.content,
+        title: newValue.title,
+      },
+      type: 1,
+      updatedAt: now,
+      user: [{
+        id: newValue.userId,
+        personalInfo: {
+          username: newValue.nickNameDetails.nickName,
+        },
+      }],
+    }
+    setNotifications([
+      ...notifications.value,
+      newNote,
+    ])
+    toast(`收到來自 ${newValue.nickNameDetails.nickName} 的邀約訊息`, 'success')
+    // console.log('newNote', newNote)
+  },
+  { deep: true },
+)
 
 const memberStore = useMemberStore()
 const userDataStore = useUserDataStore()
 const { userData } = storeToRefs(userDataStore)
 const { setUserData, deleteUserData } = userDataStore
+
+async function readAll() {
+  const res = await notificationsAPI.readAllNotifications()
+  if (res.status)
+    readAllNotificationStore()
+}
+
+const newNotificationsCount = ref(0)
+watch(
+  notifications,
+  (newValue) => {
+    newNotificationsCount.value = newValue.filter(e => !e.isRead).length
+  },
+  { immediate: true, deep: true },
+)
 
 const router = useRouter()
 const route = useRoute()
@@ -24,7 +78,11 @@ async function verify() {
     if (response.status === true) {
       setUserData(response.data)
       isLoggedIn.value = true
-      initializeSocket(response.data.userId)
+      if (isLoggedIn.value) {
+        memberStore.getMemberData()
+        initializeSocket(response.data.userId)
+        getNotifications()
+      }
     }
     else {
       isLoggedIn.value = false
@@ -54,9 +112,24 @@ function closeModalAndPushRouter() {
   router.push('/notifications')
 }
 
+async function getNotifications() {
+  try {
+    const response = await notificationsAPI.getUserNotifications()
+    if (response.status) {
+      deleteNotifications()
+      setNotifications(response.data)
+    }
+  }
+  catch (error) {
+    if (notifications.value !== null)
+      deleteNotifications()
+
+    const errorMessage = error.response
+  }
+}
+
 onMounted(async () => {
   checkLoginStatus()
-  memberStore.getMemberData()
 })
 
 // 登出
@@ -66,6 +139,7 @@ async function logout() {
     if (response.status === true) {
       isLoggedIn.value = false
       isOpenSlide.value = false // 手機版收起漢堡選單
+      deleteNotifications() // 清空通知訊息
       deleteUserData() // 清空 userData
       toast('登出成功！', 'success')
       setTimeout(() => {
@@ -110,6 +184,12 @@ function toast(message, type) {
                 @click="isOpenModal = true"
               >
                 <icon-heroicons:bell-alert class="size-6" />
+                <UChip
+                  :text="newNotificationsCount"
+                  :show="newNotificationsCount > 0"
+                  class="mb-auto"
+                  size="2xl"
+                />
               </UButton>
               <UModal
                 v-model="isOpenModal"
@@ -141,7 +221,9 @@ function toast(message, type) {
                       </NuxtLink>
                     </div>
                     <div class="flex gap-[22px]">
-                      <p>全部已讀</p>
+                      <p v-if="notifications.length > 0">
+                        全部已讀
+                      </p>
                       <UButton
                         color="gray"
                         variant="ghost"
@@ -341,24 +423,24 @@ function toast(message, type) {
               class="nav-items p-2"
             >
               <UPopover :popper="{ placement: 'bottom-end' }">
-                <UChip
-                  text="3"
-                  size="2xl"
+                <UButton
+                  :class="[
+                    buttonClass('/notifications'),
+                    { active: isActive('/notifications') },
+                  ]"
+                  color="white"
+                  class="no-border-no-shadow text-B2 p-0"
                 >
-                  <UButton
-                    :class="[
-                      buttonClass('/notifications'),
-                      { active: isActive('/notifications') },
-                    ]"
-                    color="white"
-                    class="no-border-no-shadow text-B2 p-0"
-                  >
-                    <icon-heroicons:sparkles-solid />
-                    <p class="font-bold">
-                      站內通知
-                    </p>
-                  </UButton>
-                </UChip>
+                  <icon-heroicons:sparkles-solid />
+                  <p class="font-bold">
+                    站內通知
+                  </p>
+                </UButton>
+                <UChip
+                  :text="newNotificationsCount"
+                  :show="newNotificationsCount > 0"
+                  size="2xl"
+                />
                 <template #panel="{ close }">
                   <div class="linear-border rounded-md p-4">
                     <NotificationCard />
@@ -375,7 +457,10 @@ function toast(message, type) {
                       </div>
                       <div class="flex gap-2">
                         <div class="p-2">
-                          <p class="text-base">
+                          <p
+                            class="cursor-pointer text-base"
+                            @click="readAll"
+                          >
                             全部已讀
                           </p>
                         </div>
@@ -455,7 +540,7 @@ function toast(message, type) {
 }
 
 h2 {
-  background-image: url('../assets/img/logo.png');
+  background-image: url("../assets/img/logo.png");
   background-size: cover;
   background-position: center;
   overflow: hidden;
