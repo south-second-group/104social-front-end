@@ -48,7 +48,7 @@ const renderList = notifications.value
       category: i.type === 1 ? 'invite' : 'system',
       type: 'text',
       slot: 'mail',
-      title: `${i.user[0].personalInfo.username} 向你發送了邀約訊息`,
+      title: `來自 ${i.user[0].personalInfo.username} 的訊息`,
       defaultOpen: false,
       date: useFormattedTime(i.updatedAt),
       contents: {
@@ -172,9 +172,9 @@ function changeTab(tab) {
                 :item="item"
                 class="rounded-[10px] border-2 border-primary-light p-4 text-start text-gray-900 dark:text-white md:p-6"
               >
-                <p class="mb-3">
+                <!-- <p class="mb-3">
                   {{ item.contents.head }}
-                </p>
+                </p> -->
                 <p>{{ item.contents.body }}</p>
                 <div class="flex justify-center">
                   <NuxtLink

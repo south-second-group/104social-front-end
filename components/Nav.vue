@@ -36,7 +36,7 @@ watch(
       ...notifications.value,
       newNote,
     ])
-    toast(`收到來自 ${newValue.nickNameDetails.nickName} 的邀約訊息`, 'success')
+    toast(`收到來自 ${newValue.nickNameDetails.nickName} 的訊息`, 'success')
     // console.log('newNote', newNote)
   },
   { deep: true },

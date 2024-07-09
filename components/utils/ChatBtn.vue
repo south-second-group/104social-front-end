@@ -2,7 +2,11 @@
 import { chatHistoryList } from '../apis/socket-io.js'
 import { chatAPI } from '~/apis/repositories/chat'
 
-const { userId } = defineProps({
+// const { userId } = defineProps({
+//   userId: String,
+// })
+
+const props = defineProps({
   userId: String,
 })
 
@@ -11,14 +15,14 @@ const ChatRoomStatus = useChatRoomStatusStore()
 async function addChatList() {
   ChatRoomStatus.toggleSlideOver()
   try {
-    const res = await chatAPI.addChatList({ receiverId: userId })
+    const res = await chatAPI.addChatList({ receiverId: props.userId })
     if (res.status) {
       const { data } = res
       if (!data.roomId) {
         let username = ''
         let photo = ''
         data.members.forEach((i) => {
-          if (i.id === userId) {
+          if (i.id === props.userId) {
             username = i.username
             photo = i.photo
           }
@@ -27,7 +31,7 @@ async function addChatList() {
           members: [{
             username,
             photo,
-            id: userId,
+            id: props.userId,
           }],
           messages: [],
           roomId: data._id,
