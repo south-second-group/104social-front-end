@@ -41,6 +41,7 @@ async function login() {
     userDataStore.setEmail(response.data.email)
     userDataStore.setUserId(response.data.userId)
     userDataStore.setIsSubscribe(response.data.isSubscribe)
+    userDataStore.setToken(response.data.token)
     toast('登入成功！正在跳轉...', 'success')
     setTimeout(() => {
       router.push('/')

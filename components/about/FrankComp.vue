@@ -141,7 +141,7 @@ const props = defineProps({
           <p>
             NuxtUI 配置 :
             <a
-              href="https://wistful-cod-85c.notion.site/NuxtUI-Icon-e5598fa99b454cc5a05758f21663ef63s"
+              href="https://wistful-cod-85c.notion.site/NuxtUI-Icon-e5598fa99b454cc5a05758f21663ef63?pvs=4"
             >Notion 連結</a>
           </p>
           <p>
@@ -164,12 +164,12 @@ const props = defineProps({
           </p>
         </div>
 
-        <!-- <h3 class=" mt-20 text-center">
+        <h3 class=" mt-20 text-center">
           聯絡信箱
         </h3>
         <p class="text-center">
-          <a href="">-</a>
-        </p> -->
+          <a href="mailto:a0978006326@gmail.com">a0978006326@gmail.com</a>
+        </p>
       </main>
     </article>
   </transition>

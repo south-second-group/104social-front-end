@@ -45,7 +45,7 @@ function hoverHandler(tab) {
         data-order="里程碑六 Frank"
         :class="{ 'item-hover': hoveredTab === 'frank' }"
         style="
-          background-image: url('https://firebasestorage.googleapis.com/v0/b/abou-99a8a.appspot.com/o/148-No-Result-Found%201.jpg?alt=media&token=c84029f1-e224-45a8-9d33-5cf1cff2118a');"
+          background-image: url('https://firebasestorage.googleapis.com/v0/b/social-e030c.appspot.com/o/about%2FFrank.jpg?alt=media&token=e7d27f1d-daa7-4f8a-9d96-f207bbf615c5');"
         @mouseenter="hoverHandler('frank')"
       ></div>
       <div

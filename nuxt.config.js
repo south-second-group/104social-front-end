@@ -77,6 +77,9 @@ export default defineNuxtConfig({
       meta: [{
         name: 'description',
         content: appDescription,
+      }, {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1.0, user-scalable=no',
       }],
     },
   },
