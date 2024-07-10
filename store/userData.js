@@ -5,14 +5,11 @@ export const useUserDataStore = defineStore('userData', () => {
     userData.value = data
   }
 
-  function deleteUserData() {
-    userData.value = null
-  }
-
   const name = ref(null)
   const email = ref(null)
   const userId = ref(null)
   const isSubscribe = ref(null)
+  const token = ref(null)
 
   const setName = (newName) => {
     name.value = newName
@@ -30,6 +27,19 @@ export const useUserDataStore = defineStore('userData', () => {
     isSubscribe.value = newIsSubscribe
   }
 
+  const setToken = (newToken) => {
+    token.value = newToken
+  }
+
+  function deleteUserData() {
+    userData.value = null
+    name.value = null
+    email.value = null
+    userId.value = null
+    isSubscribe.value = null
+    token.value = null
+  }
+
   return {
     userData,
     setUserData,
@@ -42,6 +52,8 @@ export const useUserDataStore = defineStore('userData', () => {
     setUserId,
     isSubscribe,
     setIsSubscribe,
+    token,
+    setToken,
   }
 }, {
   persist: {
