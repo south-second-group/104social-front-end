@@ -70,10 +70,12 @@ function toggleShowPassword() {
 }
 
 // token
+const userDataStore = useUserDataStore()
 const token = ref(route.params.token)
 
 useAsyncData(async () => {
   if (token.value) {
+    userDataStore.setToken(token.value)
     try {
       const res = await auth.googleWriteCookie(token.value)
       if (res.status) {
