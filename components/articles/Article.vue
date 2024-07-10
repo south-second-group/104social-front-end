@@ -1,6 +1,6 @@
 <script setup>
-const props = defineProps(['cover', 'title', 'sub'])
-const { cover, title, sub } = props
+const props = defineProps(['cover', 'title', 'sub', 'id'])
+const { cover, title, sub, id } = props
 
 const isDesktop = ref(false)
 
@@ -20,7 +20,7 @@ onUnmounted(() => {
 
 <template>
   <NuxtLink
-    to="/articles/article"
+    :to="`/articles/${id}`"
     class="px-4 pb-4"
     :class="{ 'linear-border-bottom': !isDesktop }"
   >
