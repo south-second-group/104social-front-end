@@ -125,7 +125,7 @@ function createRenderValue(key, value) {
         <NuxtLink
           :to="`/member/card/${resultItem.matchListSelfSetting.userId}`"
         >
-          <div class="group relative overflow-hidden rounded-full border-2 border-neutral-300">
+          <div class="group relative mx-auto size-[150px] overflow-hidden rounded-full border-2 border-neutral-300">
             <img
               :src="resultItem.profile.photoDetails.photo"
               alt="s3-alpha-sig"
