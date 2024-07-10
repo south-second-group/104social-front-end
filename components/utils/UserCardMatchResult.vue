@@ -125,11 +125,11 @@ function createRenderValue(key, value) {
         <NuxtLink
           :to="`/member/card/${resultItem.matchListSelfSetting.userId}`"
         >
-          <div class="group relative">
+          <div class="group relative mx-auto size-[150px] overflow-hidden rounded-full border-2 border-neutral-300">
             <img
               :src="resultItem.profile.photoDetails.photo"
               alt="s3-alpha-sig"
-              class="mx-auto size-[150px] rounded-full border-2 border-neutral-300 object-contain object-center group-hover:blur-sm"
+              class="mx-auto size-[150px]   object-contain object-center group-hover:blur-sm"
               :class="{ 'blur-md': resultItem.profile.photoDetails.isShow === false }"
             >
             <span
@@ -309,7 +309,6 @@ function createRenderValue(key, value) {
             invitationTableId: resultItem.invitationTableId,
             beInvitationTableId: resultItem.beInvitationTableId,
             commentTableId: resultItem.commentTableId,
-            isSubscribe: resultItem.userInfo.isSubscribe,
           }"
         />
       </ClientOnly>

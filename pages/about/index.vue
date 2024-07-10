@@ -1,4 +1,8 @@
 <script setup>
+useHead({
+  title: '關於我們',
+})
+
 const hoveredTab = ref('')
 function hoverHandler(tab) {
   hoveredTab.value = tab
@@ -49,8 +53,8 @@ function hoverHandler(tab) {
         @mouseenter="hoverHandler('frank')"
       ></div>
       <div
-        class="item"
-        data-order="里程碑七 william"
+        class="item font-montserrat"
+        data-order="里程碑七 William"
         :class="{ 'item-hover': hoveredTab === 'william' }"
         style="
           background-image: url('https://firebasestorage.googleapis.com/v0/b/social-e030c.appspot.com/o/about%2FIMG_5026.jpg?alt=media&token=126ed273-0959-44d8-879e-8647c06d335c');"
@@ -69,7 +73,7 @@ function hoverHandler(tab) {
 
 <style lang="scss" scoped>
 .wrap {
-  margin: 0 auto;
+  margin: 50px auto 0;
   width: 100%;
   max-width: 1000px;
   height: 400px;

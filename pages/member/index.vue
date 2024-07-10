@@ -3,6 +3,10 @@ definePageMeta({
   middleware: 'auth',
 })
 
+useHead({
+  title: '會員資料',
+})
+
 // toast
 const toastMessage = ref('')
 const toastType = ref('')

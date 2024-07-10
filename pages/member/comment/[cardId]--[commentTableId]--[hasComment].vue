@@ -78,6 +78,7 @@ const postCommentForm = reactive({
   commentedUserId: route.params.cardId,
   content: '',
   score: 0,
+  id: renderData.value.invitationTableId,
 })
 
 watch(
@@ -96,6 +97,7 @@ async function postComment() {
       .then((res) => {
         tempCommentTableId = res.data._id
 
+        window.scrollTo(0, 0)
         toastMessage.value = res.message
         toastType.value = 'success'
       })
@@ -178,7 +180,7 @@ function renderValue(key, value) {
 </script>
 
 <template>
-  <div class="container relative p-3 text-start md:px-12">
+  <div class="container relative p-3 text-start text-sm md:px-12 md:text-lg ">
     <!-- {{ apiData }} -->
     <!-- {{ renderData }} -->
 
@@ -208,25 +210,25 @@ function renderValue(key, value) {
       >
         <div class="mb-4 grid w-full grid-cols-2 gap-x-6 gap-y-3">
           <div class="flex h-[35px] items-center">
-            <label class="mr-4 w-24 align-middle"> 姓名：</label>
+            <label class="align-middle md:mr-4 md:w-24"> 姓名：</label>
             <span
               :class="{
                 'font-montserrat': !useIsChineseFunc(
                   renderData.profile.nickNameDetails.nickName,
                 ),
-                'italic text-neutral-400': renderData.profile.nickNameDetails.nickName === '',
+                'italic text-neutral-400': !renderData.profile.nickNameDetails.isShow,
               }"
             >{{ renderData.profile.nickNameDetails.isShow ? renderData.profile.nickNameDetails.nickName : '對方保留' }}</span>
           </div>
 
           <div class="flex h-[35px] items-center">
-            <label class="mr-4 w-24 align-middle"> LINE ID：</label>
+            <label class="align-middle md:mr-4 md:w-24"> LINE ID：</label>
             <span
               :class="{
                 'font-montserrat': !useIsChineseFunc(
                   renderData.profile.lineDetails.lineId,
                 ),
-                'italic text-neutral-400': renderData.profile.lineDetails.lineId === '',
+                'italic text-neutral-400': !renderData.profile.lineDetails.isShow,
               }"
             >{{ renderData.profile.lineDetails.isShow ? renderData.profile.lineDetails.lineId : '對方保留' }}</span>
           </div>
@@ -236,7 +238,7 @@ function renderValue(key, value) {
             :key="key"
             class="mb-2 flex h-[35px] items-center"
           >
-            <label class="mr-4 w-24 align-middle">
+            <label class="align-middle md:mr-4 md:w-24">
               {{ `${getKeyLabel(key)}：` }}
             </label>
             <span
@@ -251,7 +253,7 @@ function renderValue(key, value) {
             :key="key"
             class="mb-2 flex h-[35px] items-center"
           >
-            <label class="mr-4 w-24 align-middle">
+            <label class="align-middle md:mr-4 md:w-24">
               {{ `${getKeyLabel(key)}：` }}
             </label>
             <span
@@ -307,10 +309,7 @@ function renderValue(key, value) {
         </div>
 
         <div class="mt-12 w-full space-y-3">
-          <label
-            class="text-H4"
-            for=""
-          >見面心得</label>
+          <label>見面心得</label>
           <p
             v-if="hasComment === 'true'"
             class="rounded-md border-2 p-3"
@@ -327,10 +326,7 @@ function renderValue(key, value) {
         </div>
 
         <div class="mt-12 w-full space-y-3">
-          <label
-            class="text-H4"
-            for=""
-          >整體評價</label>
+          <label>整體評價</label>
           <div
             v-if="hasComment === 'true'"
             class="flex"
@@ -338,7 +334,7 @@ function renderValue(key, value) {
             <icon-heroicons:heart-solid
               v-for="heart in 5"
               :key="heart"
-              class="size-10"
+              class="md:size-10"
               :class="{
                 'text-primary-dark': heart <= apiData.score,
                 'text-gray-300': heart > apiData.score,
