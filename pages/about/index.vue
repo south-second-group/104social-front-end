@@ -50,7 +50,7 @@ function hoverHandler(tab) {
 
 <style lang="scss" scoped>
 .wrap {
-  margin: 0 auto;
+  margin: 50px auto 0;
   width: 100%;
   max-width: 1000px;
   height: 400px;

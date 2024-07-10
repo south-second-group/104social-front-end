@@ -57,7 +57,7 @@ function createRenderValue(key, value) {
     <div
       class="shadow-primary-light-800/10 border-real-transparent card-border mx-auto w-[300px] rounded-lg border-2 bg-white shadow transition duration-150 ease-in-out lg:flex lg:w-full"
     >
-      <div class="shrink-0">
+      <div class="shrink-0 overflow-hidden">
         <NuxtImg
           :src="member.profile.photoDetails.photo"
           alt="member_image"

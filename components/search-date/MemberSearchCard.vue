@@ -62,11 +62,11 @@ function createRenderValue(key, value) {
       </span>
     </div>
     <div class="flex w-full flex-col lg:flex-row">
-      <div class="mb-4 shrink-0 self-center lg:mb-0 lg:me-6">
+      <div class="mb-4 shrink-0 self-center overflow-hidden rounded-full border-2 border-neutral-300 lg:mb-0 lg:me-6">
         <NuxtImg
           :src="resultItem.profile.photoDetails.photo"
           :alt="resultItem.profile.photoDetails.photo"
-          class="size-[150px] overflow-hidden rounded-full object-contain"
+          class="size-[150px]   object-contain"
           :class="{ 'blur-md': resultItem.profile.photoDetails.isShow === false }"
         />
       </div>
