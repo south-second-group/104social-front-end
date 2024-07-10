@@ -12,7 +12,7 @@ const props = defineProps({
     >
       <main class="main text-left">
         <h1 class="text-H3">
-          陳威良 William
+          陳威良 <span class=" font-montserrat">William</span>
         </h1>
 
         <div>
@@ -26,7 +26,7 @@ const props = defineProps({
           <h2>主要職責</h2>
           <ul class="list-decimal space-y-2 pl-5">
             <li class="text-gray-700">
-              主持每週團內會議，確認每個人的開發進度，討論技術內容和需要協助的地方，適時提供想法、建議或技術經驗
+              主持每週會議，確認每個人的開發進度，討論技術內容和需要協助的地方，適時提供想法、建議或技術經驗
             </li>
             <li class="text-gray-700">
               確認進度後，規劃每個人下個開發目標，分配開發議題，避免個人負責過多項目
@@ -51,7 +51,7 @@ const props = defineProps({
               Google、GitHub、Mongo atlas、Vercel、Render
             </li>
             <li>
-              專案建置：
+              專案初始建置：
               <ul class="list-disc space-y-2 pl-5">
                 <li>前端專案 (Nuxt / Tailwind / Nuxt UI / Pinia)</li>
                 <li>
@@ -60,7 +60,7 @@ const props = defineProps({
               </ul>
             </li>
             <li>
-              專案部署：
+              專案部署雲端：
               <ul class="list-disc space-y-2 pl-5">
                 <li>前端專案部署 Vercel</li>
                 <li>
@@ -69,21 +69,36 @@ const props = defineProps({
               </ul>
             </li>
             <li>
-              前端切版：<br>邀約/評價/收藏/拒絕往來列表、評價內頁、配對設定、配對結果、登入註冊動畫、Tailwind設定檔、Utils
-              各種元件（按鈕、彈窗、卡片）
+              前端畫面切版：<br>邀約/評價/收藏/拒絕往來列表、評價內頁、配對設定、配對結果、登入註冊動畫、關於我們頁、Tailwind設定檔、<NuxtLink
+                target="_blank"
+                to="/demo/FigmaDemoPage"
+              >
+                Utils
+                各種元件（按鈕、彈窗、卡片）
+              </NuxtLink>
             </li>
             <li>
-              前端串接 API：<br>Gemini
-              API、首頁搜尋、首頁精選、搜尋對象頁、條件設定、配對設定、配對結果、評價列表
+              前端串接 API：<br><NuxtLink
+                target="_blank"
+                to="https://github.com/south-second-group/104social-front-end/blob/main/composables/useGetGenerativeModelGP.js"
+              >
+                Gemini
+                API
+              </NuxtLink>、首頁搜尋、首頁精選、搜尋對象頁、條件設定、配對設定、配對結果、評價列表
             </li>
             <li>
-              後端開發 API：<br>關鍵字和標籤搜尋、會員條件設定、配對設定、配對結果、評價列表、精選會員、扣除點數、可能也喜歡推薦
+              後端開發 API：<br><NuxtLink
+                target="_blank"
+                to="https://github.com/roceil/104_Backend/blob/main/src/controllers/searchController.ts"
+              >
+                關鍵字和標籤搜尋
+              </NuxtLink>、會員條件設定、配對設定、配對結果、評價列表、精選會員、扣除點數、可能也喜歡推薦
             </li>
             <li>
-              QA 測試：<br>全站功能測試，若有問題，回報問題後，提供想法、解決方案、嘗試協助解決
+              QA 功能測試：<br>全站功能測試，若有問題，回報問題後，提供想法、解決方案、嘗試協助解決
             </li>
             <li>
-              SEO 優化：
+              SEO 搜尋優化：
               <ul class="list-disc space-y-2 pl-5">
                 <li>提交 Google search console / Microsoft Webmaster Tools</li>
                 <li>使用 HTML 標記驗證</li>
@@ -98,12 +113,12 @@ const props = defineProps({
         <div>
           <h2>使用技術</h2>
           <h3>前端</h3>
-          <p>
+          <p class=" font-montserrat">
             Nuxt 3 | Tailwind 3 | Pinia | Nuxt UI | Github Action | Eslint |
             vee-validate | Gemini API | SEO | Husky | Git
           </p>
           <h3>後端</h3>
-          <p>
+          <p class=" font-montserrat">
             Express 4 | MongoDB / mongoose | Socket.io | Google Login |
             TypeScript | JWT | Github Action | Eslint | Swagger | NewebPay |
             FireBase Storage | Docker | Nginx | Husky | Git
@@ -117,59 +132,68 @@ const props = defineProps({
             <li>效能優化</li>
             <li>Vitest 單元測試</li>
             <li>Playwright E2E測試</li>
-            <li>細節：搜尋頁無需登入、卡片內頁細節、精選文章功能、幸福案例功能、統一管理載入或提示狀態</li>
+            <li>i18n 國際化</li>
+            <li>細節：搜尋頁無需登入、卡片內頁介面細節、精選文章功能、統一管理載入或提示狀態、是否刊登和持續配對邏輯、管理者後台</li>
           </ul>
           <h3>後端</h3>
           <ul class="list-decimal space-y-2 pl-5">
+            <li>負載平衡</li>
             <li>Jest 單元測試</li>
             <li>Docker 容器化技術</li>
             <li>GCP 雲端部署</li>
-            <li>細節：熱門標籤統計、配對/刊登/資料揭露邏輯、搜尋/配對資料邏輯、卡片內頁取得各列表單筆資料、近期刊登列表</li>
+            <li>細節：熱門標籤統計、配對/刊登/資料揭露邏輯、搜尋/配對資料邏輯、卡片內頁取得各列表單筆資料、近期刊登列表、管理者後台</li>
           </ul>
         </div>
 
         <div>
           <h2>技術支援分享</h2>
-          <h3>Websocket (通知、聊天)</h3>
+          <h3>Websocket (通知、聊天) </h3>
           <p>
-            前端：
+            <NuxtLink
+              target="_blank"
+              to="/demo/WsDemoPage"
+            >
+              DEMO
+            </NuxtLink>
+            <a
+              target="_blank"
+              href="https://one04social-back-end.onrender.com/api-doc/#/test%20Users/post_api_test_v1_user_login"
+            > (需輸入 Swagger 文件中的登入 API 的 token )</a>
+          </p>
+          <p>
+            前端
             <a
               href="https://github.com/south-second-group/104social-front-end/blob/main/pages/demo/WsDemoPage.vue"
             >GitHub</a>
           </p>
           <p>
-            後端：
-            <a
-              href="https://github.com/south-second-group/104social-back-end/blob/main/service/ws.ts"
-            >GitHub</a>
+            後端
+            <a href="https://github.com/south-second-group/104social-back-end/blob/main/service/ws.ts">GitHub</a>
           </p>
           <h3>藍新金流</h3>
           <p>
-            <a
-              href="https://github.com/south-second-group/104social-back-end/blob/main/routes/payment.ts"
-            >GitHub</a>
+            <a href="https://github.com/south-second-group/104social-back-end/blob/main/routes/payment.ts">GitHub</a>
           </p>
           <h3>FireBase Storage 圖庫</h3>
           <p>
-            <a
-              href="https://github.com/south-second-group/104social-back-end/blob/main/service/firebase.ts"
-            >GitHub</a>
+            <a href="https://github.com/south-second-group/104social-back-end/blob/main/service/firebase.ts">GitHub</a>
           </p>
           <h3>Google 第三方登入</h3>
           <p>
-            <a
-              href="https://github.com/south-second-group/104social-back-end/blob/main/routes/auth.ts"
-            >GitHub</a>
+            <a href="https://github.com/south-second-group/104social-back-end/blob/main/routes/auth.ts">GitHub</a>
           </p>
         </div>
 
         <div>
-          <h2>Contributions to main, excluding merge commits（Apr 14, 2024 – Jul 2, 2024）</h2>
+          <h2 class="font-montserrat">
+            Contributions to main, excluding merge commits（Apr 14, 2024 – Jul 2, 2024）
+          </h2>
           <div class=" flex flex-col justify-center gap-3 md:flex-row">
             <div class="md:w-1/2 ">
               <p>
                 <a
-                  class=" !underline"
+                  target="_blank"
+                  class=" font-montserrat !underline"
                   href="https://github.com/south-second-group/104social-front-end/graphs/contributors"
                 >front-end</a>
               </p>
@@ -182,7 +206,8 @@ const props = defineProps({
             <div class="md:w-1/2 ">
               <p>
                 <a
-                  class=" !underline"
+                  target="_blank"
+                  class=" font-montserrat !underline"
                   href="https://github.com/roceil/104_Backend/graphs/contributors"
                 >back-end</a>
               </p>
@@ -199,7 +224,10 @@ const props = defineProps({
           聯絡信箱
         </h3>
         <p class="text-center">
-          <a href="mailto:snowman12320@gmail.com">snowman12320@gmail.com</a>
+          <a
+            class=" font-montserrat"
+            href="mailto:snowman12320@gmail.com"
+          >snowman12320@gmail.com</a>
         </p>
       </main>
     </article>
@@ -215,22 +243,18 @@ const props = defineProps({
 
 .slide-enter-active,
 .slide-leave-active {
-  // transition: all 1s ease-in-out;
-  // overflow: hidden;
+  transition: all 300ms ease-in-out;
 }
 .slide-enter,
 .slide-leave-to {
-  // max-height: 0;
-  // opacity: 0;
+  opacity: 0;
 }
 .slide-enter-to,
 .slide-leave {
-  // max-height: 1000px;
-  // opacity: 1;
+  opacity: 1;
 }
 
 .main {
-  font-family: Arial, sans-serif;
   line-height: 1.6;
   color: #333;
   max-width: 800px;

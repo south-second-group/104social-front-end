@@ -8,6 +8,7 @@ const router = useRouter()
 const matchResult = useMatchResultStore()
 const searchCriteriaStore = useSearchCriteriaStore()
 const commentList = useCommentStore()
+const userDataStore = useUserDataStore()
 
 const apiData = ref({})
 const isLoaded = ref(false)
@@ -172,7 +173,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="container relative p-3 text-start md:px-12">
+  <div class="container relative p-3 text-start text-sm md:px-12 md:text-lg">
     <Toast
       :toast-message="toastMessage"
       :toast-type="toastType"
@@ -202,13 +203,13 @@ watchEffect(() => {
       >
         <div class="mb-4 grid w-full grid-cols-2 gap-x-6 gap-y-3">
           <div class="flex h-[35px] items-center">
-            <label class="mr-4 w-24 align-middle"> 姓名：</label>
+            <label class="align-middle  md:mr-4 md:w-24"> 姓名：</label>
             <span
               :class="{
                 'font-montserrat': !useIsChineseFunc(
                   renderData.profile.nickNameDetails.nickName,
                 ),
-                'italic text-neutral-400': !renderData.profile.nickNameDetails.nickName || !renderData.profile.nickNameDetails.isShow,
+                'italic text-neutral-400': !renderData.profile.nickNameDetails.isShow,
               }"
             >{{
               renderData.profile.nickNameDetails.isShow ? renderData.profile.nickNameDetails.nickName : '對方保留'
@@ -216,13 +217,13 @@ watchEffect(() => {
           </div>
 
           <div class="flex h-[35px] items-center">
-            <label class="mr-4 w-24 align-middle"> LINE ID：</label>
+            <label class="align-middle  md:mr-4 md:w-24"> LINE ID：</label>
             <span
               :class="{
                 'font-montserrat': !useIsChineseFunc(
                   renderData.profile.lineDetails.lineId,
                 ),
-                'italic text-neutral-400': renderData.profile.lineDetails.lineId === '',
+                'italic text-neutral-400': !renderData.profile.lineDetails.isShow,
               }"
             >{{ renderData.profile.lineDetails.isShow ? renderData.profile.lineDetails.lineId : '對方保留' }}</span>
           </div>
@@ -232,7 +233,7 @@ watchEffect(() => {
             :key="key"
             class="mb-2 flex h-[35px] items-center"
           >
-            <label class="mr-4 w-24 align-middle">
+            <label class="align-middle  md:mr-4 md:w-24">
               {{ `${getKeyLabel(key)}：` }}
             </label>
             <span
@@ -247,7 +248,7 @@ watchEffect(() => {
             :key="key"
             class="mb-2 flex h-[35px] items-center"
           >
-            <label class="mr-4 w-24 align-middle">
+            <label class="align-middle  md:mr-4 md:w-24">
               {{ `${getKeyLabel(key)}：` }}
             </label>
             <span
@@ -257,10 +258,10 @@ watchEffect(() => {
             >{{ renderValue(key, value) }}</span>
           </div>
 
-          <div class="col-span-2">
+          <div class="col-span-2 ">
             <label>自我介紹：</label>
             <div
-              class="mt-3 flex flex-wrap items-center justify-start gap-2 rounded-md"
+              class="mt-3 flex flex-wrap items-center justify-start gap-2 rounded-md "
               :class="{
                 'italic text-neutral-400':
                   renderData.profile.introDetails.intro === '',
@@ -270,7 +271,7 @@ watchEffect(() => {
             </div>
           </div>
 
-          <div class="col-span-2">
+          <div class="col-span-2 ">
             <label
               :class="{
                 'font-montserrat': !useIsChineseFunc(
@@ -279,7 +280,7 @@ watchEffect(() => {
               }"
             >{{ renderData.profile.nickNameDetails.nickName }} 的標籤：</label>
             <div
-              class="mt-3 flex flex-wrap items-center justify-start gap-2 rounded-md"
+              class="mt-3 flex flex-wrap items-center justify-start gap-2 rounded-md "
               :class="{
                 'italic text-neutral-400':
                   renderData.profile.tags.length === 0,
@@ -288,7 +289,7 @@ watchEffect(() => {
               <UBadge
                 v-for="i in renderData.profile.tags"
                 :key="i"
-                class="btn-withIcon-outline-rwd pointer-events-none !rounded-lg !px-1 !py-[2px]"
+                class="btn-withIcon-outline-rwd pointer-events-none !rounded-lg !px-1 !py-[2px] "
               >
                 <p
                   class="!text-[10px]"
@@ -352,7 +353,6 @@ watchEffect(() => {
           class="mt-12 w-full space-y-3"
         >
           <label
-            class="text-H4"
             :class="{
               'font-montserrat': !useIsChineseFunc(
                 i.commentUserProfile[0].nickNameDetails.nickName !== ''
@@ -368,7 +368,7 @@ watchEffect(() => {
             }}
             留下的評價</label>
           <p
-            v-if="renderData.isUnlock === true || renderData.isSubscribe === true"
+            v-if="renderData.isUnlock === true || userDataStore.isSubscribe === true"
             class="break-words rounded-md border-2 p-3"
           >
             {{ i.content }}
@@ -387,7 +387,7 @@ watchEffect(() => {
               <icon-heroicons:heart-solid
                 v-for="heart in 5"
                 :key="heart"
-                class="size-10"
+                class="md:size-10"
                 :class="{
                   'text-primary-dark': heart <= i.score,
                   'text-gray-300': heart > i.score,
