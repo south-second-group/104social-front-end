@@ -78,11 +78,21 @@ const props = defineProps({
               </NuxtLink>
             </li>
             <li>
-              前端串接 API：<br>Gemini
-              API、首頁搜尋、首頁精選、搜尋對象頁、條件設定、配對設定、配對結果、評價列表
+              前端串接 API：<br><NuxtLink
+                target="_blank"
+                to="https://github.com/south-second-group/104social-front-end/blob/main/composables/useGetGenerativeModelGP.js"
+              >
+                Gemini
+                API
+              </NuxtLink>、首頁搜尋、首頁精選、搜尋對象頁、條件設定、配對設定、配對結果、評價列表
             </li>
             <li>
-              後端開發 API：<br>關鍵字和標籤搜尋、會員條件設定、配對設定、配對結果、評價列表、精選會員、扣除點數、可能也喜歡推薦
+              後端開發 API：<br><NuxtLink
+                target="_blank"
+                to="https://github.com/roceil/104_Backend/blob/main/src/controllers/searchController.ts"
+              >
+                關鍵字和標籤搜尋
+              </NuxtLink>、會員條件設定、配對設定、配對結果、評價列表、精選會員、扣除點數、可能也喜歡推薦
             </li>
             <li>
               QA 功能測試：<br>全站功能測試，若有問題，回報問題後，提供想法、解決方案、嘗試協助解決
@@ -123,7 +133,7 @@ const props = defineProps({
             <li>Vitest 單元測試</li>
             <li>Playwright E2E測試</li>
             <li>i18n 國際化</li>
-            <li>細節：搜尋頁無需登入、卡片內頁介面細節、精選文章功能、統一管理載入或提示狀態、管理者後台</li>
+            <li>細節：搜尋頁無需登入、卡片內頁介面細節、精選文章功能、統一管理載入或提示狀態、是否刊登和持續配對邏輯、管理者後台</li>
           </ul>
           <h3>後端</h3>
           <ul class="list-decimal space-y-2 pl-5">
