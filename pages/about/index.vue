@@ -41,7 +41,7 @@ function hoverHandler(tab) {
         data-order="里程碑五 稚庭"
         :class="{ 'item-hover': hoveredTab === 'eric' }"
         style="
-          background-image: url('https://firebasestorage.googleapis.com/v0/b/abou-99a8a.appspot.com/o/148-No-Result-Found%201.jpg?alt=media&token=c84029f1-e224-45a8-9d33-5cf1cff2118a');"
+          background-image: url('https://firebasestorage.googleapis.com/v0/b/social-e030c.appspot.com/o/about%2F%E7%A8%9A%E5%BA%AD.jpg?alt=media&token=d9a2f6e5-ab68-42cf-bbc8-1677f406381a');"
         @mouseenter="hoverHandler('eric')"
       ></div>
       <div

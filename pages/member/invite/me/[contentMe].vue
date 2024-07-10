@@ -187,7 +187,7 @@ watchEffect(async () => {
 
           <!-- 一般資訊 -->
           <div
-            v-for="(value, key) in invitationDetails.matchListSelfSettingByUser[0].personalInfo"
+            v-for="(value, key) in invitationDetails.matchListSelfSettingByUser.personalInfo"
             :key="key"
             class="mb-2 flex h-[35px] items-center"
           >
@@ -197,7 +197,7 @@ watchEffect(async () => {
 
           <!-- 工作 -->
           <div
-            v-for="(value, key) in invitationDetails.matchListSelfSettingByUser[0].workInfo"
+            v-for="(value, key) in invitationDetails.matchListSelfSettingByUser.workInfo"
             :key="key"
             class="mb-2 flex h-[35px] items-center"
           >
@@ -260,7 +260,7 @@ watchEffect(async () => {
         <div v-if="isLoaded">
           <!-- 將個人條件全部加入顯示陣列 -->
           <span
-            v-for="(value, key) in invitationDetails.matchListSelfSettingByUser[0].personalInfo"
+            v-for="(value, key) in invitationDetails.matchListSelfSettingByUser.personalInfo"
             :key="key"
             class="hidden"
           >
@@ -271,7 +271,7 @@ watchEffect(async () => {
             {{
               createRenderValue(
                 'industry',
-                invitationDetails.matchListSelfSettingByUser[0].workInfo.industry,
+                invitationDetails.matchListSelfSettingByUser.workInfo.industry,
               )
             }}
           </span>

@@ -4,8 +4,9 @@ import { useBaseFetch } from '../instance'
  * invitation-邀約
  */
 // 取得邀約列表
-async function getInviteWhoList() {
-  const url = '/api/v1/i-invite-who-list'
+async function getInviteWhoList(query) {
+  const { page, sort } = query
+  const url = `/api/v1/i-invite-who-list/?page=${page}&pageSize=${sort}`
   return useBaseFetch(url, {
     method: 'GET',
     headers: {
@@ -65,8 +66,10 @@ async function addInvite(data) {
  * beInvitation-被邀約
  */
 // 取得誰邀約我列表
-async function getInviteMeList() {
-  return useBaseFetch('/api/v1/who-invite-me-list', {
+async function getInviteMeList(query) {
+  const { page, sort } = query
+  const url = `/api/v1/who-invite-me-list/?page=${page}&pageSize=${sort}`
+  return useBaseFetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

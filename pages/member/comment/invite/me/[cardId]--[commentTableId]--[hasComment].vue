@@ -2,15 +2,10 @@
 import { useStorage } from '@vueuse/core'
 import { commentApi } from '~/apis/repositories/comment'
 import { matchListApi } from '~/apis/repositories/matchList'
-import { useInviteResultStore } from '~/store/inviteResult'
 import { useBeInviteResultStore } from '~/store/beInviteResult'
 
 const route = useRoute()
 const router = useRouter()
-const matchResult = useMatchResultStore()
-const searchCriteriaStore = useSearchCriteriaStore()
-const commentList = useCommentStore()
-const inviteResult = useInviteResultStore() // 邀約
 const beInviteResult = useBeInviteResultStore()// 被邀約
 
 const apiData = ref({})
@@ -40,10 +35,12 @@ if (beforeRoute.value.includes('/member/invite')) {
   })
 }
 
+// 取得特定使用者評價
 let tempCommentTableId = route.params.commentTableId
 async function getCommentByIdAndUserId() {
   isLoaded.value = true
   try {
+    // const res = await commentApi.getCommentByIdAndUserId(renderData.value.userId)
     const res = await commentApi.getCommentByIdAndUserId(tempCommentTableId)
     apiData.value = res.data
 
@@ -61,6 +58,7 @@ async function getCommentByIdAndUserId() {
 
 const postCommentForm = reactive({
   commentedUserId: route.params.cardId,
+  id: renderData.value.invitationId,
   content: '',
   score: 0,
 })

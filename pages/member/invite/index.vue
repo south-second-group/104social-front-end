@@ -26,7 +26,7 @@ const toastType = ref('')
 // 分頁
 const pagination = reactive({ page: 1, totalCount: 10 })
 const query = reactive({
-  sort: '-updatedAt',
+  sort: '-score',
   page: pagination.page,
 })
 

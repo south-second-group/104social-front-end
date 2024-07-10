@@ -36,11 +36,14 @@ if (beforeRoute.value.includes('/member/invite')) {
   })
 }
 
-let tempCommentTableId = route.params.commentTableId
+// 取得特定會員評價
+const tempCommentTableId = route.params.commentTableId
 async function getCommentByIdAndUserId() {
-  isLoaded.value = true
+  isLoaded.value = false
   try {
+    // const res = await commentApi.getCommentByIdAndUserId('668e6ac6f2f0546c891f9d16')
     const res = await commentApi.getCommentByIdAndUserId(tempCommentTableId)
+    // 668e6ac6f2f0546c891f9d16
     apiData.value = res.data
 
     if (hasComment.value === 'true')
@@ -51,12 +54,13 @@ async function getCommentByIdAndUserId() {
   }
   finally {
     await new Promise(resolve => setTimeout(resolve, 1000))
-    isLoaded.value = false
+    isLoaded.value = true
   }
 }
 
 const postCommentForm = reactive({
   commentedUserId: route.params.cardId,
+  id: renderData.value.invitedUserId,
   content: '',
   score: 0,
 })
@@ -71,7 +75,7 @@ watch(
 
 // 新增評價
 async function postComment() {
-  isLoaded.value = true
+  isLoaded.value = false
   try {
     await commentApi
       .postComment(postCommentForm)
@@ -95,7 +99,7 @@ async function postComment() {
     hasComment.value = 'true'
 
     await new Promise(resolve => setTimeout(resolve, 2000))
-    isLoaded.value = false
+    isLoaded.value = true
   }
 }
 
@@ -113,12 +117,12 @@ async function getMatchListOption() {
 
 if (hasComment.value === 'true') {
   Promise.all([getMatchListOption(), getCommentByIdAndUserId()]).then(() => {
-    isLoaded.value = false
+    isLoaded.value = true
   })
 }
 else {
   Promise.all([getMatchListOption()]).then(() => {
-    isLoaded.value = false
+    isLoaded.value = true
   })
 }
 
@@ -154,8 +158,11 @@ function renderValue(key, value) {
       .join('、')
   }
 
-  const option = matchListOptionData.value[0] && matchListOptionData.value[0][key] && matchListOptionData.value[0][key][value]
-  return option && option.label !== '請選擇' ? option.label : '對方保留'
+  if (matchListOptionData.value[0][key][value].label !== '請選擇')
+    return matchListOptionData.value[0][key][value].label
+  else return '對方保留'
+  // const option = matchListOptionData.value[0] && matchListOptionData.value[0][key] && matchListOptionData.value[0][key][value]
+  // return option && option.label !== '請選擇' ? option.label : '對方保留'
 }
 </script>
 
@@ -172,7 +179,7 @@ function renderValue(key, value) {
     <div class="mx-auto max-w-[700px]">
       <!-- 圖片 -->
       <USkeleton
-        v-if="isLoaded === true"
+        v-if="!isLoaded"
         class="mx-auto mt-4 h-[300px] w-[250px]"
       />
       <img
@@ -186,7 +193,7 @@ function renderValue(key, value) {
         被評價人資訊
       </h1>
       <div
-        v-if="!isLoaded && renderData"
+        v-if="isLoaded "
         class="mt-6"
       >
         <div class="mb-4 grid w-full grid-cols-2 gap-x-6 gap-y-3">
@@ -375,12 +382,12 @@ function renderValue(key, value) {
       </div>
 
       <div
-        v-if="isLoaded"
+        v-else
         class="mt-6 space-y-3"
       >
         <USkeleton
-          v-for="index in 4"
-          :key="index"
+          v-for="item in 4"
+          :key="item.id"
           class="h-8 w-full bg-neutral-300"
         />
       </div>

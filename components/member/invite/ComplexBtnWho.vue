@@ -170,6 +170,7 @@ function handleClick(status) {
     <button
       v-if="
         props.status === 'status8'
+          && props.resultItem.isComment === false
           && props.invitationStatus === 'finishDating'
       "
       class="btn-withIcon-fill mx-[1px] my-[3px] w-[132px] scale-90 md:mx-[6px] md:scale-100"
@@ -183,7 +184,7 @@ function handleClick(status) {
     <button
       v-if="
         props.status === 'status9'
-          && props.isUnlock
+          && props.resultItem.isComment === true
           && (props.invitationStatus === 'accept'
             || props.invitationStatus === 'finishDating')
       "
@@ -198,7 +199,7 @@ function handleClick(status) {
     <button
       v-if="
         props.status === 'status10'
-          && props.isUnlock
+          && props.resultItem.isComment === true
           && (props.invitationStatus === 'accept' || props.invitationStatus === 'finishDating')
       "
       class="btn-withIcon-outline mx-[1px] my-[3px] scale-90 md:mx-[6px] md:scale-100"
