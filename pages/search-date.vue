@@ -426,7 +426,7 @@ const sortOption = ref([
         />
       </div>
       <!-- 右側表單 -->
-      <search-dateMemberOptions class="hidden lg:block" />
+      <search-dateMemberOptions />
     </div>
     <!-- 也許你也喜歡 -->
     <div class="border border-transparent border-y-zinc-200 py-12 lg:py-20">
