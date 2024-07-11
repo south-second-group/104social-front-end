@@ -53,9 +53,21 @@ const props = defineProps({
             <li>
               專案初始建置：
               <ul class="list-disc space-y-2 pl-5">
-                <li>前端專案 (Nuxt / Tailwind / Nuxt UI / Pinia)</li>
                 <li>
-                  後端專案 (Express / TypeScript / MongoDB / Mongoose / Swagger)
+                  <NuxtLink
+                    target="blank"
+                    to="https://github.com/south-second-group/104social-front-end/tree/main"
+                  >
+                    前端專案
+                  </NuxtLink> (Nuxt / Tailwind / Nuxt UI / Pinia)
+                </li>
+                <li>
+                  <NuxtLink
+                    target="blank"
+                    to="https://github.com/roceil/104_Backend/tree/main"
+                  >
+                    後端專案
+                  </NuxtLink> (Express / TypeScript / MongoDB / Mongoose / Swagger)
                 </li>
               </ul>
             </li>
