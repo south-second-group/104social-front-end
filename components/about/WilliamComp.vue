@@ -53,9 +53,21 @@ const props = defineProps({
             <li>
               專案初始建置：
               <ul class="list-disc space-y-2 pl-5">
-                <li>前端專案 (Nuxt / Tailwind / Nuxt UI / Pinia)</li>
                 <li>
-                  後端專案 (Express / TypeScript / MongoDB / Mongoose / Swagger)
+                  <NuxtLink
+                    target="blank"
+                    to="https://github.com/south-second-group/104social-front-end/tree/main"
+                  >
+                    前端專案
+                  </NuxtLink> (Nuxt / Tailwind / Nuxt UI / Pinia)
+                </li>
+                <li>
+                  <NuxtLink
+                    target="blank"
+                    to="https://github.com/roceil/104_Backend/tree/main"
+                  >
+                    後端專案
+                  </NuxtLink> (Express / TypeScript / MongoDB / Mongoose / Swagger)
                 </li>
               </ul>
             </li>
@@ -131,7 +143,7 @@ const props = defineProps({
           <ul class="list-decimal space-y-2 pl-5">
             <li>效能優化</li>
             <li>Vitest 單元測試</li>
-            <li>Playwright E2E測試</li>
+            <li>Playwright 端對端測試</li>
             <li>i18n 國際化</li>
             <li>細節：搜尋頁無需登入、卡片內頁介面細節、精選文章功能、統一管理載入或提示狀態、是否刊登和持續配對邏輯、管理者後台</li>
           </ul>
@@ -155,10 +167,12 @@ const props = defineProps({
             >
               DEMO
             </NuxtLink>
+            <span>(需輸入 Swagger 文件中的</span>
             <a
               target="_blank"
               href="https://one04social-back-end.onrender.com/api-doc/#/test%20Users/post_api_test_v1_user_login"
-            > (需輸入 Swagger 文件中的登入 API 的 token )</a>
+            > 登入 API </a>
+            <span>的 token )</span>
           </p>
           <p>
             前端
