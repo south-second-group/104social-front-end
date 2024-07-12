@@ -71,7 +71,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="col-span-3">
+  <div class="col-span-3 hidden lg:block">
     <div class="mb-4 rounded-xl bg-primary-light p-6 lg:mb-6">
       <p class="mb-4 text-[20px] font-bold text-primary-dark">
         會員享福利
