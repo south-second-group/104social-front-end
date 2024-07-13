@@ -99,14 +99,14 @@ const props = defineProps({
           <h2>使用技術</h2>
           <h3>前端</h3>
           <p>
-            Nuxt 3 | Tailwind 3 | Pinia | Nuxt UI | Github Action | Eslint |
+            Nuxt 3 | Tailwind CSS | Pinia | Nuxt UI | GitHub Action | ESLint |
             vee-validate | Gemini API | SEO | Husky | Git
           </p>
           <h3>後端</h3>
           <p>
             Express 4 | MongoDB / mongoose | Socket.io | Google Login |
-            TypeScript | JWT | Github Action | Eslint | Swagger | NewebPay |
-            FireBase Storage | Docker | Nginx | Husky | Git
+            TypeScript | JWT | GitHub Action | ESLint | Swagger | NewebPay |
+            Firebase Storage | Docker | Nginx | Husky | Git
           </p>
         </div>
 

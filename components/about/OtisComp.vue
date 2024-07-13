@@ -51,7 +51,7 @@ const props = defineProps({
           <h2>使用技術</h2>
           <h3>前端</h3>
           <p>
-            Nuxt 3 | Tailwind 3 | Pinia | Nuxt UI | Github Action | Eslint | Husky | Git | socket.io-client
+            Nuxt 3 | Tailwind CSS | Pinia | Nuxt UI | GitHub Action | ESLint | Husky | Git | socket.io-client
           </p>
         </div>
 

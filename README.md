@@ -183,4 +183,4 @@ http://localhost:3000/
 - 編譯程式碼
 - 執行 ESLint 掃描
 - 執行測試
-- 部署到 Github Pages
+- 部署到 GitHub Pages
