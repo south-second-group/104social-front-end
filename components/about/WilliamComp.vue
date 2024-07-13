@@ -126,14 +126,14 @@ const props = defineProps({
           <h2>使用技術</h2>
           <h3>前端</h3>
           <p class=" font-montserrat">
-            Nuxt 3 | Tailwind 3 | Pinia | Nuxt UI | Github Action | Eslint |
+            Nuxt 3 | Tailwind CSS | Pinia | Nuxt UI | GitHub Action | ESLint |
             vee-validate | Gemini API | SEO | Husky | Git
           </p>
           <h3>後端</h3>
           <p class=" font-montserrat">
             Express 4 | MongoDB / mongoose | Socket.io | Google Login |
-            TypeScript | JWT | Github Action | Eslint | Swagger | NewebPay |
-            FireBase Storage | Docker | Nginx | Husky | Git
+            TypeScript | JWT | GitHub Action | ESLint | Swagger | NewebPay |
+            Firebase Storage | Docker | Nginx | Husky | Git
           </p>
         </div>
 
@@ -188,7 +188,7 @@ const props = defineProps({
           <p>
             <a href="https://github.com/south-second-group/104social-back-end/blob/main/routes/payment.ts">GitHub</a>
           </p>
-          <h3>FireBase Storage 圖庫</h3>
+          <h3>Firebase Storage 圖庫</h3>
           <p>
             <a href="https://github.com/south-second-group/104social-back-end/blob/main/service/firebase.ts">GitHub</a>
           </p>

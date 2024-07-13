@@ -57,7 +57,7 @@ const props = defineProps({
           <h2>使用技術</h2>
           <h3>後端</h3>
           <p>
-            Express 4 | MongoDB / mongoose | Socket.io | Google Login | TypeScript | JWT | Github Action | Eslint | Swagger | NewebPay | FireBase Storage | Docker | Nginx | Husky | Git
+            Express 4 | MongoDB / mongoose | Socket.io | Google Login | TypeScript | JWT | GitHub Action | ESLint | Swagger | NewebPay | Firebase Storage | Docker | Nginx | Husky | Git
           </p>
         </div>
 
@@ -79,7 +79,7 @@ const props = defineProps({
           <a href="mailto:a121515222@gmail.com">a121515222@gmail.com</a>
         </p>
         <h3 class=" mt-3 text-center">
-          Github
+          GitHub
         </h3>
         <p class="text-center">
           <a href="https://github.com/a121515222">https://github.com/a121515222</a>
