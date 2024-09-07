@@ -8,7 +8,7 @@ const props = defineProps({
   <transition name="slide">
     <article
       v-if="props.hoveredTab === 'william'"
-      class="article container mt-6 flex justify-center rounded-md pt-6"
+      class="article container mt-6  flex justify-center rounded-md pt-6"
     >
       <main class="main text-left">
         <h1 class="text-H3">

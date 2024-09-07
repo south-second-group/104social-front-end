@@ -19,8 +19,8 @@ const inviteList = ref([])
 // 開始監聽後端WS
 onMounted(async () => {
   token.value = await prompt('請輸入用戶 token')
-  // host.value = `ws://localhost:3000/ws?token=${token.value}`
-  host.value = `wss://one04social-back-end.onrender.com/ws?token=${token.value}`
+  host.value = `ws://localhost:3001/ws?token=${token.value}`
+  // host.value = `wss://one04social-back-end.onrender.com/ws?token=${token.value}`
 
   ws = new WebSocket(host.value)
   ws.onopen = (_res) => {

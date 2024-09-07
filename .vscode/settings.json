@@ -1,51 +1,205 @@
 {
-  // Enable the ESlint flat config support
-  "eslint.experimental.useFlatConfig": true,
-
-  // Disable the default formatter, use eslint instead
-  "prettier.enable": false,
-  "editor.formatOnSave": false,
-
-  // Auto fix
+  // ====== editor 設定 ======
+  "editor.fontFamily": "Fira Code",
+  "editor.fontLigatures": true,
+  "editor.wordWrap": "on",
+  "editor.tabSize": 2,
+  "editor.unicodeHighlight.ambiguousCharacters": false,
+  "editor.renderWhitespace": "boundary",
+  "editor.renderControlCharacters": true,
+  "editor.renderLineHighlight": "gutter",
+  "editor.guides.bracketPairs": true,
+  "editor.guides.indentation": true,
+  "editor.guides.highlightActiveIndentation": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit",
-    "source.organizeImports": "never"
+      "source.fixAll.eslint": "explicit"
   },
-
-  // Silent the stylistic rules in you IDE, but still auto fix them
-  "eslint.rules.customizations": [
-    { "rule": "style/*", "severity": "off" },
-    { "rule": "format/*", "severity": "off" },
-    { "rule": "*-indent", "severity": "off" },
-    { "rule": "*-spacing", "severity": "off" },
-    { "rule": "*-spaces", "severity": "off" },
-    { "rule": "*-order", "severity": "off" },
-    { "rule": "*-dangle", "severity": "off" },
-    { "rule": "*-newline", "severity": "off" },
-    { "rule": "*quotes", "severity": "off" },
-    { "rule": "*semi", "severity": "off" }
+  "editor.formatOnSave": true,
+  "editor.inlineSuggest.enabled": true,
+  // "editor.cursorStyle": "block",
+  // "editor.cursorBlinking": "expand",
+  "editor.inlineSuggest.showToolbar": "always",
+  "editor.tokenColorCustomizations": {
+      "textMateRules": [
+          {
+              "scope": "keyword.other.dotenv",
+              "settings": {
+                  "foreground": "#FF000000"
+              }
+          }
+      ]
+  },
+  "editor.quickSuggestions": {
+      "strings": true
+  },
+  // ====== prettier 設定 ======
+  "prettier.jsxSingleQuote": false, // JSX 中使用單引號
+  "prettier.singleQuote": true, // 單引號
+  "prettier.semi": true, // 是否加上分號
+  "prettier.singleAttributePerLine": true, // html attribute 換行
+  "prettier.arrowParens": "avoid", // 單一參數括號
+  "prettier.trailingComma": "all", // 尾端逗號
+  "vs-code-prettier-eslint.prettierLast": true, // 讓 prettier 設定優先
+  "prettier-eslint-typescript.prettierOptions": {},
+  "workbench.startupEditor": "none",
+  // add from myself
+  "prettier.bracketSameLine": false,
+  "prettier.bracketSpacing": true,
+  "prettier.printWidth": 80,
+  "prettier.tabWidth": 2,
+  "prettier.useTabs": false,
+  // ====== tailwind 支持的檔案類型 ======
+  "tailwindCSS.includeLanguages": {
+      "html": "html",
+      "javascript": "javascript",
+      "css": "css",
+      "typescript": "typescript"
+  },
+  // ====== HTML 換行設定 ======
+  "html.format.wrapAttributes": "force-expand-multiline",
+  "html.format.wrapAttributesIndentSize": null,
+  // ====== 各檔案格式化方式 ======
+  "[html]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+      "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+  },
+  "[scss]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+      "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+  },
+  "[typescriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[vue]": {
+      "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+  },
+  "[jsonc]": {
+      "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+  },
+  "[markdown]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+      "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+  },
+  "[yaml]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // ====== powermode 設定 ======
+  "powermode.enabled": true,
+  "powermode.shake.enabled": false,
+  // ====== console-ninja 設定 ======
+  "console-ninja.toolsToEnableSupportAutomaticallyFor": {
+      "next.js": false,
+      "live-server-extension": true,
+      "live-preview-extension": true
+  },
+  // ====== better-comments 設定 ======
+  "better-comments.tags": [
+      {
+          "tag": "!",
+          "color": "#FF2D00",
+          "strikethrough": false,
+          "underline": false,
+          "backgroundColor": "transparent",
+          "bold": false,
+          "italic": false
+      },
+      {
+          "tag": "?",
+          "color": "#3498DB",
+          "strikethrough": false,
+          "underline": false,
+          "backgroundColor": "transparent",
+          "bold": false,
+          "italic": false
+      },
+      {
+          "tag": "//",
+          "color": "#474747",
+          "strikethrough": true,
+          "underline": false,
+          "backgroundColor": "transparent",
+          "bold": false,
+          "italic": false
+      },
+      {
+          "tag": "todo",
+          "color": "#FF8C00",
+          "strikethrough": false,
+          "underline": false,
+          "backgroundColor": "transparent",
+          "bold": false,
+          "italic": false
+      },
+      {
+          "tag": "*",
+          "color": "#98C379",
+          "strikethrough": false,
+          "underline": false,
+          "backgroundColor": "transparent",
+          "bold": false,
+          "italic": false
+      }
   ],
-
-  // Enable eslint for all supported languages
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact",
-    "vue",
-    "html",
-    "markdown",
-    "json",
-    "jsonc",
-    "yaml"
+  // ====== 拼音檢查 ======
+  "cSpell.userWords": [
+      "Klook",
+      "pinia",
+      "powermode",
+      "supabase",
+      "tailwindcss"
   ],
-
-  // Other settings
+  // ====== 檔案移動時自動更新引用路徑 ======
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  // ====== emmet 設定 ======
+  "emmet.includeLanguages": {
+      "next": "JSX"
+  },
+  // ====== Github Copilot 支援設定 ======
+  "github.copilot.enable": {
+      "*": true, // 支援所有類型
+      "plaintext": false, // 不支援純文字
+      "markdown": true, // 支援 markdown
+      "scminput": false // 不支援 git commit message
+  },
+  // ====== Error Lens 排除特定錯誤設定 ======
+  "errorLens.excludeBySource": [
+      "ts(18004)",
+      "ts(7031)"
+  ],
+  // ====== Volar 設定 ======
+  "volar.format.initialIndent": {
+      "html": true
+  },
+  // ====== 其他設定 ======
   "files.associations": {
-    "*.css": "css"
+      "*.js": "javascriptreact"
   },
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "cSpell.words": [
-    "Nuxt"
-  ]
+  "terminal.integrated.env.osx": {},
+  "files.autoSave": "afterDelay",
+  "workbench.iconTheme": "material-icon-theme",
+  "editor.accessibilitySupport": "off",
+  "workbench.colorTheme": "Default High Contrast",
+  "material-icon-theme.activeIconPack": "vue",
+  "material-icon-theme.folders.associations": {},
+  "material-icon-theme.files.associations": {},
+  "editor.fontSize": 14,
+  "editor.fontVariations": false,
+  "projectManager.tags": [],
+  "github.copilot.editor.enableAutoCompletions": true,
+  "tabnine.experimentalAutoImports": true,
+  "workbench.sideBar.location": "right",
+  "git.confirmSync": false
 }
